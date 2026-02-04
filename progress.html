@@ -1,39 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Progress</title>
+  <meta charset="UTF-8">
+  <title>Progress – Enigma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 <div class="app">
 
-<header class="header">
-  <h1>Your Progress</h1>
-  <p>Gentle growth</p>
-</header>
+  <div class="header">
+    <h1>Your Progress</h1>
+    <p>Quiet growth over time.</p>
+  </div>
 
-<main class="content">
-  <div class="progress-card" id="breathe"></div>
-  <div class="progress-card" id="journal"></div>
-  <div class="progress-card" id="wins"></div>
-</main>
+  <div class="content">
+    <div class="progress-card">Journal entries: 0</div>
+    <div class="progress-card">Small wins logged: 0</div>
+    <div class="progress-card">Days checked in: 0</div>
+  </div>
 
-<div class="navbar">
-  <a href="index.html"><span>🏠</span>Home</a>
-  <a href="breathe.html"><span>🌬️</span>Breathe</a>
-  <a href="journal.html"><span>📖</span>Journal</a>
-  <a href="wins.html"><span>✨</span>Wins</a>
-  <a class="active"><span>🌿</span>Progress</a>
+  <nav class="navbar">
+    <a href="index.html"><span>🏠</span>Home</a>
+    <a href="journal.html"><span>📓</span>Journal</a>
+    <a href="wins.html"><span>✨</span>Wins</a>
+    <a href="progress.html" class="active"><span>📊</span>Progress</a>
+  </nav>
+
 </div>
-
-</div>
-
-<script src="storage.js"></script>
-<script>
-const p = getProgress();
-document.getElementById("breathe").innerText = `🌬️ Breathing sessions: ${p.breathe}`;
-document.getElementById("journal").innerText = `📖 Journal entries: ${p.journal}`;
-document.getElementById("wins").innerText = `✨ Wins logged: ${p.wins}`;
-</script>
 </body>
 </html>
