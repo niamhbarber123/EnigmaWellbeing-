@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Enigma</title>
 
-  <!-- ✅ Absolute paths for GitHub Pages repo: /Enigma-/ -->
+  <!-- ✅ Absolute paths for GitHub Pages -->
   <link rel="apple-touch-icon" sizes="180x180" href="/Enigma-/apple-touch-icon.png">
   <link rel="apple-touch-icon-precomposed" href="/Enigma-/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="/Enigma-/icon.png">
   <link rel="manifest" href="/Enigma-/manifest.json">
-
-  <!-- App meta -->
   <meta name="apple-mobile-web-app-title" content="Enigma">
   <meta name="application-name" content="Enigma">
   <meta name="theme-color" content="#b8a6d9">
-
-  <!-- Optional: helps iOS treat it more like an app -->
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="/Enigma-/style.css?v=20">
+  <link rel="stylesheet" href="/Enigma-/style.css?v=30">
 </head>
 
 <body class="home-body page-wrap">
@@ -31,22 +26,28 @@
   </header>
 
   <main class="home-grid">
-    <a class="home-tile" href="/Enigma-/checkin.html"><div class="tile-emoji">🌿</div><div class="tile-text">Daily check-in</div></a>
     <a class="home-tile" href="/Enigma-/breathe.html"><div class="tile-emoji">🌬️</div><div class="tile-text">Breathe</div></a>
-    <a class="home-tile" href="/Enigma-/quotes.html"><div class="tile-emoji">💬</div><div class="tile-text">Quotes</div></a>
-    <a class="home-tile" href="/Enigma-/yoga.html"><div class="tile-emoji">🧘‍♀️</div><div class="tile-text">Yoga</div></a>
-    <a class="home-tile" href="/Enigma-/game.html"><div class="tile-emoji">🎨</div><div class="tile-text">Tap to colour</div></a>
+
+    <!-- ✅ Journal restored -->
+    <a class="home-tile" href="/Enigma-/journal.html"><div class="tile-emoji">📖</div><div class="tile-text">Journal</div></a>
+
+    <a class="home-tile" href="/Enigma-/checkin.html"><div class="tile-emoji">🌿</div><div class="tile-text">Daily check-in</div></a>
+
+    <!-- ✅ Progress correctly links to progress.html -->
     <a class="home-tile" href="/Enigma-/progress.html"><div class="tile-emoji">📊</div><div class="tile-text">Progress</div></a>
-    <a class="home-tile" href="/Enigma-/reminders.html"><div class="tile-emoji">⏰</div><div class="tile-text">Reminders</div></a>
-    <a class="home-tile" href="/Enigma-/help.html"><div class="tile-emoji">🆘</div><div class="tile-text">Help</div></a>
+
+    <a class="home-tile" href="/Enigma-/quotes.html"><div class="tile-emoji">💬</div><div class="tile-text">Quotes</div></a>
+    <a class="home-tile" href="/Enigma-/game.html"><div class="tile-emoji">🎨</div><div class="tile-text">Tap to colour</div></a>
   </main>
 
+  <!-- ✅ Consistent nav -->
   <nav class="bottom-nav">
     <a class="active" href="/Enigma-/index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="/Enigma-/breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="/Enigma-/journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="/Enigma-/checkin.html"><div class="nav-ico">🌿</div><span>Check-in</span></a>
+    <a href="/Enigma-/progress.html"><div class="nav-ico">📊</div><span>Progress</span></a>
     <a href="/Enigma-/quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="/Enigma-/help.html"><div class="nav-ico">🆘</div><span>Help</span></a>
   </nav>
 
   <script src="/Enigma-/app.js"></script>
