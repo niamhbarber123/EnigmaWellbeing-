@@ -12,13 +12,12 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
   background: linear-gradient(#faf7ff, #f3eefb);
   color: var(--text);
-  min-height: 100vh;
 }
 
 /* ---------- HEADER ---------- */
-
 header {
   text-align: center;
   padding: 24px 16px 8px;
@@ -36,35 +35,44 @@ header p {
 }
 
 /* ---------- ICON BACKGROUND ---------- */
-
 .icon-bg {
   background: url("icon.png") center/120px no-repeat;
   opacity: 0.08;
   height: 140px;
-  margin: 10px 0;
+  margin: 12px 0;
 }
 
-/* ---------- MAIN CONTENT ---------- */
-
+/* ---------- MAIN ---------- */
 main {
   padding: 16px;
-  padding-bottom: 90px; /* space for nav */
+  padding-bottom: 90px;
 }
 
+/* ---------- CARDS ---------- */
 .card {
-  display: block;
   background: var(--lavender-soft);
   border-radius: 16px;
   padding: 18px;
   margin-bottom: 14px;
+  text-align: center;
+  font-size: 18px;
   text-decoration: none;
   color: var(--text);
-  font-size: 18px;
-  text-align: center;
+}
+
+/* ---------- BUTTON ---------- */
+button {
+  width: 100%;
+  background: var(--lavender);
+  border: none;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border-radius: 16px;
+  margin-top: 12px;
 }
 
 /* ---------- BREATHE ---------- */
-
 .breathe-container {
   display: flex;
   flex-direction: column;
@@ -86,19 +94,7 @@ main {
   100% { transform: scale(1); }
 }
 
-/* ---------- BUTTON ---------- */
-
-button {
-  background: var(--lavender);
-  border: none;
-  color: white;
-  padding: 14px 24px;
-  font-size: 16px;
-  border-radius: 14px;
-}
-
-/* ---------- BOTTOM NAV ---------- */
-
+/* ---------- NAV ---------- */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -120,24 +116,15 @@ button {
   align-items: center;
 }
 
-.bottom-nav a span {
-  font-size: 11px;
-  margin-top: 2px;
-}
-
 .bottom-nav a.active {
   color: var(--lavender);
 }
 
+/* ---------- ACCESSIBILITY ---------- */
 button, .card, a {
   min-height: 48px;
 }
 
 button:focus, a:focus {
-  outline: 3px solid #b8a6d9;
+  outline: 3px solid var(--lavender);
 }
-
-body {
-  line-height: 1.5;
-}
-
