@@ -1,30 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quotes</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotes</title>
+
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-title" content="Enigma">
+  <meta name="application-name" content="Enigma">
+  <meta name="theme-color" content="#b8a6d9">
+
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
-<body>
 
-<header><h1>Women Who Inspire</h1></header>
+<body class="page-wrap">
 
-<main>
-  <div class="card" onclick="saveQuote('I am not afraid – Rosa Parks')">
-    “I am not afraid” – Rosa Parks
-  </div>
-  <div class="card" onclick="saveQuote('No one can make you feel inferior – Eleanor Roosevelt')">
-    “No one can make you feel inferior” – Eleanor Roosevelt
-  </div>
-</main>
+  <header class="page-header">
+    <h1>Words to hold onto</h1>
+    <p>Tap a tile to save it</p>
+  </header>
 
-<nav class="bottom-nav">
-  <a href="index.html">🏠</a>
-  <a class="active" href="quotes.html">💬</a>
-  <a href="help.html">🆘</a>
-</nav>
+  <main class="page">
+    <div class="quote-grid">
 
-<script src="app.js"></script>
+      <div class="quote-tile" onclick="saveQuote(this)"
+           data-quote="No one can make you feel inferior without your consent."
+           data-author="Eleanor Roosevelt">
+        No one can make you feel inferior without your consent.
+        <small>— Eleanor Roosevelt</small>
+      </div>
+
+      <div class="quote-tile" onclick="saveQuote(this)"
+           data-quote="Do the best you can until you know better. Then when you know better, do better."
+           data-author="Maya Angelou">
+        Do the best you can until you know better. Then when you know better, do better.
+        <small>— Maya Angelou</small>
+      </div>
+
+      <div class="quote-tile" onclick="saveQuote(this)"
+           data-quote="You may not control all the events that happen to you, but you can decide not to be reduced by them."
+           data-author="Maya Angelou">
+        You may not control all the events that happen to you, but you can decide not to be reduced by them.
+        <small>— Maya Angelou</small>
+      </div>
+
+      <div class="quote-tile" onclick="saveQuote(this)"
+           data-quote="I have learned not to allow rejection to move me."
+           data-author="Cicely Tyson">
+        I have learned not to allow rejection to move me.
+        <small>— Cicely Tyson</small>
+      </div>
+
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <a href="saved-quotes.html" style="text-decoration:none; font-weight:800; color:#5a4b7a;">
+        💜 View saved quotes
+      </a>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="checkin.html"><div class="nav-ico">🌿</div><span>Check-in</span></a>
+    <a class="active" href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="help.html"><div class="nav-ico">🆘</div><span>Help</span></a>
+  </nav>
+
+  <script src="app.js"></script>
 </body>
 </html>
