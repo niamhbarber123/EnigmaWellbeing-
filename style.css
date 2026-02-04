@@ -1,141 +1,119 @@
-/* Reset + base */
-* {
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+/* Enigma Palette */
+:root {
+  --lavender: #E6E1F2;
+  --sage: #DDE8E1;
+  --deep-lavender: #9A94B3;
+  --text-main: #3E3A4F;
+  --white: #FFFFFF;
 }
 
+/* Base */
 body {
   margin: 0;
-  background: #F4F2F8; /* soft neutral lavender */
-  color: #3E3A4F;
-  font-size: 17px; /* bigger base text */
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(to bottom, var(--lavender), var(--sage));
+  color: var(--text-main);
 }
 
-/* Layout container */
-.container {
+.app {
   max-width: 420px;
-  margin: auto;
-  padding: 26px 22px 100px; /* space for navbar */
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Headings */
-h1 {
-  font-size: 28px;
-  font-weight: 500;
+/* Header */
+.header {
+  padding: 24px;
   text-align: center;
-  margin-bottom: 6px;
 }
 
-h2 {
-  font-size: 22px;
-  font-weight: 500;
-  text-align: center;
-  margin-bottom: 10px;
+.header h1 {
+  margin: 0;
+  font-size: 26px;
 }
 
-p {
-  text-align: center;
-  opacity: 0.85;
-  line-height: 1.6;
+.header p {
+  margin-top: 6px;
+  opacity: 0.8;
 }
 
-/* Cards */
-.card {
-  background: #FFFFFF;
-  border-radius: 20px;
+/* Content */
+.content {
+  flex: 1;
   padding: 20px;
-  margin: 16px 0;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.04);
 }
 
-/* MAIN BUTTONS */
-.button {
-  display: block;
+textarea,
+input {
   width: 100%;
-  padding: 20px;            /* bigger tap area */
-  margin-top: 14px;
-  background: #C6BEE3;      /* Enigma lavender */
-  border-radius: 18px;
-  text-align: center;
-  color: #3E3A4F;
-  text-decoration: none;
-  font-size: 18px;          /* bigger button text */
-  font-weight: 500;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  margin-bottom: 16px;
+  font-size: 15px;
 }
 
-/* Back link */
-.back {
-  display: block;
-  margin-top: 26px;
-  text-align: center;
-  text-decoration: none;
-  color: #7A7394;
+textarea {
+  min-height: 120px;
+}
+
+/* Buttons */
+.primary-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 18px;
+  border: none;
+  background: var(--deep-lavender);
+  color: white;
   font-size: 16px;
 }
 
-/* Breathing circle */
-.breathe-circle {
-  width: 170px;
-  height: 170px;
-  margin: 32px auto;
-  background: #C6BEE3;
-  border-radius: 50%;
-  animation: breathe 8s infinite;
-}
-
-@keyframes breathe {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.35); }
-  100% { transform: scale(1); }
-}
-
-/* Progress */
-.progress {
-  background: #ECE9F4; /* quieter lavender */
+/* Cards */
+.progress-card,
+.quote-box {
+  background: var(--white);
   border-radius: 18px;
   padding: 20px;
-  font-size: 18px;
+  margin-bottom: 14px;
 }
 
-.progress p {
-  margin: 12px 0;
-  opacity: 0.7;
+/* Lists */
+.list {
+  list-style: none;
+  padding: 0;
 }
 
-/* Quotes */
-.quote {
-  font-style: italic;
-  font-size: 18px;
+.list li {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 10px;
 }
 
-/* Bottom Navigation Bar */
+/* Navbar */
 .navbar {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 420px;
-  background: #F4F2F8;
-  border-top: 1px solid rgba(0,0,0,0.06);
   display: flex;
-  justify-content: space-around;
-  padding: 12px 0 18px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  background: var(--white);
 }
 
 .navbar a {
-  text-decoration: none;
-  font-size: 14px;
-  color: #8A84A6;
+  flex: 1;
+  padding: 10px 0;
   text-align: center;
+  font-size: 12px;
+  color: var(--deep-lavender);
+  text-decoration: none;
 }
 
 .navbar a span {
   display: block;
-  font-size: 22px; /* bigger icons */
-  margin-bottom: 3px;
+  font-size: 20px;
+  margin-bottom: 4px;
 }
 
 .navbar a.active {
-  color: #3E3A4F;
+  font-weight: 600;
 }
