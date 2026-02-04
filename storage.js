@@ -1,4 +1,3 @@
-<script>
 /* USER */
 function saveUser(name, email) {
   localStorage.setItem("enigmaUser", JSON.stringify({ name, email }));
@@ -35,4 +34,3 @@ function addBreath() {
   let count = Number(localStorage.getItem("breatheCount") || 0);
   localStorage.setItem("breatheCount", count + 1);
 }
-</script>
