@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enigma – Welcome</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Welcome to Enigma</h1>
+      <p>Your calm space</p>
+    </header>
+
+    <main class="content">
+      <input id="name" placeholder="Your name">
+      <input id="email" placeholder="Email (optional)">
+      <button class="primary-btn" onclick="login()">Enter</button>
+    </main>
+  </div>
+
+<script src="storage.js"></script>
+<script>
+function login() {
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  if (!name) return alert("Please enter your name");
+  saveUser(name, email);
+  window.location.href = "index.html";
+}
+</script>
+</body>
+</html>
