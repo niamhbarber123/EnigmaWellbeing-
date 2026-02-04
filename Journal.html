@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Journal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>Journal</h2>
+  <p>Write freely. This stays on your device.</p>
+
+  <textarea id="entry"></textarea>
+  <button onclick="saveEntry()">Save</button>
+
+  <p id="status"></p>
+  <a href="index.html">← Home</a>
+</div>
+
+<script>
+const entry = document.getElementById("entry");
+entry.value = localStorage.getItem("enigmaJournal") || "";
+
+function saveEntry() {
+  localStorage.setItem("enigmaJournal", entry.value);
+  document.getElementById("status").innerText = "Saved safely 🌿";
+}
+</script>
+</body>
+</html>
