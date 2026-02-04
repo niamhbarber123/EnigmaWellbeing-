@@ -1,24 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Breathe · Enigma</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Breathe</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="container">
+<div class="app">
 
-    <h2>Breathe</h2>
-    <p>Follow the rhythm. Nothing else matters right now.</p>
+<header class="header">
+  <h1>Breathe</h1>
+  <p>Inhale calm, exhale tension</p>
+</header>
 
-    <div class="breathe-circle"></div>
+<main class="content" style="text-align:center;">
+  <div style="font-size:80px;">🌬️</div>
+  <button class="primary-btn" onclick="completeBreath()">Complete Session</button>
+</main>
 
-    <p id="breath-text">Inhale</p>
+<div class="navbar">
+  <a href="index.html"><span>🏠</span>Home</a>
+  <a class="active"><span>🌬️</span>Breathe</a>
+  <a href="journal.html"><span>📖</span>Journal</a>
+  <a href="wins.html"><span>✨</span>Wins</a>
+  <a href="progress.html"><span>🌿</span>Progress</a>
+</div>
 
-  </div>
+</div>
 
-  <div class="navbar">
-    <a href="index.html"><span>🏠</span>Home</a>
-    <a href="breathe
+<script src="storage.js"></script>
+<script>
+function completeBreath() {
+  addBreath();
+  alert("Well done 🌿");
+}
+</script>
+</body>
+</html>
