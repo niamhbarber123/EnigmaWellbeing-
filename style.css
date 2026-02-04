@@ -199,3 +199,28 @@ textarea {
   margin-bottom: 24px;
   color: #7a7190;
 }
+/* 🏠 Home Screen */
+.home-content {
+  gap: 16px;
+}
+
+.home-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #efeaf7;
+  padding: 18px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: #4a4458;
+  font-size: 1.1rem;
+}
+
+.home-card span {
+  font-size: 1.6rem;
+}
+
+.home-card:active {
+  background: #e2daf3;
+}
+
