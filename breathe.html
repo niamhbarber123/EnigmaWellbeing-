@@ -2,112 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Breathe – Enigma</title>
+  <title>Breathe</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div class="app breathe-page">
 
-  <!-- Header -->
+<div class="app">
+
   <div class="header">
     <h1>Breathe</h1>
-    <p>Follow the rhythm. Nothing else matters.</p>
+    <p>Slow your body and mind</p>
   </div>
 
-  <!-- Content -->
-  /* 🌬️ Breathe page only */
-.breathe-page .breathe-content {
-  align-items: center;
-  text-align: center;
-}
-
-.breathe-page .circle-wrapper {
-  width: 100%;
-  max-width: 320px;
-  height: 320px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.breathe-page .breathing-circle {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #d6c9ef, #b8a3da);
-  animation: breathe 10s ease-in-out infinite;
-}
-
-
-    <button class="primary-btn" onclick="completeBreathing()">
-      Completed
-    </button>
-
+  <div class="breathe-container">
+    <div class="breathe-circle"></div>
+    <div class="breathe-text">Inhale… Exhale…</div>
+    <button class="complete-btn">Completed ✓</button>
   </div>
 
-  <!-- Bottom Navigation -->
   <nav class="navbar">
     <a href="index.html"><span>🏠</span>Home</a>
-    <a href="journal.html"><span>📓</span>Journal</a>
     <a href="breathe.html" class="active"><span>🌬️</span>Breathe</a>
+    <a href="journal.html"><span>📓</span>Journal</a>
+    <a href="wins.html"><span>✨</span>Wins</a>
     <a href="progress.html"><span>📊</span>Progress</a>
   </nav>
-  /* 🌬️ Breathing Page ONLY */
-.breathe-page .breathe-content {
-  align-items: center;
-  text-align: center;
-}
-
-.breathe-page .circle-wrapper {
-  height: 260px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.breathe-page .breathing-circle {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #d6c9ef, #b8a3da);
-  animation: breathe 10s ease-in-out infinite;
-}
-
 
 </div>
-
-<!-- Script -->
-<script>
-  const breathText = document.getElementById("breathText");
-
-  function breathingCycle() {
-    breathText.textContent = "Inhale";
-
-    setTimeout(() => {
-      breathText.textContent = "Hold";
-    }, 4000);
-
-    setTimeout(() => {
-      breathText.textContent = "Exhale";
-    }, 6000);
-  }
-
-  // Start breathing loop
-  breathingCycle();
-  setInterval(breathingCycle, 10000);
-
-  // Log completion
-  function completeBreathing() {
-    const current = Number(localStorage.getItem("breathingDone")) || 0;
-    localStorage.setItem("breathingDone", current + 1);
-
-    alert("Well done. Take that calm with you 🌿");
-  }
-</script>
-
 </body>
 </html>
