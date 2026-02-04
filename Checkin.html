@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Check-In</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>How are you feeling?</h2>
+
+  <button onclick="saveMood('Calm')">Calm</button>
+  <button onclick="saveMood('Okay')">Okay</button>
+  <button onclick="saveMood('Low')">Low</button>
+  <button onclick="saveMood('Anxious')">Anxious</button>
+
+  <p id="saved"></p>
+  <a href="index.html">← Home</a>
+</div>
+
+<script>
+function saveMood(mood) {
+  localStorage.setItem("enigmaMood", mood);
+  document.getElementById("saved").innerText = "Saved: " + mood;
+}
+</script>
+</body>
+</html>
