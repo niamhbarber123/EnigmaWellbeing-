@@ -9,38 +9,16 @@
 
 <body>
   <div class="container">
+
     <h2>Breathe</h2>
-    <p id="breathText">Inhale</p>
+    <p>Follow the rhythm. Nothing else matters right now.</p>
 
-    <div class="circle"></div>
+    <div class="breathe-circle"></div>
 
-    <a href="index.html">← Home</a>
+    <p id="breath-text">Inhale</p>
+
   </div>
 
-  <style>
-    .circle {
-      width: 140px;
-      height: 140px;
-      margin: 30px auto;
-      border-radius: 50%;
-      background: #C6BFE3;
-      animation: breathe 8s infinite;
-    }
-
-    @keyframes breathe {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
-    }
-  </style>
-
-  <script>
-    let inhale = true;
-    setInterval(() => {
-      document.getElementById("breathText").innerText =
-        inhale ? "Exhale" : "Inhale";
-      inhale = !inhale;
-    }, 4000);
-  </script>
-</body>
-</html>
+  <div class="navbar">
+    <a href="index.html"><span>🏠</span>Home</a>
+    <a href="breathe
