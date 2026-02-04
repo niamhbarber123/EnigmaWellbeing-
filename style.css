@@ -189,4 +189,41 @@ body {
   font-size: 1.1rem;
   text-align: center;
 }
+/* ---------- DAILY CHECK-IN ---------- */
+.checkin textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: #f4f1f8;
+  margin: 16px 0;
+  font-family: inherit;
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.mood-grid button {
+  padding: 16px;
+  border-radius: 16px;
+  border: none;
+  background: #efeaf7;
+  font-size: 1rem;
+}
+
+.mood-grid button.active {
+  background: #d8cdea;
+  font-weight: 600;
+}
+
+.gentle-text {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: #6b5a7a;
+  text-align: center;
+}
 
