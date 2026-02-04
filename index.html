@@ -4,11 +4,45 @@
   <meta charset="UTF-8">
   <title>Enigma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#C3BDD9">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
 </head>
-<body style="background:#F4F1EC;font-family:sans-serif;text-align:center;padding:40px;">
-  <h1>Enigma</h1>
-  <p>Pause. Breathe. Begin again.</p>
+
+<body>
+  <div class="container">
+
+    <h1>Enigma</h1>
+    <p id="dailyMessage"></p>
+
+    <a href="checkin.html"><button>Daily Check-In</button></a>
+    <a href="breathe.html"><button>Breathe</button></a>
+    <a href="journal.html"><button>Journal</button></a>
+    <a href="wins.html"><button>Small Wins</button></a>
+    <a href="history.html"><button>Progress</button></a>
+    <a href="quotes.html"><button>Quotes</button></a>
+    <a href="reminders.html"><button>Daily Reminder</button></a>
+
+    <a href="privacy.html">Privacy</a>
+
+  </div>
+
+  <script>
+    const messages = [
+      "You are allowed to take today slowly.",
+      "Small steps still count.",
+      "You don’t need to have it all figured out.",
+      "Pause. Breathe. Begin again.",
+      "Rest is not falling behind.",
+      "Showing up is enough today."
+    ];
+
+    document.getElementById("dailyMessage").innerText =
+      messages[Math.floor(Math.random() * messages.length)];
+  </script>
 </body>
 </html>
