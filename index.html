@@ -9,37 +9,29 @@
 
 <body>
   <div class="container">
+    <h1>Enigma</h1>
+    <p id="dailyMessage"></p>
 
-    <div class="brand">
-      <img src="icon.png" alt="Enigma icon" class="icon">
-      <h1>Enigma</h1>
-      <p class="tagline">A quiet place to land.</p>
-    </div>
+    <a href="checkin.html"><button>Daily Check-In</button></a>
+    <a href="breathe.html"><button>Breathe</button></a>
+    <a href="journal.html"><button>Journal</button></a>
+    <a href="wins.html"><button>Small Wins</button></a>
+    <a href="history.html"><button>Progress</button></a>
+    <a href="quotes.html"><button>Quotes</button></a>
+    <a href="reminders.html"><button>Daily Reminder</button></a>
 
-    <div class="card primary">
-      <p class="card-title">Breathe</p>
-      <p class="card-text">Slow down your body</p>
-      <a href="breathe.html">Open →</a>
-    </div>
-
-    <div class="card">
-      <p class="card-title">Journal</p>
-      <p class="card-text">Let it out safely</p>
-      <a href="journal.html">Open →</a>
-    </div>
-
-    <div class="card">
-      <p class="card-title">Small wins</p>
-      <p class="card-text">Notice what you managed</p>
-      <a href="wins.html">Open →</a>
-    </div>
-
-    <div class="quiet-links">
-      <a href="quotes.html">Words</a>
-      <a href="history.html">Progress</a>
-      <a href="privacy.html">Privacy</a>
-    </div>
-
+    <p class="privacy"><a href="privacy.html">Privacy</a></p>
   </div>
+
+  <script>
+    const messages = [
+      "You are allowed to take today slowly.",
+      "Small steps still count.",
+      "Rest is productive.",
+      "You are doing better than you think."
+    ];
+    document.getElementById("dailyMessage").innerText =
+      messages[Math.floor(Math.random() * messages.length)];
+  </script>
 </body>
 </html>
