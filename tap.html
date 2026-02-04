@@ -1,25 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calm Game</title>
+<title>Tap to Colour</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header><h1>Tap to Colour</h1></header>
+<header>
+  <h1>Tap to Colour</h1>
+  <p>Choose an image and colour at your own pace</p>
+</header>
 
 <main>
-  <div class="card" onclick="this.style.background='#cbbfff'">
-    Tap me to colour 🌸
+
+  <!-- IMAGE PICKER -->
+  <div class="card">
+    <label for="imageSelect"><b>Choose image</b></label>
+    <select id="imageSelect" onchange="loadImage()">
+      <option value="mandala">Mandala</option>
+      <option value="flower">Flower</option>
+      <option value="leaf">Leaf</option>
+      <option value="moon">Moon</option>
+      <option value="abstract">Abstract Calm</option>
+    </select>
   </div>
+
+  <!-- COLOUR PALETTE -->
+  <div class="palette">
+    <div class="colour" style="background:#cbbfff" onclick="setColour('#cbbfff')"></div>
+    <div class="colour" style="background:#e6d9ff" onclick="setColour('#e6d9ff')"></div>
+    <div class="colour" style="background:#b8e0d2" onclick="setColour('#b8e0d2')"></div>
+    <div class="colour" style="background:#f4c2c2" onclick="setColour('#f4c2c2')"></div>
+    <div class="colour" style="background:#ffffff" onclick="setColour('#ffffff')"></div>
+  </div>
+
+  <!-- CANVAS -->
+  <div class="colour-grid" id="grid"></div>
+
+  <button onclick="saveArt()">Save progress</button>
+
 </main>
 
 <nav class="bottom-nav">
   <a href="index.html">🏠</a>
   <a class="active" href="game.html">🎨</a>
+  <a href="help.html">🆘</a>
 </nav>
+
+<script>
+/* =========================
+   TAP TO COLOUR GAME
+========================= */
+
+let currentColour = "#cbbfff";
+let currentImage = "mandala";
+const grid = document.getElementById("grid");
+
+function setColour(colour) {
+  currentColour = colour;
+}
+
+function createGrid() {
+  grid.innerHTML = "";
+  for (let i = 0; i < 64; i++) {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.addEventListener("click", () => {
+      cell.style.background = currentColour;
+      saveCell(i, currentColour);
+    });
+    grid.appendChild(cell);
+  }
+}
+
+function saveCell(index, colour) {
+  let data = JSON.parse(localStorage.getItem("colourGame")) || {};
+  if (!data[currentImage]) data[currentImage] = {};
+  data[currentImage][index] = colour;
+  localStorage.setItem("colourGame", JSON.stringify(data));
+}
+
+function loadImage() {
+  currentImage = document.getElementById("imageSelect").value;
+  createGrid();
+
+  let data = JSON.parse(localStorage.getItem("colourGame")) || {};
+  if (data[currentImage]) {
+    Object.keys(data[currentImage]).forEach(i => {
+      grid.children[i].style.background = data[currentImage][i];
+    });
+  }
+}
+
+function saveArt() {
+  alert("Saved 💜 You can come back anytime.");
+}
+
+createGrid();
+loadImage();
+</script>
 
 </body>
 </html>
