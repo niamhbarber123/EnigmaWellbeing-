@@ -1,10 +1,10 @@
 {
-  "name": "Enigma Wellbeing",
+  "name": "Enigma",
   "short_name": "Enigma",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#E6E1F2",
-  "theme_color": "#9A94B3",
+  "background_color": "#faf9fc",
+  "theme_color": "#c9b7e2",
   "icons": [
     {
       "src": "icon-192.png",
