@@ -22,6 +22,27 @@
     <a class="home-card" href="tap.html">🎨 Calm</a>
     <a class="home-card" href="progress.html">📊 Progress</a>
     <div class="home-card" id="recommendation"></div>
+    <button class="home-card" onclick="enableReminder()">
+🔔 Enable daily reminder
+</button>
+
+<script>
+function enableReminder() {
+  if (!("Notification" in window)) {
+    alert("Notifications not supported");
+    return;
+  }
+
+  Notification.requestPermission().then(p => {
+    if (p === "granted") {
+      new Notification("Enigma 🌿", {
+        body: "A gentle reminder to check in with yourself today"
+      });
+    }
+  });
+}
+</script>
+
 
 <script>
 const last = JSON.parse(localStorage.getItem("dailyCheckin"));
