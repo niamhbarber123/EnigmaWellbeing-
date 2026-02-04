@@ -1,56 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Enigma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- App icon / PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
   <link rel="stylesheet" href="style.css">
-
-  <script>
-    if (!localStorage.getItem("enigmaUser")) {
-      window.location.href = "login.html";
-    }
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#9A94B3">
-
-  </script>
 </head>
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
-}
-</script>
 
 <body>
 <div class="app">
 
-  <header class="header">
+  <div class="header">
     <h1>Enigma</h1>
-    <p id="welcome"></p>
-  </header>
-
-  <main class="content">
-    <div class="progress-card">🌬️ Breathe & reset</div>
-    <div class="progress-card">📖 Journal your thoughts</div>
-    <div class="progress-card">✨ Capture small wins</div>
-    <div class="progress-card">🌿 Track gentle progress</div>
-  </main>
-
-  <div class="navbar">
-    <a class="active"><span>🏠</span>Home</a>
-    <a href="breathe.html"><span>🌬️</span>Breathe</a>
-    <a href="journal.html"><span>📖</span>Journal</a>
-    <a href="wins.html"><span>✨</span>Wins</a>
-    <a href="progress.html"><span>🌿</span>Progress</a>
+    <p>Welcome back, Niamh</p>
   </div>
 
-</div>
+  <div class="content home-content">
 
-<script src="storage.js"></script>
-<script>
-const user = getUser();
-document.getElementById("welcome").innerText =
-  `Welcome back, ${user.name}`;
-</script>
+    <a class="home-card" href="breathe.html">
+      <span>🌬️</span>
+      <p>Breathe & reset</p>
+    </a>
+
+    <a class="home-card" href="journal.html">
+      <span>📓</span>
+      <p>Journal your thoughts</p>
+    </a>
+
+    <a class="home-card" href="wins.html">
+      <span>✨</span>
+      <p>Capture small wins</p>
+    </a>
+
+    <a class="home-card" href="progress.html">
+      <span>🌿</span>
+      <p>Track gentle progress</p>
+    </a>
+
+  </div>
+
+  <nav class="navbar">
+    <a href="index.html" class="active"><span>🏠</span>Home</a>
+    <a href="breathe.html"><span>🌬️</span>Breathe</a>
+    <a href="journal.html"><span>📓</span>Journal</a>
+    <a href="wins.html"><span>✨</span>Wins</a>
+    <a href="progress.html"><span>📊</span>Progress</a>
+  </nav>
+
+</div>
 </body>
 </html>
