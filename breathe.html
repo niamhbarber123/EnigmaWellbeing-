@@ -2,73 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Breathe – Enigma</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breathe · Enigma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<div class="app breathe-page">
+  <div class="container">
 
-  <!-- Header -->
-  <div class="header">
-    <h1>Breathe</h1>
-    <p>Follow the rhythm. Nothing else matters.</p>
-  </div>
+    <h2>Breathe</h2>
+    <p>Follow the rhythm. Nothing else matters right now.</p>
 
-  <!-- Content -->
-  <div class="content breathe-content">
+    <div class="breathe-circle"></div>
 
-    <div class="circle-wrapper">
-      <div class="breathing-circle"></div>
-    </div>
-
-    <p id="breathText">Inhale</p>
-
-    <button class="primary-btn" onclick="completeBreathing()">
-      Completed
-    </button>
+    <p id="breath-text">Inhale</p>
 
   </div>
 
-  <!-- Bottom Navigation -->
-  <nav class="navbar">
+  <div class="navbar">
     <a href="index.html"><span>🏠</span>Home</a>
-    <a href="journal.html"><span>📓</span>Journal</a>
-    <a href="breathe.html" class="active"><span>🌬️</span>Breathe</a>
-    <a href="progress.html"><span>📊</span>Progress</a>
-  </nav>
-
-</div>
-
-<!-- Script -->
-<script>
-  const breathText = document.getElementById("breathText");
-
-  function breathingCycle() {
-    breathText.textContent = "Inhale";
-
-    setTimeout(() => {
-      breathText.textContent = "Hold";
-    }, 4000);
-
-    setTimeout(() => {
-      breathText.textContent = "Exhale";
-    }, 6000);
-  }
-
-  // Start breathing loop
-  breathingCycle();
-  setInterval(breathingCycle, 10000);
-
-  // Log completion
-  function completeBreathing() {
-    const current = Number(localStorage.getItem("breathingDone")) || 0;
-    localStorage.setItem("breathingDone", current + 1);
-
-    alert("Well done. Take that calm with you 🌿");
-  }
-</script>
-
-</body>
-</html>
+    <a href="breathe.html" class="active"><span>🌬️</span>Breathe
