@@ -1,9 +1,7 @@
+<script>
 /* USER */
 function saveUser(name, email) {
-  localStorage.setItem(
-    "enigmaUser",
-    JSON.stringify({ name, email })
-  );
+  localStorage.setItem("enigmaUser", JSON.stringify({ name, email }));
 }
 
 function getUser() {
@@ -12,17 +10,22 @@ function getUser() {
 
 /* JOURNAL */
 function saveJournal(text) {
-  const entries = JSON.parse(localStorage.getItem("journal")) || [];
+  let entries = JSON.parse(localStorage.getItem("journal")) || [];
   entries.push({ text, date: new Date().toISOString() });
   localStorage.setItem("journal", JSON.stringify(entries));
 }
 
 /* WINS */
 function saveWin(text) {
-  const wins = JSON.parse(localStorage.getItem("wins")) || [];
+  let wins = JSON.parse(localStorage.getItem("wins")) || [];
   wins.push(text);
   localStorage.setItem("wins", JSON.stringify(wins));
 }
+
+function loadWins() {
+  return JSON.parse(localStorage.getItem("wins")) || [];
+}
+</script>
 
 /* PROGRESS */
 function getProgress() {
