@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>How are you feeling?</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <h1>How are you feeling?</h1>
+  </div>
+
+  <div class="content mood-buttons">
+    <button onclick="recommend('anxious')">😟 Anxious</button>
+    <button onclick="recommend('low')">😔 Low</button>
+    <button onclick="recommend('overwhelmed')">😵 Overwhelmed</button>
+    <button onclick="recommend('okay')">🙂 Okay</button>
+  </div>
+
+  <div class="recommendation" id="result"></div>
+
+</div>
+
+<script>
+function recommend(mood) {
+  const result = document.getElementById("result");
+
+  const suggestions = {
+    anxious: "Try Breathe & Reset 🌬️",
+    low: "Read gentle quotes 💬",
+    overwhelmed: "Tap to calm 🎨",
+    okay: "Try gentle yoga 🧘"
+  };
+
+  result.innerText = suggestions[mood];
+}
+</script>
+
+</body>
+</html>
