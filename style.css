@@ -149,7 +149,7 @@ textarea {
   }
 }
 
-/* 🧭 Bottom Navigation */
+/* Bottom Navigation Bar */
 .navbar {
   position: fixed;
   bottom: 0;
@@ -157,31 +157,31 @@ textarea {
   transform: translateX(-50%);
   width: 100%;
   max-width: 420px;
-  background: #ffffff;
-  border-top: 1px solid #e2dff0;
+  background: #F4F2F8;
+  border-top: 1px solid rgba(0,0,0,0.06);
   display: flex;
   justify-content: space-around;
-  padding: 10px 0 14px;
-  z-index: 1000;
+  padding: 10px 0 16px;
 }
 
 .navbar a {
   text-decoration: none;
-  color: #7a7190;
-  font-size: 0.85rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  font-size: 13px;
+  color: #9A94B3; /* softer, quieter */
+  text-align: center;
+  flex: 1;
 }
 
 .navbar a span {
-  font-size: 1.4rem;
+  display: block;
+  font-size: 20px;
+  margin-bottom: 4px;
+  line-height: 1;
 }
 
 .navbar a.active {
-  color: #5a4b7a;
-  font-weight: 600;
+  color: #3E3A4F; /* calm emphasis */
+  font-weight: 500;
 }
 
 /* 🔐 Login Page */
