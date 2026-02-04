@@ -17,13 +17,30 @@
   </div>
 
   <!-- Content -->
-  <div class="content breathe-content">
+  /* 🌬️ Breathe page only */
+.breathe-page .breathe-content {
+  align-items: center;
+  text-align: center;
+}
 
-    <div class="circle-wrapper">
-      <div class="breathing-circle"></div>
-    </div>
+.breathe-page .circle-wrapper {
+  width: 100%;
+  max-width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
-    <p id="breathText">Inhale</p>
+.breathe-page .breathing-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #d6c9ef, #b8a3da);
+  animation: breathe 10s ease-in-out infinite;
+}
+
 
     <button class="primary-btn" onclick="completeBreathing()">
       Completed
