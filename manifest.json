@@ -1,11 +1,16 @@
 {
   "name": "Enigma",
   "short_name": "Enigma",
-  "start_url": "index.html",
+  "start_url": "/Enigma-/index.html",
+  "scope": "/Enigma-/",
   "display": "standalone",
   "background_color": "#faf7ff",
   "theme_color": "#b8a6d9",
   "icons": [
-    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+    {
+      "src": "/Enigma-/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
   ]
 }
