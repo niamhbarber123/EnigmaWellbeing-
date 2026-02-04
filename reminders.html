@@ -1,23 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reminders</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reminders</title>
+
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-title" content="Enigma">
+  <meta name="application-name" content="Enigma">
+  <meta name="theme-color" content="#b8a6d9">
+
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
-<body>
 
-<header><h1>Reminders</h1></header>
+<body class="page-wrap">
 
-<main>
-  <button onclick="enableReminder()">Enable daily reminder</button>
-</main>
+  <header class="page-header">
+    <h1>Daily reminders</h1>
+    <p>A gentle nudge, once per day</p>
+  </header>
 
-<nav class="bottom-nav">
-  <a href="index.html">🏠</a>
-</nav>
+  <main class="page">
+    <div class="card">
+      Reminders are “web-safe” — they appear when you open Enigma once per day (no spam).
+      <div style="height:10px;"></div>
+      <button class="primary" onclick="enableReminder()">Enable daily reminder</button>
+      <div class="gentle-text">Tip: remove and re-add the Home Screen icon if you changed the app icon.</div>
+    </div>
+  </main>
 
-<script src="app.js"></script>
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="checkin.html"><div class="nav-ico">🌿</div><span>Check-in</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="help.html"><div class="nav-ico">🆘</div><span>Help</span></a>
+  </nav>
+
+  <script src="app.js"></script>
 </body>
 </html>
