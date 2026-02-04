@@ -10,22 +10,17 @@ function getUser() {
 
 /* JOURNAL */
 function saveJournal(text) {
-  let entries = JSON.parse(localStorage.getItem("journal")) || [];
+  const entries = JSON.parse(localStorage.getItem("journal")) || [];
   entries.push({ text, date: new Date().toISOString() });
   localStorage.setItem("journal", JSON.stringify(entries));
 }
 
 /* WINS */
 function saveWin(text) {
-  let wins = JSON.parse(localStorage.getItem("wins")) || [];
+  const wins = JSON.parse(localStorage.getItem("wins")) || [];
   wins.push(text);
   localStorage.setItem("wins", JSON.stringify(wins));
 }
-
-function loadWins() {
-  return JSON.parse(localStorage.getItem("wins")) || [];
-}
-</script>
 
 /* PROGRESS */
 function getProgress() {
@@ -40,3 +35,4 @@ function addBreath() {
   let count = Number(localStorage.getItem("breatheCount") || 0);
   localStorage.setItem("breatheCount", count + 1);
 }
+</script>
