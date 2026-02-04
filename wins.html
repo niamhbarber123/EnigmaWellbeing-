@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Small Wins · Enigma</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enigma – Small Wins</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="container">
-    <h2>Small Wins</h2>
-    <p>Anything counts.</p>
+  <div class="app">
 
-    <input type="text" placeholder="Today I…" />
-    <button>Add</button>
+    <header class="header">
+      <h1>Small Wins</h1>
+      <p>Every step counts</p>
+    </header>
 
-    <a href="index.html">← Home</a>
+    <main class="content">
+      <input type="text" placeholder="What went well today?"/>
+      <button class="primary-btn">Add Win</button>
+
+      <ul class="list">
+        <li>🌿 Got out of bed</li>
+        <li>✨ Took a deep breath</li>
+      </ul>
+    </main>
+
+    <div class="navbar">
+      <a href="index.html"><span>🏠</span>Home</a>
+      <a href="breathe.html"><span>🌬️</span>Breathe</a>
+      <a href="journal.html"><span>📖</span>Journal</a>
+      <a href="wins.html" class="active"><span>✨</span>Wins</a>
+      <a href="progress.html"><span>🌿</span>Progress</a>
+    </div>
+
   </div>
 </body>
 </html>
