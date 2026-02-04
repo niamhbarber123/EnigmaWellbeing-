@@ -1,11 +1,4 @@
 /* =========================
-   USER SETUP
-========================= */
-if (!localStorage.getItem("enigmaUser")) {
-  localStorage.setItem("enigmaUser", "guest");
-}
-
-/* =========================
    DATE HELPERS
 ========================= */
 function today() {
@@ -19,74 +12,66 @@ function saveCheckin() {
   const mood = document.getElementById("mood").value;
   const lastDate = localStorage.getItem("lastCheckinDate");
   const currentDate = today();
-
   let streak = parseInt(localStorage.getItem("streak")) || 0;
 
   if (lastDate !== currentDate) {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    const yString = yesterday.toISOString().split("T")[0];
+    const y = yesterday.toISOString().split("T")[0];
 
-    if (lastDate === yString) {
-      streak += 1;
-    } else {
-      streak = 1;
-    }
-
+    streak = (lastDate === y) ? streak + 1 : 1;
     localStorage.setItem("streak", streak);
     localStorage.setItem("lastCheckinDate", currentDate);
   }
 
   localStorage.setItem("dailyMood", mood);
-  alert(`Check-in saved 💜\nCurrent streak: ${localStorage.getItem("streak")} days`);
+  alert(`Check-in saved 💜\nStreak: ${streak} days`);
 }
 
 /* =========================
-   BREATHE
-========================= */
-function completeBreathe() {
-  localStorage.setItem("breatheDone", today());
-  alert("Well done for breathing 🌬️");
-}
-
-/* =========================
-   QUOTES
-========================= */
-function saveQuote(text) {
-  let quotes = JSON.parse(localStorage.getItem("quotes")) || [];
-  if (!quotes.includes(text)) {
-    quotes.push(text);
-    localStorage.setItem("quotes", JSON.stringify(quotes));
-  }
-  alert("Quote saved 💜");
-}
-
-/* =========================
-   MOOD RECOMMENDATIONS
+   RECOMMENDATIONS
 ========================= */
 function getRecommendation() {
   const mood = localStorage.getItem("dailyMood") || "";
-  if (mood.includes("Good")) return "Celebrate a small win ✨";
-  if (mood.includes("Okay")) return "A short breathing exercise could help 🌬️";
-  if (mood.includes("Low")) return "Be gentle with yourself today 🤍";
-  if (mood.includes("Anxious")) return "Try grounding or breathing 🌿";
-  return "Check in with yourself today 💜";
+  if (mood.includes("Good")) return "✨ Keep the positive momentum today.";
+  if (mood.includes("Okay")) return "🌿 Try a short breathing exercise.";
+  if (mood.includes("Low")) return "🤍 Be kind to yourself today.";
+  if (mood.includes("Anxious")) return "🌬️ Slow breathing may help.";
+  return "💜 Check in with yourself.";
 }
 
 /* =========================
    REMINDERS
 ========================= */
 function enableReminder() {
-  localStorage.setItem("reminderEnabled", "yes");
-  alert("Daily reminder enabled 💜\n(Check once a day)");
+  localStorage.setItem("reminder", "on");
+  alert("Daily reminder enabled 🌿");
 }
 
-function reminderMessage() {
-  if (localStorage.getItem("reminderEnabled") === "yes") {
-    const lastSeen = localStorage.getItem("lastReminderSeen");
-    if (lastSeen !== today()) {
-      alert("🌿 Gentle reminder from Enigma:\nTake a moment for yourself today.");
-      localStorage.setItem("lastReminderSeen", today());
+function reminderCheck() {
+  if (localStorage.getItem("reminder") === "on") {
+    if (localStorage.getItem("reminded") !== today()) {
+      alert("🌸 Enigma reminder:\nTake a moment for yourself today.");
+      localStorage.setItem("reminded", today());
     }
+  }
+}
+
+/* =========================
+   BREATHE
+========================= */
+function completeBreathe() {
+  alert("Well done 🌬️");
+}
+
+/* =========================
+   QUOTES
+========================= */
+function saveQuote(text) {
+  let saved = JSON.parse(localStorage.getItem("savedQuotes")) || [];
+  if (!saved.includes(text)) {
+    saved.push(text);
+    localStorage.setItem("savedQuotes", JSON.stringify(saved));
+    alert("Quote saved 💜");
   }
 }
