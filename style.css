@@ -1,65 +1,75 @@
-/* Enigma – calming lavender palette */
-
 body {
   margin: 0;
-  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(180deg, #E9E6F3, #F6F4FA);
+  background: #F6F4FA;
   color: #3F3D56;
 }
 
 .container {
-  max-width: 420px;
+  max-width: 390px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 48px 22px;
+}
+
+.brand {
   text-align: center;
+  margin-bottom: 48px;
+}
+
+.icon {
+  width: 64px;
+  margin-bottom: 12px;
+  opacity: 0.9;
 }
 
 h1 {
-  font-size: 2.4rem;
-  margin-bottom: 10px;
   font-weight: 500;
+  margin: 0;
 }
 
-h2 {
-  font-weight: 500;
-}
-
-p {
-  font-size: 1rem;
-  color: #5C5A72;
-  margin-bottom: 25px;
-}
-
-#dailyMessage {
-  font-style: italic;
-  margin-bottom: 30px;
-}
-
-button {
-  width: 100%;
-  padding: 14px;
-  margin: 8px 0;
-  font-size: 1rem;
-  border-radius: 14px;
-  border: none;
-  background: #C3BDD9;
-  color: #2F2E41;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-button:hover {
-  background: #B6AED3;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:last-of-type {
-  display: block;
-  margin-top: 30px;
-  font-size: 0.9rem;
+.tagline {
+  font-size: 0.95rem;
   color: #7A78A5;
+}
+
+.card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+.card.primary {
+  background: linear-gradient(180deg, #E6E2F3, #F6F4FA);
+}
+
+.card-title {
+  font-weight: 500;
+  margin: 0;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #6B6886;
+  margin: 6px 0 12px;
+}
+
+.card a {
+  text-decoration: none;
+  color: #6A63A6;
+  font-size: 0.9rem;
+}
+
+.quiet-links {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.quiet-links a {
+  display: inline-block;
+  margin: 0 8px;
+  font-size: 0.85rem;
+  color: #9A97C5;
+  text-decoration: none;
 }
