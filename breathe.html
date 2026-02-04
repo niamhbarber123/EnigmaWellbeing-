@@ -1,38 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Breathe</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enigma – Breathe</title>
+
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#9A94B3">
 </head>
+
 <body>
-<div class="app">
+  <div class="app">
 
-<header class="header">
-  <h1>Breathe</h1>
-  <p>Inhale calm, exhale tension</p>
-</header>
+    <header class="header">
+      <h1>Breathe</h1>
+      <p>Inhale calm, exhale tension</p>
+    </header>
 
-<main class="content" style="text-align:center;">
-  <div style="font-size:80px;">🌬️</div>
-  <button class="primary-btn" onclick="completeBreath()">Complete Session</button>
-</main>
+    <main class="content" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
 
-<div class="navbar">
-  <a href="index.html"><span>🏠</span>Home</a>
-  <a class="active"><span>🌬️</span>Breathe</a>
-  <a href="journal.html"><span>📖</span>Journal</a>
-  <a href="wins.html"><span>✨</span>Wins</a>
-  <a href="progress.html"><span>🌿</span>Progress</a>
-</div>
+      <div style="font-size:96px; margin-bottom:20px;">
+        🌬️
+      </div>
 
-</div>
+      <p style="margin-bottom:24px; max-width:260px;">
+        Take a slow breath in through your nose, then gently breathe out.
+      </p>
 
-<script src="storage.js"></script>
-<script>
-function completeBreath() {
-  addBreath();
-  alert("Well done 🌿");
-}
-</script>
+      <button class="primary-btn" onclick="completeBreath()" style="max-width:260px;">
+        Complete Session
+      </button>
+
+    </main>
+
+    <div class="navbar">
+      <a href="index.html"><span>🏠</span>Home</a>
+      <a href="breathe.html" class="active"><span>🌬️</span>Breathe</a>
+      <a href="journal.html"><span>📖</span>Journal</a>
+      <a href="wins.html"><span>✨</span>Wins</a>
+      <a href="progress.html"><span>🌿</span>Progress</a>
+    </div>
+
+  </div>
+
+  <script src="storage.js"></script>
+  <script>
+    function completeBreath() {
+      addBreath();
+      alert("Well done 🌿");
+    }
+  </script>
 </body>
 </html>
