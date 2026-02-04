@@ -1,74 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Enigma</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enigma</title>
+
+  <!-- App icon for bookmark -->
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="app">
-  <div class="header">
-    <h1>Enigma</h1>
-    <p>Your calm space</p>
-  </div>
+  <main class="home">
 
-  <div class="content home-grid">
-    <a class="home-card" href="checkin.html">🌱 Daily check-in</a>
-    <a class="home-card" href="breathe.html">🌬️ Breathe</a>
-    <a class="home-card" href="quotes.html">💬 Quotes</a>
-    <a class="home-card" href="yoga.html">🧘 Yoga</a>
-    <a class="home-card" href="tap.html">🎨 Calm</a>
-    <a class="home-card" href="progress.html">📊 Progress</a>
-    <div class="home-card" id="recommendation"></div>
-    <button class="home-card" onclick="enableReminder()">
-🔔 Enable daily reminder
-</button>
+    <!-- Header -->
+    <header class="header">
+      <h1>Enigma</h1>
+      <p class="subtitle">Your calm space</p>
+    </header>
 
-<script>
-function enableReminder() {
-  if (!("Notification" in window)) {
-    alert("Notifications not supported");
-    return;
-  }
+    <!-- Icon background -->
+    <div class="icon-bg"></div>
 
-  Notification.requestPermission().then(p => {
-    if (p === "granted") {
-      new Notification("Enigma 🌿", {
-        body: "A gentle reminder to check in with yourself today"
-      });
-    }
-  });
-}
-</script>
+    <!-- Main buttons -->
+    <section class="home-buttons">
+      <a href="checkin.html" class="card">🌿 Daily check-in</a>
+      <a href="breathe.html" class="card">💨 Breathe</a>
+      <a href="quotes.html" class="card">💬 Quotes</a>
+      <a href="yoga.html" class="card">🧘‍♀️ Yoga</a>
+      <a href="calm.html" class="card">🎨 Calm</a>
+      <a href="progress.html" class="card">📊 Progress</a>
+    </section>
 
+  </main>
 
-<script>
-const last = JSON.parse(localStorage.getItem("dailyCheckin"));
-const rec = document.getElementById("recommendation");
-
-if (last) {
-  const suggestions = {
-    calm: "🧘 Gentle yoga might feel nice today",
-    okay: "💬 Read a quote that resonates",
-    low: "🌬️ Try a slow breathing exercise",
-    anxious: "🎨 Tap-to-calm can help settle your body"
-  };
-  rec.innerText = suggestions[last.mood];
-}
-</script>
-
-  </div>
-
-  <nav class="navbar">
-    <a href="index.html"><span>🏠</span>Home</a>
-    <a href="breathe.html"><span>🌬️</span>Breathe</a>
-    <a href="checkin.html"><span>🌱</span>Check-in</a>
-    <a href="quotes.html"><span>💬</span>Quotes</a>
-    <a href="help.html"><span>🆘</span>Help</a>
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="active">🏠<span>Home</span></a>
+    <a href="breathe.html">💨<span>Breathe</span></a>
+    <a href="checkin.html">🌿<span>Check-in</span></a>
+    <a href="quotes.html">💬<span>Quotes</span></a>
+    <a href="help.html">🆘<span>Help</span></a>
   </nav>
-</div>
 
 </body>
 </html>
