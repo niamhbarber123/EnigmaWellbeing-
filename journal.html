@@ -1,44 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Journal</title>
-  <link rel="stylesheet" href="style.css">
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#9A94B3">
+  <meta charset="UTF-8">
+  <title>Journal – Enigma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 <div class="app">
 
-<header class="header">
-  <h1>Journal</h1>
-  <p>Just for you</p>
-</header>
+  <div class="header">
+    <h1>Journal</h1>
+    <p>Write freely. No pressure.</p>
+  </div>
 
-<main class="content">
-  <textarea id="entry" placeholder="Write freely..."></textarea>
-  <button class="primary-btn" onclick="save()">Save</button>
-</main>
+  <div class="content">
+    <textarea placeholder="What’s on your mind today?"></textarea>
+    <button class="primary-btn">Save Entry</button>
+  </div>
 
-<div class="navbar">
-  <a href="index.html"><span>🏠</span>Home</a>
-  <a href="breathe.html"><span>🌬️</span>Breathe</a>
-  <a class="active"><span>📖</span>Journal</a>
-  <a href="wins.html"><span>✨</span>Wins</a>
-  <a href="progress.html"><span>🌿</span>Progress</a>
+  <nav class="navbar">
+    <a href="index.html"><span>🏠</span>Home</a>
+    <a href="journal.html" class="active"><span>📓</span>Journal</a>
+    <a href="wins.html"><span>✨</span>Wins</a>
+    <a href="progress.html"><span>📊</span>Progress</a>
+  </nav>
+
 </div>
-
-</div>
-
-<script src="storage.js"></script>
-<script>
-function save() {
-  saveJournal(document.getElementById("entry").value);
-  alert("Saved 🌸");
-  document.getElementById("entry").value = "";
-}
-</script>
 </body>
 </html>
