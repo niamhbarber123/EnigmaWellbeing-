@@ -5,12 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sounds • Enigma</title>
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/Enigma-/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/Enigma-/icon-192.png">
-  <link rel="manifest" href="/Enigma-/manifest.json">
-  <meta name="theme-color" content="#b8a6d9">
-
-  <link rel="stylesheet" href="/Enigma-/style.css?v=2001">
+  <link rel="stylesheet" href="/Enigma-/style.css?v=5001">
 </head>
 
 <body class="page-wrap">
@@ -23,15 +18,17 @@
   </header>
 
   <main class="page">
-
     <div class="card">
       <div class="section-title">Volume</div>
-      <input id="soundVol" type="range" min="0" max="1" step="0.01" oninput="setSoundVolume(this.value)">
+      <input id="soundVol" type="range" min="0" max="1" step="0.01" />
       <div class="gentle-text">Status: <span id="soundStatus">Not playing</span></div>
     </div>
 
     <div class="card">
       <div class="section-title">Choose a sound</div>
+
+      <!-- Hidden player (iPhone Safari is happiest with this approach) -->
+      <audio id="soundPlayer" preload="auto" loop></audio>
 
       <div class="tool-row">
         <button class="tool-btn" type="button" onclick="playSound('/Enigma-/audio/rain.mp3')">🌧 Rain</button>
@@ -57,12 +54,7 @@
         <button class="tool-btn" type="button" onclick="playSound('/Enigma-/audio/chimes.mp3')">🔔 Chimes</button>
         <button class="tool-btn" type="button" onclick="playSound('/Enigma-/audio/meditation.mp3')">🧘 Meditation</button>
       </div>
-
-      <div class="gentle-text" style="margin-top:12px;">
-        Upload MP3 files to <b>/audio/</b> in your repo (rain.mp3, ocean.mp3, forest.mp3, etc.)
-      </div>
     </div>
-
   </main>
 
   <nav class="bottom-nav">
@@ -75,6 +67,6 @@
     <a href="/Enigma-/progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="/Enigma-/app.js?v=2001"></script>
+  <script src="/Enigma-/app.js?v=5001"></script>
 </body>
 </html>
