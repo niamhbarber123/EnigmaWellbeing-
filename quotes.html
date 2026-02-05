@@ -3,78 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quotes</title>
+  <title>Quotes • Enigma</title>
 
   <link rel="apple-touch-icon" sizes="180x180" href="/Enigma-/apple-touch-icon.png">
-  <link rel="apple-touch-icon-precomposed" href="/Enigma-/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/Enigma-/icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/Enigma-/icon-192.png">
   <link rel="manifest" href="/Enigma-/manifest.json">
-  <meta name="apple-mobile-web-app-title" content="Enigma">
-  <meta name="application-name" content="Enigma">
   <meta name="theme-color" content="#b8a6d9">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Enigma">
 
-  <link rel="stylesheet" href="/Enigma-/style.css?v=200">
+  <link rel="stylesheet" href="/Enigma-/style.css?v=502">
 </head>
 
 <body class="page-wrap">
-
   <header class="page-header">
+    <button class="back-btn" type="button" onclick="enigmaBack()" aria-label="Back">←</button>
     <h1>Quotes</h1>
     <p>Tap to save. Tap again to unsave.</p>
   </header>
 
   <main class="page">
-
-    <div class="quote-grid">
-      <div class="quote-tile" onclick="toggleQuote(this)"
-        data-quote="No one can make you feel inferior without your consent."
-        data-author="Eleanor Roosevelt">
-        No one can make you feel inferior without your consent.
-        <small>— Eleanor Roosevelt</small>
-      </div>
-
-      <div class="quote-tile" onclick="toggleQuote(this)"
-        data-quote="Do the best you can until you know better. Then when you know better, do better."
-        data-author="Maya Angelou">
-        Do the best you can until you know better. Then when you know better, do better.
-        <small>— Maya Angelou</small>
-      </div>
-
-      <div class="quote-tile" onclick="toggleQuote(this)"
-        data-quote="I am not afraid… I was born to do this."
-        data-author="Joan of Arc">
-        I am not afraid… I was born to do this.
-        <small>— Joan of Arc</small>
-      </div>
-
-      <div class="quote-tile" onclick="toggleQuote(this)"
-        data-quote="Think like a queen. A queen is not afraid to fail."
-        data-author="Oprah Winfrey">
-        Think like a queen. A queen is not afraid to fail.
-        <small>— Oprah Winfrey</small>
-      </div>
-    </div>
+    <div id="quoteGrid" class="quote-grid"></div>
 
     <div class="card" style="margin-top:14px;">
-      <a href="/Enigma-/saved-quotes.html" style="text-decoration:none; font-weight:800; color:#5a4b7a;">
+      <a href="/Enigma-/saved-quotes.html" style="text-decoration:none;font-weight:900;color:#5a4b7a;">
         💜 View saved quotes
       </a>
     </div>
-
   </main>
 
   <nav class="bottom-nav">
     <a href="/Enigma-/index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="/Enigma-/breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
     <a href="/Enigma-/journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="/Enigma-/checkin.html"><div class="nav-ico">🌿</div><span>Check-in</span></a>
-    <a href="/Enigma-/progress.html"><div class="nav-ico">📊</div><span>Progress</span></a>
-    <a href="/Enigma-/help.html"><div class="nav-ico">🆘</div><span>Help</span></a>
+    <a class="active" href="/Enigma-/quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="/Enigma-/game.html"><div class="nav-ico">🎨</div><span>Colour</span></a>
+    <a href="/Enigma-/sounds.html"><div class="nav-ico">🎧</div><span>Sounds</span></a>
 
-    <button id="themeFab" class="theme-fab" onclick="toggleTheme()" aria-label="Toggle night mode">🌙</button>
+    <button id="themeFab" class="theme-fab" type="button" aria-label="Toggle night mode">🌙</button>
   </nav>
 
-  <script src="/Enigma-/app.js"></script>
+  <script src="/Enigma-/app.js?v=502"></script>
 </body>
 </html>
