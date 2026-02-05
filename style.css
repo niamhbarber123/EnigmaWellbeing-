@@ -644,3 +644,63 @@ body.home .home-help{
 body.home{
   overflow: hidden;
 }
+/* =========================
+   Header: Enigma + Word of Day (inline)
+========================= */
+.brand-row{
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.brand-title{
+  margin:0;
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:0.2px;
+  color:#5a4b7a;
+}
+
+.wotd{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  padding:10px 12px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.78);
+  border:1px solid rgba(184,166,217,0.18);
+  box-shadow:0 10px 24px rgba(0,0,0,0.06);
+}
+
+.wotd-label{
+  font-size:11px;
+  color:rgba(90,75,122,0.65);
+  font-weight:800;
+  letter-spacing:0.2px;
+}
+
+.wotd-word{
+  font-size:16px;
+  font-weight:900;
+  color:#5a4b7a;
+  line-height:1.1;
+}
+
+/* Night mode tweak */
+body.night .wotd{
+  background:rgba(255,255,255,0.10);
+  border-color:rgba(255,255,255,0.12);
+}
+
+/* =========================
+   Distraction question style
+========================= */
+.distraction-question{
+  margin-top:12px;
+  font-weight:900;
+  font-size:18px;
+  color:#5a4b7a;
+  line-height:1.35;
+}
