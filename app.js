@@ -1,8 +1,9 @@
 /* =========================================================
    Enigma • app.js (FULL)
-   - Theme toggle (night mode)
-   - Back button helper
-   - Quotes: tiles + Save button only + daily shuffle + search + saved-only
+   - Theme toggle
+   - Back helper
+   - Music page: mood filtering + tap buttons + minutes listened
+   - Game page: 20+ palette circles + mode switch (free hides numbers)
 ========================================================= */
 
 function $(id){ return document.getElementById(id); }
@@ -24,142 +25,208 @@ function toggleTheme(){
   applyThemeFromStorage();
 }
 
-/* =========================
-   Quotes (tiles + save/unsave + daily shuffle)
-========================= */
-const QUOTES = [
-  { q:"Nothing can dim the light that shines from within.", a:"Maya Angelou" },
-  { q:"No one can make you feel inferior without your consent.", a:"Eleanor Roosevelt" },
-  { q:"I raise up my voice—not so that I can shout, but so that those without a voice can be heard.", a:"Malala Yousafzai" },
-  { q:"Well-behaved women seldom make history.", a:"Laurel Thatcher Ulrich" },
-  { q:"Power is not given to you. You have to take it.", a:"Beyoncé" },
-  { q:"I have learned over the years that when one’s mind is made up, this diminishes fear.", a:"Rosa Parks" },
-  { q:"If you don’t like the road you’re walking, start paving another one.", a:"Dolly Parton" },
-  { q:"My peace is my priority.", a:"Affirmation" },
-  { q:"You may not control all the events that happen to you, but you can decide not to be reduced by them.", a:"Maya Angelou" },
-  { q:"Think like a queen. A queen is not afraid to fail.", a:"Oprah Winfrey" }
+/* =========================================================
+   MUSIC PAGE (sounds.html)
+========================================================= */
+const MOODS = ["All","Anxious","Stressed","Low mood","Focus","Sleep"];
+
+const TRACKS = [
+  { title:"Calm breathing music (1 hour)", mood:["Anxious","Stressed"], url:"https://www.youtube.com/results?search_query=calm+breathing+music+1+hour" },
+  { title:"Relaxing piano for stress", mood:["Stressed","Low mood"], url:"https://www.youtube.com/results?search_query=relaxing+piano+for+stress" },
+  { title:"Gentle uplifting ambient", mood:["Low mood"], url:"https://www.youtube.com/results?search_query=gentle+uplifting+ambient+music" },
+  { title:"Lo-fi focus mix", mood:["Focus"], url:"https://www.youtube.com/results?search_query=lofi+focus+mix" },
+  { title:"Sleep music (dark screen)", mood:["Sleep"], url:"https://www.youtube.com/results?search_query=sleep+music+dark+screen" },
+  { title:"Nature sounds playlist", mood:["Anxious","Sleep"], url:"https://www.youtube.com/results?search_query=nature+sounds+playlist" },
+  { title:"Meditation music playlist", mood:["Anxious","Stressed","Sleep"], url:"https://www.youtube.com/results?search_query=meditation+music+playlist" },
+  { title:"Rain sounds", mood:["Sleep","Anxious"], url:"https://www.youtube.com/results?search_query=rain+sounds+8+hours" },
+  { title:"Ocean waves", mood:["Sleep","Low mood"], url:"https://www.youtube.com/results?search_query=ocean+waves+relaxing+sounds" },
+  { title:"Forest ambience", mood:["Focus","Low mood"], url:"https://www.youtube.com/results?search_query=forest+ambience+relaxing" }
 ];
 
-function quoteId(item){
-  return `${item.a}::${item.q}`;
+function getTodayKey(){
+  return new Date().toISOString().slice(0,10);
 }
 
-// deterministic RNG
-function mulberry32(seed){
-  return function(){
-    let t = seed += 0x6D2B79F5;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+function initMusic(){
+  const chipWrap = $("moodChips");
+  const list = $("musicList");
+  if (!chipWrap || !list) return;
 
-function dailyShuffledQuotes(list){
-  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  const seed = parseInt(today.replaceAll("-", ""), 10) || 20260101;
-  const rand = mulberry32(seed);
+  // Minutes listened storage
+  const minsTodayEl = $("minsToday");
+  const minsTotalEl = $("minsTotal");
+  const statusEl = $("listenStatus");
+  const startBtn = $("startListenBtn");
+  const endBtn = $("endListenBtn");
 
-  const arr = list.slice();
-  for(let i = arr.length - 1; i > 0; i--){
-    const j = Math.floor(rand() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+  const totalKey = "enigmaMusicMinsTotal";
+  const todayKey = "enigmaMusicMinsToday_" + getTodayKey();
+  const sessionKey = "enigmaMusicSessionStart";
+
+  function readInt(key){ return parseInt(localStorage.getItem(key) || "0", 10) || 0; }
+  function setInt(key, val){ localStorage.setItem(key, String(val)); }
+
+  function refreshMins(){
+    if (minsTodayEl) minsTodayEl.textContent = String(readInt(todayKey));
+    if (minsTotalEl) minsTotalEl.textContent = String(readInt(totalKey));
+    const s = localStorage.getItem(sessionKey);
+    if (statusEl) statusEl.textContent = s ? "Session active." : "No active session.";
   }
-  return arr;
-}
 
-function initQuotes(){
-  const grid = $("quoteGrid");
-  if (!grid) return;
+  if (startBtn){
+    startBtn.onclick = ()=>{
+      if (localStorage.getItem(sessionKey)) return;
+      localStorage.setItem(sessionKey, String(Date.now()));
+      refreshMins();
+    };
+  }
+  if (endBtn){
+    endBtn.onclick = ()=>{
+      const start = parseInt(localStorage.getItem(sessionKey) || "0", 10);
+      if (!start) return;
+      const mins = Math.max(0, Math.round((Date.now() - start) / 60000));
+      localStorage.removeItem(sessionKey);
 
-  const search = $("quoteSearch");
-  const toggleSavedOnlyBtn = $("toggleSavedOnlyBtn");
+      setInt(todayKey, readInt(todayKey) + mins);
+      setInt(totalKey, readInt(totalKey) + mins);
+      refreshMins();
+    };
+  }
 
-  let savedOnly = false;
+  refreshMins();
 
-  const saved = new Set(JSON.parse(localStorage.getItem("enigmaSavedQuotesV2") || "[]"));
-  const savedCount = $("savedCount");
-  if (savedCount) savedCount.textContent = String(saved.size);
-
-  const list = dailyShuffledQuotes(QUOTES);
-
-  function render(){
-    const q = (search?.value || "").trim().toLowerCase();
-
-    const filtered = list.filter(item=>{
-      const id = quoteId(item);
-      if (savedOnly && !saved.has(id)) return false;
-      if (!q) return true;
-      return item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q);
+  // Mood filter
+  let activeMood = "All";
+  function renderChips(){
+    chipWrap.innerHTML = "";
+    MOODS.forEach(m=>{
+      const b = document.createElement("button");
+      b.className = "chip" + (m===activeMood ? " active" : "");
+      b.type = "button";
+      b.textContent = m;
+      b.onclick = ()=>{
+        activeMood = m;
+        renderChips();
+        renderTracks();
+        const showing = $("moodShowing");
+        if (showing) showing.textContent = "Showing: " + activeMood;
+      };
+      chipWrap.appendChild(b);
     });
+  }
 
-    grid.innerHTML = "";
+  function renderTracks(){
+    list.innerHTML = "";
+    const filtered = TRACKS.filter(t => activeMood==="All" || t.mood.includes(activeMood));
 
-    filtered.forEach(item=>{
-      const id = quoteId(item);
-
-      const tile = document.createElement("div");
-      tile.className = "quote-tile" + (saved.has(id) ? " saved" : "");
-      tile.innerHTML = `
-        <div style="font-weight:900;color:#5a4b7a; line-height:1.35;">“${item.q}”</div>
-        <small>— ${item.a}</small>
-      `;
-
-      // Save button ONLY (scroll-safe)
+    filtered.forEach(t=>{
       const btn = document.createElement("button");
+      btn.className = "music-btn";
       btn.type = "button";
-      btn.className = "quote-save-btn" + (saved.has(id) ? " saved" : "");
-      btn.textContent = saved.has(id) ? "Saved 💜" : "Save 💜";
+      btn.innerHTML = `<span>${t.title}</span><span>↗</span>`;
 
-      btn.addEventListener("click", (e)=>{
-        e.stopPropagation();
-        if (saved.has(id)) saved.delete(id);
-        else saved.add(id);
+      // iOS-friendly: open on click (user gesture)
+      btn.onclick = ()=>{
+        window.open(t.url, "_blank", "noopener,noreferrer");
+      };
 
-        localStorage.setItem("enigmaSavedQuotesV2", JSON.stringify(Array.from(saved)));
-        if (savedCount) savedCount.textContent = String(saved.size);
+      list.appendChild(btn);
+    });
 
-        btn.classList.toggle("saved", saved.has(id));
-        btn.textContent = saved.has(id) ? "Saved 💜" : "Save 💜";
-        tile.classList.toggle("saved", saved.has(id));
+    if (!filtered.length){
+      const empty = document.createElement("div");
+      empty.className = "gentle-text";
+      empty.textContent = "No tracks for this mood yet.";
+      list.appendChild(empty);
+    }
+  }
 
-        if (savedOnly) render();
-      });
+  renderChips();
+  renderTracks();
+}
 
-      tile.appendChild(btn);
-      grid.appendChild(tile);
+/* =========================================================
+   GAME PAGE (game.html) — 20+ palette circles
+========================================================= */
+const PALETTE_20 = [
+  "#b8a6d9", "#d6c8ef", "#efe9f8", "#cbb6e6", "#a79ccf",
+  "#bfe3d7", "#9fd6c7", "#7ccab9", "#cfe8f7", "#a7d6f5",
+  "#7fbdf0", "#ffd9cf", "#f7c3d8", "#ffe6a7", "#f1f5c5",
+  "#c9f0d3", "#b0d0ff", "#d3c7ff", "#f2c7ff", "#c7c7d1"
+];
+
+function initGame(){
+  const dots = $("paletteDots");
+  const designChips = $("designChips");
+  if (!dots || !designChips) return;
+
+  const gamePage = $("gamePage");
+  const status = $("gameStatus");
+
+  // Designs (chips)
+  const DESIGNS = ["Mandala","Flower","Butterfly","Waves","Heart","Sunrise"];
+  let activeDesign = "";
+  let activeColor = PALETTE_20[0];
+  let isFree = false;
+
+  function renderDesigns(){
+    designChips.innerHTML = "";
+    DESIGNS.forEach(d=>{
+      const b = document.createElement("button");
+      b.className = "chip" + (d===activeDesign ? " active" : "");
+      b.type = "button";
+      b.textContent = d;
+      b.onclick = ()=>{
+        activeDesign = d;
+        renderDesigns();
+        if ($("designHint")) $("designHint").textContent = `Selected: ${d}`;
+        if (status) status.textContent = `Design: ${d} • Colour selected`;
+      };
+      designChips.appendChild(b);
     });
   }
 
-  render();
-
-  if (search) search.addEventListener("input", render);
-
-  if (toggleSavedOnlyBtn){
-    toggleSavedOnlyBtn.addEventListener("click", ()=>{
-      savedOnly = !savedOnly;
-      toggleSavedOnlyBtn.textContent = savedOnly ? "Showing saved only" : "Show saved only";
-      toggleSavedOnlyBtn.classList.toggle("active", savedOnly);
-      render();
+  function renderPalette(){
+    dots.innerHTML = "";
+    PALETTE_20.forEach(col=>{
+      const d = document.createElement("div");
+      d.className = "color-dot" + (col===activeColor ? " selected" : "");
+      d.style.background = col;
+      d.setAttribute("role","button");
+      d.setAttribute("tabindex","0");
+      d.onclick = ()=>{
+        activeColor = col;
+        renderPalette();
+        if (status) status.textContent = (activeDesign ? `Design: ${activeDesign} • ` : "") + `Colour selected`;
+      };
+      dots.appendChild(d);
     });
   }
 
-  const viewBtn = $("viewSavedBtn");
-  if (viewBtn){
-    viewBtn.onclick = ()=>{
-      const list = Array.from(saved);
-      if (!list.length) return alert("No saved quotes yet.");
-      alert("Saved quotes:\n\n" + list.map(x=> "• " + x.split("::")[1]).join("\n\n"));
-    };
+  function setMode(free){
+    isFree = free;
+    $("modeByNumber")?.classList.toggle("active", !free);
+    $("modeFree")?.classList.toggle("active", free);
+    if (gamePage) gamePage.classList.toggle("free-mode", free);
   }
 
-  const clearBtn = $("clearSavedBtn");
-  if (clearBtn){
-    clearBtn.onclick = ()=>{
-      if (!confirm("Delete all saved quotes?")) return;
-      localStorage.setItem("enigmaSavedQuotesV2", "[]");
-      location.reload();
-    };
-  }
+  $("modeByNumber")?.addEventListener("click", ()=> setMode(false));
+  $("modeFree")?.addEventListener("click", ()=> setMode(true));
+
+  // Buttons (placeholders for your existing drawing logic)
+  $("undoBtn")?.addEventListener("click", ()=> alert("Undo (connect to your colouring logic)"));
+  $("eraserBtn")?.addEventListener("click", ()=> alert("Eraser (connect to your colouring logic)"));
+  $("clearBtn")?.addEventListener("click", ()=> {
+    if (confirm("Clear your colouring?")) alert("Cleared (connect to your colouring logic)");
+  });
+  $("completeBtn")?.addEventListener("click", ()=> {
+    localStorage.setItem("enigmaLastCompletedColour", new Date().toISOString());
+    alert("Saved ✅");
+  });
+
+  renderDesigns();
+  renderPalette();
+  setMode(false);
 }
 
 /* ---------- Boot ---------- */
@@ -168,5 +235,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const themeFab = $("themeFab");
   if (themeFab) themeFab.addEventListener("click", toggleTheme);
 
-  initQuotes();
+  initMusic();
+  initGame();
 });
