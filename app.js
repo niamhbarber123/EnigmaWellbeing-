@@ -1131,3 +1131,22 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // Progress init (only runs on progress page)
   try{ renderProgress(); }catch(e){}
 });                         
+// ---- Breathe completion marker ----
+function markBreatheDone(){
+  const today = new Date().toISOString().split("T")[0];
+  localStorage.setItem("enigmaBreatheDone", today);
+  const msg = document.getElementById("breatheDoneMsg");
+  if(msg) msg.textContent = "Saved ✅ Well done.";
+}
+
+// ---- Ensure colour game starts on game.html ----
+document.addEventListener("DOMContentLoaded", () => {
+  try{
+    // If game page elements exist, initialise
+    if(document.getElementById("grid") && document.getElementById("palette") && document.getElementById("designGrid")){
+      if(typeof initColourGame === "function"){
+        initColourGame();
+      }
+    }
+  }catch(e){}
+});
