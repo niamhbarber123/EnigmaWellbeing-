@@ -2,74 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Breathe • Enigma</title>
-
-  <!-- IMPORTANT: correct path + cache-bust -->
-  <link rel="stylesheet" href="/Enigma-/style.css?v=6001">
+  <link rel="stylesheet" href="style.css?v=9301" />
 </head>
 
 <body class="page-wrap">
-  <!-- Night mode button (optional) -->
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaBack()" aria-label="Back">←</button>
+    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
     <h1>Breathe</h1>
     <p>Follow the rhythm</p>
   </header>
 
   <main class="page">
-    <div class="card">
-      <div class="breathe-area">
-        <div class="breathe-text" id="breatheLabel">Inhale</div>
-
-        <div class="breathe-circle-wrap">
-          <div class="breathe-circle" id="breatheCircle" aria-hidden="true"></div>
+    <div class="breathe-wrap">
+      <div class="card breathe-card">
+        <div class="breathe-stage inhale" id="breatheStage">
+          <div class="breathe-core" id="breatheCore"></div>
+          <div class="breathe-label" id="breatheText">Inhale</div>
         </div>
 
-        <button class="primary" type="button" onclick="markBreatheDone()">Completed</button>
+        <div class="tool-row" style="margin-top:16px;">
+          <button class="tool-btn" type="button" id="breatheStartBtn">Start</button>
+          <button class="tool-btn danger" type="button" id="breatheStopBtn">Stop</button>
+        </div>
+
+        <div class="tool-row">
+          <button class="tool-btn" type="button" onclick="markBreatheDone()">Completed ✅</button>
+        </div>
+
         <div class="gentle-text" id="breatheDoneMsg">Take your time.</div>
       </div>
     </div>
   </main>
 
   <nav class="bottom-nav">
-    <a href="/Enigma-/index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a class="active" href="/Enigma-/breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="/Enigma-/journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="/Enigma-/quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="/Enigma-/game.html"><div class="nav-ico">🎨</div><span>Colour</span></a>
-    <a href="/Enigma-/sounds.html"><div class="nav-ico">🎧</div><span>Sounds</span></a>
-    <a href="/Enigma-/progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a class="active" href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="game.html"><div class="nav-ico">🎨</div><span>Colour</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <!-- If you have app.js, keep it. If you don't, the inline script below still runs. -->
-  <script src="/Enigma-/app.js?v=6001"></script>
-
-  <!-- Label changes in sync with the 10s circle animation -->
+  <script src="app.js?v=9301"></script>
   <script>
-    // fallback if app.js isn't present
-    window.enigmaBack = window.enigmaBack || function(){
-      if (history.length > 1) history.back();
-      else location.href = "/Enigma-/index.html";
-    };
-    window.markBreatheDone = window.markBreatheDone || function(){
-      const today = new Date().toISOString().split("T")[0];
-      localStorage.setItem("enigmaBreatheDone", today);
-      const msg = document.getElementById("breatheDoneMsg");
-      if (msg) msg.textContent = "Saved ✅ Well done.";
-    };
+    // Simple inhale/exhale loop
+    const stage = document.getElementById("breatheStage");
+    const text = document.getElementById("breatheText");
+    const startBtn = document.getElementById("breatheStartBtn");
+    const stopBtn = document.getElementById("breatheStopBtn");
 
-    const label = document.getElementById("breatheLabel");
-    function loopLabels(){
-      if(!label) return;
-      label.textContent = "Inhale";
-      setTimeout(()=> label.textContent="Hold", 4000);
-      setTimeout(()=> label.textContent="Exhale", 6000);
+    let running = false;
+    let timer = null;
+
+    function setPhase(phase){
+      stage.classList.remove("inhale","exhale");
+      stage.classList.add(phase);
+      text.textContent = phase === "inhale" ? "Inhale" : "Exhale";
     }
-    loopLabels();
-    setInterval(loopLabels, 10000);
+
+    function loop(){
+      if (!running) return;
+      setPhase("inhale");
+      timer = setTimeout(()=>{
+        if (!running) return;
+        setPhase("exhale");
+        timer = setTimeout(loop, 4000);
+      }, 4000);
+    }
+
+    startBtn.addEventListener("click", ()=>{
+      if (running) return;
+      running = true;
+      loop();
+    });
+
+    stopBtn.addEventListener("click", ()=>{
+      running = false;
+      clearTimeout(timer);
+      setPhase("inhale");
+      text.textContent = "Ready";
+    });
   </script>
 </body>
 </html>
