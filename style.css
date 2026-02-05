@@ -658,3 +658,78 @@ body.home .home-hero{ height:min(480px, 84vw); }
   height:auto;
   max-height:420px;
 }
+/* =========================
+   GAME: complex SVG + number overlays
+========================= */
+
+.design-mount{
+  width:100%;
+  min-height:360px;
+  border-radius:18px;
+  background:rgba(239,233,248,0.55);
+  border:1px solid rgba(184,166,217,0.22);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:10px;
+}
+
+.design-mount svg{
+  width:100%;
+  height:auto;
+  max-height:520px;
+}
+
+.design-mount .stroke{
+  stroke: rgba(90,75,122,0.28);
+  stroke-width: 2.2;
+}
+
+.design-mount .fill{
+  cursor:pointer;
+  transition: filter 120ms ease;
+}
+.design-mount .fill:active{
+  filter: brightness(0.95);
+}
+
+/* Number labels */
+.number-overlay{
+  font-weight:900;
+  font-size:14px;
+  fill: rgba(90,75,122,0.65);
+  paint-order: stroke;
+  stroke: rgba(255,255,255,0.85);
+  stroke-width: 4;
+  pointer-events:none;
+}
+
+/* hide numbers in free mode (you already use this hook) */
+.free-mode .number-overlay,
+.free-mode .cell-number{
+  display:none !important;
+}
+
+/* Number selector row (chips) */
+.number-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:10px;
+}
+
+.number-chip{
+  border:none;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(239,233,248,0.95);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+  font-weight:900;
+  color:#5a4b7a;
+}
+.number-chip.active{
+  background: var(--lavender);
+  color:#fff;
+}
