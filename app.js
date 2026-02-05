@@ -1,688 +1,545 @@
 /* =========================================================
    Enigma • app.js (FULL)
-   - Theme (night mode)
-   - Back helper
-   - Breathe: working animation + changing text + session + streak
-   - Quotes: tiles + save/unsave + daily shuffle + clear
-   - Music: mood buttons + tappable link buttons + minutes listened
-   - Game (Tap to Colour): designs + 20+ palette circles + simple tap-to-fill SVG
+   Fixes:
+   - Theme toggle (moon)
+   - Back button helper
+   - Breathe: start/stop + animated circle + phase text
+   - Quotes: tiles + save/unsave + daily shuffle + search + saved-only
+   - Music: mood chips + track buttons + minutes listened
+   - Colour: design chips + 20+ palette dots + mode toggle + free-mode hides numbers
 ========================================================= */
 
-function $(id){ return document.getElementById(id); }
+(function () {
+  "use strict";
 
-/* -------------------------
-   Back helper
-------------------------- */
-window.enigmaBack = function(){
-  if (history.length > 1) history.back();
-  else window.location.href = "index.html";
-};
+  /* -------------------------
+     Helpers
+  ------------------------- */
 
-/* -------------------------
-   Theme
-------------------------- */
-function applyThemeFromStorage(){
-  const night = localStorage.getItem("enigmaNightMode") === "1";
-  document.body.classList.toggle("night", night);
-}
-function toggleTheme(){
-  const now = !(localStorage.getItem("enigmaNightMode") === "1");
-  localStorage.setItem("enigmaNightMode", now ? "1" : "0");
-  applyThemeFromStorage();
-}
+  function $(id) { return document.getElementById(id); }
 
-/* =========================================================
-   STREAKS (shared)
-========================================================= */
-function todayKey(){
-  return new Date().toISOString().slice(0,10); // YYYY-MM-DD
-}
-function addCompletion(type){
-  const key = `enigmaDone_${type}_${todayKey()}`;
-  localStorage.setItem(key, "1");
+  // Back button function used in HTML onclick
+  window.enigmaBack = function enigmaBack() {
+    if (history.length > 1) history.back();
+    else window.location.href = "index.html";
+  };
 
-  // streak
-  const streakKey = `enigmaStreak_${type}`;
-  const lastKey = `enigmaLast_${type}`;
-  const last = localStorage.getItem(lastKey);
-
-  const today = todayKey();
-  if (!last){
-    localStorage.setItem(streakKey, "1");
-  } else {
-    // compare last date to today/yesterday
-    const lastDate = new Date(last + "T00:00:00");
-    const todayDate = new Date(today + "T00:00:00");
-    const diffDays = Math.round((todayDate - lastDate) / 86400000);
-
-    const current = parseInt(localStorage.getItem(streakKey) || "0", 10) || 0;
-    if (diffDays === 1) localStorage.setItem(streakKey, String(current + 1));
-    else if (diffDays === 0) { /* same day - no change */ }
-    else localStorage.setItem(streakKey, "1");
+  function todayKey() {
+    return new Date().toISOString().split("T")[0]; // YYYY-MM-DD
   }
 
-  localStorage.setItem(lastKey, today);
-}
+  function clamp(n, min, max) {
+    return Math.min(max, Math.max(min, n));
+  }
 
-/* =========================================================
-   BREATHE (breathe.html)
-   Expected elements (if present):
-   - #breathePhase (text)
-   - #breatheCircle (div)
-   - #startBreathe, #stopBreathe, #completeBreathe
-========================================================= */
-function initBreathe(){
-  // Supports BOTH old ids and new ids (so you’re safe either way)
-  const phaseEl = document.getElementById("breathePhase") || document.getElementById("breathPhase");
-  const circle  = document.getElementById("breatheCircle");
-  const tipEl   = document.getElementById("breatheTip") || document.getElementById("breathTip");
+  /* -------------------------
+     Theme (Night mode)
+  ------------------------- */
 
-  const startBtn =
-    document.getElementById("startBreathe") ||
-    document.getElementById("breathStartBtn");
+  function applyThemeFromStorage() {
+    const saved = localStorage.getItem("enigmaTheme") || "light";
+    document.body.classList.toggle("night", saved === "night");
+  }
 
-  const stopBtn =
-    document.getElementById("stopBreathe") ||
-    document.getElementById("breathStopBtn");
+  function toggleTheme() {
+    const isNight = document.body.classList.toggle("night");
+    localStorage.setItem("enigmaTheme", isNight ? "night" : "light");
+  }
 
-  const completeBtn =
-    document.getElementById("completeBreathe") ||
-    document.getElementById("breathCompleteBtn");
+  function initThemeButton() {
+    const btn = $("themeFab");
+    if (!btn) return;
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleTheme();
+    }, { passive: false });
+  }
 
-  if (!phaseEl && !circle && !startBtn) return;
+  /* =========================================================
+     BREATHE
+  ========================================================= */
 
-  let timer = null;
-  let running = false;
-  let stepIndex = 0;
+  function initBreathe() {
+    const page = $("breathePage");
+    if (!page) return;
 
-  // Inhale 4s, Hold 2s, Exhale 6s, Hold 3s (15s loop)
-  const STEPS = [
-    { label:"Inhale", dur:4000, scale:1.18, tip:"Slow breath in…" },
-    { label:"Hold",   dur:2000, scale:1.18, tip:"Hold gently." },
-    { label:"Exhale", dur:6000, scale:0.88, tip:"Slow breath out…" },
-    { label:"Hold",   dur:3000, scale:0.88, tip:"Pause. You’re safe." }
+    const phaseEl = $("breathPhase");
+    const tipEl = $("breathTip");
+    const circle = $("breatheCircle");
+    const startBtn = $("breathStartBtn");
+    const stopBtn = $("breathStopBtn");
+    const completeBtn = $("breathCompleteBtn");
+
+    if (!phaseEl || !tipEl || !circle || !startBtn || !stopBtn) return;
+
+    let running = false;
+    let timer = null;
+
+    // 4-4 rhythm: inhale 4s, exhale 4s (loop)
+    const INHALE_MS = 4000;
+    const EXHALE_MS = 4000;
+
+    function setPhase(name, tip) {
+      phaseEl.textContent = name;
+      tipEl.textContent = tip;
+    }
+
+    function animateInhale() {
+      // circle grows
+      circle.classList.remove("exhale");
+      circle.classList.add("inhale");
+      setPhase("Inhale", "Breathe in slowly through your nose…");
+    }
+
+    function animateExhale() {
+      // circle shrinks
+      circle.classList.remove("inhale");
+      circle.classList.add("exhale");
+      setPhase("Exhale", "Breathe out gently…");
+    }
+
+    function stop() {
+      running = false;
+      if (timer) clearTimeout(timer);
+      timer = null;
+
+      circle.classList.remove("inhale", "exhale");
+      setPhase("Ready", "Tap Start to begin.");
+    }
+
+    function loop() {
+      if (!running) return;
+
+      animateInhale();
+      timer = setTimeout(() => {
+        if (!running) return;
+        animateExhale();
+        timer = setTimeout(() => {
+          if (!running) return;
+          loop();
+        }, EXHALE_MS);
+      }, INHALE_MS);
+    }
+
+    startBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (running) return;
+      running = true;
+      loop();
+    }, { passive: false });
+
+    stopBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      stop();
+    }, { passive: false });
+
+    if (completeBtn) {
+      completeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const key = "enigmaBreatheCompletes";
+        const data = JSON.parse(localStorage.getItem(key) || "{}");
+        const day = todayKey();
+        data[day] = (data[day] || 0) + 1;
+        localStorage.setItem(key, JSON.stringify(data));
+        completeBtn.textContent = "Saved ✅";
+        setTimeout(() => (completeBtn.textContent = "Completed ✅"), 1200);
+      }, { passive: false });
+    }
+
+    // Ensure initial UI
+    stop();
+  }
+
+  /* =========================================================
+     QUOTES (tiles + save/unsave + daily shuffle)
+  ========================================================= */
+
+  const QUOTES = [
+    { q: "Nothing can dim the light that shines from within.", a: "Maya Angelou" },
+    { q: "No one can make you feel inferior without your consent.", a: "Eleanor Roosevelt" },
+    { q: "I raise up my voice—not so that I can shout, but so that those without a voice can be heard.", a: "Malala Yousafzai" },
+    { q: "Well-behaved women seldom make history.", a: "Laurel Thatcher Ulrich" },
+    { q: "Power is not given to you. You have to take it.", a: "Beyoncé" },
+    { q: "I have learned over the years that when one’s mind is made up, this diminishes fear.", a: "Rosa Parks" },
+    { q: "If you don’t like the road you’re walking, start paving another one.", a: "Dolly Parton" },
+    { q: "My peace is my priority.", a: "Affirmation" },
+    { q: "You don’t have to be perfect to be powerful.", a: "Affirmation" },
+    { q: "Do not wait for permission to be yourself.", a: "Affirmation" }
   ];
 
-  function setPhase(text){
-    if (phaseEl) phaseEl.textContent = text;
-  }
-  function setTip(text){
-    if (tipEl) tipEl.textContent = text;
-  }
-  function setCircle(scale){
-    if (!circle) return;
-    circle.style.transform = `scale(${scale})`;
+  function quoteId(item) {
+    return `${item.a}::${item.q}`;
   }
 
-  function clearTimer(){
-    if (timer) clearTimeout(timer);
-    timer = null;
-  }
-
-  function stop(){
-    running = false;
-    stepIndex = 0;
-    clearTimer();
-    setPhase("Ready");
-    setTip("Tap Start to begin.");
-    setCircle(1);
-  }
-
-  function nextStep(){
-    if (!running) return;
-
-    const step = STEPS[stepIndex % STEPS.length];
-    setPhase(step.label);
-    setTip(step.tip);
-    setCircle(step.scale);
-
-    clearTimer();
-    timer = setTimeout(()=>{
-      stepIndex++;
-      nextStep();
-    }, step.dur);
-  }
-
-  function start(){
-    if (running) return;
-    running = true;
-    stepIndex = 0;
-
-    // Start from a calm neutral size then begin sequence
-    setPhase("Get ready…");
-    setTip("Follow the rhythm.");
-    setCircle(0.92);
-
-    clearTimer();
-    timer = setTimeout(()=>{
-      if (running) nextStep();
-    }, 350);
-  }
-
-  if (startBtn) startBtn.onclick = start;
-  if (stopBtn) stopBtn.onclick = stop;
-
-  if (completeBtn){
-    completeBtn.onclick = ()=>{
-      // Optional: record completion + streak if your app.js includes addCompletion()
-      try { addCompletion("breathe"); } catch(e) {}
-      alert("Saved ✅");
+  function mulberry32(seed) {
+    return function () {
+      let t = (seed += 0x6D2B79F5);
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   }
 
-  // Don’t keep running if user leaves the page
-  window.addEventListener("pagehide", stop);
-}
+  function dailyShuffledQuotes(list) {
+    const today = todayKey();
+    const seed = parseInt(today.replaceAll("-", ""), 10) || 20260101;
+    const rand = mulberry32(seed);
 
-  // if user leaves page / reload, stop
-  window.addEventListener("pagehide", stop);
-}
-
-/* =========================
-   Quotes (tiles + save/unsave + daily shuffle + search + saved-only)
-========================= */
-const QUOTES = [
-  { q:"Nothing can dim the light that shines from within.", a:"Maya Angelou" },
-  { q:"No one can make you feel inferior without your consent.", a:"Eleanor Roosevelt" },
-  { q:"I raise up my voice—not so that I can shout, but so that those without a voice can be heard.", a:"Malala Yousafzai" },
-  { q:"Well-behaved women seldom make history.", a:"Laurel Thatcher Ulrich" },
-  { q:"Power is not given to you. You have to take it.", a:"Beyoncé" },
-  { q:"I have learned over the years that when one’s mind is made up, this diminishes fear.", a:"Rosa Parks" },
-  { q:"If you don’t like the road you’re walking, start paving another one.", a:"Dolly Parton" },
-  { q:"My peace is my priority.", a:"Affirmation" }
-];
-
-const SAVED_QUOTES_KEY = "enigmaSavedQuotesV2";
-const QUOTE_VIEW_KEY = "enigmaQuotesSavedOnly";
-
-function quoteId(item){
-  return `${item.a}::${item.q}`;
-}
-
-// deterministic RNG
-function mulberry32(seed){
-  return function(){
-    let t = seed += 0x6D2B79F5;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-function dailyShuffledQuotes(list){
-  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  const seed = parseInt(today.replaceAll("-", ""), 10) || 20260101;
-  const rand = mulberry32(seed);
-
-  const arr = list.slice();
-  for(let i = arr.length - 1; i > 0; i--){
-    const j = Math.floor(rand() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-function getSavedQuotesSet(){
-  try{
-    return new Set(JSON.parse(localStorage.getItem(SAVED_QUOTES_KEY) || "[]"));
-  }catch(e){
-    return new Set();
-  }
-}
-
-function setSavedQuotesSet(set){
-  localStorage.setItem(SAVED_QUOTES_KEY, JSON.stringify(Array.from(set)));
-}
-
-function initQuotes(){
-  const grid = document.getElementById("quoteGrid");
-  if (!grid) return;
-
-  const searchEl = document.getElementById("quoteSearch");
-  const savedCountEl = document.getElementById("savedCount");
-  const viewSavedBtn = document.getElementById("viewSavedBtn");
-  const clearSavedBtn = document.getElementById("clearSavedBtn");
-  const toggleSavedOnlyBtn = document.getElementById("toggleSavedOnlyBtn");
-
-  let savedOnly = localStorage.getItem(QUOTE_VIEW_KEY) === "1";
-  let saved = getSavedQuotesSet();
-
-  function updateCount(){
-    if (savedCountEl) savedCountEl.textContent = String(saved.size);
+    const arr = list.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
   }
 
-  function render(){
-    const term = (searchEl?.value || "").trim().toLowerCase();
-    const list = dailyShuffledQuotes(QUOTES);
+  function initQuotes() {
+    const grid = $("quoteGrid");
+    if (!grid) return;
 
-    grid.innerHTML = "";
+    const search = $("quoteSearch");
+    const savedCount = $("savedCount");
+    const viewBtn = $("viewSavedBtn");
+    const clearBtn = $("clearSavedBtn");
+    const savedOnlyBtn = $("toggleSavedOnlyBtn");
 
-    const filtered = list.filter(item=>{
-      const id = quoteId(item);
-      if (savedOnly && !saved.has(id)) return false;
+    const SAVED_KEY = "enigmaSavedQuotesV2";
+    const saved = new Set(JSON.parse(localStorage.getItem(SAVED_KEY) || "[]"));
 
-      if (!term) return true;
-      return (
-        item.q.toLowerCase().includes(term) ||
-        item.a.toLowerCase().includes(term)
-      );
-    });
+    let showSavedOnly = false;
 
-    filtered.forEach(item=>{
-      const id = quoteId(item);
-      const isSaved = saved.has(id);
+    function updateCount() {
+      if (savedCount) savedCount.textContent = String(saved.size);
+    }
 
-      const tile = document.createElement("div");
-      tile.className = "quote-tile" + (isSaved ? " saved" : "");
-      tile.innerHTML = `
-        <div style="font-weight:900;color:#5a4b7a; line-height:1.35;">“${item.q}”</div>
-        <small>— ${item.a}</small>
-      `;
+    function render() {
+      const query = (search?.value || "").trim().toLowerCase();
+      const list = dailyShuffledQuotes(QUOTES);
 
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "quote-save-btn" + (isSaved ? " saved" : "");
-      btn.textContent = isSaved ? "Saved 💜" : "Save 💜";
-
-      btn.addEventListener("click", (e)=>{
-        e.preventDefault();
-        if (saved.has(id)) saved.delete(id);
-        else saved.add(id);
-
-        setSavedQuotesSet(saved);
-        updateCount();
-        render();
+      const filtered = list.filter(item => {
+        const id = quoteId(item);
+        if (showSavedOnly && !saved.has(id)) return false;
+        if (!query) return true;
+        return item.q.toLowerCase().includes(query) || item.a.toLowerCase().includes(query);
       });
 
-      tile.appendChild(btn);
-      grid.appendChild(tile);
-    });
+      grid.innerHTML = "";
 
-    if (toggleSavedOnlyBtn){
-      toggleSavedOnlyBtn.classList.toggle("active", savedOnly);
-      toggleSavedOnlyBtn.textContent = savedOnly ? "Showing saved only" : "Show saved only";
+      filtered.forEach(item => {
+        const id = quoteId(item);
+        const tile = document.createElement("div");
+        tile.className = "quote-tile" + (saved.has(id) ? " saved" : "");
+        tile.innerHTML = `
+          <div style="font-weight:900;color:#5a4b7a; line-height:1.35;">“${item.q}”</div>
+          <small>— ${item.a}</small>
+          <button class="quote-save-btn ${saved.has(id) ? "saved" : ""}" type="button" aria-label="Save quote">
+            ${saved.has(id) ? "💜 Saved" : "💜 Save"}
+          </button>
+        `;
+
+        const btn = tile.querySelector(".quote-save-btn");
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (saved.has(id)) saved.delete(id);
+          else saved.add(id);
+          localStorage.setItem(SAVED_KEY, JSON.stringify(Array.from(saved)));
+          updateCount();
+          render();
+        }, { passive: false });
+
+        grid.appendChild(tile);
+      });
+
+      updateCount();
     }
 
     updateCount();
-  }
+    render();
 
-  if (searchEl){
-    searchEl.addEventListener("input", ()=>{
-      render();
-    });
-  }
+    if (search) {
+      search.addEventListener("input", () => render());
+    }
 
-  if (toggleSavedOnlyBtn){
-    toggleSavedOnlyBtn.onclick = ()=>{
-      savedOnly = !savedOnly;
-      localStorage.setItem(QUOTE_VIEW_KEY, savedOnly ? "1" : "0");
-      render();
-    };
-  }
+    if (savedOnlyBtn) {
+      savedOnlyBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showSavedOnly = !showSavedOnly;
+        savedOnlyBtn.classList.toggle("active", showSavedOnly);
+        savedOnlyBtn.textContent = showSavedOnly ? "Showing saved only" : "Show saved only";
+        render();
+      }, { passive: false });
+    }
 
-  if (viewSavedBtn){
-    viewSavedBtn.onclick = ()=>{
-      const list = Array.from(saved);
-      if (!list.length) return alert("No saved quotes yet.");
-      alert("Saved quotes:\n\n" + list.map(x=> "• " + x.split("::")[1]).join("\n\n"));
-    };
-  }
+    if (viewBtn) {
+      viewBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const arr = Array.from(saved);
+        if (!arr.length) return alert("No saved quotes yet.");
+        alert("Saved quotes:\n\n" + arr.map(x => "• " + x.split("::")[1]).join("\n\n"));
+      }, { passive: false });
+    }
 
-  if (clearSavedBtn){
-    clearSavedBtn.onclick = ()=>{
-      if (!confirm("Delete all saved quotes?")) return;
-      saved = new Set();
-      setSavedQuotesSet(saved);
-      localStorage.setItem(QUOTE_VIEW_KEY, "0");
-      savedOnly = false;
-      render();
-    };
-  }
-
-  render();
-}
-/* =========================================================
-   MUSIC (sounds.html)
-========================================================= */
-const MOODS = ["All","Anxious","Stressed","Low mood","Focus","Sleep"];
-
-const TRACKS = [
-  { title:"Calm breathing music (1 hour)", mood:["Anxious","Stressed"], url:"https://www.youtube.com/results?search_query=calm+breathing+music+1+hour" },
-  { title:"Relaxing piano for stress", mood:["Stressed","Low mood"], url:"https://www.youtube.com/results?search_query=relaxing+piano+for+stress" },
-  { title:"Gentle uplifting ambient", mood:["Low mood"], url:"https://www.youtube.com/results?search_query=gentle+uplifting+ambient+music" },
-  { title:"Lo-fi focus mix", mood:["Focus"], url:"https://www.youtube.com/results?search_query=lofi+focus+mix" },
-  { title:"Sleep music (dark screen)", mood:["Sleep"], url:"https://www.youtube.com/results?search_query=sleep+music+dark+screen" },
-  { title:"Nature sounds playlist", mood:["Anxious","Sleep"], url:"https://www.youtube.com/results?search_query=nature+sounds+playlist" },
-  { title:"Meditation music playlist", mood:["Anxious","Stressed","Sleep"], url:"https://www.youtube.com/results?search_query=meditation+music+playlist" },
-  { title:"Rain sounds (8 hours)", mood:["Sleep","Anxious"], url:"https://www.youtube.com/results?search_query=rain+sounds+8+hours" },
-  { title:"Ocean waves", mood:["Sleep","Low mood"], url:"https://www.youtube.com/results?search_query=ocean+waves+relaxing+sounds" },
-  { title:"Forest ambience", mood:["Focus","Low mood"], url:"https://www.youtube.com/results?search_query=forest+ambience+relaxing" }
-];
-
-function initMusic(){
-  const chipWrap = $("moodChips");
-  const list = $("musicList");
-  if (!chipWrap || !list) return;
-
-  const minsTodayEl = $("minsToday");
-  const minsTotalEl = $("minsTotal");
-  const statusEl = $("listenStatus");
-  const startBtn = $("startListenBtn");
-  const endBtn = $("endListenBtn");
-
-  const totalKey = "enigmaMusicMinsTotal";
-  const todayKeyLocal = "enigmaMusicMinsToday_" + todayKey();
-  const sessionKey = "enigmaMusicSessionStart";
-
-  function readInt(key){ return parseInt(localStorage.getItem(key) || "0", 10) || 0; }
-  function setInt(key, val){ localStorage.setItem(key, String(val)); }
-
-  function refreshMins(){
-    if (minsTodayEl) minsTodayEl.textContent = String(readInt(todayKeyLocal));
-    if (minsTotalEl) minsTotalEl.textContent = String(readInt(totalKey));
-    const s = localStorage.getItem(sessionKey);
-    if (statusEl) statusEl.textContent = s ? "Session active." : "No active session.";
-  }
-
-  if (startBtn){
-    startBtn.onclick = ()=>{
-      if (localStorage.getItem(sessionKey)) return;
-      localStorage.setItem(sessionKey, String(Date.now()));
-      refreshMins();
-    };
-  }
-  if (endBtn){
-    endBtn.onclick = ()=>{
-      const start = parseInt(localStorage.getItem(sessionKey) || "0", 10);
-      if (!start) return;
-      const mins = Math.max(0, Math.round((Date.now() - start) / 60000));
-      localStorage.removeItem(sessionKey);
-
-      setInt(todayKeyLocal, readInt(todayKeyLocal) + mins);
-      setInt(totalKey, readInt(totalKey) + mins);
-      refreshMins();
-    };
-  }
-
-  refreshMins();
-
-  let activeMood = "All";
-
-  function renderChips(){
-    chipWrap.innerHTML = "";
-    MOODS.forEach(m=>{
-      const b = document.createElement("button");
-      b.className = "chip" + (m===activeMood ? " active" : "");
-      b.type = "button";
-      b.textContent = m;
-      b.onclick = ()=>{
-        activeMood = m;
-        renderChips();
-        renderTracks();
-        const showing = $("moodShowing");
-        if (showing) showing.textContent = "Showing: " + activeMood;
-      };
-      chipWrap.appendChild(b);
-    });
-  }
-
-  function renderTracks(){
-    list.innerHTML = "";
-    const filtered = TRACKS.filter(t => activeMood==="All" || t.mood.includes(activeMood));
-
-    filtered.forEach(t=>{
-      const btn = document.createElement("button");
-      btn.className = "music-btn";
-      btn.type = "button";
-      btn.innerHTML = `<span>${t.title}</span><span>↗</span>`;
-      btn.onclick = ()=> window.open(t.url, "_blank", "noopener,noreferrer");
-      list.appendChild(btn);
-    });
-
-    if (!filtered.length){
-      const empty = document.createElement("div");
-      empty.className = "gentle-text";
-      empty.textContent = "No tracks for this mood yet.";
-      list.appendChild(empty);
+    if (clearBtn) {
+      clearBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!confirm("Delete all saved quotes?")) return;
+        localStorage.setItem(SAVED_KEY, "[]");
+        saved.clear();
+        updateCount();
+        render();
+      }, { passive: false });
     }
   }
 
-  renderChips();
-  renderTracks();
-}
+  /* =========================================================
+     MUSIC (YouTube links + mood chips + minutes listened)
+  ========================================================= */
 
-/* =========================================================
-   GAME (Tap to Colour) — designs + palette circles
-   Includes a SIMPLE SVG template so "designs don't disappear"
-   Expected:
-   - #paletteDots, #designChips, #canvasMount
-   - #modeByNumber, #modeFree
-   - #undoBtn, #eraserBtn, #clearBtn, #completeBtn
-========================================================= */
-const PALETTE_24 = [
-  "#b8a6d9","#d6c8ef","#efe9f8","#cbb6e6","#a79ccf",
-  "#bfe3d7","#9fd6c7","#7ccab9","#cfe8f7","#a7d6f5",
-  "#7fbdf0","#ffd9cf","#f7c3d8","#ffe6a7","#f1f5c5",
-  "#c9f0d3","#b0d0ff","#d3c7ff","#f2c7ff","#c7c7d1",
-  "#c6e3ff","#dff6ff","#f8d7ff","#ffd6e0"
-];
+  const MUSIC_TRACKS = [
+    { title: "Calm breathing music (1 hour)", mood: ["All", "Anxious", "Stressed"], url: "https://www.youtube.com/results?search_query=calm+breathing+music+1+hour" },
+    { title: "Relaxing piano for stress", mood: ["All", "Stressed", "Low mood"], url: "https://www.youtube.com/results?search_query=relaxing+piano+for+stress" },
+    { title: "Lo-fi focus mix", mood: ["All", "Focus"], url: "https://www.youtube.com/results?search_query=lofi+focus+mix" },
+    { title: "Sleep music (dark screen)", mood: ["All", "Sleep", "Low mood"], url: "https://www.youtube.com/results?search_query=sleep+music+dark+screen" },
+    { title: "Nature sounds playlist", mood: ["All", "Anxious", "Sleep"], url: "https://www.youtube.com/results?search_query=nature+sounds+playlist" },
+    { title: "Ocean waves (8 hours)", mood: ["All", "Sleep", "Anxious"], url: "https://www.youtube.com/results?search_query=ocean+waves+8+hours" },
+    { title: "Guided meditation playlist", mood: ["All", "Anxious", "Low mood"], url: "https://www.youtube.com/results?search_query=guided+meditation+playlist" }
+  ];
 
-// Simple SVG “designs” (tap regions to fill)
-const SVG_DESIGNS = {
-  Mandala: `
-    <svg viewBox="0 0 320 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <rect width="320" height="320" fill="rgba(255,255,255,0)"/>
-      <circle class="fill" data-id="c1" cx="160" cy="160" r="120" fill="#ffffff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-      <circle class="fill" data-id="c2" cx="160" cy="160" r="85" fill="#ffffff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-      <circle class="fill" data-id="c3" cx="160" cy="160" r="50" fill="#ffffff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-      <circle class="fill" data-id="c4" cx="160" cy="160" r="20" fill="#ffffff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-    </svg>
-  `,
-  Flower: `
-    <svg viewBox="0 0 320 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <rect width="320" height="320" fill="rgba(255,255,255,0)"/>
-      <circle class="fill" data-id="f0" cx="160" cy="160" r="30" fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-      ${Array.from({length:8}).map((_,i)=>{
-        const a=i*(Math.PI*2/8);
-        const x=160+90*Math.cos(a), y=160+90*Math.sin(a);
-        return `<ellipse class="fill" data-id="f${i+1}" cx="${x}" cy="${y}" rx="42" ry="58" fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>`;
-      }).join("")}
-    </svg>
-  `,
-  Butterfly: `
-    <svg viewBox="0 0 320 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <rect width="320" height="320" fill="rgba(255,255,255,0)"/>
-      <path class="fill" data-id="b1" d="M160 160 C120 90, 60 110, 70 170 C80 230, 125 240, 160 200 Z" fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-      <path class="fill" data-id="b2" d="M160 160 C200 90, 260 110, 250 170 C240 230, 195 240, 160 200 Z" fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-      <rect class="fill" data-id="b3" x="150" y="120" width="20" height="120" rx="10" fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-    </svg>
-  `,
-  Waves: `
-    <svg viewBox="0 0 320 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <rect width="320" height="320" fill="rgba(255,255,255,0)"/>
-      ${[60,120,180,240].map((y,i)=>`
-        <path class="fill" data-id="w${i}" d="M20 ${y} C60 ${y-40}, 120 ${y+40}, 160 ${y}
-          C200 ${y-40}, 260 ${y+40}, 300 ${y}" fill="none" stroke="rgba(90,75,122,0.25)" stroke-width="16" stroke-linecap="round"/>
-      `).join("")}
-      <!-- clickable wide rects -->
-      ${[60,120,180,240].map((y,i)=>`
-        <rect class="fill" data-id="wr${i}" x="10" y="${y-30}" width="300" height="60" rx="30" fill="#fff" opacity="0.001"/>
-      `).join("")}
-    </svg>
-  `,
-  Heart: `
-    <svg viewBox="0 0 320 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <rect width="320" height="320" fill="rgba(255,255,255,0)"/>
-      <path class="fill" data-id="h1" d="M160 270 C80 210, 40 160, 70 120
-        C95 85, 140 95, 160 130
-        C180 95, 225 85, 250 120
-        C280 160, 240 210, 160 270 Z"
-        fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-    </svg>
-  `,
-  Sunrise: `
-    <svg viewBox="0 0 320 320" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <rect width="320" height="320" fill="rgba(255,255,255,0)"/>
-      <rect class="fill" data-id="s1" x="30" y="200" width="260" height="70" rx="20" fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-      <circle class="fill" data-id="s2" cx="160" cy="200" r="70" fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>
-      ${Array.from({length:8}).map((_,i)=>{
-        const a=i*(Math.PI*2/8);
-        const x=160+95*Math.cos(a), y=200+95*Math.sin(a);
-        return `<circle class="fill" data-id="sr${i}" cx="${x}" cy="${y}" r="10" fill="#fff" stroke="rgba(90,75,122,0.25)" stroke-width="3"/>`;
-      }).join("")}
-    </svg>
-  `
-};
+  const MOODS = ["All", "Anxious", "Stressed", "Low mood", "Focus", "Sleep"];
 
-function initGame(){
-  const dots = $("paletteDots");
-  const designChips = $("designChips");
-  const mount = $("canvasMount");
-  if (!dots || !designChips || !mount) return;
+  function initMusic() {
+    // Works whether your page id is "soundsPage" or not
+    const listEl = $("musicList");
+    const chipsEl = $("moodChips");
+    const minsTodayEl = $("minsToday");
+    const minsTotalEl = $("minsTotal");
+    const startBtn = $("startListenBtn");
+    const endBtn = $("endListenBtn");
+    const statusEl = $("listenStatus");
 
-  const gamePage = $("gamePage") || document.body;
-  const status = $("gameStatus");
+    // If the containers are missing, nothing to do
+    if (!listEl && !chipsEl) return;
 
-  const DESIGNS = Object.keys(SVG_DESIGNS);
+    let activeMood = "All";
 
-  let activeDesign = DESIGNS[0];
-  let activeColor = PALETTE_24[0];
-  let isFree = false;
-  let erasing = false;
+    // minutes listened tracking (user-managed)
+    const STORE_KEY = "enigmaMusicMinutes";
+    const store = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+    const day = todayKey();
 
-  const history = []; // undo stack of {el, prevFill}
+    function getToday() { return Number(store[day] || 0); }
+    function getTotal() {
+      return Object.values(store).reduce((acc, v) => acc + Number(v || 0), 0);
+    }
 
-  function renderDesigns(){
-    designChips.innerHTML = "";
-    DESIGNS.forEach(d=>{
-      const b = document.createElement("button");
-      b.className = "chip" + (d===activeDesign ? " active" : "");
-      b.type = "button";
-      b.textContent = d;
-      b.onclick = ()=>{
-        activeDesign = d;
-        renderDesigns();
-        loadDesign();
-      };
-      designChips.appendChild(b);
-    });
-  }
+    function renderMinutes() {
+      if (minsTodayEl) minsTodayEl.textContent = String(getToday());
+      if (minsTotalEl) minsTotalEl.textContent = String(getTotal());
+    }
 
-  function renderPalette(){
-    dots.innerHTML = "";
-    PALETTE_24.forEach(col=>{
-      const d = document.createElement("div");
-      d.className = "color-dot" + (col===activeColor ? " selected" : "");
-      d.style.background = col;
-      d.setAttribute("role","button");
-      d.setAttribute("tabindex","0");
-      d.onclick = ()=>{
-        activeColor = col;
-        erasing = false;
-        $("eraserBtn")?.classList.remove("active");
-        renderPalette();
-        if (status) status.textContent = `Colour selected`;
-      };
-      dots.appendChild(d);
-    });
-  }
+    // session timer
+    let sessionStart = null;
 
-  function setMode(free){
-    isFree = free;
-    $("modeByNumber")?.classList.toggle("active", !free);
-    $("modeFree")?.classList.toggle("active", free);
-    // If your SVG has number overlays, hide them using CSS hooks
-    gamePage.classList.toggle("free-mode", free);
-  }
+    function renderTracks() {
+      if (!listEl) return;
+      listEl.innerHTML = "";
 
-  function loadDesign(){
-    mount.innerHTML = SVG_DESIGNS[activeDesign] || "<div>Design missing</div>";
+      const tracks = MUSIC_TRACKS.filter(t => t.mood.includes(activeMood) || activeMood === "All");
 
-    // restore saved fills if present
-    const saveKey = `enigmaFill_${activeDesign}`;
-    const saved = JSON.parse(localStorage.getItem(saveKey) || "{}");
-
-    mount.querySelectorAll(".fill").forEach(el=>{
-      const id = el.getAttribute("data-id");
-      if (id && saved[id]) el.setAttribute("fill", saved[id]);
-      // make sure it’s tappable
-      el.style.cursor = "pointer";
-
-      el.addEventListener("click", ()=>{
-        const fid = el.getAttribute("data-id");
-        if (!fid) return;
-
-        const prev = el.getAttribute("fill") || "#fff";
-        history.push({ el, prevFill: prev });
-
-        const next = erasing ? "#ffffff" : activeColor;
-        el.setAttribute("fill", next);
-
-        // save
-        saved[fid] = next;
-        localStorage.setItem(saveKey, JSON.stringify(saved));
-
-        if (status) status.textContent = erasing ? "Erased" : "Coloured";
+      tracks.forEach(t => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "music-btn";
+        btn.innerHTML = `<span>${t.title}</span><span>↗</span>`;
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          // iPhone: open in new tab must be triggered by direct tap
+          window.open(t.url, "_blank", "noopener,noreferrer");
+        }, { passive: false });
+        listEl.appendChild(btn);
       });
-    });
 
-    if (status) status.textContent = `Design: ${activeDesign} • Tap parts to colour`;
+      // If somehow empty, show a gentle fallback
+      if (!tracks.length) {
+        const p = document.createElement("div");
+        p.className = "gentle-text";
+        p.textContent = "No tracks for this mood yet.";
+        listEl.appendChild(p);
+      }
+    }
+
+    function renderChips() {
+      if (!chipsEl) return;
+      chipsEl.innerHTML = "";
+
+      MOODS.forEach(m => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip" + (m === activeMood ? " active" : "");
+        b.textContent = m;
+        b.addEventListener("click", (e) => {
+          e.preventDefault();
+          activeMood = m;
+          renderChips();
+          renderTracks();
+        }, { passive: false });
+        chipsEl.appendChild(b);
+      });
+    }
+
+    renderChips();
+    renderTracks();
+    renderMinutes();
+
+    if (startBtn && statusEl) {
+      startBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (sessionStart) return;
+        sessionStart = Date.now();
+        statusEl.textContent = "Session running… when you’re done, tap Finish.";
+      }, { passive: false });
+    }
+
+    if (endBtn && statusEl) {
+      endBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!sessionStart) return;
+        const mins = Math.max(1, Math.round((Date.now() - sessionStart) / 60000));
+        sessionStart = null;
+
+        store[day] = (Number(store[day] || 0) + mins);
+        localStorage.setItem(STORE_KEY, JSON.stringify(store));
+        renderMinutes();
+        statusEl.textContent = `Saved ${mins} minute(s) ✅`;
+        setTimeout(() => (statusEl.textContent = "No active session."), 1400);
+      }, { passive: false });
+    }
   }
 
-  // Buttons
-  $("modeByNumber")?.addEventListener("click", ()=> setMode(false));
-  $("modeFree")?.addEventListener("click", ()=> setMode(true));
+  /* =========================================================
+     COLOUR (design chips + palette circles + mode)
+  ========================================================= */
 
-  $("undoBtn")?.addEventListener("click", ()=>{
-    const last = history.pop();
-    if (!last) return;
-    last.el.setAttribute("fill", last.prevFill);
+  const DESIGNS = [
+    { key: "mandala", label: "Mandala" },
+    { key: "flower", label: "Flower" },
+    { key: "butterfly", label: "Butterfly" },
+    { key: "waves", label: "Waves" },
+    { key: "heart", label: "Heart" },
+    { key: "sunrise", label: "Sunrise" }
+  ];
 
-    const id = last.el.getAttribute("data-id");
-    if (id){
-      const saveKey = `enigmaFill_${activeDesign}`;
-      const saved = JSON.parse(localStorage.getItem(saveKey) || "{}");
-      saved[id] = last.prevFill;
-      localStorage.setItem(saveKey, JSON.stringify(saved));
+  // 20+ calming colours (slightly deeper than before)
+  const PALETTE = [
+    "#6B4FA3", "#9B7BD0", "#C3B2EA", "#F1EAFE", "#4F6BD8",
+    "#7AA6F9", "#9DD1FF", "#2E8B8B", "#63BFAF", "#A7E2D3",
+    "#2C7A4B", "#66B36A", "#B8E6A7", "#F2D46D", "#F5B86B",
+    "#E98E7A", "#F2A7B8", "#D46AA6", "#6A6A74", "#B9B9C6",
+    "#1F3A93", "#355C7D"
+  ];
+
+  function initGame() {
+    // Your game page likely uses ids: designChips, paletteDots, modeCbnBtn, modeFreeBtn
+    const designWrap = $("designChips");
+    const paletteWrap = $("paletteDots");
+    const modeCbn = $("modeCbnBtn");
+    const modeFree = $("modeFreeBtn");
+
+    // If page doesn't exist, exit.
+    if (!designWrap && !paletteWrap && !modeCbn && !modeFree) return;
+
+    // Page container used to apply "free-mode" class
+    const pageMain = document.querySelector("main.page") || document.body;
+
+    let activeDesign = localStorage.getItem("enigmaDesign") || "";
+    let activeColor = localStorage.getItem("enigmaColor") || PALETTE[0];
+    let mode = localStorage.getItem("enigmaColourMode") || "cbn"; // cbn | free
+
+    function applyMode() {
+      const isFree = mode === "free";
+      pageMain.classList.toggle("free-mode", isFree);
+      if (modeCbn) modeCbn.classList.toggle("active", !isFree);
+      if (modeFree) modeFree.classList.toggle("active", isFree);
     }
+
+    function renderDesigns() {
+      if (!designWrap) return;
+      designWrap.innerHTML = "";
+      DESIGNS.forEach(d => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "chip" + (d.key === activeDesign ? " active" : "");
+        b.textContent = d.label;
+        b.addEventListener("click", (e) => {
+          e.preventDefault();
+          activeDesign = d.key;
+          localStorage.setItem("enigmaDesign", activeDesign);
+          renderDesigns();
+
+          // If you later plug in real SVG/canvas designs, trigger it here:
+          // loadDesign(activeDesign);
+        }, { passive: false });
+        designWrap.appendChild(b);
+      });
+    }
+
+    function renderPalette() {
+      if (!paletteWrap) return;
+      paletteWrap.innerHTML = "";
+      PALETTE.forEach(col => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "color-dot" + (col === activeColor ? " selected" : "");
+        dot.style.background = col;
+        dot.setAttribute("aria-label", `Pick colour ${col}`);
+        dot.addEventListener("click", (e) => {
+          e.preventDefault();
+          activeColor = col;
+          localStorage.setItem("enigmaColor", activeColor);
+          renderPalette();
+
+          // If you later plug in colouring logic, set brush colour here:
+          // setBrushColor(activeColor);
+        }, { passive: false });
+        paletteWrap.appendChild(dot);
+      });
+    }
+
+    if (modeCbn) {
+      modeCbn.addEventListener("click", (e) => {
+        e.preventDefault();
+        mode = "cbn";
+        localStorage.setItem("enigmaColourMode", mode);
+        applyMode();
+      }, { passive: false });
+    }
+
+    if (modeFree) {
+      modeFree.addEventListener("click", (e) => {
+        e.preventDefault();
+        mode = "free";
+        localStorage.setItem("enigmaColourMode", mode);
+        applyMode();
+      }, { passive: false });
+    }
+
+    renderDesigns();
+    renderPalette();
+    applyMode();
+  }
+
+  /* =========================================================
+     Boot
+  ========================================================= */
+
+  document.addEventListener("DOMContentLoaded", () => {
+    applyThemeFromStorage();
+    initThemeButton();
+
+    initBreathe();
+    initQuotes();
+    initMusic();
+    initGame();
   });
-
-  $("eraserBtn")?.addEventListener("click", ()=>{
-    erasing = !erasing;
-    $("eraserBtn")?.classList.toggle("active", erasing);
-    if (status) status.textContent = erasing ? "Eraser on" : "Eraser off";
-  });
-
-  $("clearBtn")?.addEventListener("click", ()=>{
-    if (!confirm("Clear this design?")) return;
-    const saveKey = `enigmaFill_${activeDesign}`;
-    localStorage.removeItem(saveKey);
-    history.length = 0;
-    loadDesign();
-  });
-
-  $("completeBtn")?.addEventListener("click", ()=>{
-    addCompletion("colour");
-    alert("Saved ✅");
-  });
-
-  renderDesigns();
-  renderPalette();
-  setMode(false);
-  loadDesign();
-}
-
-/* =========================================================
-   Boot
-========================================================= */
-document.addEventListener("DOMContentLoaded", ()=>{
-  applyThemeFromStorage();
-
-  const themeFab = $("themeFab");
-  if (themeFab) themeFab.addEventListener("click", toggleTheme);
-
-  initBreathe();
-  initQuotes();
-  initMusic();
-  initGame();
-});
+})();
