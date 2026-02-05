@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Tap to Colour • Enigma</title>
+
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=10030" />
+  <link rel="stylesheet" href="style.css?v=10150" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
 
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
@@ -19,48 +20,71 @@
   </header>
 
   <main class="page" id="gamePage">
+
+    <!-- DESIGN SELECTION -->
     <div class="card">
       <div class="section-title">Choose a design</div>
-      <div class="chip-row" id="designChips"></div>
-      <div class="gentle-text" id="designHint">Choose a design to begin.</div>
+      <div id="designChips" class="chip-row"></div>
+      <div class="gentle-text">Select one design to begin.</div>
     </div>
 
+    <!-- MODE -->
     <div class="card">
       <div class="section-title">Mode</div>
       <div class="chip-row">
-        <button class="chip active" id="modeByNumber" type="button">Colour-by-number</button>
-        <button class="chip" id="modeFree" type="button">Free colour</button>
+        <button id="modeCbnBtn" class="chip active" type="button">
+          Colour-by-number
+        </button>
+        <button id="modeFreeBtn" class="chip" type="button">
+          Free colour
+        </button>
       </div>
-      <div class="gentle-text" id="modeHint">Colour-by-number: match the number. Free colour: colour anything (numbers hidden).</div>
+      <div class="gentle-text">
+        Free colour hides numbers so you can colour freely.
+      </div>
     </div>
 
+    <!-- PALETTE -->
     <div class="card">
       <div class="section-title">Palette</div>
-      <div class="palette-dots" id="paletteDots"></div>
+      <div id="paletteDots" class="palette-dots"></div>
 
-      <div class="tool-row" style="margin-top:14px;">
-        <button class="tool-btn" id="undoBtn" type="button">Undo</button>
-        <button class="tool-btn" id="eraserBtn" type="button">Eraser</button>
-        <button class="tool-btn danger" id="clearBtn" type="button">Clear</button>
+      <div class="tool-row">
+        <button id="undoBtn" class="tool-btn">Undo</button>
+        <button id="eraserBtn" class="tool-btn">Eraser</button>
       </div>
 
       <div class="tool-row">
-        <button class="tool-btn primary" id="completeBtn" type="button">Completed ✅</button>
+        <button id="clearBtn" class="tool-btn danger">Clear</button>
       </div>
 
-      <div class="gentle-text" id="gameStatus">Pick a design and a colour to start.</div>
+      <div class="tool-row">
+        <button id="completeBtn" class="tool-btn primary">
+          Completed ✅
+        </button>
+      </div>
+
+      <div class="gentle-text">
+        Pick a design and a colour to start.
+      </div>
     </div>
 
+    <!-- CANVAS PLACEHOLDER -->
     <div class="card">
       <div class="section-title">Your page</div>
-
-      <!-- REAL canvas mount -->
-      <div id="canvasMount" class="svg-wrap" aria-label="Colouring canvas"></div>
-
-      <div class="gentle-text" id="canvasTip">
-        Tip: in colour-by-number mode, pick the colour that matches the number shown on the shape.
+      <div style="
+        height:260px;
+        border-radius:18px;
+        border:2px dashed rgba(184,166,217,0.4);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:rgba(90,75,122,0.5);
+        font-weight:700;">
+        Canvas loads here
       </div>
     </div>
+
   </main>
 
   <nav class="bottom-nav">
@@ -73,6 +97,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=10030"></script>
+  <script src="app.js?v=10150"></script>
 </body>
 </html>
