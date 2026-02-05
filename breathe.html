@@ -4,13 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Breathe • Enigma</title>
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/Enigma-/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/Enigma-/icon-192.png">
-  <link rel="manifest" href="/Enigma-/manifest.json">
-  <meta name="theme-color" content="#b8a6d9">
-
-  <link rel="stylesheet" href="/Enigma-/style.css?v=3001">
+  <link rel="stylesheet" href="/Enigma-/style.css?v=4001">
 </head>
 
 <body class="page-wrap">
@@ -47,19 +41,6 @@
     <a href="/Enigma-/progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="/Enigma-/app.js?v=3001"></script>
-
-  <script>
-    // Change wording in sync with animation (10s total: inhale 4s, hold 2s, exhale 4s)
-    const label = document.getElementById("breatheLabel");
-    function loopLabels(){
-      if(!label) return;
-      label.textContent = "Inhale";
-      setTimeout(()=> label.textContent="Hold", 4000);
-      setTimeout(()=> label.textContent="Exhale", 6000);
-    }
-    loopLabels();
-    setInterval(loopLabels, 10000);
-  </script>
+  <script src="/Enigma-/app.js?v=4001"></script>
 </body>
 </html>
