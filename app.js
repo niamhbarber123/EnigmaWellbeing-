@@ -383,6 +383,11 @@ window.enigmaUndo = function(){
   renderGrid();
   setGameMsg("Undone ↩︎");
 };
+// add inside setColourMode(mode) after setting gameState.mode
+const grid = document.getElementById("grid");
+if (grid){
+  grid.classList.toggle("free-mode", mode === "free");
+}
 
 window.enigmaEraser = function(){
   gameState.selectedColour = "";
