@@ -9,25 +9,32 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/Enigma-/icon-192.png">
   <link rel="manifest" href="/Enigma-/manifest.json">
   <meta name="theme-color" content="#b8a6d9">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Enigma">
 
-  <link rel="stylesheet" href="/Enigma-/style.css?v=700">
+  <link rel="stylesheet" href="/Enigma-/style.css?v=3001">
 </head>
 
 <body class="page-wrap">
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaBack()" aria-label="Back">←</button>
     <h1>Breathe</h1>
     <p>Follow the rhythm</p>
   </header>
 
-  <main class="page breathe-area">
-    <div class="breathe-circle-wrap">
-      <div class="breathe-circle"></div>
+  <main class="page">
+    <div class="card">
+      <div class="breathe-area">
+        <div class="breathe-text" id="breatheLabel">Inhale</div>
+
+        <div class="breathe-circle-wrap">
+          <div class="breathe-circle" id="breatheCircle"></div>
+        </div>
+
+        <button class="primary" type="button" onclick="markBreatheDone()">Completed</button>
+        <div class="gentle-text" id="breatheDoneMsg">Take your time.</div>
+      </div>
     </div>
-    <div id="breathText" class="breathe-text">Inhale</div>
-    <button class="primary" type="button" onclick="completeBreathe()">Completed</button>
   </main>
 
   <nav class="bottom-nav">
@@ -37,10 +44,22 @@
     <a href="/Enigma-/quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="/Enigma-/game.html"><div class="nav-ico">🎨</div><span>Colour</span></a>
     <a href="/Enigma-/sounds.html"><div class="nav-ico">🎧</div><span>Sounds</span></a>
-
-    <button id="themeFab" class="theme-fab" type="button" aria-label="Toggle night mode">🌙</button>
+    <a href="/Enigma-/progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="/Enigma-/app.js?v=700"></script>
+  <script src="/Enigma-/app.js?v=3001"></script>
+
+  <script>
+    // Change wording in sync with animation (10s total: inhale 4s, hold 2s, exhale 4s)
+    const label = document.getElementById("breatheLabel");
+    function loopLabels(){
+      if(!label) return;
+      label.textContent = "Inhale";
+      setTimeout(()=> label.textContent="Hold", 4000);
+      setTimeout(()=> label.textContent="Exhale", 6000);
+    }
+    loopLabels();
+    setInterval(loopLabels, 10000);
+  </script>
 </body>
 </html>
