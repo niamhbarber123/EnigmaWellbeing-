@@ -44,60 +44,93 @@
     if(btn) btn.onclick = toggleTheme;
   }
 
-  /* =========================
-     BREATHE
-  ========================= */
-  function initBreathe(){
-    if(!$("breathePage")) return;
+/* =========================
+   BREATHE (reliable)
+========================= */
+function initBreathe(){
+  const page = document.getElementById("breathePage");
+  if (!page) return;
 
-    const circle = $("breatheCircle");
-    const phase = $("breathPhase");
-    const tip = $("breathTip");
-    const start = $("breathStartBtn");
-    const stop = $("breathStopBtn");
+  const circle = document.getElementById("breatheCircle");
+  const phase  = document.getElementById("breathPhase");
+  const tip    = document.getElementById("breathTip");
+  const start  = document.getElementById("breathStartBtn");
+  const stop   = document.getElementById("breathStopBtn");
+  const done   = document.getElementById("breathCompleteBtn");
 
-    let running = false, timer;
+  if (!circle || !phase || !tip || !start || !stop) return;
 
-    function set(p,t){
-      phase.textContent = p;
-      tip.textContent = t;
-    }
+  let running = false;
+  let t1 = null;
+  let t2 = null;
 
-    function inhale(){
-      circle.classList.add("inhale");
-      circle.classList.remove("exhale");
-      set("Inhale","Breathe in slowly…");
-    }
+  function setText(p, m){
+    phase.textContent = p;
+    tip.textContent = m;
+  }
 
-    function exhale(){
+  function clearTimers(){
+    if (t1) clearTimeout(t1);
+    if (t2) clearTimeout(t2);
+    t1 = t2 = null;
+  }
+
+  function reset(){
+    clearTimers();
+    circle.classList.remove("inhale","exhale");
+    setText("Ready", "Tap Start to begin.");
+  }
+
+  function cycle(){
+    if (!running) return;
+
+    circle.classList.add("inhale");
+    circle.classList.remove("exhale");
+    setText("Inhale", "Breathe in slowly…");
+
+    t1 = setTimeout(() => {
+      if (!running) return;
+
       circle.classList.add("exhale");
       circle.classList.remove("inhale");
-      set("Exhale","Breathe out gently…");
-    }
+      setText("Exhale", "Breathe out gently…");
 
-    function loop(){
-      if(!running) return;
-      inhale();
-      timer = setTimeout(()=>{
-        if(!running) return;
-        exhale();
-        timer = setTimeout(loop, 4000);
-      },4000);
-    }
+      t2 = setTimeout(() => {
+        if (!running) return;
+        cycle();
+      }, 4000);
 
-    start.onclick = ()=>{
-      if(running) return;
-      running = true;
-      loop();
-    };
-
-    stop.onclick = ()=>{
-      running = false;
-      clearTimeout(timer);
-      circle.classList.remove("inhale","exhale");
-      set("Ready","Tap Start to begin.");
-    };
+    }, 4000);
   }
+
+  start.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (running) return;
+    running = true;
+    cycle();
+  }, { passive:false });
+
+  stop.addEventListener("click", (e) => {
+    e.preventDefault();
+    running = false;
+    reset();
+  }, { passive:false });
+
+  if (done){
+    done.addEventListener("click", (e) => {
+      e.preventDefault();
+      const key = "enigmaBreatheCompletes";
+      const obj = JSON.parse(localStorage.getItem(key) || "{}");
+      const day = new Date().toISOString().split("T")[0];
+      obj[day] = (obj[day] || 0) + 1;
+      localStorage.setItem(key, JSON.stringify(obj));
+      done.textContent = "Saved ✅";
+      setTimeout(()=> done.textContent = "Completed ✅", 1200);
+    }, { passive:false });
+  }
+
+  reset();
+}
 
   /* =========================
      QUOTES
