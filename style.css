@@ -1,213 +1,121 @@
-:root{
-  --lavender:#b8a6d9;
-  --lavender-soft:#efe9f8;
-  --ink:#4a4458;
-  --muted:#8b86a0;
-  --bg:#faf7ff;
-
-  --shadow:0 10px 24px rgba(0,0,0,0.08);
-  --radius-xl:26px;
-  --radius-lg:20px;
-}
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  height:100%;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,sans-serif;
-}
-
-body{
-  background:var(--bg);
-  color:var(--ink);
-}
-
 /* ===============================
-   HEADER
-================================ */
-
-.page-header{
-  padding:64px 20px 18px;
-  text-align:center;
-}
-
-.page-header h1{
-  margin:0;
-  font-size:28px;
-  font-weight:900;
-  color:#5a4b7a;
-}
-
-.page-header p{
-  margin-top:6px;
-  font-size:14px;
-  color:var(--muted);
-}
-
-/* ===============================
-   TOP-RIGHT MOON
-================================ */
-
-.theme-toggle-top{
-  position:fixed;
-  top:calc(12px + env(safe-area-inset-top));
-  right:14px;
-  width:42px;
-  height:42px;
-  border-radius:999px;
-  border:none;
-  background:rgba(255,255,255,0.85);
-  box-shadow:var(--shadow);
-  font-size:18px;
-  z-index:100;
-}
-
-.theme-toggle-top:active{
-  transform:scale(0.95);
-}
-
-/* ===============================
-   HOME BACKGROUND
-================================ */
-
-.home-body{
-  background:
-    linear-gradient(rgba(250,247,255,0.9), rgba(250,247,255,0.9)),
-    url("/Enigma-/icon.png");
-  background-size:cover;
-  background-position:center;
-  min-height:100vh;
-}
-
-/* ===============================
-   HOME CONTENT
+   HOME LAYOUT FIX (no overlap)
+   paste at END of style.css
 ================================ */
 
 .home-main{
-  padding:20px;
-  padding-bottom:140px;
+  min-height: calc(100vh - 220px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 18px calc(140px + env(safe-area-inset-bottom));
 }
 
+.home-stack{
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Big top card */
 .primary-card{
-  background:white;
-  border-radius:var(--radius-xl);
-  box-shadow:var(--shadow);
-  padding:18px;
-  margin-bottom:16px;
-  text-decoration:none;
-  color:var(--ink);
+  display: block;
+  width: 100%;
+  padding: 18px 18px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  text-decoration: none;
+  overflow: hidden;
 }
 
-.primary-card strong{
-  font-size:18px;
-  color:#5a4b7a;
+.primary-card .pc-title{
+  font-weight: 900;
+  font-size: 18px;
+  color: #5a4b7a;
+  margin: 0 0 6px 0;
 }
 
-.primary-card span{
-  display:block;
-  margin-top:4px;
-  font-size:13px;
-  color:var(--muted);
+.primary-card .pc-sub{
+  margin: 0;
+  color: #8b86a0;
+  font-size: 13px;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+/* 2x2 grid for small buttons */
+.home-grid-min{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
-.tile{
-  background:white;
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow);
-  padding:14px;
-  text-decoration:none;
-  color:#5a4b7a;
-  font-weight:700;
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* Small tiles */
+.mini-tile{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.86);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  text-decoration: none;
+  color: #5a4b7a;
+  font-weight: 800;
+  overflow: hidden;
 }
 
-/* ===============================
-   BOTTOM NAV (SAFE)
-================================ */
-
-.bottom-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  display:flex;
-  justify-content:space-around;
-  padding:8px 6px calc(12px + env(safe-area-inset-bottom));
-  background:rgba(255,255,255,0.96);
-  box-shadow:0 -6px 18px rgba(0,0,0,0.08);
-  z-index:20;
+.mini-ico{
+  font-size: 18px;
+  line-height: 1;
+  width: 24px;
+  text-align: center;
 }
 
-.bottom-nav a{
-  flex:1;
-  text-align:center;
-  text-decoration:none;
-  font-size:10px;
-  color:var(--muted);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
+.mini-text{
+  font-size: 16px;
+  line-height: 1.1;
 }
 
-.bottom-nav a.active{
-  color:#5a4b7a;
-  font-weight:800;
+/* Help link at bottom (no overlap) */
+.help-link{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.80);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  text-decoration: none;
+  color: #5a4b7a;
+  font-weight: 900;
 }
 
-.nav-ico{
-  font-size:16px;
+/* Make icon background softer */
+.home-body{
+  background:
+    radial-gradient(circle at 50% 30%, rgba(250,247,255,0.94), rgba(250,247,255,0.94)),
+    url("/Enigma-/icon.png");
+  background-size: cover;
+  background-position: center;
 }
 
-/* ===============================
-   NIGHT MODE
-================================ */
-
-body.night{
-  background:#0f0e14;
-  color:rgba(245,242,255,0.92);
-}
-
-body.night .page-header h1{
-  color:rgba(245,242,255,0.95);
-}
-
-body.night .page-header p{
-  color:rgba(245,242,255,0.6);
-}
-
+/* Night mode home cards */
 body.night .primary-card,
-body.night .tile{
-  background:rgba(255,255,255,0.08);
-  color:rgba(245,242,255,0.92);
+body.night .mini-tile,
+body.night .help-link{
+  background: rgba(255,255,255,0.10);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+  color: rgba(245,242,255,0.95);
 }
-
-body.night .bottom-nav{
-  background:rgba(20,18,28,0.95);
+body.night .primary-card .pc-title,
+body.night .mini-tile{
+  color: rgba(245,242,255,0.95);
 }
-
-body.night .bottom-nav a{
-  color:rgba(245,242,255,0.6);
-}
-
-body.night .bottom-nav a.active{
-  color:white;
-}
-
-body.night .theme-toggle-top{
-  background:rgba(255,255,255,0.12);
-  color:white;
+body.night .primary-card .pc-sub{
+  color: rgba(245,242,255,0.65);
 }
