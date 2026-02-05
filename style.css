@@ -577,3 +577,70 @@ body.home .tool-btn{ padding:16px 14px; }
 .cbn-wrong{
   filter: brightness(0.96);
 }
+/* =========================================================
+   HOME — FORCE NO SCROLL (FINAL TIGHTENING)
+========================================================= */
+
+/* Reduce overall vertical padding */
+body.home .page{
+  padding-top: 6px;
+  padding-bottom: calc(88px + env(safe-area-inset-bottom));
+}
+
+/* Pull header up */
+body.home .page-header{
+  padding: 36px 20px 6px;
+}
+
+/* Slightly smaller title */
+body.home .page-header h1{
+  font-size: 26px;
+}
+
+/* Hero image smaller + less vertical pull */
+body.home .home-hero{
+  height: min(520px, 78vw);
+  margin: -12px auto -140px;
+  opacity: 0.14;
+}
+
+/* Cards tighter */
+body.home .home-card{
+  margin-bottom: 10px;
+  padding: 14px;
+}
+
+/* Grid tighter */
+body.home .home-grid{
+  margin-top: 8px;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+/* Pills slightly tighter */
+body.home .home-pill{
+  padding: 12px 12px;
+  font-size: 16px;
+}
+
+/* Distraction card pulled up */
+body.home #distractionCard{
+  margin-top: 6px;
+  margin-bottom: 10px;
+}
+
+/* Buttons closer together */
+body.home .tool-row{
+  margin-top: 6px;
+}
+
+/* Help button tighter */
+body.home .home-help{
+  margin-top: 6px;
+  padding: 12px 14px;
+}
+
+/* Emergency fallback: absolutely prevent scroll */
+body.home{
+  overflow: hidden;
+}
