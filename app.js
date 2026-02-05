@@ -1,8 +1,10 @@
 /* =========================================================
-   Enigma • app.js (WORKING + FIXES)
-   Fixes:
-   - Quotes render as separate cards (quote-tile)
-   - Uses optional online quote search (Quotable) + fallback local list
+   Enigma • app.js (WORKING + QUOTES HTML MATCH)
+   - Theme (night mode)
+   - Back navigation
+   - Breathe animation (Start/Stop)
+   - Quotes (internet search + random + save/delete)
+   - Music (moods + links + minutes)
 ========================================================= */
 
 (function () {
@@ -26,10 +28,12 @@
     const t = localStorage.getItem("enigmaTheme") || "light";
     document.body.classList.toggle("night", t === "night");
   }
+
   function toggleTheme(){
     const night = document.body.classList.toggle("night");
     localStorage.setItem("enigmaTheme", night ? "night" : "light");
   }
+
   function initTheme(){
     const btn = $("themeFab");
     if (btn) btn.addEventListener("click", toggleTheme);
@@ -56,9 +60,8 @@
     let t2 = null;
 
     function setText(p, m){
-      phase.textContent = p;
-      tip.textContent = m;
-      // Make the phase more “centered feeling” by ensuring it’s just a single word
+      phase.textContent = p;      // e.g. "Breathe in"
+      tip.textContent = m;        // e.g. "Slow and gentle…"
     }
 
     function clearTimers(){
@@ -76,7 +79,6 @@
     function cycle(){
       if (!running) return;
 
-      // Inhale
       circle.classList.add("inhale");
       circle.classList.remove("exhale");
       setText("Breathe in", "Slow and gentle…");
@@ -84,7 +86,6 @@
       t1 = setTimeout(() => {
         if (!running) return;
 
-        // Exhale
         circle.classList.add("exhale");
         circle.classList.remove("inhale");
         setText("Breathe out", "Let your shoulders drop…");
@@ -127,40 +128,59 @@
   }
 
   /* =========================
-     QUOTES (cards + saved)
+     QUOTES (MATCHES quotes.html)
+     - Search button
+     - Random button
+     - Saved counter
+     - Delete saved
+     - Each quote in its own tile
   ========================= */
-  const LOCAL_QUOTES = [
+
+  const LOCAL_MOTIVATIONAL = [
     { q:"Start where you are. Use what you have. Do what you can.", a:"Arthur Ashe" },
     { q:"You do not have to see the whole staircase, just take the first step.", a:"Martin Luther King Jr." },
     { q:"It always seems impossible until it’s done.", a:"Nelson Mandela" },
-    { q:"Small steps every day.", a:"Unknown" },
+    { q:"Courage doesn’t always roar. Sometimes it’s the quiet voice saying ‘try again tomorrow.’", a:"Mary Anne Radmacher" },
     { q:"Progress, not perfection.", a:"Unknown" },
-    { q:"Breathe. This is just a moment.", a:"Unknown" },
-    { q:"Courage doesn’t always roar. Sometimes it’s the quiet voice saying: try again tomorrow.", a:"Mary Anne Radmacher" }
+    { q:"Small steps every day.", a:"Unknown" },
+    { q:"Breathe. This is just a moment.", a:"Unknown" }
   ];
 
-  const SAVED_KEY = "enigmaSavedQuotes_v2";
+  const SAVED_KEY = "enigmaSavedQuotes_v3";
 
   function loadSaved(){
     try { return JSON.parse(localStorage.getItem(SAVED_KEY) || "[]"); }
     catch { return []; }
   }
+
   function saveSaved(arr){
     localStorage.setItem(SAVED_KEY, JSON.stringify(arr));
   }
-  function isSameQuote(a,b){
-    return (a.q || "").trim() === (b.q || "").trim() && (a.a || "").trim() === (b.a || "").trim();
+
+  function sameQuote(x, y){
+    return String(x.q || "").trim() === String(y.q || "").trim()
+        && String(x.a || "").trim() === String(y.a || "").trim();
   }
 
-  function renderQuoteCards(quotes){
+  function setQuoteStatus(msg){
+    const s = $("quoteStatus");
+    if (s) s.textContent = msg;
+  }
+
+  function updateSavedCount(){
+    const el = $("savedCount");
+    if (el) el.textContent = String(loadSaved().length);
+  }
+
+  function renderQuoteTiles(quotes){
     const grid = $("quoteGrid");
     if (!grid) return;
 
     const saved = loadSaved();
-
     grid.innerHTML = "";
+
     quotes.forEach(item=>{
-      const isSaved = saved.some(s => isSameQuote(s, item));
+      const isSaved = saved.some(s => sameQuote(s, item));
 
       const tile = document.createElement("div");
       tile.className = "quote-tile" + (isSaved ? " saved" : "");
@@ -175,99 +195,134 @@
       tile.querySelector("button").addEventListener("click", (e)=>{
         e.preventDefault();
         const now = loadSaved();
-        const exists = now.some(s => isSameQuote(s, item));
-        const next = exists ? now.filter(s => !isSameQuote(s, item)) : [item, ...now];
+        const exists = now.some(s => sameQuote(s, item));
+        const next = exists ? now.filter(s => !sameQuote(s, item)) : [item, ...now];
         saveSaved(next);
-        renderQuoteCards(quotes);
-        const countEl = $("savedCount");
-        if (countEl) countEl.textContent = String(loadSaved().length);
+        updateSavedCount();
+        renderQuoteTiles(quotes);
       }, { passive:false });
 
       grid.appendChild(tile);
     });
   }
 
-  async function fetchQuotesOnline(query){
-    // Works on GitHub Pages (client-side fetch).
-    // If it fails, we fall back to local quotes.
+  async function searchQuotesOnline(query){
+    // Quotable search (works on GitHub Pages)
     const url = `https://api.quotable.io/search/quotes?query=${encodeURIComponent(query)}&limit=12`;
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error("Quote fetch failed");
+    if (!res.ok) throw new Error("fetch failed");
     const data = await res.json();
-    const results = (data && data.results) ? data.results : [];
+    const results = Array.isArray(data?.results) ? data.results : [];
     return results.map(r => ({ q: r.content, a: r.author || "Unknown" }));
+  }
+
+  async function getRandomMotivationalOnline(){
+    // Random quote (motivational-ish) from Quotable
+    const url = "https://api.quotable.io/random?tags=motivational|inspirational|wisdom|success|happiness";
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("fetch failed");
+    const r = await res.json();
+    return { q: r.content, a: r.author || "Unknown" };
   }
 
   function initQuotes(){
     const grid = $("quoteGrid");
     if (!grid) return;
 
-    const searchInput = $("quoteSearch");
-    const savedCount = $("savedCount");
-    const toggleSavedOnlyBtn = $("toggleSavedOnlyBtn");
+    const input = $("quoteSearch");
+    const searchBtn = $("quoteSearchBtn");
+    const randomBtn = $("quoteRandomBtn");
     const viewSavedBtn = $("viewSavedBtn");
     const clearSavedBtn = $("clearSavedBtn");
 
-    // initial render
-    const saved = loadSaved();
-    if (savedCount) savedCount.textContent = String(saved.length);
-    renderQuoteCards(LOCAL_QUOTES);
+    updateSavedCount();
+    renderQuoteTiles(LOCAL_MOTIVATIONAL);
+    setQuoteStatus("Tip: scrolling won’t save — only the 💜 button saves.");
 
-    // Search (Enter)
-    if (searchInput){
-      searchInput.addEventListener("keydown", async (e)=>{
-        if (e.key !== "Enter") return;
-        e.preventDefault();
+    async function doSearch(){
+      const q = (input?.value || "").trim();
+      if (!q){
+        renderQuoteTiles(LOCAL_MOTIVATIONAL);
+        setQuoteStatus("Type something to search (e.g. courage, hope).");
+        return;
+      }
 
-        const q = (searchInput.value || "").trim();
-        if (!q){
-          renderQuoteCards(LOCAL_QUOTES);
+      setQuoteStatus("Searching the internet…");
+      grid.innerHTML = `<div class="gentle-text">Searching…</div>`;
+
+      try{
+        const found = await searchQuotesOnline(q);
+        if (!found.length){
+          renderQuoteTiles(LOCAL_MOTIVATIONAL);
+          setQuoteStatus("No results found — showing motivational favourites instead.");
           return;
         }
+        renderQuoteTiles(found);
+        setQuoteStatus(`Showing results for: “${q}”`);
+      }catch{
+        renderQuoteTiles(LOCAL_MOTIVATIONAL);
+        setQuoteStatus("Couldn’t reach the quote search right now — showing favourites.");
+      }
+    }
 
-        grid.innerHTML = `<div class="gentle-text">Searching…</div>`;
-        try{
-          const online = await fetchQuotesOnline(q);
-          renderQuoteCards(online.length ? online : LOCAL_QUOTES);
-        }catch{
-          renderQuoteCards(LOCAL_QUOTES);
+    if (searchBtn) searchBtn.addEventListener("click", (e)=>{ e.preventDefault(); doSearch(); }, { passive:false });
+
+    if (input){
+      input.addEventListener("keydown", (e)=>{
+        if (e.key === "Enter"){
+          e.preventDefault();
+          doSearch();
         }
       });
     }
 
-    // Show saved only
-    if (toggleSavedOnlyBtn){
-      let savedOnly = false;
-      toggleSavedOnlyBtn.addEventListener("click", ()=>{
-        savedOnly = !savedOnly;
-        toggleSavedOnlyBtn.textContent = savedOnly ? "Show all" : "Show saved only";
-        if (savedOnly) renderQuoteCards(loadSaved());
-        else renderQuoteCards(LOCAL_QUOTES);
-        if (savedCount) savedCount.textContent = String(loadSaved().length);
-      });
+    if (randomBtn){
+      randomBtn.addEventListener("click", async (e)=>{
+        e.preventDefault();
+        setQuoteStatus("Fetching a random motivational quote…");
+        grid.innerHTML = `<div class="gentle-text">Loading…</div>`;
+
+        try{
+          const one = await getRandomMotivationalOnline();
+          renderQuoteTiles([one, ...LOCAL_MOTIVATIONAL.slice(0, 5)]);
+          setQuoteStatus("Here’s one for you 💜");
+        }catch{
+          // fallback: local random
+          const one = LOCAL_MOTIVATIONAL[Math.floor(Math.random() * LOCAL_MOTIVATIONAL.length)];
+          renderQuoteTiles([one, ...LOCAL_MOTIVATIONAL.filter(x=>x!==one).slice(0, 5)]);
+          setQuoteStatus("Showing a random favourite (offline).");
+        }
+      }, { passive:false });
     }
 
-    // View saved
     if (viewSavedBtn){
-      viewSavedBtn.addEventListener("click", ()=>{
-        renderQuoteCards(loadSaved());
-        if (savedCount) savedCount.textContent = String(loadSaved().length);
-      });
+      viewSavedBtn.addEventListener("click", (e)=>{
+        e.preventDefault();
+        const saved = loadSaved();
+        if (!saved.length){
+          renderQuoteTiles(LOCAL_MOTIVATIONAL);
+          setQuoteStatus("No saved quotes yet — tap 💜 to save one.");
+          return;
+        }
+        renderQuoteTiles(saved);
+        setQuoteStatus("Showing your saved quotes 💜");
+      }, { passive:false });
     }
 
-    // Clear saved
     if (clearSavedBtn){
-      clearSavedBtn.addEventListener("click", ()=>{
+      clearSavedBtn.addEventListener("click", (e)=>{
+        e.preventDefault();
         if (!confirm("Delete all saved quotes?")) return;
         saveSaved([]);
-        if (savedCount) savedCount.textContent = "0";
-        renderQuoteCards(LOCAL_QUOTES);
-      });
+        updateSavedCount();
+        renderQuoteTiles(LOCAL_MOTIVATIONAL);
+        setQuoteStatus("Saved quotes deleted.");
+      }, { passive:false });
     }
   }
 
   /* =========================
-     MUSIC (kept from your build)
+     MUSIC
   ========================= */
   const MUSIC_MOODS = ["All","Anxious","Stressed","Focus","Sleep"];
   const TRACKS = [
