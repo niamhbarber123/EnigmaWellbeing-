@@ -1,13 +1,14 @@
 /* =========================================================
-   Enigma Wellbeing • app.js (FULL + IMPROVED)
+   Enigma Wellbeing • app.js (FULL WORKING)
    - Theme (night mode)
    - Back navigation
-   - Word of the Day (daily deterministic + home tile + word page)
-   - Breathe (smooth inhale/exhale + color changes + bigger centered text)
-   - Quotes (motivational list + save + search within app)
-   - Music (moods + links + minutes)
-   - Yoga (moods + video links)
-   - Distraction (random questions + REQUIRED typing to count answered + skip + end)
+   - Breathe animation (Start/Stop) + inhale/exhale colour classes
+   - Quotes (motivational only, local save)
+   - Music (moods + tracks render as button links + minutes)
+   - Yoga (moods + video links render as button links)
+   - Word of the Day (affirmations) + tooltip
+   - Distraction (typed answer required to count as answered; skip allowed; End)
+   - Progress page (styled + pulls from localStorage)
 ========================================================= */
 
 (function () {
@@ -16,7 +17,7 @@
   /* =========================
      Helpers
   ========================= */
-  function $(id) { return document.getElementById(id); }
+  const $ = (id) => document.getElementById(id);
 
   window.enigmaBack = function () {
     if (history.length > 1) history.back();
@@ -27,21 +28,21 @@
     return new Date().toISOString().split("T")[0];
   }
 
-  function safeJSONParse(str, fallback) {
-    try { return JSON.parse(str); } catch { return fallback; }
-  }
-
   /* =========================
      THEME (Night mode)
   ========================= */
   function applyTheme() {
     const t = localStorage.getItem("enigmaTheme") || "light";
     document.body.classList.toggle("night", t === "night");
+    const btn = $("themeFab");
+    if (btn) btn.textContent = (t === "night") ? "☀️" : "🌙";
   }
 
   function toggleTheme() {
     const night = document.body.classList.toggle("night");
     localStorage.setItem("enigmaTheme", night ? "night" : "light");
+    const btn = $("themeFab");
+    if (btn) btn.textContent = night ? "☀️" : "🌙";
   }
 
   function initTheme() {
@@ -50,92 +51,7 @@
   }
 
   /* =========================
-     WORD OF THE DAY (Affirmations)
-     - deterministic selection per day
-     - shows on home tile (#wotdHomeWord)
-     - shows on word page (#wotdWordBig, #wotdDescBig)
-  ========================= */
-  function initWordOfDay() {
-    const WORDS = [
-      { w: "Forgiveness", d: "I release what weighs me down and allow myself to heal." },
-      { w: "Honesty", d: "I speak and live with truth, kindly and clearly." },
-      { w: "Trust", d: "I can rely on myself and take one steady step at a time." },
-      { w: "Responsibility", d: "I own my choices with care and self-respect." },
-      { w: "Flexibility", d: "I can adapt gently when plans change." },
-      { w: "Boldness", d: "I show up even when it feels uncomfortable." },
-      { w: "Discretion", d: "I choose what to share with wisdom and care." },
-      { w: "Discipline", d: "Small consistent actions support my wellbeing." },
-      { w: "Detail", d: "I notice what matters without getting stuck in perfection." },
-      { w: "Prosperity", d: "I welcome growth, opportunity, and abundance." },
-      { w: "Acceptance", d: "I allow this moment to be what it is." },
-      { w: "Surrender", d: "I let go of what I cannot control and soften my grip." },
-      { w: "Sincerity", d: "I show up with genuine intention." },
-      { w: "Serenity", d: "I invite calm into my thoughts and body." },
-      { w: "Humility", d: "I learn, listen, and grow with openness." },
-      { w: "Sensitivity", d: "My feelings matter; I treat them with kindness." },
-      { w: "Compassion", d: "I offer myself warmth and understanding." },
-      { w: "Leadership", d: "I guide myself with courage and care." },
-      { w: "Integrity", d: "I align my actions with my values." },
-      { w: "Action", d: "One small step forward is enough today." },
-      { w: "Courage", d: "I can do hard things gently." },
-      { w: "Creativity", d: "I let ideas flow without judgement." },
-      { w: "Gentleness", d: "Softness is strength." },
-      { w: "Clarity", d: "I choose what matters most right now." },
-      { w: "Balance", d: "I can hold effort and rest together." },
-      { w: "Fun", d: "I allow myself lightness and play." },
-      { w: "Commitment", d: "I keep promises to myself in small ways." },
-      { w: "Patience", d: "I can take my time; progress is still progress." },
-      { w: "Freedom", d: "I release pressure and make room to breathe." },
-      { w: "Reflection", d: "I pause to understand and choose wisely." },
-      { w: "Giving", d: "I share kindness while also caring for myself." },
-      { w: "Enthusiasm", d: "I welcome energy and hope into today." },
-      { w: "Joy", d: "I notice small moments of goodness." },
-      { w: "Satisfaction", d: "What I do today can be enough." },
-      { w: "Grace", d: "I treat myself with softness, even when I slip." },
-      { w: "Simplicity", d: "Less can feel lighter and clearer." },
-      { w: "Communication", d: "I express my needs with calm honesty." },
-      { w: "Appropriateness", d: "I choose what fits this moment with care." },
-      { w: "Strength", d: "I am steadier than I feel right now." },
-      { w: "Love", d: "I am worthy of love and gentle support." },
-      { w: "Tenderness", d: "I can be kind to myself today." },
-      { w: "Perseverance", d: "I keep going—slowly, steadily." },
-      { w: "Reliability", d: "I can depend on myself, one step at a time." },
-      { w: "Initiative", d: "I begin with one small action." },
-      { w: "Confidence", d: "I trust my ability to figure things out." },
-      { w: "Authenticity", d: "I can be myself without shrinking." },
-      { w: "Harmony", d: "I seek peace in my space and choices." },
-      { w: "Pleasure", d: "I allow small comforts without guilt." },
-      { w: "Risk", d: "I can try, even if it’s not perfect." },
-      { w: "Efficiency", d: "I focus on what matters most." },
-      { w: "Spontaneity", d: "I can allow unexpected good moments." },
-      { w: "Fulfilment", d: "I build a life that feels meaningful to me." }
-    ];
-
-    // Deterministic “daily” selection
-    function daySeed() {
-      const d = new Date();
-      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-      let h = 0;
-      for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
-      return h;
-    }
-
-    const idx = daySeed() % WORDS.length;
-    const chosen = WORDS[idx];
-
-    const mini = $("wotdHomeWord");
-    if (mini) mini.textContent = chosen.w;
-
-    const big = $("wotdWordBig");
-    const desc = $("wotdDescBig");
-    if (big) big.textContent = chosen.w;
-    if (desc) desc.textContent = chosen.d;
-  }
-
-  /* =========================
-     BREATHE (improved)
-     - changes circle color inhale/exhale
-     - makes phase text bigger + centered under circle
+     BREATHE (reliable + colour swap)
   ========================= */
   function initBreathe() {
     const page = $("breathePage");
@@ -149,15 +65,6 @@
     const done = $("breathCompleteBtn");
 
     if (!circle || !phase || !tip || !start || !stop) return;
-
-    // Make phase text bigger & centered under circle (no CSS edit required)
-    phase.style.textAlign = "center";
-    phase.style.fontSize = "22px";
-    phase.style.marginBottom = "10px";
-    phase.style.fontWeight = "900";
-
-    // Tip centered too
-    tip.style.textAlign = "center";
 
     let running = false;
     let t1 = null;
@@ -174,39 +81,27 @@
       t1 = t2 = null;
     }
 
-    function setColor(mode) {
-      // Use inline gradient so you don't need extra CSS classes
-      if (mode === "inhale") {
-        circle.style.background = "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(107,79,163,0.80))";
-      } else if (mode === "exhale") {
-        circle.style.background = "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(46,139,139,0.78))";
-      } else {
-        circle.style.background = "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(124,96,170,0.65))";
-      }
-    }
-
     function reset() {
       clearTimers();
       circle.classList.remove("inhale", "exhale");
-      setColor("idle");
       setText("Ready", "Tap Start to begin.");
     }
 
     function cycle() {
       if (!running) return;
 
+      // INHALE
       circle.classList.add("inhale");
       circle.classList.remove("exhale");
-      setColor("inhale");
-      setText("Breathe in", "Inhale slowly…");
+      setText("Breathe in", "Slow and steady…");
 
       t1 = setTimeout(() => {
         if (!running) return;
 
+        // EXHALE
         circle.classList.add("exhale");
         circle.classList.remove("inhale");
-        setColor("exhale");
-        setText("Breathe out", "Exhale gently…");
+        setText("Breathe out", "Gently let go…");
 
         t2 = setTimeout(() => {
           if (!running) return;
@@ -232,7 +127,7 @@
       done.addEventListener("click", (e) => {
         e.preventDefault();
         const key = "enigmaBreatheCompletes";
-        const obj = safeJSONParse(localStorage.getItem(key) || "{}", {});
+        const obj = JSON.parse(localStorage.getItem(key) || "{}");
         const day = todayKey();
         obj[day] = (obj[day] || 0) + 1;
         localStorage.setItem(key, JSON.stringify(obj));
@@ -245,26 +140,21 @@
   }
 
   /* =========================
-     QUOTES (motivational + save + search)
-     - offline list (fast + reliable)
-     - search filters by text/author
+     QUOTES (motivational only + save)
+     NOTE: "search the internet" is not possible from a static GitHub page
+     without an API. This keeps it fast & offline.
   ========================= */
   const QUOTES = [
-    { q: "You are capable of amazing things.", a: "Unknown" },
     { q: "Start where you are. Use what you have. Do what you can.", a: "Arthur Ashe" },
-    { q: "Courage doesn’t always roar.", a: "Mary Anne Radmacher" },
-    { q: "Progress, not perfection.", a: "Unknown" },
-    { q: "Your future needs you. Your past doesn’t.", a: "Unknown" },
-    { q: "Feelings are visitors. Let them come and go.", a: "Rumi" },
-    { q: "Do the best you can until you know better.", a: "Maya Angelou" },
-    { q: "You don’t have to see the whole staircase. Just take the first step.", a: "Martin Luther King Jr." },
-    { q: "This too shall pass.", a: "Unknown" },
+    { q: "You do not have to see the whole staircase, just take the first step.", a: "Martin Luther King Jr." },
+    { q: "Courage doesn’t always roar. Sometimes it’s the quiet voice saying ‘try again tomorrow.’", a: "Mary Anne Radmacher" },
+    { q: "It always seems impossible until it’s done.", a: "Nelson Mandela" },
+    { q: "Feelings are visitors. Let them come and go.", a: "Mooji" },
     { q: "Small steps every day.", a: "Unknown" },
-    { q: "Breathe. You’re going to be okay.", a: "Unknown" },
-    { q: "Keep going. Everything you need will come to you.", a: "Unknown" },
-    { q: "Believe you can and you’re halfway there.", a: "Theodore Roosevelt" },
-    { q: "The only way out is through.", a: "Robert Frost" },
-    { q: "Make peace with your pace.", a: "Unknown" }
+    { q: "You’ve survived 100% of your hardest days.", a: "Unknown" },
+    { q: "Breathe. This is just a moment.", a: "Unknown" },
+    { q: "Progress, not perfection.", a: "Unknown" },
+    { q: "Keep going. You’re doing better than you think.", a: "Unknown" }
   ];
 
   function initQuotes() {
@@ -272,79 +162,63 @@
     if (!grid) return;
 
     const search = $("quoteSearch");
+    const savedCount = $("savedCount");
     const toggleSavedOnlyBtn = $("toggleSavedOnlyBtn");
     const viewSavedBtn = $("viewSavedBtn");
     const clearSavedBtn = $("clearSavedBtn");
-    const savedCount = $("savedCount");
 
-    const STORAGE_KEY = "enigmaQuotesSaved";
-    let savedOnly = false;
+    const saved = new Set(JSON.parse(localStorage.getItem("enigmaQuotes") || "[]"));
 
-    function getSavedSet() {
-      return new Set(safeJSONParse(localStorage.getItem(STORAGE_KEY) || "[]", []));
-    }
-
-    function setSavedSet(set) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
-    }
-
-    function matchesSearch(item, term) {
-      if (!term) return true;
-      const t = term.toLowerCase();
-      return (item.q.toLowerCase().includes(t) || item.a.toLowerCase().includes(t));
-    }
+    let savedOnly = localStorage.getItem("enigmaSavedOnly") === "1";
 
     function render() {
-      const saved = getSavedSet();
-      const term = search ? (search.value || "").trim() : "";
+      const q = (search?.value || "").trim().toLowerCase();
 
-      if (savedCount) savedCount.textContent = String(saved.size);
+      let items = QUOTES.slice();
+
+      if (savedOnly) items = items.filter(x => saved.has(x.q));
+      if (q) items = items.filter(x => (x.q + " " + x.a).toLowerCase().includes(q));
 
       grid.innerHTML = "";
-
-      const list = QUOTES
-        .filter(it => matchesSearch(it, term))
-        .filter(it => !savedOnly || saved.has(it.q));
-
-      if (!list.length) {
-        grid.innerHTML = `<div class="gentle-text" style="padding:10px 4px;">No quotes found.</div>`;
-        return;
-      }
-
-      list.forEach(item => {
+      items.forEach(item => {
         const tile = document.createElement("div");
-        const isSaved = saved.has(item.q);
-        tile.className = "quote-tile" + (isSaved ? " saved" : "");
+        tile.className = "quote-tile" + (saved.has(item.q) ? " saved" : "");
         tile.innerHTML = `
           <div style="font-weight:900;color:#5a4b7a; line-height:1.35;">“${item.q}”</div>
           <small>— ${item.a}</small>
-          <button class="quote-save-btn ${isSaved ? "saved" : ""}" type="button">
-            ${isSaved ? "💜 Saved" : "💜 Save"}
+          <button class="quote-save-btn ${saved.has(item.q) ? "saved" : ""}" type="button">
+            ${saved.has(item.q) ? "💜 Saved" : "💜 Save"}
           </button>
         `;
-
         tile.querySelector("button").addEventListener("click", (e) => {
           e.preventDefault();
-          const s = getSavedSet();
-          if (s.has(item.q)) s.delete(item.q);
-          else s.add(item.q);
-          setSavedSet(s);
+          if (saved.has(item.q)) saved.delete(item.q);
+          else saved.add(item.q);
+          localStorage.setItem("enigmaQuotes", JSON.stringify([...saved]));
+          updateHeaderBits();
           render();
         }, { passive: false });
 
         grid.appendChild(tile);
       });
+
+      if (!items.length) {
+        grid.innerHTML = `<div class="gentle-text">No matches. Try a different search.</div>`;
+      }
     }
 
-    if (search) {
-      search.addEventListener("input", () => render());
+    function updateHeaderBits() {
+      if (savedCount) savedCount.textContent = String(saved.size);
+      if (toggleSavedOnlyBtn) toggleSavedOnlyBtn.textContent = savedOnly ? "Show all" : "Show saved only";
     }
+
+    if (search) search.addEventListener("input", render);
 
     if (toggleSavedOnlyBtn) {
       toggleSavedOnlyBtn.addEventListener("click", () => {
         savedOnly = !savedOnly;
-        toggleSavedOnlyBtn.classList.toggle("active", savedOnly);
-        toggleSavedOnlyBtn.textContent = savedOnly ? "Showing saved only" : "Show saved only";
+        localStorage.setItem("enigmaSavedOnly", savedOnly ? "1" : "0");
+        updateHeaderBits();
         render();
       });
     }
@@ -352,8 +226,8 @@
     if (viewSavedBtn) {
       viewSavedBtn.addEventListener("click", () => {
         savedOnly = true;
-        toggleSavedOnlyBtn?.classList.add("active");
-        toggleSavedOnlyBtn && (toggleSavedOnlyBtn.textContent = "Showing saved only");
+        localStorage.setItem("enigmaSavedOnly", "1");
+        updateHeaderBits();
         render();
       });
     }
@@ -361,16 +235,20 @@
     if (clearSavedBtn) {
       clearSavedBtn.addEventListener("click", () => {
         if (!confirm("Delete all saved quotes?")) return;
-        localStorage.removeItem(STORAGE_KEY);
+        saved.clear();
+        localStorage.setItem("enigmaQuotes", "[]");
+        updateHeaderBits();
         render();
       });
     }
 
+    updateHeaderBits();
     render();
   }
 
   /* =========================
-     MUSIC (moods + links + minutes)
+     MUSIC (render as button links)
+     IMPORTANT FIX: don't rely on #musicPage existing.
   ========================= */
   const MUSIC_MOODS = ["All", "Anxious", "Stressed", "Focus", "Sleep"];
   const TRACKS = [
@@ -382,18 +260,15 @@
   ];
 
   function initMusic() {
-    const page = $("musicPage");
-    if (!page) return;
-
     const chipsWrap = $("moodChips");
     const list = $("musicList");
+    if (!chipsWrap || !list) return; // FIX: render only if ids exist
+
     const minsTodayEl = $("minsToday");
     const minsTotalEl = $("minsTotal");
     const startBtn = $("startListenBtn");
     const endBtn = $("endListenBtn");
     const status = $("listenStatus");
-
-    if (!chipsWrap || !list) return;
 
     let mood = localStorage.getItem("enigmaMusicMood") || "All";
     let start = null;
@@ -411,6 +286,10 @@
           a.innerHTML = `<span>${x.t}</span><span>▶</span>`;
           list.appendChild(a);
         });
+
+      if (!list.children.length) {
+        list.innerHTML = `<div class="gentle-text">No tracks for this mood yet.</div>`;
+      }
     }
 
     function renderChips() {
@@ -432,16 +311,17 @@
 
     function loadMinutes() {
       const day = todayKey();
-      const store = safeJSONParse(localStorage.getItem("enigmaMusicMinutes") || "{}", {});
+      const store = JSON.parse(localStorage.getItem("enigmaMusicMinutes") || "{}");
       const today = Number(store[day] || 0);
       const total = Object.values(store).reduce((a, v) => a + Number(v || 0), 0);
+
       if (minsTodayEl) minsTodayEl.textContent = String(today);
       if (minsTotalEl) minsTotalEl.textContent = String(total);
     }
 
     function saveMinutes(addMins) {
       const day = todayKey();
-      const store = safeJSONParse(localStorage.getItem("enigmaMusicMinutes") || "{}", {});
+      const store = JSON.parse(localStorage.getItem("enigmaMusicMinutes") || "{}");
       store[day] = Number(store[day] || 0) + addMins;
       localStorage.setItem("enigmaMusicMinutes", JSON.stringify(store));
     }
@@ -472,7 +352,8 @@
   }
 
   /* =========================
-     YOGA (moods + video links)
+     YOGA (render as button links)
+     FIX: don't rely on #yogaPage existing.
   ========================= */
   const YOGA_MOODS = ["All", "Anxiety", "Stress", "Sleep", "Morning", "Stiff body"];
   const YOGA_VIDEOS = [
@@ -485,9 +366,6 @@
   ];
 
   function initYoga() {
-    const page = $("yogaPage");
-    if (!page) return;
-
     const chipsWrap = $("yogaMoodChips");
     const list = $("yogaVideoList");
     if (!chipsWrap || !list) return;
@@ -527,14 +405,94 @@
   }
 
   /* =========================
-     DISTRACTION (home)
-     - Next requires typing to count as answered
-     - Skip does NOT count
-     - End finishes session
-     Needs these IDs on home:
-       distractionCard, distractionQuestion, distractionAnsweredCount,
-       distractionInput, distractionHint,
-       distractionStartBtn, distractionNextBtn, distractionSkipBtn, distractionEndBtn
+     WORD OF THE DAY (affirmations)
+  ========================= */
+  const AFFIRMATIONS = [
+    { w:"Forgiveness", d:"Letting go of what weighs you down so you can move forward lighter." },
+    { w:"Honesty", d:"Choosing truth with kindness—especially with yourself." },
+    { w:"Trust", d:"Believing in steady steps even when you can’t see the whole path." },
+    { w:"Responsibility", d:"Owning your choices with care, not shame." },
+    { w:"Flexibility", d:"Adjusting without breaking—soft strength in motion." },
+    { w:"Boldness", d:"Taking a brave step even with a shaky voice." },
+    { w:"Discretion", d:"Knowing what to share, and what to keep safe." },
+    { w:"Discipline", d:"Small consistent actions that support your future self." },
+    { w:"Detail", d:"Noticing the small things that improve the whole picture." },
+    { w:"Prosperity", d:"Growth that includes peace, wellbeing, and enough." },
+    { w:"Acceptance", d:"Allowing what is, so you can choose what’s next." },
+    { w:"Surrender", d:"Releasing control of what you can’t carry." },
+    { w:"Sincerity", d:"Showing up real—no performance needed." },
+    { w:"Serenity", d:"A calm centre you can return to." },
+    { w:"Humility", d:"Confidence without needing to be above anyone." },
+    { w:"Sensitivity", d:"A thoughtful awareness—your care is a strength." },
+    { w:"Compassion", d:"Meeting yourself with the same gentleness you give others." },
+    { w:"Leadership", d:"Guiding with steadiness and care." },
+    { w:"Integrity", d:"Being the same person in private and in public." },
+    { w:"Action", d:"One small move that shifts your day." },
+    { w:"Courage", d:"Feeling fear and choosing yourself anyway." },
+    { w:"Creativity", d:"Making space for new possibilities." },
+    { w:"Gentleness", d:"Softness that protects your energy." },
+    { w:"Clarity", d:"Seeing what matters most—one step at a time." },
+    { w:"Balance", d:"Not perfect—just supported." },
+    { w:"Fun", d:"Letting joy be allowed, even in small doses." },
+    { w:"Commitment", d:"Staying with what matters, kindly." },
+    { w:"Patience", d:"Trusting the pace of growth." },
+    { w:"Freedom", d:"Breathing room in your choices and your mind." },
+    { w:"Reflection", d:"Pausing to understand and choose wisely." },
+    { w:"Giving", d:"Offering from fullness, not emptiness." },
+    { w:"Enthusiasm", d:"A spark that helps you begin." },
+    { w:"Joy", d:"A small light you can notice and protect." },
+    { w:"Satisfaction", d:"Letting ‘enough’ be enough." },
+    { w:"Grace", d:"Soft landing, even when things aren’t perfect." },
+    { w:"Simplicity", d:"Less noise, more ease." },
+    { w:"Communication", d:"Clear words that reduce worry." },
+    { w:"Appropriateness", d:"Choosing what fits the moment with care." },
+    { w:"Strength", d:"Steady presence, not constant pushing." },
+    { w:"Love", d:"Warmth you can offer yourself too." },
+    { w:"Tenderness", d:"A gentle touch in thought and action." },
+    { w:"Perseverance", d:"Continuing—even slowly—still counts." },
+    { w:"Reliability", d:"Being someone you can count on, including for yourself." },
+    { w:"Initiative", d:"Starting before you feel fully ready." },
+    { w:"Confidence", d:"Quiet belief built by practice." },
+    { w:"Authenticity", d:"Being you—without shrinking." },
+    { w:"Harmony", d:"Things working together, not fighting each other." },
+    { w:"Pleasure", d:"Allowing small good moments." },
+    { w:"Risk", d:"Trying with care—growth lives here." },
+    { w:"Efficiency", d:"Saving energy for what matters." },
+    { w:"Spontaneity", d:"A playful yes to the moment." },
+    { w:"Fulfilment", d:"A sense of meaning built over time." }
+  ];
+
+  function seededIndex(seedStr, mod) {
+    let h = 2166136261;
+    for (let i = 0; i < seedStr.length; i++) {
+      h ^= seedStr.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return Math.abs(h) % mod;
+  }
+
+  function initWordOfDay() {
+    const wEl = $("wotdWord");
+    const dEl = $("wotdDesc");
+    const tipBtn = $("wotdTipBtn");
+    const tipBox = $("wotdTipBox");
+    if (!wEl || !dEl) return;
+
+    const idx = seededIndex(todayKey(), AFFIRMATIONS.length);
+    const item = AFFIRMATIONS[idx];
+
+    wEl.textContent = item.w;
+    dEl.textContent = item.d;
+
+    if (tipBtn && tipBox) {
+      tipBtn.addEventListener("click", () => {
+        tipBox.classList.toggle("show");
+      });
+    }
+  }
+
+  /* =========================
+     DISTRACTION (typed answer required to count as answered)
   ========================= */
   const DISTRACTION_QUESTIONS = [
     "Name 5 things you can see right now.",
@@ -542,26 +500,16 @@
     "Name 3 things you can hear.",
     "Name 2 things you can smell.",
     "Name 1 thing you can taste (or would like to taste).",
-    "If you could teleport anywhere for 10 minutes, where would you go?",
     "What colour feels calming to you today?",
+    "If your thoughts were weather, what’s the forecast?",
     "What’s a tiny ‘safe’ plan for the next 10 minutes?",
-    "What’s something you did recently that you’re glad you did?",
-    "What’s one kind thing you’d say to a friend feeling this way?",
-    "What’s your favourite cosy drink?",
-    "If today had a soundtrack, what would it be called?",
-    "What’s a film or series that feels comforting?",
-    "If you could design a calm room, what 3 items are in it?",
-    "What’s one smell that instantly relaxes you?",
-    "What’s your favourite season and why?",
-    "What’s a place you’ve been that felt peaceful?",
-    "What’s a small win you’ve had this week?",
-    "What’s something you’re looking forward to (even small)?",
-    "What’s your favourite snack combination?",
-    "What would your ‘calm alter ego’ do next?",
-    "Pick an animal—what would it say to reassure you?",
-    "What’s the softest thing you own?",
-    "What’s one song you know all the words to?",
-    "What’s a hobby you’d like to try one day?"
+    "What’s one kind thing you’d say to a friend right now?",
+    "What’s something you’re proud of that no one sees?",
+    "What would a perfect ‘quiet morning’ look like?",
+    "Name 3 colours you can spot around you.",
+    "What’s a comforting word or phrase you like?",
+    "What’s one gentle thing you can do with your hands right now?",
+    "What’s one thing that is NOT urgent right now?"
   ];
 
   function shuffleArray(arr) {
@@ -578,7 +526,7 @@
     if (!card) return;
 
     const qEl = $("distractionQuestion");
-    const answeredCountEl = $("distractionAnsweredCount");
+    const answeredEl = $("distractionAnsweredCount");
     const input = $("distractionInput");
     const hint = $("distractionHint");
 
@@ -587,7 +535,7 @@
     const skipBtn = $("distractionSkipBtn");
     const endBtn = $("distractionEndBtn");
 
-    if (!qEl || !answeredCountEl || !input || !startBtn || !nextBtn || !skipBtn || !endBtn) return;
+    if (!qEl || !answeredEl || !input || !startBtn || !nextBtn || !skipBtn || !endBtn) return;
 
     const SESSION_KEY = "enigmaDistractionSessionV2";
 
@@ -596,16 +544,19 @@
       nextBtn.style.display = running ? "" : "none";
       skipBtn.style.display = running ? "" : "none";
       endBtn.style.display = running ? "" : "none";
-      input.disabled = !running;
-      input.style.opacity = running ? "1" : "0.6";
-      if (hint) hint.style.display = running ? "" : "none";
     }
 
     function loadSession() {
-      const s = safeJSONParse(localStorage.getItem(SESSION_KEY) || "null", null);
-      if (!s || s.day !== todayKey()) return null;
-      if (!Array.isArray(s.order) || typeof s.i !== "number") return null;
-      return s;
+      try {
+        const raw = localStorage.getItem(SESSION_KEY);
+        if (!raw) return null;
+        const s = JSON.parse(raw);
+        if (!s || s.day !== todayKey()) return null;
+        if (!Array.isArray(s.order) || typeof s.i !== "number") return null;
+        return s;
+      } catch {
+        return null;
+      }
     }
 
     function saveSession(s) {
@@ -623,15 +574,17 @@
 
     function updateUI(s) {
       qEl.textContent = currentQuestion(s);
-      answeredCountEl.textContent = String(s.answered || 0);
+      answeredEl.textContent = String(s.answered);
       input.value = "";
-      input.focus({ preventScroll: true });
+      if (hint) hint.textContent = "Next requires typing. Skip if you’d rather not answer.";
       setButtons(true);
+      input.focus();
     }
 
     function startNew() {
       const max = Math.min(20, DISTRACTION_QUESTIONS.length);
       const order = shuffleArray([...Array(DISTRACTION_QUESTIONS.length).keys()]).slice(0, max);
+
       const s = { day: todayKey(), order, i: 0, answered: 0 };
       saveSession(s);
       updateUI(s);
@@ -639,7 +592,12 @@
 
     function advance(s) {
       if (s.i >= s.order.length - 1) {
-        endFlow(s);
+        // finished
+        clearSession();
+        setButtons(false);
+        qEl.textContent = "All done ✅";
+        if (hint) hint.textContent = `Answered: ${s.answered}. Tap Start anytime.`;
+        input.value = "";
         return;
       }
       s.i += 1;
@@ -647,76 +605,76 @@
       updateUI(s);
     }
 
-    function endFlow(s) {
-      clearSession();
-      setButtons(false);
-      qEl.textContent = "All done ✅";
-      if (hint) hint.style.display = "none";
-      input.value = "";
-      input.blur();
-    }
-
-    function nextClicked() {
-      const s = loadSession() || null;
-      if (!s) { startNew(); return; }
-
-      const val = (input.value || "").trim();
-      if (!val) {
-        // gentle prompt (requires typing to count answered)
-        if (hint) hint.textContent = "Type any answer (even one word) to count as answered — or tap Skip.";
-        input.focus({ preventScroll: true });
-        return;
-      }
-
-      // answered counts ONLY when typed
-      s.answered = Number(s.answered || 0) + 1;
-      saveSession(s);
-      if (hint) hint.textContent = "Next requires typing. Skip if you’d rather not answer.";
-      advance(s);
-    }
-
     startBtn.addEventListener("click", (e) => {
       e.preventDefault();
       startNew();
-    }, { passive: false });
+    });
 
     nextBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      nextClicked();
-    }, { passive: false });
+      const s = loadSession() || (startNew(), loadSession());
+      if (!s) return;
 
-    // Enter key also triggers Next
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        nextClicked();
+      const val = input.value.trim();
+      if (!val) {
+        if (hint) hint.textContent = "Type anything (even one word) to count as answered — or press Skip.";
+        input.focus();
+        return;
       }
+
+      s.answered += 1;
+      saveSession(s);
+      advance(s);
     });
 
     skipBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const s = loadSession();
-      if (!s) { startNew(); return; }
-      if (hint) hint.textContent = "Next requires typing. Skip if you’d rather not answer.";
+      const s = loadSession() || (startNew(), loadSession());
+      if (!s) return;
+      // skip does NOT count
       advance(s);
-    }, { passive: false });
+    });
 
     endBtn.addEventListener("click", (e) => {
       e.preventDefault();
       const s = loadSession();
-      endFlow(s || { answered: Number(answeredCountEl.textContent || 0) });
-    }, { passive: false });
+      clearSession();
+      setButtons(false);
+      qEl.textContent = "Ended ✅";
+      if (hint) hint.textContent = `Answered: ${s ? s.answered : 0}. You can start again anytime.`;
+      input.value = "";
+    });
 
-    // Resume existing session
+    // resume
     const existing = loadSession();
     if (existing) updateUI(existing);
     else {
       setButtons(false);
       qEl.textContent = "Tap Start to begin.";
-      answeredCountEl.textContent = "0";
-      input.value = "";
-      if (hint) hint.style.display = "none";
+      answeredEl.textContent = "0";
     }
+  }
+
+  /* =========================
+     PROGRESS (styled page)
+  ========================= */
+  function initProgress() {
+    const wrap = $("progressPage");
+    if (!wrap) return;
+
+    const savedQuotes = JSON.parse(localStorage.getItem("enigmaQuotes") || "[]");
+    const breatheObj = JSON.parse(localStorage.getItem("enigmaBreatheCompletes") || "{}");
+    const musicObj = JSON.parse(localStorage.getItem("enigmaMusicMinutes") || "{}");
+
+    const day = todayKey();
+    const breathedToday = Number(breatheObj[day] || 0);
+    const musicToday = Number(musicObj[day] || 0);
+    const musicTotal = Object.values(musicObj).reduce((a, v) => a + Number(v || 0), 0);
+
+    $("pSavedQuotes") && ($("pSavedQuotes").textContent = String(savedQuotes.length));
+    $("pBreathedToday") && ($("pBreathedToday").textContent = String(breathedToday));
+    $("pMusicToday") && ($("pMusicToday").textContent = String(musicToday));
+    $("pMusicTotal") && ($("pMusicTotal").textContent = String(musicTotal));
   }
 
   /* =========================
@@ -725,12 +683,13 @@
   document.addEventListener("DOMContentLoaded", () => {
     applyTheme();
     initTheme();
-    initWordOfDay();
     initBreathe();
     initQuotes();
     initMusic();
     initYoga();
+    initWordOfDay();
     initDistraction();
+    initProgress();
   });
 
 })();
