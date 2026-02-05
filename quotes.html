@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quotes • Enigma</title>
 
-  <link rel="stylesheet" href="/Enigma-/style.css?v=5001">
+  <link rel="stylesheet" href="/Enigma-/style.css?v=8001">
 </head>
 
 <body class="page-wrap">
@@ -19,18 +19,20 @@
 
   <main class="page">
     <div class="card">
-      <button id="viewSavedBtn" class="tool-btn" type="button">
-        💜 View saved quotes (<span id="savedCount">0</span>)
-      </button>
+      <div class="tool-row">
+        <button id="viewSavedBtn" class="tool-btn" type="button">
+          💜 View saved quotes (<span id="savedCount">0</span>)
+        </button>
 
-      <button id="clearSavedBtn" class="tool-btn danger" type="button" style="margin-top:10px;">
-        Delete saved quotes
-      </button>
+        <button id="clearSavedBtn" class="tool-btn danger" type="button">
+          Delete saved quotes
+        </button>
+      </div>
 
       <div class="gentle-text">Saved quotes stay on this device.</div>
     </div>
 
-    <!-- This is the missing container your page needs -->
+    <!-- QUOTES GRID (tiles will render here) -->
     <div id="quoteGrid" class="quote-grid"></div>
   </main>
 
@@ -44,6 +46,6 @@
     <a href="/Enigma-/progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="/Enigma-/app.js?v=5001"></script>
+  <script src="/Enigma-/app.js?v=8001"></script>
 </body>
 </html>
