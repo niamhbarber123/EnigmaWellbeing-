@@ -453,3 +453,94 @@ body.night .breath-tip{
 body.night .breathe-ring{
   border-color:rgba(255,255,255,0.35);
 }
+/* =========================
+   HOME: tighter layout (no scrolling)
+========================= */
+body.home .page-header{
+  padding: 38px 20px 10px; /* smaller */
+}
+
+body.home .page{
+  padding: 8px 18px calc(98px + env(safe-area-inset-bottom));
+}
+
+.home-hero{
+  width: min(560px, 92vw);
+  height: min(560px, 92vw);
+  margin: -10px auto -130px; /* pulls everything up */
+  opacity: 0.12;
+}
+
+.home-card{
+  margin: 0 auto 10px;
+  padding: 14px;
+}
+
+.home-card-title{ font-size: 21px; }
+
+.home-grid-tight{
+  margin: 6px auto 10px !important;
+  gap: 10px !important;
+}
+
+.home-pill-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-decoration:none;
+  color:#5a4b7a;
+  font-weight:900;
+  font-size:16px;
+  background:rgba(255,255,255,0.90);
+  border:1px solid rgba(184,166,217,0.18);
+  border-radius:999px;
+  padding: 12px 12px;
+  box-shadow: var(--shadow);
+}
+
+.home-pill-btn:active{ transform:scale(0.99); }
+
+.home-help{
+  padding: 12px 12px;
+  margin-top: 4px;
+}
+
+/* =========================
+   Word of the day tile (home)
+========================= */
+.wotd-tile{
+  grid-column: 1 / -1;     /* spans both columns */
+  justify-content:space-between;
+  padding: 12px 14px;
+}
+
+.wotd-mini{
+  display:block;
+  margin-top:4px;
+  font-size:13px;
+  font-weight:800;
+  color: rgba(90,75,122,0.70);
+}
+
+.wotd-qmark{
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(239,233,248,0.95);
+  border: 1px solid rgba(184,166,217,0.25);
+  font-weight: 900;
+  color:#5a4b7a;
+  box-shadow: 0 10px 18px rgba(0,0,0,0.06);
+}
+
+/* Extra tightening for small iPhones */
+@media (max-height: 740px){
+  body.home .page-header{ padding: 34px 20px 8px; }
+  .home-hero{ margin: -14px auto -150px; }
+  .home-pill-btn{ padding: 11px 12px; }
+  .home-help{ padding: 11px 12px; }
+}
