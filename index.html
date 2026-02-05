@@ -8,7 +8,7 @@
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
 
-  <link rel="stylesheet" href="style.css?v=60003" />
+  <link rel="stylesheet" href="style.css?v=60004" />
 </head>
 
 <body class="page-wrap home">
@@ -34,6 +34,33 @@
       <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
     </div>
 
+    <!-- ✅ Distraction Section -->
+    <div class="card" id="distractionCard">
+      <div class="section-title">Distraction</div>
+      <div class="gentle-text" id="distractionIntro">
+        Gentle questions to interrupt a spiral. No pressure — just curiosity.
+      </div>
+
+      <div style="margin-top:12px; font-weight:900; font-size:18px; color:#5a4b7a; line-height:1.35;"
+           id="distractionQuestion">
+        Tap Start to begin.
+      </div>
+
+      <div class="gentle-text" id="distractionMeta" style="margin-top:10px;">
+        Ready when you are.
+      </div>
+
+      <div class="tool-row" style="margin-top:14px;">
+        <button class="tool-btn primary" id="distractionStartBtn" type="button">Start</button>
+        <button class="tool-btn" id="distractionNextBtn" type="button" style="display:none;">Next</button>
+      </div>
+
+      <div class="tool-row">
+        <button class="tool-btn" id="distractionSkipBtn" type="button" style="display:none;">Skip</button>
+        <button class="tool-btn danger" id="distractionCompleteBtn" type="button" style="display:none;">Complete ✅</button>
+      </div>
+    </div>
+
     <a class="home-help" href="help.html">
       <span class="pill-ico">🆘</span><span class="pill-text">Need help right now?</span>
     </a>
@@ -49,6 +76,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=60003" defer></script>
+  <script src="app.js?v=60004" defer></script>
 </body>
 </html>
