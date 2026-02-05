@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Breathe • Enigma</title>
-  <link rel="stylesheet" href="style.css?v=9991" />
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=10030" />
 </head>
 
 <body class="page-wrap">
@@ -16,24 +18,25 @@
     <p>Follow the rhythm</p>
   </header>
 
-  <main class="page">
-    <div class="breathe-wrap">
-      <div class="card breathe-card">
-        <div class="breathe-stage inhale" id="breatheStage">
-          <div class="breathe-core" id="breatheCore"></div>
-          <div class="breathe-label" id="breatheText">Ready</div>
-        </div>
+  <main class="page" id="breathePage">
+    <div class="card">
+      <div class="section-title" id="breathPhase">Ready</div>
 
-        <div class="tool-row" style="margin-top:16px;">
-          <button class="tool-btn primary" type="button" id="breatheStartBtn">Start</button>
-          <button class="tool-btn danger" type="button" id="breatheStopBtn">Stop</button>
+      <div class="breathe-stage">
+        <div class="breathe-ring">
+          <div class="breathe-circle" id="breatheCircle"></div>
         </div>
+      </div>
 
-        <div class="tool-row">
-          <button class="tool-btn" type="button" onclick="markBreatheDone()">Completed ✅</button>
-        </div>
+      <div class="gentle-text" id="breathTip">Tap Start to begin.</div>
 
-        <div class="gentle-text" id="breatheDoneMsg">Take your time.</div>
+      <div class="tool-row" style="margin-top:14px;">
+        <button class="tool-btn primary" id="breathStartBtn" type="button">Start</button>
+        <button class="tool-btn danger" id="breathStopBtn" type="button">Stop</button>
+      </div>
+
+      <div class="tool-row">
+        <button class="tool-btn" id="breathCompleteBtn" type="button">Completed ✅</button>
       </div>
     </div>
   </main>
@@ -48,6 +51,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=9991"></script>
+  <script src="app.js?v=10030"></script>
 </body>
 </html>
