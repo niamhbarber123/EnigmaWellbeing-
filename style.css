@@ -73,7 +73,7 @@ body {
 ================================ */
 .page {
   flex: 1;
-  padding: 12px 18px 90px;
+  padding: 12px 18px 110px; /* leave room for nav + moon */
 }
 
 .card {
@@ -98,6 +98,8 @@ body {
   box-shadow: var(--shadow);
   font-size: 15px;
 }
+
+.primary:active { transform: scale(0.99); }
 
 /* ===============================
    HOME – minimal & calm
@@ -221,6 +223,26 @@ body {
   font-weight: 800;
 }
 
+/* ✅ Moon button in bottom-right corner */
+.theme-fab {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(239,233,248,0.95);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.theme-fab:active { transform: scale(0.98); }
+
 /* ===============================
    Quotes
 ================================ */
@@ -293,15 +315,94 @@ body {
   color: rgba(90,75,122,0.5);
 }
 
-.cell.filled .num {
-  display: none;
-}
+.cell.filled .num { display: none; }
 
 /* ===============================
-   Small screens tweak
+   Night mode (toggle)
+================================ */
+body.night {
+  background: #0f0e14;
+  color: rgba(245,242,255,0.92);
+}
+
+body.night .page-header h1 { color: rgba(245,242,255,0.92); }
+body.night .page-header p { color: rgba(245,242,255,0.62); }
+
+body.night .card {
+  background: rgba(255,255,255,0.07);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+body.night input,
+body.night textarea,
+body.night select {
+  background: rgba(255,255,255,0.06);
+  color: rgba(245,242,255,0.92);
+  border: 1px solid rgba(255,255,255,0.14);
+}
+
+body.night .primary {
+  background: #6f5aa6;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+
+/* Darker home overlay */
+body.night.home-body {
+  background:
+    linear-gradient(rgba(15,14,20,0.82), rgba(15,14,20,0.82)),
+    url("/Enigma-/icon.png");
+  background-size: cover;
+  background-position: center;
+}
+
+body.night .primary-card {
+  background: rgba(255,255,255,0.08);
+  color: rgba(245,242,255,0.92);
+}
+
+body.night .pc-title { color: rgba(245,242,255,0.92); }
+body.night .pc-sub { color: rgba(245,242,255,0.62); }
+
+body.night .mini-tile {
+  background: rgba(255,255,255,0.07);
+  color: rgba(245,242,255,0.92);
+}
+
+body.night .mini-text { color: rgba(245,242,255,0.86); }
+body.night .help-link { color: rgba(245,242,255,0.84); }
+
+/* Bottom nav in night mode */
+body.night .bottom-nav {
+  background: rgba(20,18,28,0.92);
+  box-shadow: 0 -6px 18px rgba(0,0,0,0.45);
+}
+
+body.night .bottom-nav a { color: rgba(245,242,255,0.55); }
+body.night .bottom-nav a.active { color: rgba(245,242,255,0.92); }
+
+/* Moon button night style */
+body.night .theme-fab {
+  background: rgba(255,255,255,0.10);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+  color: rgba(245,242,255,0.92);
+}
+
+/* Quotes night style */
+body.night .quote-tile {
+  background: rgba(255,255,255,0.07);
+  color: rgba(245,242,255,0.92);
+}
+
+body.night .quote-tile small { color: rgba(245,242,255,0.62); }
+body.night .quote-tile.saved { outline: 3px solid rgba(184,166,217,0.55); }
+
+/* Tap-to-colour night style */
+body.night .cell { background: rgba(255,255,255,0.06); }
+body.night .cell .num { color: rgba(245,242,255,0.45); }
+
+/* ===============================
+   Small screens
 ================================ */
 @media (max-width: 380px) {
-  .page-header h1 {
-    font-size: 24px;
-  }
+  .page-header h1 { font-size: 24px; }
 }
