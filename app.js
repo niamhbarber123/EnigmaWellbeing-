@@ -137,92 +137,66 @@
   }
 
   /* =========================
-     BREATHE (reliable)
-  ========================= */
-  function initBreathe(){
-    const page = $("breathePage");
-    if (!page) return;
+   BREATHE – STABLE & SMOOTH
+========================= */
+function initBreathe(){
+  const page = document.getElementById("breathePage");
+  if (!page) return;
 
-    const circle = $("breatheCircle");
-    const phase  = $("breathPhase");
-    const tip    = $("breathTip");
-    const start  = $("breathStartBtn");
-    const stop   = $("breathStopBtn");
-    const done   = $("breathCompleteBtn");
+  const circle = document.getElementById("breatheCircle");
+  const phase  = document.getElementById("breathPhase");
+  const tip    = document.getElementById("breathTip");
+  const start  = document.getElementById("breathStartBtn");
+  const stop   = document.getElementById("breathStopBtn");
 
-    if (!circle || !phase || !tip || !start || !stop) return;
+  let running = false;
+  let timer = null;
 
-    let running = false;
-    let t1 = null;
-    let t2 = null;
+  function setPhase(text, help){
+    phase.textContent = text;
+    tip.textContent = help;
+  }
 
-    function setText(p, m){
-      phase.textContent = p;
-      tip.textContent = m;
-    }
+  function clear(){
+    clearTimeout(timer);
+    circle.classList.remove("inhale","exhale");
+    setPhase("Ready","Tap Start to begin.");
+  }
 
-    function clearTimers(){
-      if (t1) clearTimeout(t1);
-      if (t2) clearTimeout(t2);
-      t1 = t2 = null;
-    }
+  function cycle(){
+    if (!running) return;
 
-    function reset(){
-      clearTimers();
-      circle.classList.remove("inhale","exhale");
-      setText("Ready", "Tap Start to begin.");
-    }
+    // INHALE
+    circle.classList.add("inhale");
+    circle.classList.remove("exhale");
+    setPhase("Breathe in","Slow, deep breath…");
 
-    function cycle(){
+    timer = setTimeout(()=>{
       if (!running) return;
 
-      circle.classList.add("inhale");
-      circle.classList.remove("exhale");
-      setText("Inhale", "Breathe in slowly…");
+      // EXHALE
+      circle.classList.add("exhale");
+      circle.classList.remove("inhale");
+      setPhase("Breathe out","Let the air fall away…");
 
-      t1 = setTimeout(() => {
-        if (!running) return;
+      timer = setTimeout(cycle, 4000);
 
-        circle.classList.add("exhale");
-        circle.classList.remove("inhale");
-        setText("Exhale", "Breathe out gently…");
-
-        t2 = setTimeout(() => {
-          if (!running) return;
-          cycle();
-        }, 4000);
-
-      }, 4000);
-    }
-
-    start.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (running) return;
-      running = true;
-      cycle();
-    }, { passive:false });
-
-    stop.addEventListener("click", (e) => {
-      e.preventDefault();
-      running = false;
-      reset();
-    }, { passive:false });
-
-    if (done){
-      done.addEventListener("click", (e) => {
-        e.preventDefault();
-        const key = "enigmaBreatheCompletes";
-        const obj = JSON.parse(localStorage.getItem(key) || "{}");
-        const day = todayKey();
-        obj[day] = (obj[day] || 0) + 1;
-        localStorage.setItem(key, JSON.stringify(obj));
-        done.textContent = "Saved ✅";
-        setTimeout(()=> done.textContent = "Completed ✅", 1200);
-      }, { passive:false });
-    }
-
-    reset();
+    }, 4000);
   }
+
+  start.onclick = ()=>{
+    if (running) return;
+    running = true;
+    cycle();
+  };
+
+  stop.onclick = ()=>{
+    running = false;
+    clear();
+  };
+
+  clear();
+}
 
   /* =========================
      QUOTES (motivational + save/unsave + search + saved-only + delete)
