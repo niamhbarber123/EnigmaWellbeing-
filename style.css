@@ -485,3 +485,47 @@ body.night .theme-toggle-top{
   font-size: 13px;
   text-align: center;
 }
+/* ===== Quotes as boxed tiles ===== */
+.quote-grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.quote-tile{
+  background: rgba(255,255,255,0.9);
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  border: 1px solid rgba(184,166,217,0.25);
+  transition: transform 0.08s ease, box-shadow 0.15s ease;
+}
+
+.quote-tile:active{
+  transform: scale(0.99);
+}
+
+.quote-tile small{
+  display:block;
+  margin-top: 8px;
+  color: rgba(90,75,122,0.72);
+  font-weight: 700;
+}
+
+/* saved state (selected) */
+.quote-tile.saved{
+  border: 2px solid rgba(184,166,217,0.75);
+  box-shadow: 0 14px 30px rgba(90,75,122,0.14);
+}
+
+/* ===== Sound button selected state ===== */
+.tool-btn.active{
+  background: #b8a6d9 !important;
+  color: #ffffff !important;
+}
+
+.tool-btn.active .emoji,
+.tool-btn.active span{
+  color: #ffffff !important;
+}
