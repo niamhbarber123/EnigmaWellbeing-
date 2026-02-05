@@ -34,20 +34,28 @@
       <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
     </div>
 
-    <!-- ✅ Distraction Section -->
+    <!-- ✅ Distraction Section (UPDATED: typing required + progress + skip + end) -->
     <div class="card" id="distractionCard">
       <div class="section-title">Distraction</div>
       <div class="gentle-text" id="distractionIntro">
-        Gentle questions to interrupt a spiral. No pressure — just curiosity.
+        Gentle questions to interrupt a spiral. Type any answer (even one word) to continue — or Skip.
       </div>
 
-      <div style="margin-top:12px; font-weight:900; font-size:18px; color:#5a4b7a; line-height:1.35;"
-           id="distractionQuestion">
+      <div id="distractionQuestion" class="distraction-question">
         Tap Start to begin.
       </div>
 
-      <div class="gentle-text" id="distractionMeta" style="margin-top:10px;">
-        Ready when you are.
+      <!-- ✅ Progress: only counts ANSWERED -->
+      <div class="gentle-text" id="distractionMeta">
+        Answered: <span id="distractionAnsweredCount">0</span>
+      </div>
+
+      <div style="margin-top:12px;">
+        <input id="distractionInput" class="input" type="text"
+               placeholder="Type your answer here…" autocomplete="off" inputmode="text" />
+        <div class="gentle-text" id="distractionHint" style="margin-top:8px;">
+          Next requires typing. Skip if you’d rather not answer.
+        </div>
       </div>
 
       <div class="tool-row" style="margin-top:14px;">
@@ -57,7 +65,7 @@
 
       <div class="tool-row">
         <button class="tool-btn" id="distractionSkipBtn" type="button" style="display:none;">Skip</button>
-        <button class="tool-btn danger" id="distractionCompleteBtn" type="button" style="display:none;">Complete ✅</button>
+        <button class="tool-btn danger" id="distractionEndBtn" type="button" style="display:none;">End</button>
       </div>
     </div>
 
