@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Music • Enigma</title>
-
-  <link rel="stylesheet" href="/Enigma-/style.css?v=9001">
+  <link rel="stylesheet" href="style.css?v=9301" />
 </head>
 
 <body class="page-wrap">
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaBack()" aria-label="Back">←</button>
+    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
     <h1>Music</h1>
     <p>Choose a mood, then tap a link</p>
   </header>
@@ -51,28 +50,36 @@
 
     <div class="card">
       <div class="section-title">Pick a track</div>
-
-      <div class="sound-links" id="soundLinks">
-        <!-- items injected by sounds.js -->
-      </div>
+      <div class="sound-links" id="soundLinks"></div>
 
       <div class="gentle-text" style="margin-top:10px;">
-        Tip: links open in a new tab. Your listening minutes are tracked from when you tap a link until you return and press “End listening session”.
+        Tip: links open in a new tab. Start by tapping a link (iPhone rule).
       </div>
     </div>
   </main>
 
   <nav class="bottom-nav">
-    <a href="/Enigma-/index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="/Enigma-/breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="/Enigma-/journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="/Enigma-/quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="/Enigma-/game.html"><div class="nav-ico">🎨</div><span>Colour</span></a>
-    <a class="active" href="/Enigma-/sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="/Enigma-/progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="game.html"><div class="nav-ico">🎨</div><span>Colour</span></a>
+    <a class="active" href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="/Enigma-/app.js?v=9001"></script>
-  <script src="/Enigma-/sounds.js?v=9001"></script>
+  <script src="app.js?v=9301"></script>
+  <script src="sounds.js?v=9301"></script>
+
+  <!-- Extra: force open in new tab if Safari blocks normal tap -->
+  <script>
+    document.addEventListener("click", (e)=>{
+      const a = e.target.closest("a.sound-link");
+      if (!a) return;
+      // direct user interaction -> safe to open
+      a.target = "_blank";
+      a.rel = "noopener";
+    }, { passive:true });
+  </script>
 </body>
 </html>
