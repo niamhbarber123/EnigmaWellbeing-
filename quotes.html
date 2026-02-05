@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=60003" />
+  <link rel="stylesheet" href="style.css?v=70001" />
 </head>
 
 <body class="page-wrap">
@@ -16,27 +16,31 @@
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
     <h1>Quotes</h1>
-    <p>Scroll freely. Tap 💜 to save.</p>
+    <p>Search the internet. Tap 💜 to save.</p>
   </header>
 
   <main class="page">
     <div class="card">
-      <div class="section-title">Find a quote</div>
+      <div class="section-title">Find a motivational quote</div>
 
-      <input id="quoteSearch" class="input" type="search" placeholder="Search quotes or authors…" />
+      <input id="quoteSearch" class="input" type="search"
+             placeholder="Search quotes or authors… (e.g. courage, hope, Maya Angelou)" />
 
       <div class="tool-row" style="margin-top:12px;">
-        <button id="toggleSavedOnlyBtn" class="tool-btn" type="button">Show saved only</button>
-        <button id="viewSavedBtn" class="tool-btn primary" type="button">
-          💜 Saved (<span id="savedCount">0</span>)
-        </button>
+        <button id="quoteSearchBtn" class="tool-btn primary" type="button">Search</button>
+        <button id="quoteRandomBtn" class="tool-btn" type="button">Random motivational</button>
       </div>
 
       <div class="tool-row">
-        <button id="clearSavedBtn" class="tool-btn danger" type="button">Delete saved quotes</button>
+        <button id="viewSavedBtn" class="tool-btn" type="button">
+          💜 Saved (<span id="savedCount">0</span>)
+        </button>
+        <button id="clearSavedBtn" class="tool-btn danger" type="button">Delete saved</button>
       </div>
 
-      <div class="gentle-text">Saving is only via the 💜 button — scrolling won’t accidentally save.</div>
+      <div class="gentle-text" id="quoteStatus">
+        Tip: scrolling won’t save — only the 💜 button saves.
+      </div>
     </div>
 
     <div id="quoteGrid" class="quote-grid"></div>
@@ -52,6 +56,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=60003" defer></script>
+  <script src="app.js?v=70001" defer></script>
 </body>
 </html>
