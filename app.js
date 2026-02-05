@@ -522,3 +522,164 @@ document.addEventListener("DOMContentLoaded", ()=>{
   initGame();
   initProgress();
 });
+// --- Theme toggle (if not already in your app.js) ---
+(function(){
+  function updateThemeIcon(){
+    const btn = document.getElementById("themeFab");
+    if (!btn) return;
+    btn.textContent = document.body.classList.contains("night") ? "☀️" : "🌙";
+  }
+  function applyTheme(){
+    const saved = localStorage.getItem("enigmaTheme");
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const useNight = saved ? (saved === "night") : prefersDark;
+    document.body.classList.toggle("night", useNight);
+    updateThemeIcon();
+  }
+  function toggleTheme(){
+    const isNight = document.body.classList.toggle("night");
+    localStorage.setItem("enigmaTheme", isNight ? "night" : "day");
+    updateThemeIcon();
+  }
+  window.toggleTheme = toggleTheme;
+
+  document.addEventListener("DOMContentLoaded", ()=>{
+    applyTheme();
+    const btn = document.getElementById("themeFab");
+    if(btn){
+      btn.addEventListener("click",(e)=>{e.preventDefault(); toggleTheme();},{passive:false});
+      btn.addEventListener("touchend",(e)=>{e.preventDefault(); toggleTheme();},{passive:false});
+    }
+  });
+})();
+
+// --- Back (if missing) ---
+window.enigmaBack = function(){
+  if (history.length > 1) history.back();
+  else location.href = "/Enigma-/index.html";
+};
+
+// --- Breathe complete ---
+window.markBreatheDone = function(){
+  const today = new Date().toISOString().split("T")[0];
+  localStorage.setItem("enigmaBreatheDone", today);
+  const msg = document.getElementById("breatheDoneMsg");
+  if (msg) msg.textContent = "Saved ✅ Well done.";
+};
+
+// --- Quotes tiles (tap to save / tap to unsave) ---
+(function(){
+  const KEY = "enigmaSavedQuotesV2";
+  const QUOTES = [
+    { q:"Nothing can dim the light that shines from within.", a:"Maya Angelou" },
+    { q:"No one can make you feel inferior without your consent.", a:"Eleanor Roosevelt" },
+    { q:"I raise up my voice—not so that I can shout, but so that those without a voice can be heard.", a:"Malala Yousafzai" },
+    { q:"Well-behaved women seldom make history.", a:"Laurel Thatcher Ulrich" },
+    { q:"Power is not given to you. You have to take it.", a:"Beyoncé" },
+    { q:"I have learned over the years that when one’s mind is made up, this diminishes fear.", a:"Rosa Parks" },
+    { q:"If you don’t like the road you’re walking, start paving another one.", a:"Dolly Parton" },
+    { q:"My peace is my priority.", a:"Affirmation" }
+  ];
+  const idOf = (x)=> `${x.a}::${x.q}`;
+
+  function getSaved(){
+    try { return new Set(JSON.parse(localStorage.getItem(KEY) || "[]")); }
+    catch { return new Set(); }
+  }
+  function setSaved(set){
+    localStorage.setItem(KEY, JSON.stringify(Array.from(set)));
+  }
+
+  function renderQuotes(){
+    const grid = document.getElementById("quoteGrid");
+    if (!grid) return;
+
+    const saved = getSaved();
+    const savedCount = document.getElementById("savedCount");
+    if(savedCount) savedCount.textContent = String(saved.size);
+
+    grid.innerHTML = "";
+    QUOTES.forEach(item=>{
+      const id = idOf(item);
+      const tile = document.createElement("div");
+      tile.className = "quote-tile" + (saved.has(id) ? " saved" : "");
+      tile.innerHTML = `
+        <div style="font-weight:900;color:#5a4b7a; line-height:1.35;">“${item.q}”</div>
+        <small>— ${item.a}</small>
+      `;
+      const toggle = (e)=>{
+        e.preventDefault();
+        if(saved.has(id)) saved.delete(id); else saved.add(id);
+        setSaved(saved);
+        tile.classList.toggle("saved", saved.has(id));
+        if(savedCount) savedCount.textContent = String(saved.size);
+      };
+      tile.addEventListener("click", toggle, { passive:false });
+      tile.addEventListener("touchend", toggle, { passive:false });
+      grid.appendChild(tile);
+    });
+
+    const viewBtn = document.getElementById("viewSavedBtn");
+    if(viewBtn){
+      viewBtn.onclick = ()=>{
+        const list = Array.from(saved);
+        if(!list.length) return alert("No saved quotes yet.");
+        alert("Saved quotes:\n\n" + list.map(x=> "• " + x.split("::")[1]).join("\n\n"));
+      };
+    }
+
+    const clearBtn = document.getElementById("clearSavedBtn");
+    if(clearBtn){
+      clearBtn.onclick = ()=>{
+        if(!confirm("Delete all saved quotes?")) return;
+        localStorage.setItem(KEY, "[]");
+        renderQuotes();
+      };
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", renderQuotes);
+})();
+
+// --- Sounds (uses <audio id="soundPlayer">) ---
+(function(){
+  function getPlayer(){ return document.getElementById("soundPlayer"); }
+
+  window.playSound = function(src){
+    const player = getPlayer();
+    if(!player) return alert("soundPlayer element missing on this page.");
+    player.src = src;
+
+    const vol = parseFloat(localStorage.getItem("enigmaSoundVol") || "0.6");
+    player.volume = vol;
+
+    player.play().then(()=>{
+      const st = document.getElementById("soundStatus");
+      if(st) st.textContent = "Playing";
+    }).catch(()=>{
+      alert("iPhone blocked play or file not found. Try pressing the button again, or check the MP3 path.");
+    });
+  };
+
+  window.stopSound = function(){
+    const player = getPlayer();
+    if(player){
+      player.pause();
+      player.currentTime = 0;
+    }
+    const st = document.getElementById("soundStatus");
+    if(st) st.textContent = "Not playing";
+  };
+
+  document.addEventListener("DOMContentLoaded", ()=>{
+    const vol = document.getElementById("soundVol");
+    if(vol){
+      vol.value = localStorage.getItem("enigmaSoundVol") || "0.6";
+      vol.addEventListener("input",(e)=>{
+        localStorage.setItem("enigmaSoundVol", String(e.target.value));
+        const player = getPlayer();
+        if(player) player.volume = parseFloat(e.target.value);
+      });
+    }
+  });
+})();
