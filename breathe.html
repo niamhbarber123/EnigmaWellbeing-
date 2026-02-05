@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Breathe • Enigma</title>
-  <link rel="stylesheet" href="style.css?v=9301" />
+  <link rel="stylesheet" href="style.css?v=9991" />
 </head>
 
 <body class="page-wrap">
@@ -21,11 +21,11 @@
       <div class="card breathe-card">
         <div class="breathe-stage inhale" id="breatheStage">
           <div class="breathe-core" id="breatheCore"></div>
-          <div class="breathe-label" id="breatheText">Inhale</div>
+          <div class="breathe-label" id="breatheText">Ready</div>
         </div>
 
         <div class="tool-row" style="margin-top:16px;">
-          <button class="tool-btn" type="button" id="breatheStartBtn">Start</button>
+          <button class="tool-btn primary" type="button" id="breatheStartBtn">Start</button>
           <button class="tool-btn danger" type="button" id="breatheStopBtn">Stop</button>
         </div>
 
@@ -48,45 +48,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=9301"></script>
-  <script>
-    // Simple inhale/exhale loop
-    const stage = document.getElementById("breatheStage");
-    const text = document.getElementById("breatheText");
-    const startBtn = document.getElementById("breatheStartBtn");
-    const stopBtn = document.getElementById("breatheStopBtn");
-
-    let running = false;
-    let timer = null;
-
-    function setPhase(phase){
-      stage.classList.remove("inhale","exhale");
-      stage.classList.add(phase);
-      text.textContent = phase === "inhale" ? "Inhale" : "Exhale";
-    }
-
-    function loop(){
-      if (!running) return;
-      setPhase("inhale");
-      timer = setTimeout(()=>{
-        if (!running) return;
-        setPhase("exhale");
-        timer = setTimeout(loop, 4000);
-      }, 4000);
-    }
-
-    startBtn.addEventListener("click", ()=>{
-      if (running) return;
-      running = true;
-      loop();
-    });
-
-    stopBtn.addEventListener("click", ()=>{
-      running = false;
-      clearTimeout(timer);
-      setPhase("inhale");
-      text.textContent = "Ready";
-    });
-  </script>
+  <script src="app.js?v=9991"></script>
 </body>
 </html>
