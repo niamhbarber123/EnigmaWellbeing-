@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Breathe • Enigma</title>
-  <link rel="stylesheet" href="/Enigma-/style.css?v=4001">
+
+  <link rel="stylesheet" href="/Enigma-/style.css?v=5001">
 </head>
 
 <body class="page-wrap">
@@ -41,6 +42,19 @@
     <a href="/Enigma-/progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="/Enigma-/app.js?v=4001"></script>
+  <script src="/Enigma-/app.js?v=5001"></script>
+
+  <!-- Makes the label change in sync with the CSS breathe animation (10s loop) -->
+  <script>
+    const label = document.getElementById("breatheLabel");
+    function loopLabels(){
+      if(!label) return;
+      label.textContent = "Inhale";
+      setTimeout(()=> label.textContent="Hold", 4000);
+      setTimeout(()=> label.textContent="Exhale", 6000);
+    }
+    loopLabels();
+    setInterval(loopLabels, 10000);
+  </script>
 </body>
 </html>
