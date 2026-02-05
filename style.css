@@ -544,3 +544,43 @@ body.home .page{
   .home-pill-btn{ padding: 11px 12px; }
   .home-help{ padding: 11px 12px; }
 }
+/* ===== BREATHE: make phase big + centered under circle ===== */
+#breathPhase{
+  text-align:center;
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+#breathTip{
+  text-align:center;
+  font-size:14px;
+}
+
+/* ===== BREATHE: different colour on inhale vs exhale ===== */
+.breathe-circle{
+  transition: transform 4s ease-in-out, background 700ms ease-in-out;
+}
+
+/* inhale = more purple */
+.breathe-circle.inhale{
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(124,96,170,0.70));
+}
+
+/* exhale = more blue */
+.breathe-circle.exhale{
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(90,140,210,0.62));
+}
+
+/* ===== Music/Yoga: ensure anchors look like buttons ===== */
+.music-btn{
+  text-decoration:none;   /* FIX: remove blue underline look */
+}
+.music-btn:visited{
+  color:#5a4b7a;
+}
+
+/* ===== Back button always left, not centered pill ===== */
+.back-btn{
+  text-align:center;
+}
