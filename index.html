@@ -8,7 +8,8 @@
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
 
-  <link rel="stylesheet" href="style.css?v=10040" />
+  <!-- IMPORTANT: keep this version number the SAME across all pages -->
+  <link rel="stylesheet" href="style.css?v=60001" />
 </head>
 
 <body class="page-wrap home">
@@ -28,10 +29,21 @@
     </a>
 
     <div class="home-grid">
-      <a class="home-pill" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
-      <a class="home-pill" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
-      <a class="home-pill" href="game.html"><span class="pill-ico">🎨</span><span class="pill-text">Colour</span></a>
-      <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
+      <a class="home-pill" href="journal.html">
+        <span class="pill-ico">📖</span><span class="pill-text">Journal</span>
+      </a>
+
+      <a class="home-pill" href="quotes.html">
+        <span class="pill-ico">💬</span><span class="pill-text">Quotes</span>
+      </a>
+
+      <a class="home-pill" href="game.html">
+        <span class="pill-ico">🎨</span><span class="pill-text">Colour</span>
+      </a>
+
+      <a class="home-pill" href="sounds.html">
+        <span class="pill-ico">🎵</span><span class="pill-text">Music</span>
+      </a>
     </div>
 
     <a class="home-help" href="help.html">
@@ -49,6 +61,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=10040"></script>
+  <!-- IMPORTANT: defer prevents iPhone “sometimes not working” -->
+  <script src="app.js?v=60001" defer></script>
 </body>
 </html>
