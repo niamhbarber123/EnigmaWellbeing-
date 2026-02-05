@@ -1,32 +1,4 @@
 /* =========================
-   Auth: login/logout + page protection
-========================= */
-function requireLogin(){
-  const isLoginPage = location.pathname.endsWith("login.html");
-  if (isLoginPage) return;
-
-  const user = localStorage.getItem("enigmaUser");
-  if (!user){
-    window.location.href = "/Enigma-/login.html";
-  }
-}
-
-function loginEnigma(){
-  const name = document.getElementById("name")?.value.trim();
-  if (!name){
-    alert("Please enter your name 💜");
-    return;
-  }
-  localStorage.setItem("enigmaUser", name);
-  window.location.href = "/Enigma-/index.html";
-}
-
-function logoutEnigma(){
-  localStorage.removeItem("enigmaUser");
-  window.location.href = "/Enigma-/login.html";
-}
-
-/* =========================
    Helpers
 ========================= */
 function isoToday(){ return new Date().toISOString().split("T")[0]; }
@@ -38,115 +10,7 @@ function escapeHtml(str){
 }
 
 /* =========================
-   Reminders (web-safe)
-========================= */
-function enableReminder(){
-  localStorage.setItem("enigmaReminderEnabled","yes");
-  alert("Daily reminder enabled 🌿\n(It will appear when you open Enigma each day.)");
-}
-function reminderCheck(){
-  if (localStorage.getItem("enigmaReminderEnabled") !== "yes") return;
-  const today = isoToday();
-  const lastSeen = localStorage.getItem("enigmaReminderSeen");
-  if (lastSeen === today) return;
-
-  alert("🌿 Gentle reminder from Enigma:\nTake a small moment for yourself today.");
-  localStorage.setItem("enigmaReminderSeen", today);
-}
-
-/* =========================
-   Check-in + streaks
-========================= */
-function pickMood(btn, mood){
-  window.__enigmaMood = mood;
-  document.querySelectorAll(".mood-btn").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-}
-
-function saveCheckin(){
-  const mood = window.__enigmaMood || "";
-  const note = document.getElementById("checkinNote")?.value || "";
-  if (!mood){ alert("Please choose how you're feeling 💜"); return; }
-
-  const today = isoToday();
-  const lastDate = localStorage.getItem("enigmaLastCheckinDate");
-  let streak = parseInt(localStorage.getItem("enigmaStreak") || "0", 10);
-
-  const y = new Date(); y.setDate(y.getDate() - 1);
-  const yesterday = y.toISOString().split("T")[0];
-
-  if (lastDate !== today){
-    streak = (lastDate === yesterday) ? streak + 1 : 1;
-    localStorage.setItem("enigmaStreak", String(streak));
-    localStorage.setItem("enigmaLastCheckinDate", today);
-  }
-
-  localStorage.setItem("enigmaDailyMood", mood);
-  localStorage.setItem("enigmaDailyNote", note);
-
-  const msg = document.getElementById("checkinSavedMsg");
-  if (msg) msg.textContent = `Saved 🌿 Streak: ${streak} day(s)`;
-}
-
-function getRecommendation(){
-  const mood = localStorage.getItem("enigmaDailyMood") || "";
-  if (mood === "calm") return "🧘 Gentle yoga or a short walk could feel lovely today.";
-  if (mood === "okay") return "💬 Read a quote that resonates.";
-  if (mood === "low") return "🌬️ Try a slow breathing session.";
-  if (mood === "anxious") return "🎨 Tap-to-colour can help ground you.";
-  return "🌱 Try a daily check-in to get gentle suggestions.";
-}
-
-/* =========================
-   Breathe – SYNC text to circle animation
-   Cycle is 10s:
-     0-4   Inhale (circle expands)
-     4-6   Hold  (stays big)
-     6-10  Exhale (shrinks)
-========================= */
-let __breathTimers = [];
-
-function clearBreathTimers(){
-  __breathTimers.forEach(t => clearTimeout(t));
-  __breathTimers = [];
-}
-
-function setBreathText(text){
-  const el = document.getElementById("breathText");
-  if (el) el.textContent = text;
-}
-
-function startBreathingSynced(){
-  const circle = document.querySelector(".breathe-circle");
-  const textEl = document.getElementById("breathText");
-  if (!circle || !textEl) return;
-
-  function scheduleCycle(){
-    clearBreathTimers();
-    setBreathText("Inhale");
-    __breathTimers.push(setTimeout(() => setBreathText("Hold"), 4000));
-    __breathTimers.push(setTimeout(() => setBreathText("Exhale"), 6000));
-  }
-
-  // Start immediately
-  scheduleCycle();
-
-  // Re-sync on every animation loop (perfect alignment)
-  circle.addEventListener("animationiteration", scheduleCycle);
-
-  // Also handle if user switches tabs and comes back
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) scheduleCycle();
-  });
-}
-
-function completeBreathe(){
-  localStorage.setItem("enigmaBreatheDone", isoToday());
-  alert("Well done 🌬️ Take that calm with you.");
-}
-
-/* =========================
-   Quotes: toggle save/unsave + delete saved
+   Quotes: select + deselect (toggle) + saved list management
 ========================= */
 function getSavedQuotes(){
   return JSON.parse(localStorage.getItem("enigmaSavedQuotes") || "[]");
@@ -161,6 +25,7 @@ function toggleQuote(tile){
   const item = `${text} — ${author}`;
 
   let saved = getSavedQuotes();
+
   if (saved.includes(item)){
     saved = saved.filter(x => x !== item);
     setSavedQuotes(saved);
@@ -222,114 +87,403 @@ function renderSavedQuotes(){
 }
 
 /* =========================
-   Journal (saved entries)
+   Tap-to-Colour (Colour-by-Number + more colours + designs)
 ========================= */
-function getJournalEntries(){
-  return JSON.parse(localStorage.getItem("enigmaJournalEntries") || "[]");
+const ENIGMA_GAME_KEY = "enigmaColourGameV3";
+let enigmaColourMode = "number"; // "number" or "free"
+let enigmaCurrentDesign = "mandala";
+let enigmaSelectedColour = "#d9d2ff";
+let enigmaSelectedNumber = 1;
+let enigmaUndoStack = [];
+
+/* 16 calming colours */
+const ENIGMA_COLOURS = [
+  { n:1,  c:"#d9d2ff" }, { n:2,  c:"#b8a6d9" }, { n:3,  c:"#efe9f8" }, { n:4,  c:"#b8e0d2" },
+  { n:5,  c:"#8fcfbf" }, { n:6,  c:"#a8d8ff" }, { n:7,  c:"#7fb5e6" }, { n:8,  c:"#ffd5c7" },
+  { n:9,  c:"#f4c2c2" }, { n:10, c:"#ffeaa6" }, { n:11, c:"#d6c9ef" }, { n:12, c:"#cfd9d6" },
+  { n:13, c:"#ffffff" }, { n:14, c:"#f2eff8" }, { n:15, c:"#cbbfff" }, { n:16, c:"#9ad0d6" }
+];
+
+/* 14x14 templates (0 blank, 1..16 numbers) */
+const designs = [
+  { id:"mandala",  name:"Mandala",  desc:"Balanced calm",   template: tplMandala() },
+  { id:"flower",   name:"Flower",   desc:"Soft petals",     template: tplFlower() },
+  { id:"butterfly",name:"Butterfly",desc:"Light & hopeful", template: tplButterfly() },
+  { id:"waves",    name:"Waves",    desc:"Flow gently",     template: tplWaves() },
+  { id:"heart",    name:"Heart",    desc:"Self kindness",   template: tplHeart() },
+  { id:"sunrise",  name:"Sunrise",  desc:"New start",       template: tplSunrise() }
+];
+
+function getGameData(){
+  return JSON.parse(localStorage.getItem(ENIGMA_GAME_KEY) || "{}");
+}
+function setGameData(data){
+  localStorage.setItem(ENIGMA_GAME_KEY, JSON.stringify(data));
+}
+function getDesignSave(){
+  const data = getGameData();
+  return data[enigmaCurrentDesign] || {};
+}
+function setDesignSave(saveObj){
+  const data = getGameData();
+  data[enigmaCurrentDesign] = saveObj;
+  setGameData(data);
+}
+function setSaveMsg(msg){
+  const el = document.getElementById("saveMsg");
+  if (el) el.textContent = msg;
 }
 
-function saveJournalEntry(){
-  const textEl = document.getElementById("journalText");
-  const msgEl = document.getElementById("journalMsg");
-  if (!textEl) return;
+function setColourMode(mode){
+  enigmaColourMode = mode;
+  localStorage.setItem("enigmaColourMode", mode);
 
-  const text = textEl.value.trim();
-  if (!text){
-    if (msgEl) msgEl.textContent = "Write a little first 💜";
-    return;
+  const nb = document.getElementById("modeNumberBtn");
+  const fb = document.getElementById("modeFreeBtn");
+  if (nb && fb){
+    nb.classList.toggle("active", mode === "number");
+    fb.classList.toggle("active", mode === "free");
   }
 
-  const entries = getJournalEntries();
-  entries.unshift({ date: new Date().toLocaleString(), text });
-
-  localStorage.setItem("enigmaJournalEntries", JSON.stringify(entries));
-  textEl.value = "";
-  if (msgEl) msgEl.textContent = "Saved ✨";
-  renderJournal();
+  setSaveMsg(mode === "number"
+    ? "Colour-by-number: pick a number, then tap matching tiles."
+    : "Free colour: pick any colour and tap tiles."
+  );
+  renderColourBoard();
 }
 
-function deleteJournalEntry(index){
-  const entries = getJournalEntries();
-  entries.splice(index, 1);
-  localStorage.setItem("enigmaJournalEntries", JSON.stringify(entries));
-  renderJournal();
-}
+function initColourGame(){
+  const grid = document.getElementById("grid");
+  const palette = document.getElementById("palette");
+  const designGrid = document.getElementById("designGrid");
+  if (!grid || !palette || !designGrid) return;
 
-function renderJournal(){
-  const list = document.getElementById("journalList");
-  if (!list) return;
+  const lastDesign = localStorage.getItem("enigmaLastDesignV3");
+  if (lastDesign && designs.some(d => d.id === lastDesign)) enigmaCurrentDesign = lastDesign;
 
-  const entries = getJournalEntries();
-  list.innerHTML = "";
+  const lastMode = localStorage.getItem("enigmaColourMode");
+  if (lastMode === "free" || lastMode === "number") enigmaColourMode = lastMode;
 
-  if (entries.length === 0){
-    const empty = document.createElement("div");
-    empty.className = "card";
-    empty.textContent = "No entries yet. Your words are safe here 💜";
-    list.appendChild(empty);
-    return;
-  }
+  // palette
+  palette.innerHTML = "";
+  ENIGMA_COLOURS.forEach((item, idx) => {
+    const chip = document.createElement("div");
+    chip.className = "palette-chip" + (idx === 0 ? " active" : "");
+    chip.style.background = item.c;
 
-  entries.forEach((e, i) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <div style="font-weight:900; margin-bottom:8px; color:#5a4b7a;">${escapeHtml(e.date)}</div>
-      <div style="white-space:pre-wrap;">${escapeHtml(e.text)}</div>
-      <div style="height:10px;"></div>
-      <button class="primary" style="background:#f4c2c2; color:#5a4b7a;" onclick="deleteJournalEntry(${i})">Delete</button>
-    `;
-    list.appendChild(card);
+    const num = document.createElement("div");
+    num.className = "palette-num";
+    num.textContent = String(item.n);
+    chip.appendChild(num);
+
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".palette-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      enigmaSelectedColour = item.c;
+      enigmaSelectedNumber = item.n;
+
+      if (enigmaColourMode === "number"){
+        setSaveMsg(`Selected number ${item.n}. Tap tiles showing ${item.n}.`);
+      } else {
+        setSaveMsg(`Selected colour.`);
+      }
+    });
+
+    palette.appendChild(chip);
   });
+
+  // designs picker
+  designGrid.innerHTML = "";
+  designs.forEach(d => {
+    const tile = document.createElement("div");
+    tile.className = "design-tile" + (d.id === enigmaCurrentDesign ? " active" : "");
+
+    const prev = document.createElement("div");
+    prev.className = "design-preview";
+
+    const flat = d.template.flat();
+    for (let i = 0; i < 100; i++){
+      const dot = document.createElement("div");
+      const v = flat[Math.floor((i / 100) * flat.length)] || 0;
+      dot.className = "preview-dot" + (v === 0 ? " off" : "");
+      prev.appendChild(dot);
+    }
+
+    const txt = document.createElement("div");
+    txt.innerHTML = `<div class="design-title">${d.name}</div><div class="design-sub">${d.desc}</div>`;
+
+    tile.appendChild(prev);
+    tile.appendChild(txt);
+
+    tile.addEventListener("click", () => {
+      enigmaCurrentDesign = d.id;
+      localStorage.setItem("enigmaLastDesignV3", d.id);
+      document.querySelectorAll(".design-tile").forEach(t => t.classList.remove("active"));
+      tile.classList.add("active");
+      enigmaUndoStack = [];
+      renderColourBoard();
+      setSaveMsg("Design loaded ✨");
+    });
+
+    designGrid.appendChild(tile);
+  });
+
+  // mode UI
+  document.getElementById("modeNumberBtn")?.classList.toggle("active", enigmaColourMode === "number");
+  document.getElementById("modeFreeBtn")?.classList.toggle("active", enigmaColourMode === "free");
+
+  renderColourBoard();
+  setSaveMsg(enigmaColourMode === "number"
+    ? "Colour-by-number: pick a number, then tap matching tiles."
+    : "Free colour: pick any colour and tap tiles."
+  );
+}
+
+function renderColourBoard(){
+  const grid = document.getElementById("grid");
+  if (!grid) return;
+
+  const design = designs.find(d => d.id === enigmaCurrentDesign);
+  const tpl = design ? design.template : blankTemplate();
+
+  const save = getDesignSave(); // key = "r,c" -> colour string
+
+  grid.innerHTML = "";
+  for (let r=0;r<14;r++){
+    for (let c=0;c<14;c++){
+      const key = `${r},${c}`;
+      const number = tpl[r][c];
+
+      const cell = document.createElement("div");
+      cell.className = "cell";
+
+      if (number === 0){
+        cell.style.background = "transparent";
+        cell.style.boxShadow = "none";
+        cell.style.pointerEvents = "none";
+        grid.appendChild(cell);
+        continue;
+      }
+
+      if (save[key]){
+        cell.style.background = save[key];
+        cell.classList.add("filled");
+      }
+
+      const label = document.createElement("div");
+      label.className = "num";
+      label.textContent = String(number);
+      cell.appendChild(label);
+
+      cell.addEventListener("click", () => {
+        const prev = save[key] || "";
+        enigmaUndoStack.push({ key, prev });
+
+        if (enigmaColourMode === "number" && number !== enigmaSelectedNumber){
+          setSaveMsg(`That tile is ${number}. Select colour ${number} to fill it.`);
+          return;
+        }
+
+        const newColour = enigmaSelectedColour || "";
+        if (newColour){
+          save[key] = newColour;
+          cell.style.background = newColour;
+          cell.classList.add("filled");
+        } else {
+          delete save[key];
+          cell.style.background = "";
+          cell.classList.remove("filled");
+        }
+
+        setDesignSave(save);
+      });
+
+      grid.appendChild(cell);
+    }
+  }
+}
+
+/* tools */
+function enigmaUndo(){
+  const last = enigmaUndoStack.pop();
+  if (!last) return;
+
+  const save = getDesignSave();
+  if (last.prev){
+    save[last.key] = last.prev;
+  } else {
+    delete save[last.key];
+  }
+  setDesignSave(save);
+  renderColourBoard();
+  setSaveMsg("Undone ↩︎");
+}
+
+function enigmaEraser(){
+  enigmaSelectedColour = "";
+  setSaveMsg("Eraser selected 🧼 Tap a tile to clear it.");
+}
+
+function enigmaClear(){
+  if (!confirm("Clear this design?")) return;
+  setDesignSave({});
+  enigmaUndoStack = [];
+  renderColourBoard();
+  setSaveMsg("Cleared ✨");
+}
+
+function markColouringComplete(){
+  localStorage.setItem("enigmaColourComplete", new Date().toISOString());
+  setSaveMsg("Completed 🎉 Well done — take a calm breath.");
+}
+
+/* templates */
+function blankTemplate(){
+  return Array.from({length:14}, () => Array.from({length:14}, () => 0));
+}
+
+function ringTemplate(){
+  const t = blankTemplate();
+  const cx = 6.5, cy = 6.5;
+  for (let r=0;r<14;r++){
+    for (let c=0;c<14;c++){
+      const dx = r-cx, dy = c-cy;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < 6.6 && d > 1.8){
+        const band = Math.max(1, Math.min(8, Math.floor(d)));
+        t[r][c] = band;
+      }
+    }
+  }
+  return t;
+}
+
+function tplMandala(){
+  const t = ringTemplate();
+  for (let r=0;r<14;r++){
+    for (let c=0;c<14;c++){
+      if (t[r][c] !== 0){
+        if ((r+c) % 4 === 0) t[r][c] = 11;
+        if ((r*c) % 11 === 0) t[r][c] = 2;
+      }
+    }
+  }
+  for (let r=5;r<=8;r++){
+    for (let c=5;c<=8;c++){
+      t[r][c] = 3;
+    }
+  }
+  return t;
+}
+
+function tplFlower(){
+  const t = blankTemplate();
+  const cx=6.5, cy=6.5;
+  for (let r=0;r<14;r++){
+    for (let c=0;c<14;c++){
+      const dx=r-cx, dy=c-cy;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if (d<6.2){
+        if (d<2.2) t[r][c]=10;
+        else if (Math.abs(dx*dy) < 6) t[r][c]=1;
+        else t[r][c]=11;
+      }
+    }
+  }
+  return t;
+}
+
+function tplButterfly(){
+  const t = blankTemplate();
+  for (let r=2;r<12;r++){
+    for (let c=1;c<13;c++){
+      const left = c < 7;
+      const wing = left ? (7-c) : (c-6);
+      const height = Math.abs(r-6.5);
+      if (wing >= 1 && wing <= 5 && height <= 4.8){
+        if (wing >= 4) t[r][c] = 6;
+        else if (height < 1.2) t[r][c] = 8;
+        else t[r][c] = 4;
+      }
+    }
+  }
+  for (let r=3;r<11;r++){
+    t[r][6] = 12;
+    t[r][7] = 12;
+  }
+  return t;
+}
+
+function tplWaves(){
+  const t = blankTemplate();
+  for (let r=2;r<12;r++){
+    for (let c=1;c<13;c++){
+      const wave = 6 + 2*Math.sin((c/12)*Math.PI*2);
+      if (Math.abs(r - wave) < 1.2) t[r][c] = 16;
+      if (r > wave && r < wave+3) t[r][c] = 6;
+      if (r >= wave+3) t[r][c] = 7;
+    }
+  }
+  return t;
+}
+
+function tplHeart(){
+  const t = blankTemplate();
+  for (let r=2;r<12;r++){
+    for (let c=1;c<13;c++){
+      const x = (c-6.5)/6;
+      const y = (r-6.5)/6;
+      const a = x*x + y*y - 0.3;
+      const heart = a*a*a - x*x*y*y*y;
+      if (heart <= 0){
+        t[r][c] = (r<6) ? 9 : 8;
+      }
+    }
+  }
+  return t;
+}
+
+function tplSunrise(){
+  const t = blankTemplate();
+  for (let r=1;r<13;r++){
+    for (let c=1;c<13;c++){
+      if (r > 8) t[r][c] = 7;
+      else t[r][c] = 14;
+    }
+  }
+  const cx=6.5, cy=8.5;
+  for (let r=2;r<12;r++){
+    for (let c=1;c<13;c++){
+      const dx=r-cx, dy=c-cy;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if (d < 3.2 && r <= 8){
+        t[r][c] = 10;
+      }
+    }
+  }
+  for (let r=2;r<9;r++){
+    for (let c=1;c<13;c++){
+      if (t[r][c] === 14 && Math.abs(c-6.5) < 4) t[r][c] = 3;
+      if (t[r][c] === 14 && Math.abs(c-6.5) < 2) t[r][c] = 11;
+    }
+  }
+  return t;
 }
 
 /* =========================
-   Progress page population
-========================= */
-function populateProgress(){
-  const moodEl = document.getElementById("pMood");
-  const streakEl = document.getElementById("pStreak");
-  const recEl = document.getElementById("pRec");
-  const favEl = document.getElementById("pFavCount");
-  const breatheEl = document.getElementById("pBreathe");
-
-  if (moodEl) moodEl.textContent = localStorage.getItem("enigmaDailyMood") || "Not checked in yet";
-  if (streakEl) streakEl.textContent = localStorage.getItem("enigmaStreak") || "0";
-  if (recEl) recEl.textContent = getRecommendation();
-  if (favEl) favEl.textContent = String(getSavedQuotes().length);
-
-  const breatheDone = localStorage.getItem("enigmaBreatheDone");
-  if (breatheEl) breatheEl.textContent = (breatheDone === isoToday()) ? "Yes 🌬️" : "Not today yet";
-}
-
-/* =========================
-   Tap-to-Colour V3 boot
-   (Your V3 game code stays as you already pasted it)
-========================= */
-if (typeof initColourGame !== "function") {
-  // if game code isn't present on some pages, it's fine
-}
-
-/* =========================
-   Boot
+   Boot (runs on every page)
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
-  requireLogin();
-  reminderCheck();
-  populateProgress();
-  renderJournal();
-  renderSavedQuotes();
-
-  // Quotes: mark saved tiles
+  // Mark saved quote tiles if on quotes page
   const saved = getSavedQuotes();
   document.querySelectorAll(".quote-tile").forEach(tile => {
     const item = `${tile.getAttribute("data-quote")} — ${tile.getAttribute("data-author")}`;
     if (saved.includes(item)) tile.classList.add("saved");
   });
 
-  // Breathe: sync text to animation when on breathe page
-  startBreathingSynced();
+  // Render saved quotes page if present
+  renderSavedQuotes();
 
-  // Colour game init (only works on game page where IDs exist)
+  // Init colour game if on game page
   try { initColourGame(); } catch(e) {}
 });
