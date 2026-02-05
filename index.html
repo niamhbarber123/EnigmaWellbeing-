@@ -7,29 +7,15 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=70001" />
+  <link rel="stylesheet" href="style.css?v=60020" />
 </head>
 
 <body class="page-wrap home">
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <header class="page-header">
-    <!-- Enigma + Word of the Day inline -->
-    <div class="brand-row">
-      <h1 class="brand-title">Enigma</h1>
-
-      <div class="wotd" aria-live="polite">
-        <div class="wotd-top">
-          <div class="wotd-label">Word of the day</div>
-          <button id="wotdHelpBtn" class="wotd-help" type="button" aria-label="Word of the day help">?</button>
-        </div>
-
-        <div class="wotd-word" id="wotdWord">—</div>
-      </div>
-    </div>
-
-    <!-- description line -->
-    <p id="wotdDef" class="brand-sub">Your calm space</p>
+  <header class="page-header home-header">
+    <h1>Enigma Wellbeing</h1>
+    <p>Your calm space</p>
   </header>
 
   <main class="page home-page">
@@ -40,15 +26,34 @@
       <div class="home-card-sub">A gentle 60 seconds</div>
     </a>
 
-    <div class="home-grid">
-      <a class="home-pill" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
-      <a class="home-pill" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
-      <a class="home-pill" href="yoga.html"><span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span></a>
-      <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
-    </div>
+    <!-- Buttons moved up + includes Word of the day as an option -->
+    <div class="home-grid home-grid-tight">
+      <a class="home-pill-btn" href="journal.html">
+        <span class="pill-ico">📖</span><span class="pill-text">Journal</span>
+      </a>
 
-    <!-- Distraction card (if you already have it, keep yours; this is optional placeholder) -->
-    <div class="card" id="distractionCard" style="display:none;"></div>
+      <a class="home-pill-btn" href="quotes.html">
+        <span class="pill-ico">💬</span><span class="pill-text">Quotes</span>
+      </a>
+
+      <a class="home-pill-btn" href="yoga.html">
+        <span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span>
+      </a>
+
+      <a class="home-pill-btn" href="sounds.html">
+        <span class="pill-ico">🎵</span><span class="pill-text">Music</span>
+      </a>
+
+      <!-- Word of the day tile (takes 2 columns) -->
+      <a class="home-pill-btn wotd-tile" href="word.html">
+        <span class="pill-ico">✨</span>
+        <span class="pill-text">
+          Word of the day
+          <span class="wotd-mini" id="wotdHomeWord">Loading…</span>
+        </span>
+        <span class="wotd-qmark" aria-hidden="true">?</span>
+      </a>
+    </div>
 
     <a class="home-help" href="help.html">
       <span class="pill-ico">🆘</span><span class="pill-text">Need help right now?</span>
@@ -65,6 +70,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=70001" defer></script>
+  <script src="app.js?v=60020" defer></script>
 </body>
 </html>
