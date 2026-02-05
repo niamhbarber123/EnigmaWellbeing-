@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=50001" />
+  <link rel="stylesheet" href="style.css?v=60002" />
 </head>
 
 <body class="page-wrap">
@@ -29,11 +29,18 @@
 
     <div class="card">
       <div class="section-title">Mode</div>
+
       <div class="chip-row">
         <button id="modeCbnBtn" class="chip active" type="button">Colour-by-number</button>
         <button id="modeFreeBtn" class="chip" type="button">Free colour</button>
       </div>
-      <div class="gentle-text">Free colour hides numbers.</div>
+
+      <!-- Numbers appear here (only used in Colour-by-number mode) -->
+      <div id="numberRow" class="number-row" aria-label="Pick a number"></div>
+
+      <div class="gentle-text" id="modeHint">
+        Colour-by-number: choose a number, then tap matching areas. Free colour hides numbers.
+      </div>
     </div>
 
     <div class="card">
@@ -69,6 +76,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=50001" defer></script>
+  <script src="app.js?v=60002" defer></script>
 </body>
 </html>
