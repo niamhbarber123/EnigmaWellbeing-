@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Music • Enigma</title>
-  <link rel="stylesheet" href="style.css?v=9301" />
+  <link rel="stylesheet" href="style.css?v=9991" />
 </head>
 
 <body class="page-wrap">
@@ -42,18 +42,20 @@
           <div class="stat-label">Total</div>
         </div>
       </div>
+
       <div class="tool-row">
-        <button class="tool-btn" type="button" id="endSessionBtn">End listening session</button>
+        <button class="tool-btn primary" type="button" id="startSessionBtn">Start listening session</button>
+        <button class="tool-btn danger" type="button" id="endSessionBtn">End session</button>
       </div>
+
       <div class="gentle-text" id="sessionStatus">No active session.</div>
     </div>
 
     <div class="card">
       <div class="section-title">Pick a track</div>
       <div class="sound-links" id="soundLinks"></div>
-
       <div class="gentle-text" style="margin-top:10px;">
-        Tip: links open in a new tab. Start by tapping a link (iPhone rule).
+        Tip: on iPhone, links must be opened from a tap (so these will always open in a new tab).
       </div>
     </div>
   </main>
@@ -68,18 +70,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=9301"></script>
-  <script src="sounds.js?v=9301"></script>
-
-  <!-- Extra: force open in new tab if Safari blocks normal tap -->
-  <script>
-    document.addEventListener("click", (e)=>{
-      const a = e.target.closest("a.sound-link");
-      if (!a) return;
-      // direct user interaction -> safe to open
-      a.target = "_blank";
-      a.rel = "noopener";
-    }, { passive:true });
-  </script>
+  <script src="app.js?v=9991"></script>
 </body>
 </html>
