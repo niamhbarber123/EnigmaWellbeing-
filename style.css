@@ -1,3 +1,10 @@
+/* =========================================================
+   Enigma • style.css (FULL)
+   Calm lavender theme + night mode
+   Includes: layout, header, cards, buttons, nav, quotes tiles,
+   tap-to-colour (designs/palette/grid), music links + mood + minutes
+========================================================= */
+
 :root{
   --lavender:#b8a6d9;
   --lavender-soft:#efe9f8;
@@ -6,7 +13,6 @@
   --bg:#faf7ff;
 
   --shadow:0 10px 24px rgba(0,0,0,0.08);
-  --shadow-dark:0 10px 24px rgba(0,0,0,0.45);
 
   --radius-xl:26px;
   --radius-lg:20px;
@@ -14,22 +20,81 @@
 }
 
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html,body{ margin:0; padding:0; height:100%; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,sans-serif; }
-body{ background:var(--bg); color:var(--ink); min-height:100vh; }
+html,body{ margin:0; padding:0; height:100%; }
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
 
-.page-wrap{ min-height:100vh; display:flex; flex-direction:column; }
-.page{ flex:1; padding:12px 18px calc(140px + env(safe-area-inset-bottom)); }
+/* ---------- Night mode ---------- */
+body.night{
+  background:#0f0e14;
+  color:rgba(245,242,255,0.92);
+}
+body.night .card,
+body.night .quote-tile,
+body.night .design-tile,
+body.night .stat,
+body.night .sound-link,
+body.night .chip,
+body.night .mode-btn,
+body.night .tool-btn{
+  background:rgba(255,255,255,0.10) !important;
+  color:rgba(245,242,255,0.92) !important;
+  border-color:rgba(255,255,255,0.12) !important;
+}
+body.night .gentle-text,
+body.night .page-header p{
+  color:rgba(245,242,255,0.65) !important;
+}
+body.night .theme-toggle-top{
+  background:rgba(255,255,255,0.12);
+  box-shadow:0 10px 24px rgba(0,0,0,0.35);
+}
+body.night .bottom-nav{
+  background:rgba(18,16,26,0.92);
+  border-top:1px solid rgba(255,255,255,0.10);
+}
+body.night .bottom-nav a{ color:rgba(245,242,255,0.65); }
+body.night .bottom-nav a.active{ color:#fff; }
 
-/* Header */
+/* ---------- Page layout ---------- */
+.page-wrap{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+.page{
+  flex:1;
+  padding:12px 18px calc(140px + env(safe-area-inset-bottom));
+  max-width:720px;
+  width:100%;
+  margin:0 auto;
+}
+
+/* ---------- Header ---------- */
 .page-header{
   padding:64px 20px 18px;
   text-align:center;
   position:relative;
 }
-.page-header h1{ margin:0; font-size:28px; font-weight:900; color:#5a4b7a; }
-.page-header p{ margin:6px 0 0; font-size:14px; color:var(--muted); }
+.page-header h1{
+  margin:0;
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:0.2px;
+  color:#5a4b7a;
+}
+.page-header p{
+  margin:8px 0 0;
+  font-size:14px;
+  color:var(--muted);
+}
 
-/* Back arrow */
+body.night .page-header h1{ color:rgba(245,242,255,0.92); }
+
+/* ---------- Back button ---------- */
 .back-btn{
   position:absolute;
   left:14px;
@@ -40,542 +105,144 @@ body{ background:var(--bg); color:var(--ink); min-height:100vh; }
   border:none;
   background:rgba(255,255,255,0.78);
   box-shadow:var(--shadow);
-  font-size:18px;
-  font-weight:900;
-  color:#5a4b7a;
-  z-index:101;
+  font-size:20px;
+  color:var(--ink);
 }
 .back-btn:active{ transform:scale(0.98); }
 
-/* Top-right moon */
+/* ---------- Theme (moon) button ---------- */
 .theme-toggle-top{
   position:fixed;
-  top:calc(12px + env(safe-area-inset-top));
   right:14px;
-  width:42px;
-  height:42px;
+  top:calc(14px + env(safe-area-inset-top));
+  width:48px;
+  height:48px;
   border-radius:999px;
   border:none;
   background:rgba(255,255,255,0.85);
   box-shadow:var(--shadow);
-  font-size:18px;
-  line-height:1;
-  cursor:pointer;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  font-size:22px;
+  z-index:50;
 }
-.theme-toggle-top:active{ transform:scale(0.95); }
+.theme-toggle-top:active{ transform:scale(0.98); }
 
-/* Cards / inputs */
+/* ---------- Card ---------- */
 .card{
-  background:rgba(255,255,255,0.88);
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow);
-  padding:16px;
-  margin-bottom:14px;
-}
-input,textarea,select{
-  width:100%;
-  padding:14px;
-  border-radius:16px;
-  border:1px solid rgba(0,0,0,0.10);
-  font-size:16px;
-  background:#fff;
-  color:var(--ink);
-}
-textarea{ min-height:120px; resize:none; }
-
-.primary{
-  width:100%;
-  border:none;
-  border-radius:var(--radius-lg);
-  padding:14px;
-  font-weight:900;
-  background:var(--lavender);
-  color:#fff;
-  box-shadow:var(--shadow);
-  font-size:15px;
-}
-.primary:active{ transform:scale(0.99); }
-
-.gentle-text{
-  margin-top:10px;
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* ===============================
-   HOME FIX (no overlap, no plain links)
-================================ */
-.home-body{
-  background:
-    radial-gradient(circle at 50% 30%, rgba(250,247,255,0.95), rgba(250,247,255,0.95)),
-    url("/Enigma-/icon.png");
-  background-size:cover;
-  background-position:center;
-}
-
-.home-main{
-  min-height: calc(100vh - 240px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px 18px calc(150px + env(safe-area-inset-bottom));
-}
-
-.home-stack{
-  width:100%;
-  max-width:520px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.primary-card{
-  display:block;
-  width:100%;
-  padding:18px;
+  background:rgba(255,255,255,0.86);
   border-radius:var(--radius-xl);
-  background:rgba(255,255,255,0.88);
+  padding:16px;
   box-shadow:var(--shadow);
-  text-decoration:none;
-  overflow:hidden;
+  margin:14px 0;
+  border:1px solid rgba(184,166,217,0.18);
 }
-
-.pc-title{
+.section-title{
   font-weight:900;
   font-size:18px;
+  margin-bottom:10px;
   color:#5a4b7a;
-  margin:0 0 6px 0;
 }
-.pc-sub{
-  margin:0;
-  color:var(--muted);
+.gentle-text{
   font-size:13px;
+  color:rgba(90,75,122,0.65);
+  margin-top:8px;
 }
 
-.home-grid-min{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.mini-tile{
+/* ---------- Buttons ---------- */
+.tool-row{
   display:flex;
-  align-items:center;
   gap:10px;
-  width:100%;
-  padding:14px;
-  border-radius:var(--radius-lg);
-  background:rgba(255,255,255,0.86);
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.tool-btn{
+  flex:1;
+  min-width:120px;
+  padding:12px 14px;
+  border-radius:16px;
+  border:none;
+  background:rgba(239,233,248,0.95);
   box-shadow:var(--shadow);
-  text-decoration:none;
-  color:#5a4b7a;
   font-weight:900;
-  overflow:hidden;
+  color:#5a4b7a;
+}
+.tool-btn:active{ transform:scale(0.99); }
+.tool-btn.primary{
+  background:rgba(184,166,217,0.38);
+}
+.tool-btn.danger{
+  background:rgba(255,213,199,0.85);
+  color:#5a4b7a;
 }
 
-.mini-ico{ font-size:18px; width:24px; text-align:center; }
-.mini-text{ font-size:16px; line-height:1.1; }
-
-.help-link{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  width:100%;
-  padding:14px;
-  border-radius:var(--radius-lg);
-  background:rgba(255,255,255,0.82);
-  box-shadow:var(--shadow);
-  text-decoration:none;
-  color:#5a4b7a;
-  font-weight:900;
+/* Selected sound button state (if used anywhere) */
+.tool-btn.active{
+  background:var(--lavender) !important;
+  color:#fff !important;
 }
 
-/* ===============================
-   Bottom nav (NOW 7 ITEMS inc Progress)
-================================ */
+/* ---------- Bottom nav ---------- */
 .bottom-nav{
   position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
+  left:0; right:0; bottom:0;
+  background:rgba(255,255,255,0.92);
+  border-top:1px solid rgba(184,166,217,0.25);
   display:flex;
   justify-content:space-around;
-  align-items:center;
-  padding:8px 6px calc(12px + env(safe-area-inset-bottom));
-  background:rgba(255,255,255,0.96);
-  box-shadow:0 -6px 18px rgba(0,0,0,0.08);
-  z-index:20;
+  padding:10px 6px calc(10px + env(safe-area-inset-bottom));
+  z-index:40;
+  backdrop-filter: blur(10px);
 }
-
 .bottom-nav a{
-  flex:1;
-  text-align:center;
   text-decoration:none;
-  font-size:9px;          /* smaller to fit 7 */
-  color:var(--muted);
+  color:rgba(90,75,122,0.62);
+  font-size:11px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:3px;
+  gap:4px;
+  min-width:44px;
 }
-
+.bottom-nav .nav-ico{
+  font-size:20px;
+  line-height:1;
+}
 .bottom-nav a.active{
   color:#5a4b7a;
   font-weight:900;
 }
 
-.nav-ico{ font-size:15px; line-height:1; }
-
-/* ===============================
-   Tap to Colour (styled UI)
-================================ */
-.section-title{
-  font-weight:900;
-  color:#5a4b7a;
-  margin-bottom:10px;
-}
-
-.design-grid{
+/* =========================================================
+   QUOTES (boxed tiles)
+========================================================= */
+.quote-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:1fr;
   gap:12px;
+  margin-top:14px;
 }
-
-.design-tile{
-  background:rgba(255,255,255,0.86);
+.quote-tile{
+  background:rgba(255,255,255,0.9);
   border-radius:18px;
+  padding:14px 14px 12px;
   box-shadow:var(--shadow);
-  padding:12px;
-  cursor:pointer;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  user-select:none;
+  border:1px solid rgba(184,166,217,0.25);
+  transition:transform 0.08s ease, box-shadow 0.15s ease;
 }
-
-.design-tile.active{
-  outline:3px solid rgba(184,166,217,0.75);
-  background:rgba(239,233,248,0.96);
-}
-
-.design-preview{
-  width:56px;
-  height:56px;
-  border-radius:14px;
-  background:rgba(239,233,248,0.92);
-  display:grid;
-  grid-template-columns:repeat(10,1fr);
-  gap:1px;
-  padding:6px;
-}
-
-.preview-dot{ width:100%; aspect-ratio:1/1; border-radius:2px; background:rgba(90,75,122,0.14); }
-.preview-dot.off{ background:transparent; }
-
-.design-title{ font-weight:900; color:#5a4b7a; }
-.design-sub{ font-size:12px; color:var(--muted); margin-top:2px; }
-
-.mode-row{ display:flex; gap:10px; }
-.mode-btn{
-  flex:1;
-  padding:12px;
-  border-radius:14px;
-  border:none;
-  background:rgba(239,233,248,0.92);
-  box-shadow:var(--shadow);
-  font-weight:900;
-  color:#5a4b7a;
-}
-.mode-btn.active{ outline:3px solid rgba(184,166,217,0.75); background:rgba(255,255,255,0.92); }
-
-.palette-grid{
-  display:grid;
-  grid-template-columns:repeat(8,1fr);
-  gap:10px;
-  margin-top:10px;
-}
-
-.palette-chip{
-  position:relative;
-  aspect-ratio:1/1;
-  border-radius:999px;
-  border:2px solid rgba(0,0,0,0.08);
-  box-shadow:0 6px 14px rgba(0,0,0,0.06);
-}
-.palette-chip.active{ outline:3px solid rgba(184,166,217,0.85); }
-
-.palette-num{
-  position:absolute;
-  inset:auto 0 0 0;
-  text-align:center;
-  font-weight:900;
-  font-size:12px;
-  color:rgba(63,58,74,0.72);
-  padding-bottom:4px;
-  text-shadow:0 1px 0 rgba(255,255,255,0.6);
-}
-
-.tool-row{ display:flex; gap:10px; margin-top:12px; }
-.tool-btn{
-  flex:1;
-  padding:12px;
-  border-radius:14px;
-  border:none;
-  background:rgba(239,233,248,0.92);
-  box-shadow:var(--shadow);
-  font-weight:900;
-  color:#5a4b7a;
-}
-.tool-btn.danger{ background:rgba(244,194,194,0.60); }
-
-.grid-wrap{ display:flex; justify-content:center; padding:10px 0 6px; }
-.colour-grid{
-  display:grid;
-  grid-template-columns:repeat(14,1fr);
-  gap:6px;
-  width:100%;
-  max-width:420px;
-}
-.cell{
-  aspect-ratio:1/1;
-  background:var(--lavender-soft);
-  border-radius:10px;
-  position:relative;
-}
-.cell .num{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  font-weight:900;
-  color:rgba(90,75,122,0.55);
-}
-.cell.filled .num{ display:none; }
-
-/* ===============================
-   Night mode
-================================ */
-body.night{
-  background:#0f0e14;
-  color:rgba(245,242,255,0.92);
-}
-body.night .page-header h1{ color:rgba(245,242,255,0.95); }
-body.night .page-header p{ color:rgba(245,242,255,0.60); }
-
-body.night .card,
-body.night .primary-card,
-body.night .mini-tile,
-body.night .help-link,
-body.night .design-tile{
-  background:rgba(255,255,255,0.10);
-  box-shadow:var(--shadow-dark);
-}
-
-body.night .pc-title,
-body.night .mini-tile,
-body.night .design-title{
-  color:rgba(245,242,255,0.95);
-}
-
-body.night .pc-sub,
-body.night .design-sub,
-body.night .gentle-text{
-  color:rgba(245,242,255,0.65);
-}
-
-body.night input, body.night textarea, body.night select{
-  background:rgba(255,255,255,0.06);
-  color:rgba(245,242,255,0.92);
-  border:1px solid rgba(255,255,255,0.14);
-}
-
-body.night .primary{ background:#6f5aa6; box-shadow:var(--shadow-dark); }
-
-body.night .bottom-nav{
-  background:rgba(20,18,28,0.95);
-  box-shadow:0 -6px 18px rgba(0,0,0,0.45);
-}
-body.night .bottom-nav a{ color:rgba(245,242,255,0.60); }
-body.night .bottom-nav a.active{ color:rgba(245,242,255,0.95); }
-
-body.night .theme-toggle-top{
-  background:rgba(255,255,255,0.12);
-  color:rgba(245,242,255,0.95);
-  box-shadow:var(--shadow-dark);
-}
-
-@media (max-width:380px){
-  .bottom-nav a{ font-size:8px; }
-  .nav-ico{ font-size:14px; }
-}
-/* ===== Enigma Breathe (fixed) ===== */
-
-.page-wrap { min-height: 100vh; }
-
-.page { padding: 0 16px 110px; } /* space for bottom nav */
-
-.card{
-  background: rgba(255,255,255,0.88);
-  border-radius: 22px;
-  padding: 18px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-}
-
-.breathe-area{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  padding: 8px 0 4px;
-}
-
-.breathe-text{
-  font-size: 18px;
-  font-weight: 800;
-  color: #5a4b7a;
-  text-align: center;
-}
-
-.breathe-circle-wrap{
-  width: min(72vw, 320px);
-  height: min(72vw, 320px);
-  display: grid;
-  place-items: center;
-  overflow: visible;      /* IMPORTANT: prevents cutoff */
-  margin: 4px 0 8px;
-}
-
-.breathe-circle{
-  width: 160px;
-  height: 160px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.65), rgba(184,166,217,0.55));
-  box-shadow: 0 18px 40px rgba(90,75,122,0.14);
-  animation: enigmaBreathe 10s ease-in-out infinite;
-  transform-origin: center;
-}
-
-@keyframes enigmaBreathe{
-  0%   { transform: scale(0.75); }
-  40%  { transform: scale(1.08); } /* inhale */
-  60%  { transform: scale(1.08); } /* hold */
-  100% { transform: scale(0.75); } /* exhale */
-}
-
-.primary{
-  width: 100%;
-  border: none;
-  border-radius: 18px;
-  padding: 14px 16px;
-  font-weight: 900;
-  color: white;
-  background: #b8a6d9;
-}
-
-.gentle-text{
-  color: rgba(90,75,122,0.65);
-  font-size: 13px;
-  text-align: center;
-}
-/* ===== Quotes as boxed tiles ===== */
-.quote-grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.quote-tile{
-  background: rgba(255,255,255,0.9);
-  border-radius: 18px;
-  padding: 14px 14px 12px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-  border: 1px solid rgba(184,166,217,0.25);
-  transition: transform 0.08s ease, box-shadow 0.15s ease;
-}
-
-.quote-tile:active{
-  transform: scale(0.99);
-}
-
+.quote-tile:active{ transform:scale(0.99); }
 .quote-tile small{
   display:block;
-  margin-top: 8px;
-  color: rgba(90,75,122,0.72);
-  font-weight: 700;
+  margin-top:8px;
+  color:rgba(90,75,122,0.72);
+  font-weight:800;
 }
-
-/* saved state (selected) */
 .quote-tile.saved{
-  border: 2px solid rgba(184,166,217,0.75);
-  box-shadow: 0 14px 30px rgba(90,75,122,0.14);
+  border:2px solid rgba(184,166,217,0.75);
+  box-shadow:0 14px 30px rgba(90,75,122,0.14);
 }
 
-/* ===== Sound button selected state ===== */
-.tool-btn.active{
-  background: #b8a6d9 !important;
-  color: #ffffff !important;
-}
-
-.tool-btn.active .emoji,
-.tool-btn.active span{
-  color: #ffffff !important;
-}
-/* =========================
-   NEW: Quotes boxed tiles + selected states
-   Paste at END of style.css
-========================= */
-
-.quote-grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.quote-tile{
-  background: rgba(255,255,255,0.9);
-  border-radius: 18px;
-  padding: 14px 14px 12px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-  border: 1px solid rgba(184,166,217,0.25);
-  transition: transform 0.08s ease, box-shadow 0.15s ease;
-}
-
-.quote-tile:active{
-  transform: scale(0.99);
-}
-
-.quote-tile small{
-  display:block;
-  margin-top: 8px;
-  color: rgba(90,75,122,0.72);
-  font-weight: 700;
-}
-
-/* saved state (selected) */
-.quote-tile.saved{
-  border: 2px solid rgba(184,166,217,0.75);
-  box-shadow: 0 14px 30px rgba(90,75,122,0.14);
-}
-
-/* =========================
-   NEW: Sound selected button highlight
-========================= */
-
-.tool-btn.active{
-  background: #b8a6d9 !important;
-  color: #ffffff !important;
-}
-/* ===== Game designs (ensures designs show) ===== */
+/* =========================================================
+   TAP TO COLOUR (designs restored)
+========================================================= */
 .design-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -584,12 +251,13 @@ body.night .theme-toggle-top{
 .design-tile{
   background:rgba(255,255,255,0.86);
   border-radius:18px;
-  box-shadow:0 10px 24px rgba(0,0,0,0.08);
+  box-shadow:var(--shadow);
   padding:12px;
   display:flex;
   gap:12px;
   align-items:center;
   user-select:none;
+  border:1px solid rgba(184,166,217,0.18);
 }
 .design-tile.active{
   outline:3px solid rgba(184,166,217,0.75);
@@ -613,6 +281,23 @@ body.night .theme-toggle-top{
 }
 .design-title{ font-weight:900; color:#5a4b7a; }
 .design-sub{ font-size:12px; color:rgba(90,75,122,0.65); margin-top:2px; }
+
+/* Mode buttons */
+.mode-row{ display:flex; gap:10px; }
+.mode-btn{
+  flex:1;
+  padding:12px;
+  border-radius:16px;
+  border:none;
+  background:rgba(239,233,248,0.92);
+  box-shadow:var(--shadow);
+  font-weight:900;
+  color:#5a4b7a;
+}
+.mode-btn.active{
+  outline:3px solid rgba(184,166,217,0.75);
+  background:rgba(255,255,255,0.92);
+}
 
 /* Palette */
 .palette-grid{
@@ -655,25 +340,20 @@ body.night .theme-toggle-top{
   position:relative;
 }
 .cell .num{
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  font-size:12px; font-weight:900;
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:900;
   color:rgba(90,75,122,0.55);
 }
 .cell.filled .num{ display:none; }
 
-/* Mode buttons */
-.mode-row{ display:flex; gap:10px; }
-.mode-btn{
-  flex:1; padding:12px;
-  border-radius:14px; border:none;
-  background:rgba(239,233,248,0.92);
-  box-shadow:0 10px 24px rgba(0,0,0,0.08);
-  font-weight:900; color:#5a4b7a;
-}
-.mode-btn.active{ outline:3px solid rgba(184,166,217,0.75); background:rgba(255,255,255,0.92); }
-
-/* ===== Music links + mood + minutes ===== */
+/* =========================================================
+   MUSIC LINKS + MOODS + MINUTES
+========================================================= */
 .sound-links{
   display:flex;
   flex-direction:column;
@@ -684,14 +364,15 @@ body.night .theme-toggle-top{
   padding:16px;
   border-radius:18px;
   background:rgba(239,233,248,0.95);
-  box-shadow:0 10px 24px rgba(0,0,0,0.08);
+  box-shadow:var(--shadow);
   text-decoration:none;
   color:#5a4b7a;
   font-weight:900;
+  border:1px solid rgba(184,166,217,0.18);
 }
 .sound-link:active{ transform:scale(0.99); }
 .sound-link.active{
-  background:#b8a6d9;
+  background:var(--lavender);
   color:#fff;
 }
 
@@ -707,12 +388,12 @@ body.night .theme-toggle-top{
   padding:10px 12px;
   border-radius:999px;
   background:rgba(239,233,248,0.95);
-  box-shadow:0 10px 24px rgba(0,0,0,0.08);
+  box-shadow:var(--shadow);
   font-weight:900;
   color:#5a4b7a;
 }
 .chip.active{
-  background:#b8a6d9;
+  background:var(--lavender);
   color:#fff;
 }
 
@@ -727,8 +408,9 @@ body.night .theme-toggle-top{
   background:rgba(255,255,255,0.85);
   border-radius:18px;
   padding:12px;
-  box-shadow:0 10px 24px rgba(0,0,0,0.08);
+  box-shadow:var(--shadow);
   text-align:center;
+  border:1px solid rgba(184,166,217,0.18);
 }
 .stat-num{
   font-weight:900;
@@ -741,17 +423,8 @@ body.night .theme-toggle-top{
   margin-top:4px;
 }
 
-/* Night mode adjustments for music cards */
-body.night .sound-link,
-body.night .chip,
-body.night .stat{
-  background:rgba(255,255,255,0.10);
-  color:rgba(245,242,255,0.92);
+/* Small responsiveness */
+@media (max-width:380px){
+  .palette-grid{ grid-template-columns:repeat(7,1fr); }
+  .bottom-nav .nav-ico{ font-size:18px; }
 }
-body.night .sound-link.active,
-body.night .chip.active{
-  background:#6f5aa6;
-  color:#fff;
-}
-body.night .stat-num{ color:rgba(245,242,255,0.95); }
-body.night .stat-label{ color:rgba(245,242,255,0.65); }
