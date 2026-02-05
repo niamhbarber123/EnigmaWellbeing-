@@ -10,7 +10,8 @@
   <link rel="manifest" href="/Enigma-/manifest.json">
   <meta name="theme-color" content="#b8a6d9">
 
-  <link rel="stylesheet" href="/Enigma-/style.css?v=2001">
+  <!-- bump version if Safari caches -->
+  <link rel="stylesheet" href="/Enigma-/style.css?v=3001">
 </head>
 
 <body class="page-wrap">
@@ -26,19 +27,22 @@
 
     <div class="card">
       <div class="section-title">Choose a design</div>
+      <!-- THIS MUST EXIST for JS -->
       <div id="designGrid" class="design-grid"></div>
     </div>
 
     <div class="card">
       <div class="section-title">Mode</div>
       <div class="mode-row">
-        <button id="modeNumberBtn" class="mode-btn" type="button" onclick="setColourMode('number')">Colour-by-number</button>
-        <button id="modeFreeBtn" class="mode-btn" type="button" onclick="setColourMode('free')">Free colour</button>
+        <button id="modeNumberBtn" class="mode-btn" type="button">Colour-by-number</button>
+        <button id="modeFreeBtn" class="mode-btn" type="button">Free colour</button>
       </div>
+      <div class="gentle-text" id="modeHint">Pick a mode to begin.</div>
     </div>
 
     <div class="card">
       <div class="section-title">Palette</div>
+      <!-- THIS MUST EXIST for JS -->
       <div id="palette" class="palette-grid"></div>
 
       <div class="tool-row">
@@ -57,6 +61,7 @@
     <div class="card">
       <div class="section-title">Your page</div>
       <div class="grid-wrap">
+        <!-- THIS MUST EXIST for JS -->
         <div id="grid" class="colour-grid"></div>
       </div>
     </div>
@@ -73,6 +78,17 @@
     <a href="/Enigma-/progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="/Enigma-/app.js?v=2001"></script>
+  <!-- IMPORTANT: must load app.js -->
+  <script src="/Enigma-/app.js?v=3001"></script>
+
+  <!-- Wire buttons even if cached -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const n = document.getElementById("modeNumberBtn");
+      const f = document.getElementById("modeFreeBtn");
+      if(n) n.onclick = () => setColourMode("number");
+      if(f) f.onclick = () => setColourMode("free");
+    });
+  </script>
 </body>
 </html>
