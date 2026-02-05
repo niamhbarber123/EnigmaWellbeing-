@@ -7,16 +7,22 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-
-  <link rel="stylesheet" href="style.css?v=60004" />
+  <link rel="stylesheet" href="style.css?v=70001" />
 </head>
 
 <body class="page-wrap home">
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <h1>Enigma</h1>
-    <p>Your calm space</p>
+    <!-- Enigma + Word of the Day inline -->
+    <div class="brand-row">
+      <h1 class="brand-title">Enigma</h1>
+      <div class="wotd" aria-live="polite">
+        <div class="wotd-label">Word of the day</div>
+        <div class="wotd-word" id="wotdWord">—</div>
+      </div>
+    </div>
+    <p id="wotdDef" class="brand-sub">Your calm space</p>
   </header>
 
   <main class="page home-page">
@@ -34,7 +40,7 @@
       <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
     </div>
 
-    <!-- ✅ Distraction Section (UPDATED: typing required + progress + skip + end) -->
+    <!-- Distraction section (typing required to count “Answered”) -->
     <div class="card" id="distractionCard">
       <div class="section-title">Distraction</div>
       <div class="gentle-text" id="distractionIntro">
@@ -45,7 +51,6 @@
         Tap Start to begin.
       </div>
 
-      <!-- ✅ Progress: only counts ANSWERED -->
       <div class="gentle-text" id="distractionMeta">
         Answered: <span id="distractionAnsweredCount">0</span>
       </div>
@@ -84,6 +89,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=60004" defer></script>
+  <script src="app.js?v=70001" defer></script>
 </body>
 </html>
