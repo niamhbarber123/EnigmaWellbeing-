@@ -1,12 +1,12 @@
 /* =========================================================
-   Enigma • app.js (WORKING + DISTRACTION)
+   Enigma • app.js (WORKING + DISTRACTION FIXED)
    - Theme (night mode)
    - Back navigation
    - Breathe animation (Start/Stop)
    - Quotes (save)
    - Music (moods + links + minutes)
    - Yoga (moods + video links)
-   - Distraction (random questions + next/skip/complete + localStorage)
+   - Distraction (typing required + Skip allowed + End + answered-only counter)
 ========================================================= */
 
 (function () {
@@ -332,7 +332,11 @@
   }
 
   /* =========================
-     DISTRACTION (home questions)
+     DISTRACTION (typing required)
+     - Next requires typed text
+     - Skip doesn't count
+     - Progress counts ANSWERED only
+     - End finishes any time
   ========================= */
   const DISTRACTION_QUESTIONS = [
     "Name 5 things you can see right now.",
@@ -355,66 +359,7 @@
     "What’s a small win you’ve had this week?",
     "What’s something you’re looking forward to (even small)?",
     "What’s your favourite snack combination?",
-    "What would your ‘calm alter ego’ do next?",
-    "Pick an animal—what would it say to reassure you?",
-    "What’s the softest thing you own?",
-    "What’s one song you know all the words to?",
-    "What’s a hobby you’d like to try one day?",
-    "Name 3 colours you can spot around you.",
-    "What’s one thing you can tidy in 30 seconds?",
-    "If your thoughts were weather, what’s the forecast—and what would help?",
-    "What’s one gentle stretch you can do right now?",
-    "What’s your favourite smell of soap/shower gel?",
-    "What is a ‘good enough’ goal for today?",
-    "What’s a nice word that starts with the same letter as your name?",
-    "What’s your favourite comfy outfit?",
-    "If you had a calm superpower, what would it be?",
-    "What’s something you’ve learned about yourself recently?",
-    "Name 5 foods you enjoy.",
-    "Name 5 places you’d like to visit.",
-    "What’s your favourite sound (rain, waves, fire, birds)?",
-    "What’s a compliment you’ve received that you still remember?",
-    "What’s a scent that reminds you of a good memory?",
-    "If you could press pause on one thing, what would it be?",
-    "What’s one boundary that helps you feel safe?",
-    "What’s a comforting word or phrase you like?",
-    "What’s your favourite warm light (candles, fairy lights, lamp)?",
-    "What’s one thing you’ve overcome before?",
-    "What’s one small thing your body is doing well right now?",
-    "If you could message future-you, what would you say?",
-    "What’s a colour that matches your mood?",
-    "Name 3 people/characters who feel ‘safe’ to you.",
-    "If you could swap tasks with someone for a day, what would you pick?",
-    "What’s a gentle plan for tonight?",
-    "What’s your favourite breakfast?",
-    "What’s a smell you’d put in a candle?",
-    "If you could rename today, what would you call it?",
-    "What’s one simple thing you can do to be kind to yourself right now?",
-    "What’s your favourite texture (fuzzy, smooth, cool)?",
-    "Name 5 items you could pack for a calm picnic.",
-    "What’s something you can do slowly on purpose (sip water, breathe, stretch)?",
-    "If you could live inside a book/film for 1 hour, which one?",
-    "What’s a nice word you like the sound of?",
-    "What’s a tiny decision you can make to help future-you?",
-    "What’s one thing that’s ‘not urgent’ right now?",
-    "If you could give your brain a break button, what would it do?",
-    "What would a perfect ‘quiet morning’ look like?",
-    "What’s one thing you can put off until later?",
-    "Name 3 things you appreciate about your home/space.",
-    "If you could pet any animal right now, what would it be?",
-    "What’s the most calming colour combination?",
-    "If you could eat one meal forever, what would it be?",
-    "What’s a gentle mantra you could repeat 3 times?",
-    "What would you do if you had zero pressure for the next hour?",
-    "What’s one thing you can forgive yourself for today?",
-    "What’s something you’re proud of that no one sees?",
-    "What’s one smell you wish existed?",
-    "If your mind was a room, what would you change first?",
-    "What’s a tiny treat you could give yourself later?",
-    "Name 5 objects you could draw right now.",
-    "What’s something you can do with your hands (fidget, fold, doodle)?",
-    "What’s one thing you’d like to hear from someone today?",
-    "What’s one gentle thing you can say to yourself right now?"
+    "What would your ‘calm alter ego’ do next?"
   ];
 
   function shuffleArray(arr){
@@ -427,29 +372,37 @@
   }
 
   function initDistraction(){
-    // Home page only
     const card = $("distractionCard");
     if (!card) return;
 
     const qEl = $("distractionQuestion");
-    const meta = $("distractionMeta");
+    const answeredCountEl = $("distractionAnsweredCount");
+    const input = $("distractionInput");
     const startBtn = $("distractionStartBtn");
     const nextBtn = $("distractionNextBtn");
     const skipBtn = $("distractionSkipBtn");
-    const completeBtn = $("distractionCompleteBtn");
+    const endBtn = $("distractionEndBtn");
 
-    if (!qEl || !meta || !startBtn || !nextBtn || !skipBtn || !completeBtn) return;
+    // Must match your NEW index.html ids
+    if (!qEl || !answeredCountEl || !input || !startBtn || !nextBtn || !skipBtn || !endBtn) return;
 
-    const SESSION_KEY = "enigmaDistractionSession";
-    const COMPLETE_KEY = "enigmaDistractionCompletes";
+    const SESSION_KEY = "enigmaDistractionSessionV2";
+    const ANSWERS_KEY = "enigmaDistractionAnswersV2";
 
-    function setButtons(state){
-      // state: "idle" | "running"
-      const running = state === "running";
+    function setButtons(running){
       startBtn.style.display = running ? "none" : "";
-      nextBtn.style.display = running ? "" : "none";
-      skipBtn.style.display = running ? "" : "none";
-      completeBtn.style.display = running ? "" : "none";
+      nextBtn.style.display  = running ? "" : "none";
+      skipBtn.style.display  = running ? "" : "none";
+      endBtn.style.display   = running ? "" : "none";
+      input.disabled = !running;
+      if (!running) input.value = "";
+      refreshNextEnabled();
+    }
+
+    function refreshNextEnabled(){
+      const hasText = (input.value || "").trim().length > 0;
+      nextBtn.disabled = !hasText;
+      nextBtn.style.opacity = hasText ? "1" : "0.55";
     }
 
     function loadSession(){
@@ -459,6 +412,7 @@
         const s = JSON.parse(raw);
         if (!s || s.day !== todayKey()) return null;
         if (!Array.isArray(s.order) || typeof s.i !== "number") return null;
+        if (typeof s.answered !== "number") s.answered = 0;
         return s;
       }catch{
         return null;
@@ -473,51 +427,37 @@
       localStorage.removeItem(SESSION_KEY);
     }
 
-    function currentQuestion(s){
+    function getQuestion(s){
       const idx = s.order[s.i];
       return DISTRACTION_QUESTIONS[idx] || "Take one slow breath in… and out.";
     }
 
     function updateUI(s){
-      qEl.textContent = currentQuestion(s);
-      meta.textContent = `Question ${s.i + 1} of ${s.order.length} • Answered ${s.answered} • Skipped ${s.skipped}`;
-      setButtons("running");
+      qEl.textContent = getQuestion(s);
+      answeredCountEl.textContent = String(s.answered || 0);
+      input.value = "";
+      input.focus({ preventScroll:true });
+      setButtons(true);
+    }
+
+    function saveAnswer(question, answer){
+      const store = JSON.parse(localStorage.getItem(ANSWERS_KEY) || "[]");
+      store.unshift({ day: todayKey(), q: question, a: answer, t: Date.now() });
+      localStorage.setItem(ANSWERS_KEY, JSON.stringify(store.slice(0, 120)));
     }
 
     function startNew(){
-      const max = Math.min(30, DISTRACTION_QUESTIONS.length); // 30-question session (nice length)
+      const max = Math.min(20, DISTRACTION_QUESTIONS.length);
       const order = shuffleArray([...Array(DISTRACTION_QUESTIONS.length).keys()]).slice(0, max);
 
-      const s = {
-        day: todayKey(),
-        order,
-        i: 0,
-        answered: 0,
-        skipped: 0,
-        startedAt: Date.now()
-      };
-
+      const s = { day: todayKey(), order, i: 0, answered: 0 };
       saveSession(s);
       updateUI(s);
     }
 
-    function finish(s){
-      // Save completion count per day
-      const day = todayKey();
-      const store = JSON.parse(localStorage.getItem(COMPLETE_KEY) || "{}");
-      store[day] = (store[day] || 0) + 1;
-      localStorage.setItem(COMPLETE_KEY, JSON.stringify(store));
-
-      clearSession();
-      setButtons("idle");
-
-      qEl.textContent = "Nice work ✅";
-      meta.textContent = `Completed. Answered ${s.answered} • Skipped ${s.skipped}. You can start again any time.`;
-    }
-
-    function advance(s){
+    function nextQuestion(s){
       if (s.i >= s.order.length - 1){
-        finish(s);
+        endSession(s, "You reached the end of the questions ✅");
         return;
       }
       s.i += 1;
@@ -525,7 +465,15 @@
       updateUI(s);
     }
 
-    // Wire buttons
+    function endSession(s, message){
+      clearSession();
+      setButtons(false);
+      qEl.textContent = message || "Session ended.";
+      answeredCountEl.textContent = String(s?.answered || 0);
+    }
+
+    input.addEventListener("input", refreshNextEnabled);
+
     startBtn.addEventListener("click", (e)=>{
       e.preventDefault();
       startNew();
@@ -535,40 +483,44 @@
       e.preventDefault();
       const s = loadSession();
       if (!s) return startNew();
-      s.answered += 1;
+
+      const ans = (input.value || "").trim();
+      if (!ans){
+        alert("Please type something or press Skip.");
+        return;
+      }
+
+      const q = getQuestion(s);
+      saveAnswer(q, ans);
+
+      s.answered = (s.answered || 0) + 1;
       saveSession(s);
-      advance(s);
+
+      nextQuestion(s);
     }, { passive:false });
 
     skipBtn.addEventListener("click", (e)=>{
       e.preventDefault();
       const s = loadSession();
       if (!s) return startNew();
-      s.skipped += 1;
-      saveSession(s);
-      advance(s);
+      // skip DOES NOT count
+      nextQuestion(s);
     }, { passive:false });
 
-    completeBtn.addEventListener("click", (e)=>{
+    endBtn.addEventListener("click", (e)=>{
       e.preventDefault();
       const s = loadSession();
-      if (!s){
-        qEl.textContent = "All done ✅";
-        meta.textContent = "Tap Start whenever you want a new set of questions.";
-        setButtons("idle");
-        return;
-      }
-      finish(s);
+      endSession(s || { answered: Number(answeredCountEl.textContent||0) }, "Session ended. You can start again any time 💜");
     }, { passive:false });
 
-    // Resume if there’s an active session today
+    // resume session
     const existing = loadSession();
     if (existing){
       updateUI(existing);
     }else{
-      setButtons("idle");
+      setButtons(false);
       qEl.textContent = "Tap Start to begin.";
-      meta.textContent = "Ready when you are.";
+      answeredCountEl.textContent = "0";
     }
   }
 
