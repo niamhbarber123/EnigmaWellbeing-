@@ -3,75 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tap to colour</title>
+  <title>Tap to Colour • Enigma</title>
 
   <link rel="apple-touch-icon" sizes="180x180" href="/Enigma-/apple-touch-icon.png">
-  <link rel="apple-touch-icon-precomposed" href="/Enigma-/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/Enigma-/icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/Enigma-/icon-192.png">
   <link rel="manifest" href="/Enigma-/manifest.json">
-  <meta name="apple-mobile-web-app-title" content="Enigma">
-  <meta name="application-name" content="Enigma">
   <meta name="theme-color" content="#b8a6d9">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Enigma">
 
-  <link rel="stylesheet" href="/Enigma-/style.css?v=200">
+  <link rel="stylesheet" href="/Enigma-/style.css?v=502" />
 </head>
 
 <body class="page-wrap">
-
   <header class="page-header">
-    <h1>Tap to colour</h1>
-    <p>Pick a design, choose a number, tap matching tiles.</p>
+    <button class="back-btn" type="button" onclick="enigmaBack()" aria-label="Back">←</button>
+    <h1>Tap to Colour</h1>
+    <p>Pick a design, then colour gently</p>
   </header>
 
   <main class="page">
-
     <div class="card">
       <div class="section-title">Choose a design</div>
-      <div class="design-grid" id="designGrid"></div>
-
-      <div class="mode-row">
-        <button class="mode-btn active" id="modeNumberBtn" type="button" onclick="setColourMode('number')">🔢 Colour by number</button>
-        <button class="mode-btn" id="modeFreeBtn" type="button" onclick="setColourMode('free')">🎨 Free colour</button>
-      </div>
-
-      <div class="gentle-text">Your progress is saved automatically for each design.</div>
+      <div id="designGrid" class="design-grid"></div>
     </div>
 
     <div class="card">
-      <div class="section-title">Colours</div>
-      <div class="palette-grid" id="palette"></div>
+      <div class="section-title">Mode</div>
+      <div class="mode-row">
+        <button id="modeNumberBtn" class="mode-btn" type="button" onclick="setColourMode('number')">Colour-by-number</button>
+        <button id="modeFreeBtn" class="mode-btn" type="button" onclick="setColourMode('free')">Free colour</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Palette</div>
+      <div id="palette" class="palette-grid"></div>
 
       <div class="tool-row">
-        <button class="tool-btn" type="button" onclick="enigmaUndo()">↩︎ Undo</button>
-        <button class="tool-btn" type="button" onclick="enigmaEraser()">🧼 Eraser</button>
-        <button class="tool-btn danger" type="button" onclick="enigmaClear()">🗑 Clear</button>
+        <button class="tool-btn" type="button" onclick="enigmaUndo()">Undo</button>
+        <button class="tool-btn" type="button" onclick="enigmaEraser()">Eraser</button>
+        <button class="tool-btn danger" type="button" onclick="enigmaClear()">Clear</button>
       </div>
+
+      <div class="tool-row">
+        <button class="tool-btn" type="button" onclick="markColouringComplete()">Completed ✅</button>
+      </div>
+
+      <div class="gentle-text" id="saveMsg">Loading…</div>
     </div>
 
     <div class="card">
-      <div class="section-title">Board</div>
+      <div class="section-title">Your page</div>
       <div class="grid-wrap">
         <div id="grid" class="colour-grid big"></div>
       </div>
-
-      <button class="primary" type="button" onclick="markColouringComplete()">Completed</button>
-      <div class="gentle-text" id="saveMsg"></div>
     </div>
-
   </main>
 
   <nav class="bottom-nav">
     <a href="/Enigma-/index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="/Enigma-/breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
     <a href="/Enigma-/journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="/Enigma-/checkin.html"><div class="nav-ico">🌿</div><span>Check-in</span></a>
-    <a href="/Enigma-/progress.html"><div class="nav-ico">📊</div><span>Progress</span></a>
-    <a href="/Enigma-/help.html"><div class="nav-ico">🆘</div><span>Help</span></a>
+    <a href="/Enigma-/quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a class="active" href="/Enigma-/game.html"><div class="nav-ico">🎨</div><span>Colour</span></a>
+    <a href="/Enigma-/sounds.html"><div class="nav-ico">🎧</div><span>Sounds</span></a>
 
-    <button id="themeFab" class="theme-fab" onclick="toggleTheme()" aria-label="Toggle night mode">🌙</button>
+    <button id="themeFab" class="theme-fab" type="button" aria-label="Toggle night mode">🌙</button>
   </nav>
 
-  <script src="/Enigma-/app.js"></script>
+  <script src="/Enigma-/app.js?v=502"></script>
 </body>
 </html>
