@@ -528,3 +528,53 @@ body.night .modal-tip{ color: rgba(245,242,255,0.65); }
   .home-hero{ margin: -12px auto -130px; height:min(380px, 64vw); }
   .home-pill{ padding:11px 12px; font-size:15px; }
 }
+/* ===== Quotes tiles ===== */
+.quote-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:14px;
+}
+
+.quote-tile{
+  background:rgba(255,255,255,0.92);
+  border-radius:18px;
+  padding:14px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(184,166,217,0.25);
+}
+
+.quote-text{
+  font-weight:900;
+  color:var(--deep);
+  line-height:1.35;
+  font-size:16px;
+}
+
+.quote-meta{
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.quote-author{
+  color:rgba(90,75,122,0.75);
+  font-weight:800;
+  font-size:13px;
+}
+
+.quote-save-btn{
+  border:none;
+  border-radius:999px;
+  padding:10px 12px;
+  font-weight:900;
+  background:rgba(239,233,248,0.95);
+  box-shadow:var(--shadow);
+  color:var(--deep);
+}
+.quote-save-btn.saved{
+  background: var(--lavender);
+  color:#fff;
+}
