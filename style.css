@@ -279,12 +279,12 @@ input[type="search"], input[type="text"], .input{
 }
 
 .breathe-circle.inhale{
-  transform: scale(1.16);
+  transform: scale(0.82);
   background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.96), rgba(122,170,240,0.60));
 }
 
 .breathe-circle.exhale{
-  transform: scale(0.82);
+  transform: scale(1.16);
   background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(170,120,210,0.55));
 }
 
