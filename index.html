@@ -45,29 +45,19 @@
         <span class="pill-ico">🎵</span><span class="pill-text">Music</span>
       </a>
 
-<!-- ✅ Word of the day (full-width tile) -->
-<a class="home-pill home-pill-wide wotd-pill" href="#" id="wotdPill">
-  <span class="pill-ico">✨</span>
-
-  <span class="wotd-text">
-    <span class="wotd-title">Word of the day</span>
-    <span class="wotd-word" id="wotdWord">—</span>
-    <span class="wotd-desc" id="wotdDesc">Loading…</span>
-  </span>
-
-  <button class="wotd-info" id="wotdInfoBtn" type="button" aria-label="Word of the day help">?</button>
-</a>
-
-    <!-- ✅ Distraction Section -->
-    <div class="card" id="distractionCard">
-      <div class="section-title">Distraction</div>
-      <div class="gentle-text" id="distractionIntro">
-        Gentle questions to interrupt a spiral. Type any answer (even one word) to continue — or Skip.
+<section class="home-card home-card-thin" id="wotdTile">
+  <div class="home-card-row">
+    <div>
+      <div class="home-card-title">Word of the day</div>
+      <div class="home-card-sub" id="wotdWord">Simplicity</div>
+      <div class="home-card-desc" id="wotdDesc">
+        Choosing what matters and letting go of the rest.
       </div>
+    </div>
 
-      <div id="distractionQuestion" class="distraction-question" style="margin-top:12px; font-weight:900; font-size:18px; color:#5a4b7a; line-height:1.35;">
-        Tap Start to begin.
-      </div>
+    <button class="wotd-info" id="wotdInfoBtn" type="button">?</button>
+  </div>
+</section>
 
       <!-- ✅ Progress: only counts ANSWERED -->
       <div class="gentle-text" id="distractionMeta" style="margin-top:10px;">
