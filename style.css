@@ -11,9 +11,6 @@
   --radius-md:16px;
 
   --deep:#5a4b7a;
-
-  /* ✅ Breathe speed controlled by JS */
-  --breath-sec: 5s;
 }
 
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -37,6 +34,7 @@ body.night .home-pill,
 body.night .home-help,
 body.night .quote-tile,
 body.night input,
+body.night select,
 body.night .chip,
 body.night .music-btn{
   background:rgba(255,255,255,0.10) !important;
@@ -156,15 +154,8 @@ body.night .theme-toggle-top{
   margin-top:8px;
 }
 
-.hr{
-  height:1px;
-  background:rgba(184,166,217,0.22);
-  border-radius:999px;
-  margin:14px 0;
-}
-
-/* ---------- Inputs ---------- */
-input[type="search"], input[type="text"], .input, select.input{
+/* ---------- Inputs & Select ---------- */
+input[type="search"], input[type="text"], .input{
   width:100%;
   padding:14px 14px;
   border-radius:16px;
@@ -173,6 +164,17 @@ input[type="search"], input[type="text"], .input, select.input{
   outline:none;
   font-size:16px;
   color:var(--ink);
+}
+select.select{
+  width:100%;
+  padding:14px 14px;
+  border-radius:16px;
+  border:1px solid rgba(184,166,217,0.18);
+  background:rgba(239,233,248,0.65);
+  outline:none;
+  font-size:16px;
+  color:var(--ink);
+  margin-top:8px;
 }
 
 /* ---------- Buttons ---------- */
@@ -207,7 +209,7 @@ input[type="search"], input[type="text"], .input, select.input{
   display:flex;
   justify-content:space-around;
   padding:10px 6px calc(10px + env(safe-area-inset-bottom));
-  z-index:999; /* ✅ keep visible */
+  z-index:50;
   backdrop-filter: blur(10px);
 }
 .bottom-nav a{
@@ -227,33 +229,178 @@ input[type="search"], input[type="text"], .input, select.input{
 }
 
 /* =========================================================
-   BREATHE
+   BREATHE — swapped animation:
+   - inhale = smaller
+   - exhale = bigger
+   Slower rhythm
 ========================================================= */
+.breathe-card{
+  min-height:520px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+
+.breathe-stage{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 18px 0 8px;
+  width:100%;
+}
+
+.breathe-ring{
+  width: min(300px, 78vw);
+  height: min(300px, 78vw);
+  border-radius: 999px;
+  background: rgba(239,233,248,0.70);
+  border: 2px solid rgba(90,75,122,0.30);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.10);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
 .breathe-circle{
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   border-radius: 999px;
   background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(124,96,170,0.55));
   box-shadow: inset 0 18px 36px rgba(0,0,0,0.08), 0 18px 38px rgba(90,75,122,0.18);
-  transform: scale(0.90);
-  transition: transform 5.5s ease-in-out, background 400ms ease;
+  transform: scale(1.0);
+  transition: transform 5s ease-in-out, background 400ms ease; /* slower */
   will-change: transform;
 }
 
-/* ✅ INHALE = smaller (retract) */
+/* inhale retracts */
 .breathe-circle.inhale{
   transform: scale(0.78);
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.96), rgba(122,170,240,0.60));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.96), rgba(122,170,240,0.55));
 }
 
-/* ✅ EXHALE = bigger (expand) */
+/* exhale expands */
 .breathe-circle.exhale{
   transform: scale(1.18);
   background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(170,120,210,0.55));
 }
 
+#breathPhase{
+  text-align:center;
+  font-size:24px;
+  font-weight:1000;
+  color:var(--deep);
+  margin-bottom:6px;
+}
+.breath-text{
+  text-align:center;
+  font-size:16px;
+  font-weight:800;
+  color:rgba(90,75,122,0.75);
+  margin-top:8px;
+}
+.breath-timer{
+  text-align:center;
+  font-size:18px;
+  font-weight:900;
+  color:var(--deep);
+  margin-top:6px;
+}
+
 /* =========================================================
-   HOME
+   MUSIC/YOGA list buttons
+========================================================= */
+.music-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.music-btn{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 16px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(184,166,217,0.22);
+  box-shadow:var(--shadow);
+  font-weight:900;
+  font-size:16px;
+  color:var(--deep);
+  text-decoration:none;
+}
+.music-btn span:last-child{
+  font-size:18px;
+  opacity:0.7;
+}
+.music-btn:active{ transform:scale(0.99); }
+
+/* ---------- Chips ---------- */
+.chip-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.chip{
+  border:none;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(239,233,248,0.90);
+  box-shadow:0 6px 16px rgba(0,0,0,0.06);
+  font-weight:900;
+  color:var(--deep);
+}
+.chip.active{
+  background:var(--lavender);
+  color:#fff;
+}
+
+/* =========================================================
+   QUOTES — tiles
+========================================================= */
+.quote-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:14px;
+}
+.quote-tile{
+  background:rgba(255,255,255,0.92);
+  border-radius:18px;
+  padding:14px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(184,166,217,0.25);
+}
+.quote-text{
+  font-weight:900;
+  color:var(--deep);
+  line-height:1.35;
+  font-size:16px;
+  margin-bottom:10px;
+}
+.quote-tile small{
+  display:block;
+  color:rgba(90,75,122,0.75);
+  font-weight:800;
+  font-size:13px;
+  margin-bottom:10px;
+}
+.quote-save-btn{
+  border:none;
+  border-radius:999px;
+  padding:10px 12px;
+  font-weight:900;
+  background:rgba(239,233,248,0.95);
+  box-shadow:var(--shadow);
+  color:var(--deep);
+}
+.quote-save-btn.saved{
+  background: var(--lavender);
+  color:#fff;
+}
+
+/* =========================================================
+   HOME — tighter and WOTD tile wide
 ========================================================= */
 body.home .page{
   padding:8px 18px calc(98px + env(safe-area-inset-bottom));
@@ -278,7 +425,6 @@ body.home .page-header p{ margin-top:6px; }
   background-position: center;
   background-size: cover;
   opacity: 0.12;
-  filter: saturate(1.0) contrast(1.05);
   pointer-events:none;
 }
 
@@ -319,9 +465,7 @@ body.home .page-header p{ margin-top:6px; }
   max-width:680px;
   margin:10px auto 10px;
 }
-
 .home-pill{
-  position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -336,19 +480,21 @@ body.home .page-header p{ margin-top:6px; }
   padding:12px 12px;
   box-shadow:var(--shadow);
 }
-.home-pill:active{ transform:scale(0.99); }
 .pill-ico{ font-size:18px; }
+
+.home-tile-wide{
+  position:relative;
+  cursor:pointer;
+}
 
 /* WOTD typography: title bold, word NOT bold */
 .wotd-title{ font-weight:900; }
 .wotd-word{
   font-weight:600 !important;
   font-size:17px;
-  color:var(--deep);
 }
 
 /* ? button inside tile */
-#wotdTile{ position:relative; }
 .wotd-info{
   position:absolute;
   right:12px;
@@ -358,11 +504,10 @@ body.home .page-header p{ margin-top:6px; }
   border:none;
   border-radius:999px;
   background: rgba(239,233,248,0.95);
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.10);
   font-weight:900;
   color:var(--deep);
 }
-.wotd-info:active{ transform:scale(0.98); }
 body.night .wotd-info{
   background: rgba(255,255,255,0.12);
   color: rgba(245,242,255,0.92);
@@ -387,9 +532,9 @@ body.night .wotd-info{
 }
 
 .distraction-question{
-  margin-top:10px;
+  margin-top:8px;
   font-weight:900;
-  font-size:17px;
+  font-size:16px;
   color:var(--deep);
   line-height:1.35;
 }
@@ -400,7 +545,7 @@ body.night .wotd-info{
 .modal{
   position:fixed;
   inset:0;
-  z-index:2000;
+  z-index:200;
   display:none;
 }
 .modal.show{ display:block; }
@@ -438,7 +583,7 @@ body.night .modal-card{
 }
 
 .modal-title{
-  font-weight:900;
+  font-weight:1000;
   font-size:14px;
   opacity:0.7;
 }
@@ -460,7 +605,6 @@ body.night .modal-word{ color: rgba(245,242,255,0.92); }
   font-weight:1000;
   color:var(--deep);
 }
-.modal-x:active{ transform:scale(0.98); }
 body.night .modal-x{
   background: rgba(255,255,255,0.12);
   color: rgba(245,242,255,0.92);
@@ -483,63 +627,11 @@ body.night .modal-desc{ color: rgba(245,242,255,0.75); }
 }
 body.night .modal-tip{ color: rgba(245,242,255,0.65); }
 
-/* =========================================================
-   Small screen tightening
-========================================================= */
+/* Small screen tightening */
 @media (max-height: 740px){
-  .page-header{ padding:56px 20px 14px; }
+  .page-header{ padding:56px 20px 14px; padding-left:84px; padding-right:84px; }
   .page{ padding-bottom:calc(112px + env(safe-area-inset-bottom)); }
   .card{ padding:14px; }
   .home-hero{ margin: -12px auto -130px; height:min(380px, 64vw); }
   .home-pill{ padding:11px 12px; font-size:15px; }
-}
-/* ===== Quotes tiles ===== */
-.quote-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-  margin-top:14px;
-}
-
-.quote-tile{
-  background:rgba(255,255,255,0.92);
-  border-radius:18px;
-  padding:14px;
-  box-shadow:var(--shadow);
-  border:1px solid rgba(184,166,217,0.25);
-}
-
-.quote-text{
-  font-weight:900;
-  color:var(--deep);
-  line-height:1.35;
-  font-size:16px;
-}
-
-.quote-meta{
-  margin-top:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-
-.quote-author{
-  color:rgba(90,75,122,0.75);
-  font-weight:800;
-  font-size:13px;
-}
-
-.quote-save-btn{
-  border:none;
-  border-radius:999px;
-  padding:10px 12px;
-  font-weight:900;
-  background:rgba(239,233,248,0.95);
-  box-shadow:var(--shadow);
-  color:var(--deep);
-}
-.quote-save-btn.saved{
-  background: var(--lavender);
-  color:#fff;
 }
