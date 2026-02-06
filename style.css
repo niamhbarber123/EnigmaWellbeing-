@@ -933,3 +933,23 @@ body.night .home-tile-wide{
 
 /* Optional: keep bottom nav always above normal content */
 .bottom-nav{ z-index:50; }
+/* =========================
+   FIX: Breathe buttons not clickable (nav overlap)
+   Paste at END of style.css
+========================= */
+
+/* Give the breathe page extra safe space above the fixed bottom nav */
+#breathePage.page{
+  padding-bottom: calc(170px + env(safe-area-inset-bottom)) !important;
+}
+
+/* Ensure the card sits above the nav if they overlap */
+#breathePage .card{
+  position: relative;
+  z-index: 2;
+}
+
+/* Nav stays on top visually, but won't "steal" taps above its area */
+.bottom-nav{
+  z-index: 50;
+}
