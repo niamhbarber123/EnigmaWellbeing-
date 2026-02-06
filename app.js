@@ -1,254 +1,195 @@
 /* =========================================================
-   Enigma Wellbeing • app.js (FULL)
-   - Theme (night mode)
+   Enigma Wellbeing • app.js (HOME FIX)
+   - Theme toggle
    - Back navigation
-   - Breathe (EXHALE expands, INHALE retracts)
-   - Quotes (local save)
-   - Music (moods + minutes)
-   - Yoga (moods + links)
-   - Word of the day (daily + modal + ? button)
-   - Distraction (typing required to count as answered)
+   - Word of the Day (daily deterministic pick + description + modal)
+   - Distraction (typed answers required for Next; skip allowed; progress = answered only)
 ========================================================= */
 
 (function () {
   "use strict";
 
-  /* =========================
-     Helpers
-  ========================= */
-  function $(id){ return document.getElementById(id); }
+  const $ = (id) => document.getElementById(id);
 
-  window.enigmaBack = function(){
+  // ---------- Back ----------
+  window.enigmaBack = function () {
     if (history.length > 1) history.back();
     else location.href = "index.html";
   };
 
-  function todayKey(){
-    return new Date().toISOString().split("T")[0];
+  // ---------- Date key ----------
+  function todayKey() {
+    return new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  }
+
+  // ---------- Deterministic RNG ----------
+  function mulberry32(seed) {
+    return function () {
+      let t = (seed += 0x6D2B79F5);
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function seedFromToday() {
+    const s = todayKey().replaceAll("-", "");
+    const n = parseInt(s, 10);
+    return Number.isFinite(n) ? n : 20260101;
   }
 
   /* =========================
      THEME
   ========================= */
-  function applyTheme(){
+  function applyTheme() {
     const t = localStorage.getItem("enigmaTheme") || "light";
     document.body.classList.toggle("night", t === "night");
   }
 
-  function toggleTheme(){
+  function toggleTheme() {
     const night = document.body.classList.toggle("night");
     localStorage.setItem("enigmaTheme", night ? "night" : "light");
   }
 
-  function initTheme(){
+  function initTheme() {
     const btn = $("themeFab");
     if (btn) btn.addEventListener("click", toggleTheme);
   }
 
   /* =========================
-     BREATHE (EXHALE expands)
-  ========================= */
-  function initBreathe(){
-    const page = $("breathePage");
-    if (!page) return;
-
-    const circle = $("breatheCircle");
-    const phase  = $("breathPhase");
-    const tip    = $("breathTip");
-    const start  = $("breathStartBtn");
-    const stop   = $("breathStopBtn");
-
-    if (!circle || !phase || !tip || !start || !stop) return;
-
-    let running = false;
-    let t1 = null;
-    let t2 = null;
-
-    function setText(p, m){
-      phase.textContent = p;
-      tip.textContent = m;
-    }
-
-    function clearTimers(){
-      if (t1) clearTimeout(t1);
-      if (t2) clearTimeout(t2);
-      t1 = t2 = null;
-    }
-
-    function reset(){
-      clearTimers();
-      circle.classList.remove("inhale","exhale");
-      setText("Ready", "Tap Start to begin.");
-    }
-
-    function cycle(){
-      if (!running) return;
-
-      // ✅ INHALE = retract (as requested)
-      circle.classList.add("inhale");
-      circle.classList.remove("exhale");
-      setText("Inhale", "Breathe in slowly…");
-
-      t1 = setTimeout(() => {
-        if (!running) return;
-
-        // ✅ EXHALE = expand (as requested)
-        circle.classList.add("exhale");
-        circle.classList.remove("inhale");
-        setText("Exhale", "Breathe out gently…");
-
-        t2 = setTimeout(() => {
-          if (!running) return;
-          cycle();
-        }, 4000);
-
-      }, 4000);
-    }
-
-    start.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (running) return;
-      running = true;
-      cycle();
-    }, { passive:false });
-
-    stop.addEventListener("click", (e) => {
-      e.preventDefault();
-      running = false;
-      reset();
-    }, { passive:false });
-
-    reset();
-  }
-
-  /* =========================
      WORD OF THE DAY
   ========================= */
-  const WOTD_TIP =
-    "Using these words as affirmations means you can repeat them to yourself, write them down, or think about them regularly to help cultivate those qualities within yourself.";
-
-  const WOTD_WORDS = [
-    { w:"Forgiveness", d:"Letting go of what weighs you down so you can move forward." },
-    { w:"Honesty", d:"Choosing truth with kindness — with yourself and others." },
-    { w:"Trust", d:"Allowing space for safety, patience, and steady belief." },
-    { w:"Responsibility", d:"Owning your choices with care and self-respect." },
-    { w:"Flexibility", d:"Bending without breaking — adapting gently to change." },
-    { w:"Boldness", d:"Taking a brave step, even when it feels uncomfortable." },
-    { w:"Discretion", d:"Choosing what to share and what to keep private with wisdom." },
-    { w:"Discipline", d:"Small steady actions that protect your goals and wellbeing." },
-    { w:"Detail", d:"Noticing the small things that help you feel grounded." },
-    { w:"Prosperity", d:"Allowing good things — time, energy, support — to grow." },
-    { w:"Acceptance", d:"Making peace with what is, so you can choose what’s next." },
-    { w:"Surrender", d:"Releasing control of what you can’t change." },
-    { w:"Sincerity", d:"Showing up as real — honest feelings, honest effort." },
-    { w:"Serenity", d:"A calm centre you can return to, even when life is loud." },
-    { w:"Humility", d:"Strength without ego — staying open to learning." },
-    { w:"Sensitivity", d:"Honouring your feelings as signals, not problems." },
-    { w:"Compassion", d:"Speaking to yourself the way you would to someone you love." },
-    { w:"Leadership", d:"Guiding with calm, care, and steadiness." },
-    { w:"Integrity", d:"Matching your actions to your values." },
-    { w:"Action", d:"One small step that makes things feel more possible." },
-    { w:"Courage", d:"Feeling fear and choosing to move anyway." },
-    { w:"Creativity", d:"Letting ideas and playfulness soften the mind." },
-    { w:"Gentleness", d:"Doing things softly — especially with yourself." },
-    { w:"Clarity", d:"Finding the next right step, not the whole staircase." },
-    { w:"Balance", d:"Making room for effort and rest." },
-    { w:"Fun", d:"Letting joy count — even in small moments." },
-    { w:"Commitment", d:"Staying connected to what matters to you." },
-    { w:"Patience", d:"Allowing time to do its quiet work." },
-    { w:"Freedom", d:"Creating space where you can breathe and be yourself." },
-    { w:"Reflection", d:"Pausing to understand and choose wisely." },
-    { w:"Giving", d:"Sharing care — including care for yourself." },
-    { w:"Enthusiasm", d:"A spark of energy that helps you begin." },
-    { w:"Joy", d:"Letting lightness exist, even briefly." },
-    { w:"Satisfaction", d:"Noticing what is enough and what is working." },
-    { w:"Grace", d:"Soft strength — doing your best without harshness." },
-    { w:"Simplicity", d:"Choosing what matters and letting go of the rest." },
-    { w:"Communication", d:"Saying what you need clearly and kindly." },
-    { w:"Appropriateness", d:"Choosing what fits the moment with care." },
-    { w:"Strength", d:"Quiet resilience — you’re still here." },
-    { w:"Love", d:"Warmth, connection, and belonging." },
-    { w:"Tenderness", d:"Treating yourself gently when you’re vulnerable." },
-    { w:"Perseverance", d:"Keeping going — especially through small steps." },
-    { w:"Reliability", d:"Being someone you can count on — including to yourself." },
-    { w:"Initiative", d:"Starting before you feel fully ready." },
-    { w:"Confidence", d:"Trusting you can handle what comes next." },
-    { w:"Authenticity", d:"Being real — no performance required." },
-    { w:"Harmony", d:"Letting things work together rather than clash." },
-    { w:"Pleasure", d:"Allowing comfort and enjoyment without guilt." },
-    { w:"Risk", d:"A thoughtful leap toward growth." },
-    { w:"Efficiency", d:"Doing what matters with less drain." },
-    { w:"Spontaneity", d:"Letting the day contain something light and unexpected." },
-    { w:"Fulfilment", d:"Living in a way that feels meaningful to you." }
+  const WOTD = [
+    { w: "Forgiveness", d: "Releasing resentment so you can move forward lighter." },
+    { w: "Honesty", d: "Choosing truth with kindness—to yourself and others." },
+    { w: "Trust", d: "Allowing confidence in yourself, others, or the process." },
+    { w: "Responsibility", d: "Owning your choices and responding with intention." },
+    { w: "Flexibility", d: "Adapting without losing your centre." },
+    { w: "Boldness", d: "Taking brave steps even when you feel unsure." },
+    { w: "Discretion", d: "Using good judgement about what to share and when." },
+    { w: "Discipline", d: "Doing what helps you—even when motivation fades." },
+    { w: "Detail", d: "Noticing the small things that improve the whole." },
+    { w: "Prosperity", d: "Growing resources and wellbeing in a healthy way." },
+    { w: "Acceptance", d: "Letting reality be what it is—so you can respond wisely." },
+    { w: "Surrender", d: "Loosening the grip on what you can’t control." },
+    { w: "Sincerity", d: "Being genuine—your real self is enough." },
+    { w: "Serenity", d: "A quiet steadiness, even when life is loud." },
+    { w: "Humility", d: "Staying grounded and open to learning." },
+    { w: "Sensitivity", d: "Noticing feelings and needs—yours and others’." },
+    { w: "Compassion", d: "Meeting struggle with warmth instead of judgement." },
+    { w: "Leadership", d: "Guiding with care, clarity, and example." },
+    { w: "Integrity", d: "Aligning actions with values—even in small moments." },
+    { w: "Action", d: "One doable step—progress over perfection." },
+    { w: "Courage", d: "Feeling fear and still choosing what matters." },
+    { w: "Creativity", d: "Letting new ideas and possibilities appear." },
+    { w: "Gentleness", d: "Soft strength—especially with yourself." },
+    { w: "Clarity", d: "Seeing what matters most, without the noise." },
+    { w: "Balance", d: "Making space for rest, effort, joy, and recovery." },
+    { w: "Fun", d: "Allowing lightness—your nervous system needs it." },
+    { w: "Commitment", d: "Staying with what you choose, one day at a time." },
+    { w: "Patience", d: "Letting growth take the time it takes." },
+    { w: "Freedom", d: "Creating room to breathe, choose, and be yourself." },
+    { w: "Reflection", d: "Looking back kindly to learn and reset." },
+    { w: "Giving", d: "Offering support without emptying yourself." },
+    { w: "Enthusiasm", d: "Inviting energy and interest into the day." },
+    { w: "Joy", d: "Noticing what feels bright—even briefly." },
+    { w: "Satisfaction", d: "Letting ‘enough’ be enough." },
+    { w: "Grace", d: "Moving with softness through imperfect moments." },
+    { w: "Simplicity", d: "Reducing the load—one less thing at a time." },
+    { w: "Communication", d: "Sharing clearly, listening carefully." },
+    { w: "Appropriateness", d: "Matching your response to the moment wisely." },
+    { w: "Strength", d: "Endurance, boundaries, and quiet resilience." },
+    { w: "Love", d: "Choosing care—for yourself and others." },
+    { w: "Tenderness", d: "Being gentle with what’s sensitive." },
+    { w: "Perseverance", d: "Keeping going, especially on the slow days." },
+    { w: "Reliability", d: "Being steady and consistent—small promises kept." },
+    { w: "Initiative", d: "Starting before you feel ready." },
+    { w: "Confidence", d: "Trusting your ability to figure things out." },
+    { w: "Authenticity", d: "Being real—no performance required." },
+    { w: "Harmony", d: "Finding calm alignment within and around you." },
+    { w: "Pleasure", d: "Letting good moments count." },
+    { w: "Risk", d: "Trying something new, gently and safely." },
+    { w: "Efficiency", d: "Using energy wisely—not doing everything." },
+    { w: "Spontaneity", d: "Letting life surprise you in kind ways." },
+    { w: "Fulfilment", d: "A sense of meaning—built over time." }
   ];
 
-  function seededIndexFromDate(len){
-    // stable daily pick without API calls
-    const day = todayKey();
-    let h = 0;
-    for (let i = 0; i < day.length; i++){
-      h = (h * 31 + day.charCodeAt(i)) >>> 0;
-    }
-    return h % len;
+  function pickWotd() {
+    const seed = seedFromToday();
+    const rand = mulberry32(seed);
+    const i = Math.floor(rand() * WOTD.length);
+    return WOTD[i] || { w: "Serenity", d: "A quiet steadiness, even when life is loud." };
   }
 
-  function initWOTD(){
-    const tile = $("wotdTile");
-    const wordEl = $("wotdWord");
-    const descEl = $("wotdDesc");
-    const infoBtn = $("wotdInfoBtn");
-
+  function showWotdModal(word, desc) {
     const modal = $("wotdModal");
     const backdrop = $("wotdBackdrop");
     const closeBtn = $("wotdCloseBtn");
-    const mWord = $("wotdModalWord");
-    const mDesc = $("wotdModalDesc");
 
-    if (!tile || !wordEl || !descEl || !infoBtn || !modal || !backdrop || !closeBtn || !mWord || !mDesc) return;
+    const mw = $("wotdModalWord");
+    const md = $("wotdModalDesc");
 
-    const idx = seededIndexFromDate(WOTD_WORDS.length);
-    const item = WOTD_WORDS[idx];
+    if (!modal || !mw || !md) return;
 
-    wordEl.textContent = item.w;
-    descEl.textContent = item.d;
+    mw.textContent = word;
+    md.textContent = desc;
 
-    mWord.textContent = item.w;
-    mDesc.textContent = item.d;
+    modal.style.display = "block";
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
 
-    function open(){
-      modal.classList.add("show");
-      modal.setAttribute("aria-hidden", "false");
-    }
-    function close(){
+    const close = () => {
       modal.classList.remove("show");
       modal.setAttribute("aria-hidden", "true");
-    }
+      modal.style.display = "none";
+    };
 
-    // clicking tile opens modal (but ignore clicking the ? button itself)
-    tile.addEventListener("click", (e)=>{
-      const t = e.target;
-      if (t && t.id === "wotdInfoBtn") return;
-      open();
-    });
+    backdrop && backdrop.addEventListener("click", close, { once: true });
+    closeBtn && closeBtn.addEventListener("click", close, { once: true });
 
-    infoBtn.addEventListener("click", (e)=>{
-      e.preventDefault();
-      open();
-    });
-
-    closeBtn.addEventListener("click", close);
-    backdrop.addEventListener("click", close);
-
-    // ESC close (desktop)
-    document.addEventListener("keydown", (e)=>{
-      if (e.key === "Escape") close();
+    // ESC closes
+    window.addEventListener("keydown", function esc(e) {
+      if (e.key === "Escape") {
+        close();
+        window.removeEventListener("keydown", esc);
+      }
     });
   }
 
+  function initWotd() {
+    const wEl = $("wotdWord");
+    const dEl = $("wotdDesc");
+    const infoBtn = $("wotdInfoBtn");
+    const tile = $("wotdTile");
+
+    if (!wEl || !dEl || !tile) return;
+
+    const { w, d } = pickWotd();
+
+    // Title bold is handled by CSS; word/desc intentionally normal
+    wEl.textContent = w;
+    dEl.textContent = d;
+
+    // open modal when tile clicked
+    tile.addEventListener("click", (e) => {
+      // prevent if clicking the ? button (it has its own handler)
+      if (e.target && e.target.id === "wotdInfoBtn") return;
+      e.preventDefault();
+      showWotdModal(w, d);
+    });
+
+    // open modal when ? clicked
+    if (infoBtn) {
+      infoBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showWotdModal(w, d);
+      });
+    }
+  }
+
   /* =========================
-     DISTRACTION (HOME, SINGLE TILE)
-     - Next requires typing (counts as answered)
-     - Skip does not count
+     DISTRACTION (typed answers required for Next)
   ========================= */
   const DISTRACTION_QUESTIONS = [
     "Name 5 things you can see right now.",
@@ -262,32 +203,33 @@
     "What’s one kind thing you’d say to a friend feeling this way?",
     "What’s your favourite cosy drink?",
     "If today had a soundtrack, what would it be called?",
-    "What’s a film or series that feels comforting?",
-    "What’s one smell that instantly relaxes you?",
+    "If you could design a calm room, what 3 items are in it?",
     "What’s a small win you’ve had this week?",
     "What’s something you’re looking forward to (even small)?",
     "What would your ‘calm alter ego’ do next?",
+    "What’s the softest thing you own?",
+    "Name 3 colours you can spot around you.",
     "What’s one gentle stretch you can do right now?",
     "What is a ‘good enough’ goal for today?",
-    "What’s a comforting word or phrase you like?",
-    "What’s one thing you can forgive yourself for today?"
+    "What’s one small thing you can do to be kind to yourself right now?"
   ];
 
-  function shuffleArray(arr){
+  function shuffle(arr) {
     const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--){
+    for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
   }
 
-  function initDistraction(){
+  function initDistraction() {
     const card = $("distractionCard");
     if (!card) return;
 
     const qEl = $("distractionQuestion");
-    const countEl = $("distractionAnsweredCount");
+    const answeredEl = $("distractionAnsweredCount");
+
     const inputWrap = $("distractionInputWrap");
     const input = $("distractionInput");
 
@@ -296,59 +238,65 @@
     const skipBtn = $("distractionSkipBtn");
     const endBtn = $("distractionEndBtn");
 
-    if (!qEl || !countEl || !inputWrap || !input || !startBtn || !nextBtn || !skipBtn || !endBtn) return;
+    if (!qEl || !answeredEl || !startBtn || !nextBtn || !skipBtn || !endBtn || !inputWrap || !input) return;
 
-    const SESSION_KEY = "enigmaDistractionSessionV2";
+    const KEY = "enigmaDistractionSessionV2";
 
-    function load(){
-      try{
-        const raw = localStorage.getItem(SESSION_KEY);
-        if (!raw) return null;
-        const s = JSON.parse(raw);
-        if (!s || s.day !== todayKey()) return null;
-        return s;
-      }catch{
-        return null;
-      }
-    }
-
-    function save(s){
-      localStorage.setItem(SESSION_KEY, JSON.stringify(s));
-    }
-
-    function clear(){
-      localStorage.removeItem(SESSION_KEY);
-    }
-
-    function setMode(running){
-      inputWrap.style.display = running ? "" : "none";
+    function setRunning(running) {
       startBtn.style.display = running ? "none" : "";
       nextBtn.style.display = running ? "" : "none";
       skipBtn.style.display = running ? "" : "none";
       endBtn.style.display = running ? "" : "none";
+      inputWrap.style.display = running ? "" : "none";
+      if (!running) input.value = "";
     }
 
-    function render(s){
-      qEl.textContent = s.questions[s.i] || "Take one slow breath in… and out.";
-      countEl.textContent = String(s.answered || 0);
-      setMode(true);
+    function load() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (!raw) return null;
+        const s = JSON.parse(raw);
+        if (!s || s.day !== todayKey()) return null;
+        if (!Array.isArray(s.order) || typeof s.i !== "number" || typeof s.answered !== "number") return null;
+        return s;
+      } catch {
+        return null;
+      }
+    }
+
+    function save(s) {
+      localStorage.setItem(KEY, JSON.stringify(s));
+    }
+
+    function clear() {
+      localStorage.removeItem(KEY);
+    }
+
+    function currentQ(s) {
+      const idx = s.order[s.i];
+      return DISTRACTION_QUESTIONS[idx] || "Take one slow breath in… and out.";
+    }
+
+    function render(s) {
+      qEl.textContent = currentQ(s);
+      answeredEl.textContent = String(s.answered);
       input.value = "";
-      input.focus();
+      setRunning(true);
     }
 
-    function newSession(){
-      const questions = shuffleArray(DISTRACTION_QUESTIONS).slice(0, 12); // short to avoid scrolling
-      const s = { day: todayKey(), questions, i: 0, answered: 0 };
+    function startNew() {
+      const order = shuffle([...Array(DISTRACTION_QUESTIONS.length).keys()]);
+      const s = { day: todayKey(), order, i: 0, answered: 0 };
       save(s);
       render(s);
     }
 
-    function advance(s){
-      if (s.i >= s.questions.length - 1){
-        // end automatically
+    function advance(s) {
+      if (s.i >= s.order.length - 1) {
+        // end session automatically when questions run out
+        qEl.textContent = "You’re done. Take a slow breath.";
+        setRunning(false);
         clear();
-        setMode(false);
-        qEl.textContent = "Nice work ✅ You can stop here or start again.";
         return;
       }
       s.i += 1;
@@ -356,182 +304,66 @@
       render(s);
     }
 
-    // Start
-    startBtn.addEventListener("click", (e)=>{
+    startBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      newSession();
+      startNew();
     });
 
-    // Next (requires typing)
-    nextBtn.addEventListener("click", (e)=>{
+    nextBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const s = load() || (newSession(), load());
+      const s = load() || (startNew(), load());
       if (!s) return;
 
-      const txt = (input.value || "").trim();
-      if (!txt){
-        // gentle nudge
-        qEl.textContent = "Type anything (even one word) — or tap Skip.";
+      const text = (input.value || "").trim();
+      if (!text) {
+        input.focus();
+        // tiny nudge without alerts
+        qEl.textContent = "Type any answer (even one word) — or tap Skip.";
+        setTimeout(() => {
+          const s2 = load();
+          if (s2) qEl.textContent = currentQ(s2);
+        }, 900);
         return;
       }
 
-      s.answered = (s.answered || 0) + 1;
+      s.answered += 1;
       save(s);
       advance(s);
     });
 
-    // Skip (does not count)
-    skipBtn.addEventListener("click", (e)=>{
+    skipBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const s = load() || (newSession(), load());
+      const s = load() || (startNew(), load());
       if (!s) return;
       advance(s);
     });
 
-    // End
-    endBtn.addEventListener("click", (e)=>{
+    endBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const s = load();
       clear();
-      setMode(false);
-      qEl.textContent = s ? `Ended. Answered ${s.answered || 0}.` : "Ended.";
-      countEl.textContent = s ? String(s.answered || 0) : "0";
+      setRunning(false);
+      qEl.textContent = "Ended. You can start again any time.";
     });
 
-    // Resume if active
+    // Resume today if active
     const existing = load();
-    if (existing){
+    if (existing) {
       render(existing);
-    }else{
-      setMode(false);
+    } else {
+      setRunning(false);
       qEl.textContent = "Tap Start to begin.";
-      countEl.textContent = "0";
+      answeredEl.textContent = "0";
     }
-  }
-
-  /* =========================
-     MUSIC / YOGA / QUOTES / PROGRESS
-     (kept minimal here — your pages will still work)
-  ========================= */
-
-  // Quotes: your quotes.html is already tile-based in CSS;
-  // app logic can be extended later if needed.
-
-  function initMusic(){
-    // only run if musicList exists
-    const list = $("musicList");
-    const chipsWrap = $("moodChips");
-    if (!list || !chipsWrap) return;
-
-    const MUSIC_MOODS = ["All","Anxious","Stressed","Focus","Sleep"];
-    const TRACKS = [
-      {t:"Calm breathing music",m:"Anxious",u:"https://www.youtube.com/watch?v=odADwWzHR24"},
-      {t:"Lo-fi focus mix",m:"Focus",u:"https://www.youtube.com/watch?v=jfKfPfyJRdk"},
-      {t:"Sleep music",m:"Sleep",u:"https://www.youtube.com/watch?v=DWcJFNfaw9c"},
-      {t:"Relaxing piano",m:"Stressed",u:"https://www.youtube.com/watch?v=1ZYbU82GVz4"},
-      {t:"Ocean waves",m:"Sleep",u:"https://www.youtube.com/watch?v=eKFTSSKCzWA"}
-    ];
-
-    let mood = localStorage.getItem("enigmaMusicMood") || "All";
-
-    function renderChips(){
-      chipsWrap.innerHTML = "";
-      MUSIC_MOODS.forEach(m=>{
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "chip" + (m === mood ? " active" : "");
-        b.textContent = m;
-        b.addEventListener("click", ()=>{
-          mood = m;
-          localStorage.setItem("enigmaMusicMood", mood);
-          renderChips();
-          renderTracks();
-        });
-        chipsWrap.appendChild(b);
-      });
-    }
-
-    function renderTracks(){
-      list.innerHTML = "";
-      TRACKS.filter(x => mood === "All" || x.m === mood).forEach(x=>{
-        const a = document.createElement("a");
-        a.href = x.u;
-        a.target = "_blank";
-        a.rel = "noopener";
-        a.className = "music-btn";
-        a.innerHTML = `<span>${x.t}</span><span>▶</span>`;
-        list.appendChild(a);
-      });
-    }
-
-    renderChips();
-    renderTracks();
-  }
-
-  function initYoga(){
-    const chipsWrap = $("yogaMoodChips");
-    const list = $("yogaVideoList");
-    if (!chipsWrap || !list) return;
-
-    const YOGA_MOODS = ["All","Anxiety","Stress","Sleep","Morning","Stiff body"];
-    const YOGA_VIDEOS = [
-      { t:"10 min Yoga for Anxiety", m:"Anxiety", u:"https://www.youtube.com/results?search_query=10+minute+yoga+for+anxiety" },
-      { t:"15 min Gentle Yoga for Stress", m:"Stress", u:"https://www.youtube.com/results?search_query=15+minute+gentle+yoga+for+stress" },
-      { t:"Yoga for Sleep (wind down)", m:"Sleep", u:"https://www.youtube.com/results?search_query=yoga+for+sleep+bedtime" },
-      { t:"Morning Yoga (wake up)", m:"Morning", u:"https://www.youtube.com/results?search_query=morning+yoga+10+minutes" },
-      { t:"Yoga for stiff back/hips", m:"Stiff body", u:"https://www.youtube.com/results?search_query=yoga+for+stiff+back+hips" },
-      { t:"Gentle yoga (all levels)", m:"All", u:"https://www.youtube.com/results?search_query=gentle+yoga+all+levels" }
-    ];
-
-    let mood = localStorage.getItem("enigmaYogaMood") || "All";
-
-    function render(){
-      chipsWrap.innerHTML = "";
-      YOGA_MOODS.forEach(m=>{
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "chip" + (m === mood ? " active" : "");
-        b.textContent = m;
-        b.addEventListener("click", ()=>{
-          mood = m;
-          localStorage.setItem("enigmaYogaMood", mood);
-          render();
-        });
-        chipsWrap.appendChild(b);
-      });
-
-      list.innerHTML = "";
-      YOGA_VIDEOS
-        .filter(x => mood === "All" || x.m === mood || x.m === "All")
-        .forEach(x=>{
-          const a = document.createElement("a");
-          a.href = x.u;
-          a.target = "_blank";
-          a.rel = "noopener";
-          a.className = "music-btn";
-          a.innerHTML = `<span>${x.t}</span><span>▶</span>`;
-          list.appendChild(a);
-        });
-    }
-
-    render();
   }
 
   /* =========================
      BOOT
   ========================= */
-  document.addEventListener("DOMContentLoaded",()=>{
+  document.addEventListener("DOMContentLoaded", () => {
     applyTheme();
     initTheme();
-    initBreathe();
-
-    // Home features:
-    initWOTD();
+    initWotd();
     initDistraction();
-
-    // Other pages:
-    initMusic();
-    initYoga();
   });
 
 })();
