@@ -597,3 +597,90 @@ body.night .modal-tip{ color: rgba(255,255,255,0.70); }
   .page-header{ padding:56px 20px 14px; }
   .page{ padding-bottom:calc(112px + env(safe-area-inset-bottom)); }
 }
+/* =========================================================
+   PATCH: Better night mode readability + link button styling
+   (Paste at the very bottom of style.css)
+========================================================= */
+
+/* Night mode: brighter text + clearer cards */
+body.night{
+  background:#0e0f14;
+  color:rgba(255,255,255,0.92);
+}
+
+body.night .card,
+body.night .home-card,
+body.night .home-pill,
+body.night .home-help,
+body.night .quote-tile{
+  background: rgba(255,255,255,0.14) !important;
+  border-color: rgba(255,255,255,0.16) !important;
+}
+
+body.night .home-card-title,
+body.night .section-title,
+body.night h1{
+  color: rgba(255,255,255,0.95) !important;
+}
+
+body.night .home-card-sub,
+body.night .home-card-desc,
+body.night .gentle-text,
+body.night .page-header p{
+  color: rgba(255,255,255,0.72) !important;
+}
+
+/* Inputs in night mode */
+body.night input[type="search"],
+body.night input[type="text"],
+body.night .input{
+  background: rgba(255,255,255,0.10) !important;
+  color: rgba(255,255,255,0.92) !important;
+  border-color: rgba(255,255,255,0.16) !important;
+}
+
+/* Buttons in night mode */
+body.night .tool-btn{
+  background: rgba(255,255,255,0.12) !important;
+  color: rgba(255,255,255,0.92) !important;
+}
+body.night .tool-btn.primary{
+  background: rgba(184,166,217,0.35) !important;
+}
+body.night .tool-btn.danger{
+  background: rgba(255,213,199,0.28) !important;
+}
+
+/* Make any plain links look consistent */
+body.night a{ color: rgba(210,198,255,0.95); }
+
+/* Ensure Music/Yoga link lists render as “tiles” */
+.music-list a,
+#musicList a,
+#yogaList a{
+  text-decoration:none !important;
+}
+
+/* If anything still renders as plain blue links in Music/Yoga cards, force button style */
+#musicList a,
+#yogaList a{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 16px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(184,166,217,0.22);
+  box-shadow:var(--shadow);
+  font-weight:900;
+  font-size:16px;
+  color:var(--deep);
+  margin-top:12px;
+}
+
+body.night #musicList a,
+body.night #yogaList a{
+  background: rgba(255,255,255,0.12) !important;
+  border-color: rgba(255,255,255,0.16) !important;
+  color: rgba(255,255,255,0.92) !important;
+}
