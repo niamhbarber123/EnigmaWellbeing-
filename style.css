@@ -1,11 +1,3 @@
-/* =========================================================
-   Enigma • style.css (FULL CLEAN + FIXES)
-   Fixes:
-   - Bigger back button + better placement
-   - Bottom nav always shows all items (scrollable if needed)
-   - Quotes render in separate boxes (quote-tile cards)
-========================================================= */
-
 :root{
   --lavender:#b8a6d9;
   --lavender-soft:#efe9f8;
@@ -17,6 +9,8 @@
   --radius-xl:26px;
   --radius-lg:20px;
   --radius-md:16px;
+
+  --deep:#5a4b7a;
 }
 
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -73,7 +67,7 @@ body.night .bottom-nav a.active{ color:#fff; }
 
 /* ---------- Header ---------- */
 .page-header{
-  padding:78px 20px 14px; /* slightly tighter + allows fixed back button */
+  padding:64px 20px 18px;
   text-align:center;
   position:relative;
 }
@@ -82,7 +76,7 @@ body.night .bottom-nav a.active{ color:#fff; }
   font-size:30px;
   font-weight:900;
   letter-spacing:0.2px;
-  color:#5a4b7a;
+  color:var(--deep);
 }
 .page-header p{
   margin:8px 0 0;
@@ -91,27 +85,29 @@ body.night .bottom-nav a.active{ color:#fff; }
 }
 body.night .page-header h1{ color:rgba(245,242,255,0.92); }
 
-/* ---------- Back button (FIX: bigger + moved) ---------- */
+/* ---------- Back button (BIGGER + ALWAYS LEFT) ---------- */
 .back-btn{
-  position:fixed;
+  position:absolute;
   left:14px;
   top:calc(14px + env(safe-area-inset-top));
   width:56px;
   height:56px;
   border-radius:999px;
   border:none;
-  background:rgba(255,255,255,0.90);
+  background:rgba(255,255,255,0.86);
   box-shadow:var(--shadow);
-  font-size:22px;
+  font-size:26px;
   font-weight:900;
-  color:var(--ink);
-  z-index:70;
+  color:var(--deep);
+  z-index:60;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .back-btn:active{ transform:scale(0.98); }
 body.night .back-btn{
   background:rgba(255,255,255,0.12);
   color:rgba(245,242,255,0.92);
-  box-shadow:0 10px 24px rgba(0,0,0,0.35);
 }
 
 /* ---------- Theme button ---------- */
@@ -119,11 +115,11 @@ body.night .back-btn{
   position:fixed;
   right:14px;
   top:calc(14px + env(safe-area-inset-top));
-  width:56px;
-  height:56px;
+  width:52px;
+  height:52px;
   border-radius:999px;
   border:none;
-  background:rgba(255,255,255,0.90);
+  background:rgba(255,255,255,0.86);
   box-shadow:var(--shadow);
   font-size:22px;
   z-index:70;
@@ -140,14 +136,14 @@ body.night .theme-toggle-top{
   border-radius:var(--radius-xl);
   padding:16px;
   box-shadow:var(--shadow);
-  margin:14px 0;
+  margin:12px 0;
   border:1px solid rgba(184,166,217,0.18);
 }
 .section-title{
   font-weight:900;
   font-size:18px;
   margin-bottom:10px;
-  color:#5a4b7a;
+  color:var(--deep);
 }
 .gentle-text{
   font-size:13px;
@@ -167,8 +163,8 @@ body.night .theme-toggle-top{
   border-radius:999px;
   background:rgba(239,233,248,0.90);
   box-shadow:0 6px 16px rgba(0,0,0,0.06);
-  font-weight:800;
-  color:#5a4b7a;
+  font-weight:900;
+  color:var(--deep);
 }
 .chip.active{
   background:var(--lavender);
@@ -205,35 +201,28 @@ input[type="search"], input[type="text"], .input{
   box-shadow:var(--shadow);
   font-weight:900;
   font-size:16px;
-  color:#5a4b7a;
+  color:var(--deep);
 }
 .tool-btn:active{ transform:scale(0.99); }
 .tool-btn.primary{ background:rgba(184,166,217,0.38); }
-.tool-btn.danger{ background:rgba(255,213,199,0.85); color:#5a4b7a; }
+.tool-btn.danger{ background:rgba(255,213,199,0.85); color:var(--deep); }
 .tool-btn.active{
   background:var(--lavender) !important;
   color:#fff !important;
 }
 
-/* ---------- Bottom nav (FIX: always shows all items) ---------- */
+/* ---------- Bottom nav ---------- */
 .bottom-nav{
   position:fixed;
   left:0; right:0; bottom:0;
   background:rgba(255,255,255,0.92);
   border-top:1px solid rgba(184,166,217,0.25);
-  z-index:60;
-  backdrop-filter: blur(10px);
-
-  /* key fix */
   display:flex;
-  align-items:flex-end;
-  gap:6px;
-  padding:10px 10px calc(10px + env(safe-area-inset-bottom));
-  overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
+  justify-content:space-around;
+  padding:10px 6px calc(10px + env(safe-area-inset-bottom));
+  z-index:50;
+  backdrop-filter: blur(10px);
 }
-.bottom-nav::-webkit-scrollbar{ display:none; }
-
 .bottom-nav a{
   text-decoration:none;
   color:rgba(90,75,122,0.62);
@@ -242,20 +231,16 @@ input[type="search"], input[type="text"], .input{
   flex-direction:column;
   align-items:center;
   gap:4px;
-  min-width:58px;           /* prevents “2-item only” look */
-  flex:0 0 auto;            /* don’t shrink away */
-  padding:6px 4px;
-  border-radius:12px;
+  min-width:44px;
 }
 .bottom-nav .nav-ico{ font-size:18px; line-height:1; }
 .bottom-nav a.active{
-  color:#5a4b7a;
+  color:var(--deep);
   font-weight:900;
-  background:rgba(184,166,217,0.18);
 }
 
 /* =========================================================
-   BREATHE — smooth animation + no clipping
+   BREATHE — colour changes inhale/exhale + better text
 ========================================================= */
 .breathe-stage{
   display:flex;
@@ -263,99 +248,54 @@ input[type="search"], input[type="text"], .input{
   justify-content:center;
   padding: 18px 0 8px;
 }
+
 .breathe-ring{
   width: min(280px, 72vw);
   height: min(280px, 72vw);
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(184,166,217,0.18));
-  border: 2px solid rgba(90,75,122,0.35); /* darker outline */
+  background: rgba(239,233,248,0.70);
+  border: 2px solid rgba(90,75,122,0.30); /* darker line */
   box-shadow: 0 18px 36px rgba(0,0,0,0.10);
   display:flex;
   align-items:center;
   justify-content:center;
   overflow: visible;
 }
+
 .breathe-circle{
   width: 150px;
   height: 150px;
   border-radius: 999px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(124,96,170,0.65));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(124,96,170,0.55));
   box-shadow: inset 0 18px 36px rgba(0,0,0,0.08), 0 18px 38px rgba(90,75,122,0.18);
   transform: scale(0.86);
-  transition: transform 4s ease-in-out, filter 300ms ease;
+  transition: transform 4s ease-in-out, background 400ms ease;
   will-change: transform;
 }
 
-/* phase colour differences (JS toggles inhale/exhale) */
+/* inhale expands + slightly cooler colour */
 .breathe-circle.inhale{
   transform: scale(1.16);
-  filter: saturate(1.15) brightness(1.02);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.96), rgba(122,170,240,0.60));
 }
+
+/* exhale contracts + slightly warmer colour */
 .breathe-circle.exhale{
   transform: scale(0.82);
-  filter: saturate(0.95) brightness(0.98);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(170,120,210,0.55));
 }
 
-/* =========================================================
-   QUOTES — separate boxes/cards (FIX)
-========================================================= */
-.quote-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-  margin-top:14px;
-}
-
-.quote-tile{
-  position:relative;
-  background:rgba(255,255,255,0.92);
-  border-radius:18px;
-  padding:14px 14px 12px;
-  padding-right: 112px;
-  box-shadow:var(--shadow);
-  border:1px solid rgba(184,166,217,0.25);
-  touch-action: pan-y;
-}
-
-.quote-tile .quote-text{
+/* Bigger, centered “Breathe in/out” text */
+.breath-text{
+  text-align:center;
+  font-size:18px;
   font-weight:900;
-  color:#5a4b7a;
-  line-height:1.35;
-  font-size:16px;
-}
-
-.quote-tile small{
-  display:block;
+  color:var(--deep);
   margin-top:8px;
-  color:rgba(90,75,122,0.72);
-  font-weight:800;
-}
-
-.quote-tile.saved{
-  border:2px solid rgba(184,166,217,0.75);
-  box-shadow:0 14px 30px rgba(90,75,122,0.14);
-}
-
-.quote-save-btn{
-  position:absolute;
-  right:12px;
-  top:12px;
-  border:none;
-  border-radius:999px;
-  padding:10px 12px;
-  font-weight:900;
-  background:rgba(239,233,248,0.95);
-  box-shadow:var(--shadow);
-  color:#5a4b7a;
-}
-.quote-save-btn:active{ transform:scale(0.99); }
-.quote-save-btn.saved{
-  background: var(--lavender);
-  color:#fff;
 }
 
 /* =========================================================
-   MUSIC/YOGA lists — keep as buttons
+   MUSIC/YOGA list buttons
 ========================================================= */
 .music-list{
   display:flex;
@@ -368,15 +308,13 @@ input[type="search"], input[type="text"], .input{
   justify-content:space-between;
   align-items:center;
   padding:16px 16px;
-  border:none;
   border-radius:20px;
-  background:rgba(255,255,255,0.9);
-  border:1px solid rgba(184,166,217,0.18);
+  background:rgba(255,255,255,0.92);
+  border:1px solid rgba(184,166,217,0.22);
   box-shadow:var(--shadow);
   font-weight:900;
   font-size:16px;
-  color:#5a4b7a;
-  text-align:left;
+  color:var(--deep);
   text-decoration:none;
 }
 .music-btn span:last-child{
@@ -385,38 +323,86 @@ input[type="search"], input[type="text"], .input{
 }
 .music-btn:active{ transform:scale(0.99); }
 
-.music-list:empty::before{
-  content:"Loading…";
-  display:block;
-  padding: 10px 2px;
-  color: rgba(90,75,122,0.65);
-  font-weight: 700;
+/* =========================================================
+   QUOTES — each quote in separate box
+========================================================= */
+.quote-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:14px;
+}
+
+.quote-tile{
+  position:relative;
+  background:rgba(255,255,255,0.92);
+  border-radius:18px;
+  padding:14px 14px 14px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(184,166,217,0.25);
+  touch-action: pan-y;
+}
+
+.quote-text{
+  font-weight:900;
+  color:var(--deep);
+  line-height:1.35;
+  font-size:16px;
+}
+
+.quote-meta{
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.quote-author{
+  color:rgba(90,75,122,0.75);
+  font-weight:800;
+  font-size:13px;
+}
+
+.quote-save-btn{
+  border:none;
+  border-radius:999px;
+  padding:10px 12px;
+  font-weight:900;
+  background:rgba(239,233,248,0.95);
+  box-shadow:var(--shadow);
+  color:var(--deep);
+}
+.quote-save-btn:active{ transform:scale(0.99); }
+.quote-save-btn.saved{
+  background: var(--lavender);
+  color:#fff;
 }
 
 /* =========================================================
-   HOME helpers (keep yours)
+   HOME — tighter to avoid scrolling + WOTD
 ========================================================= */
+body.home .page{
+  padding:8px 18px calc(98px + env(safe-area-inset-bottom));
+}
+
+.home-header{ padding:52px 20px 10px; }
+.home-header h1{ font-size:28px; }
+
 .home-page{ position:relative; padding-top:6px !important; }
 
 .home-hero{
-  width: min(620px, 96vw);
-  height: min(620px, 96vw);
-  margin: -14px auto -120px;
-  border-radius: 40px;
+  width: min(520px, 92vw);
+  height: min(420px, 70vw);
+  margin: -10px auto -120px;
+  border-radius: 34px;
   background-image: url("icon.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  opacity: 0.16;
-  filter: saturate(1.05) contrast(1.05);
-  position: relative;
-  z-index: 0;
+  opacity: 0.12;
+  filter: saturate(1.0) contrast(1.05);
   pointer-events:none;
-}
-
-.home-card, .home-grid, .home-help{
-  position: relative;
-  z-index: 2;
 }
 
 .home-card{
@@ -426,15 +412,15 @@ input[type="search"], input[type="text"], .input{
   background:rgba(255,255,255,0.90);
   border:1px solid rgba(184,166,217,0.18);
   border-radius:var(--radius-xl);
-  padding:16px;
+  padding:14px;
   box-shadow:var(--shadow);
-  margin: 0 auto 12px;
+  margin: 0 auto 10px;
   max-width:680px;
 }
 .home-card-title{
   font-weight:900;
-  font-size:22px;
-  color:#5a4b7a;
+  font-size:20px;
+  color:var(--deep);
 }
 .home-card-sub{
   margin-top:6px;
@@ -445,10 +431,12 @@ input[type="search"], input[type="text"], .input{
 .home-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:10px;
   max-width:680px;
-  margin:12px auto 12px;
+  margin:10px auto 10px;
 }
+
+.home-grid-compact{ margin-top:10px; }
 
 .home-pill{
   display:flex;
@@ -456,17 +444,69 @@ input[type="search"], input[type="text"], .input{
   justify-content:center;
   gap:10px;
   text-decoration:none;
-  color:#5a4b7a;
+  color:var(--deep);
   font-weight:900;
-  font-size:17px;
-  background:rgba(255,255,255,0.90);
+  font-size:16px;
+  background:rgba(255,255,255,0.92);
   border:1px solid rgba(184,166,217,0.18);
   border-radius:999px;
-  padding:14px 14px;
+  padding:12px 12px;
   box-shadow:var(--shadow);
 }
+
 .home-pill:active{ transform:scale(0.99); }
 .pill-ico{ font-size:18px; }
+
+.home-pill-wide{
+  grid-column: 1 / -1;
+  justify-content:space-between;
+  padding-left:16px;
+  padding-right:12px;
+}
+
+.wotd-label{
+  display:block;
+  font-size:11px;
+  font-weight:800;
+  opacity:0.75;
+  line-height:1.1;
+}
+.wotd-word{
+  display:block;
+  font-size:16px;
+  font-weight:900;
+  line-height:1.2;
+}
+.wotd-qmark{
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  background:rgba(239,233,248,0.95);
+  border:1px solid rgba(184,166,217,0.25);
+  box-shadow:var(--shadow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  color:var(--deep);
+}
+
+.wotd-card{ margin-top:8px; }
+.wotd-big{
+  font-weight:900;
+  font-size:22px;
+  color:var(--deep);
+}
+.wotd-tip{
+  margin-top:12px;
+  padding:12px 12px;
+  border-radius:16px;
+  background:rgba(239,233,248,0.85);
+  border:1px solid rgba(184,166,217,0.20);
+  color:rgba(90,75,122,0.75);
+  font-weight:800;
+  font-size:13px;
+}
 
 .home-help{
   display:flex;
@@ -474,23 +514,35 @@ input[type="search"], input[type="text"], .input{
   justify-content:center;
   gap:10px;
   text-decoration:none;
-  color:#5a4b7a;
+  color:var(--deep);
   font-weight:900;
   font-size:16px;
   background:rgba(239,233,248,0.95);
   border:1px solid rgba(184,166,217,0.18);
   border-radius:999px;
-  padding:14px 14px;
+  padding:12px 12px;
   box-shadow:var(--shadow);
   max-width:680px;
-  margin:0 auto;
+  margin:10px auto 0;
 }
-.home-help:active{ transform:scale(0.99); }
+.home-help-compact{ margin-top:10px; }
 
-/* Small screen tightening */
+/* Distraction */
+.distraction-question{
+  margin-top:10px;
+  font-weight:900;
+  font-size:17px;
+  color:var(--deep);
+  line-height:1.35;
+}
+
+/* =========================================================
+   Small screen tightening
+========================================================= */
 @media (max-height: 740px){
-  .page-header{ padding:70px 20px 12px; }
+  .page-header{ padding:56px 20px 14px; }
   .page{ padding-bottom:calc(112px + env(safe-area-inset-bottom)); }
   .card{ padding:14px; }
-  .home-hero{ margin: -18px auto -132px; }
+  .home-hero{ margin: -12px auto -130px; height:min(380px, 64vw); }
+  .home-pill{ padding:11px 12px; font-size:15px; }
 }
