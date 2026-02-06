@@ -356,14 +356,17 @@
     }
   }
 
-  /* =========================
-     BOOT
-  ========================= */
-  document.addEventListener("DOMContentLoaded", () => {
-    applyTheme();
-    initTheme();
-    initWotd();
-    initDistraction();
-  });
+/* =========================
+   BOOT (safe)
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  try { applyTheme(); } catch(e) {}
+  try { initTheme(); } catch(e) {}
+  try { initBreathe(); } catch(e) {}
+  try { initQuotes(); } catch(e) {}
+  try { initMusic(); } catch(e) {}
+  try { initYoga(); } catch(e) {}
+  try { initDistraction(); } catch(e) {}
+});
 
 })();
