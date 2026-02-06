@@ -45,19 +45,18 @@
         <span class="pill-ico">🎵</span><span class="pill-text">Music</span>
       </a>
 
-      <!-- ✅ Word of the Day tile -->
-      <a class="home-pill" href="#" id="wotdPill" aria-label="Word of the day">
-        <span class="pill-ico">✨</span>
+<!-- ✅ Word of the day (full-width tile) -->
+<a class="home-pill home-pill-wide wotd-pill" href="#" id="wotdPill">
+  <span class="pill-ico">✨</span>
 
-        <span class="pill-text" style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.1;">
-          <span class="wotd-label">Word of the day</span>
-          <span class="wotd-word" id="wotdWord">Loading…</span>
-        </span>
+  <span class="wotd-text">
+    <span class="wotd-title">Word of the day</span>
+    <span class="wotd-word" id="wotdWord">—</span>
+    <span class="wotd-desc" id="wotdDesc">Loading…</span>
+  </span>
 
-        <button id="wotdInfoBtn" class="wotd-info" type="button" aria-label="What is this?">?</button>
-      </a>
-
-    </div>
+  <button class="wotd-info" id="wotdInfoBtn" type="button" aria-label="Word of the day help">?</button>
+</a>
 
     <!-- ✅ Distraction Section -->
     <div class="card" id="distractionCard">
