@@ -3,7 +3,8 @@
    - Theme toggle (🌙/☀️)
    - Back navigation
    - Breathe: Timer + Stopwatch (inhale retracts, exhale expands)
-   - Safe init (won't crash if a page doesn't have elements)
+   - Yoga: mood chips + video buttons
+   - Music: mood chips + track buttons
 ========================================================= */
 
 (function () {
@@ -19,7 +20,7 @@
 
   // ---------- Date key ----------
   function todayKey() {
-    return new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    return new Date().toISOString().split("T")[0];
   }
 
   /* =========================
@@ -28,8 +29,7 @@
   function setThemeIcon() {
     const btn = $("themeFab");
     if (!btn) return;
-    const isNight = document.body.classList.contains("night");
-    btn.textContent = isNight ? "☀️" : "🌙";
+    btn.textContent = document.body.classList.contains("night") ? "☀️" : "🌙";
   }
 
   function applyTheme() {
@@ -80,16 +80,16 @@
     const EXHALE_MS = 6000;
 
     const MODE_KEY = "enigmaBreatheMode";
-    const DEFAULT_MODE = localStorage.getItem(MODE_KEY) || "timer"; // "timer" | "stopwatch"
+    const DEFAULT_MODE = localStorage.getItem(MODE_KEY) || "timer";
 
     let mode = DEFAULT_MODE;
     let running = false;
     let tickTimer = null;
     let phaseTimer = null;
 
-    let phase = "ready"; // "ready" | "inhale" | "exhale"
-    let remainingSec = 60; // timer mode
-    let elapsedSec = 0;    // stopwatch mode
+    let phase = "ready";
+    let remainingSec = 60;
+    let elapsedSec = 0;
 
     function setMode(newMode) {
       mode = newMode;
@@ -100,7 +100,6 @@
         modeTimerBtn.classList.toggle("active", isTimer);
         modeStopwatchBtn.classList.toggle("active", !isTimer);
       }
-
       if (timerWrap) timerWrap.style.display = isTimer ? "" : "none";
       if (stopwatchWrap) stopwatchWrap.style.display = isTimer ? "none" : "";
       renderTip();
@@ -117,28 +116,21 @@
         tipEl.textContent = "Tap Start to begin.";
         return;
       }
-
-      if (mode === "timer") {
-        tipEl.textContent = `Time left: ${fmt(remainingSec)}`;
-      } else {
-        tipEl.textContent = `Stopwatch: ${fmt(elapsedSec)}`;
-      }
+      if (mode === "timer") tipEl.textContent = `Time left: ${fmt(remainingSec)}`;
+      else tipEl.textContent = `Stopwatch: ${fmt(elapsedSec)}`;
     }
 
     function setCirclePhase(p) {
-      // Important: INHALE = retract, EXHALE = expand
       circle.classList.remove("inhale", "exhale");
 
+      // You want: inhale retracts, exhale expands.
+      // Your CSS expands on .inhale and shrinks on .exhale,
+      // so we intentionally swap which class we apply.
       if (p === "inhale") {
         phaseEl.textContent = "Breathe in";
-        // retract on inhale -> use EXHALE class if your CSS expand is inhale
-        // but your CSS currently expands on .inhale and shrinks on .exhale,
-        // so we swap classes here to achieve the behaviour you want:
         circle.classList.add("exhale"); // shrink/retract
         circle.style.transitionDuration = `${INHALE_MS / 1000}s`;
-      }
-
-      if (p === "exhale") {
+      } else {
         phaseEl.textContent = "Breathe out";
         circle.classList.add("inhale"); // expand
         circle.style.transitionDuration = `${EXHALE_MS / 1000}s`;
@@ -171,7 +163,6 @@
     }
 
     function startRhythmLoop() {
-      // inhale then exhale repeatedly
       function nextPhase() {
         if (!running) return;
 
@@ -182,14 +173,10 @@
           return;
         }
 
-        if (phase === "inhale") {
-          phase = "exhale";
-          setCirclePhase("exhale");
-          phaseTimer = setTimeout(nextPhase, EXHALE_MS);
-          return;
-        }
+        phase = "exhale";
+        setCirclePhase("exhale");
+        phaseTimer = setTimeout(nextPhase, EXHALE_MS);
       }
-
       nextPhase();
     }
 
@@ -215,7 +202,6 @@
         if (mode === "timer") {
           remainingSec = Math.max(0, remainingSec - 1);
           renderTip();
-
           if (remainingSec <= 0) {
             stopSession("Done. Nice work.");
             bumpBreatheCompleted();
@@ -227,16 +213,8 @@
       }, 1000);
     }
 
-    // UI events
-    startBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      startSession();
-    });
-
-    stopBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      stopSession("Stopped.");
-    });
+    startBtn.addEventListener("click", (e) => { e.preventDefault(); startSession(); });
+    stopBtn.addEventListener("click", (e) => { e.preventDefault(); stopSession("Stopped."); });
 
     completeBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -251,7 +229,6 @@
         setMode("timer");
       });
     }
-
     if (modeStopwatchBtn) {
       modeStopwatchBtn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -260,9 +237,130 @@
       });
     }
 
-    // Default mode on load
     setMode(mode);
     stopSession("Tap Start to begin.");
+  }
+
+  /* =========================
+     YOGA (Fix: chips + separate tile buttons)
+  ========================= */
+  function initYoga() {
+    const page = $("yogaPage");
+    if (!page) return;
+
+    const chipsEl = $("yogaMoodChips");
+    const listEl = $("yogaList");
+    if (!chipsEl || !listEl) return;
+
+    const VIDEOS = [
+      { mood: "Anxiety", title: "10 min Yoga for Anxiety", url: "https://www.youtube.com/results?search_query=10+minute+yoga+for+anxiety" },
+      { mood: "Stress", title: "15 min Gentle Yoga for Stress", url: "https://www.youtube.com/results?search_query=15+minute+gentle+yoga+for+stress" },
+      { mood: "Sleep", title: "Yoga for Sleep (wind down)", url: "https://www.youtube.com/results?search_query=yoga+for+sleep+wind+down" },
+      { mood: "Morning", title: "Morning Yoga (wake up)", url: "https://www.youtube.com/results?search_query=morning+yoga+wake+up" },
+      { mood: "Stiff body", title: "Yoga for stiff back/hips", url: "https://www.youtube.com/results?search_query=yoga+for+stiff+back+hips" },
+      { mood: "All", title: "Gentle yoga (all levels)", url: "https://www.youtube.com/results?search_query=gentle+yoga+all+levels" },
+    ];
+
+    const MOODS = ["All", "Anxiety", "Stress", "Sleep", "Morning", "Stiff body"];
+    let active = "All";
+
+    function renderChips() {
+      chipsEl.innerHTML = "";
+      MOODS.forEach((m) => {
+        const b = document.createElement("button");
+        b.className = "chip" + (m === active ? " active" : "");
+        b.type = "button";
+        b.textContent = m;
+        b.addEventListener("click", () => {
+          active = m;
+          renderChips();
+          renderList();
+        });
+        chipsEl.appendChild(b);
+      });
+    }
+
+    function renderList() {
+      listEl.innerHTML = "";
+      const items = active === "All" ? VIDEOS : VIDEOS.filter(v => v.mood === active);
+
+      items.forEach((v) => {
+        const a = document.createElement("a");
+        a.className = "music-btn";
+        a.href = v.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.innerHTML = `<span>${v.title}</span><span>▶</span>`;
+        listEl.appendChild(a);
+      });
+
+      if (!items.length) {
+        const div = document.createElement("div");
+        div.className = "gentle-text";
+        div.textContent = "No videos for that mood yet.";
+        listEl.appendChild(div);
+      }
+    }
+
+    renderChips();
+    renderList();
+  }
+
+  /* =========================
+     MUSIC (Restore: chips + separate tile buttons)
+  ========================= */
+  function initMusic() {
+    const page = $("soundsPage");
+    if (!page) return;
+
+    const chipsEl = $("moodChips");
+    const listEl = $("musicList");
+    if (!chipsEl || !listEl) return;
+
+    const TRACKS = [
+      { mood: "Anxious", title: "Calm breathing music", url: "https://www.youtube.com/results?search_query=calm+breathing+music" },
+      { mood: "Focus", title: "Lo-fi focus mix", url: "https://www.youtube.com/results?search_query=lofi+focus+mix" },
+      { mood: "Sleep", title: "Sleep music", url: "https://www.youtube.com/results?search_query=sleep+music" },
+      { mood: "Stressed", title: "Relaxing piano", url: "https://www.youtube.com/results?search_query=relaxing+piano" },
+      { mood: "All", title: "Ocean waves", url: "https://www.youtube.com/results?search_query=ocean+waves+relaxing" },
+    ];
+
+    const MOODS = ["All", "Anxious", "Stressed", "Focus", "Sleep"];
+    let active = "All";
+
+    function renderChips() {
+      chipsEl.innerHTML = "";
+      MOODS.forEach((m) => {
+        const b = document.createElement("button");
+        b.className = "chip" + (m === active ? " active" : "");
+        b.type = "button";
+        b.textContent = m;
+        b.addEventListener("click", () => {
+          active = m;
+          renderChips();
+          renderList();
+        });
+        chipsEl.appendChild(b);
+      });
+    }
+
+    function renderList() {
+      listEl.innerHTML = "";
+      const items = active === "All" ? TRACKS : TRACKS.filter(t => t.mood === active || t.mood === "All");
+
+      items.forEach((t) => {
+        const a = document.createElement("a");
+        a.className = "music-btn";
+        a.href = t.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.innerHTML = `<span>${t.title}</span><span>▶</span>`;
+        listEl.appendChild(a);
+      });
+    }
+
+    renderChips();
+    renderList();
   }
 
   /* =========================
@@ -272,6 +370,8 @@
     try { applyTheme(); } catch (e) {}
     try { initTheme(); } catch (e) {}
     try { initBreathe(); } catch (e) {}
+    try { initYoga(); } catch (e) {}
+    try { initMusic(); } catch (e) {}
   });
 
 })();
