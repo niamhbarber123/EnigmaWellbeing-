@@ -362,16 +362,21 @@
     renderChips();
     renderList();
   }
+/* =========================
+   BOOT (safe)
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  try { applyTheme(); } catch(e) {}
+  try { initTheme(); } catch(e) {}
 
-  /* =========================
-     BOOT (safe)
-  ========================= */
-  document.addEventListener("DOMContentLoaded", () => {
-    try { applyTheme(); } catch (e) {}
-    try { initTheme(); } catch (e) {}
-    try { initBreathe(); } catch (e) {}
-    try { initYoga(); } catch (e) {}
-    try { initMusic(); } catch (e) {}
-  });
+  // ✅ THIS WAS MISSING / NOT CALLED — fixes WOTD stuck "Loading..."
+  try { initWotd(); } catch(e) {}
+
+  try { initBreathe(); } catch(e) {}
+  try { initQuotes(); } catch(e) {}
+  try { initMusic(); } catch(e) {}
+  try { initYoga(); } catch(e) {}
+  try { initDistraction(); } catch(e) {}
+});
 
 })();
