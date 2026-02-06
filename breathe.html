@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=90001" />
+  <link rel="stylesheet" href="style.css?v=90010" />
 </head>
 
 <body class="page-wrap">
@@ -24,31 +24,7 @@
 
       <div class="section-title" id="breathPhase">Ready</div>
 
-      <!-- Mode dropdown (Timer / Stopwatch) -->
-      <div class="breath-row" style="margin-top:10px;">
-        <div class="gentle-text" style="margin:0 0 8px;">Mode:</div>
-        <select id="breathModeSelect" class="input" style="padding:14px;">
-          <option value="timer" selected>Timer</option>
-          <option value="stopwatch">Stopwatch</option>
-        </select>
-      </div>
-
-      <!-- Duration dropdown (Timer only) -->
-      <div class="breath-row" style="margin-top:10px;">
-        <div class="gentle-text" style="margin:0 0 8px;">Session length:</div>
-        <select id="breathDurationSelect" class="input" style="padding:14px;">
-          <option value="1" selected>1 minute</option>
-          <option value="2">2 minutes</option>
-          <option value="3">3 minutes</option>
-          <option value="5">5 minutes</option>
-          <option value="10">10 minutes</option>
-        </select>
-      </div>
-
-      <div class="gentle-text" id="breathTimerLabel" style="margin-top:10px;">Time: —</div>
-      <div class="gentle-text" id="breathStopwatchLabel" style="margin-top:10px; display:none;">Stopwatch: 0:00</div>
-
-      <div class="breathe-stage" style="margin-top:14px;">
+      <div class="breathe-stage">
         <div class="breathe-ring">
           <div class="breathe-circle" id="breatheCircle"></div>
         </div>
@@ -56,9 +32,40 @@
 
       <div class="breath-text" id="breathTip">Tap Start to begin.</div>
 
-      <div style="margin-top:10px; display:flex; align-items:center; gap:10px;">
-        <input id="breathVibrateToggle" type="checkbox" />
-        <label for="breathVibrateToggle" class="gentle-text" style="margin:0;">Vibration on phase change</label>
+      <!-- Controls (dropdown tile) -->
+      <div class="card" style="margin-top:12px;">
+        <div class="section-title">Session</div>
+
+        <div class="tool-row" style="margin-top:10px;">
+          <div class="breath-row" style="flex:1; min-width:160px;">
+            <div class="gentle-text" style="margin-bottom:6px;">Mode</div>
+            <select id="breathModeSelect" class="input" style="padding:12px 14px;">
+              <option value="timer">Timer</option>
+              <option value="stopwatch">Stopwatch</option>
+            </select>
+          </div>
+
+          <div class="breath-row" id="breathDurationRow" style="flex:1; min-width:160px;">
+            <div class="gentle-text" style="margin-bottom:6px;">Timer length</div>
+            <select id="breathDurationSelect" class="input" style="padding:12px 14px;">
+              <option value="1">1 min</option>
+              <option value="2">2 min</option>
+              <option value="3">3 min</option>
+              <option value="5">5 min</option>
+              <option value="10">10 min</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="tool-row" style="margin-top:10px; align-items:center;">
+          <label style="display:flex; align-items:center; gap:10px; font-weight:800; color:rgba(90,75,122,0.75);">
+            <input id="breathVibrateToggle" type="checkbox" />
+            Vibration
+          </label>
+        </div>
+
+        <div class="gentle-text" id="breathTimerLabel" style="margin-top:8px;">Time: —</div>
+        <div class="gentle-text" id="breathStopwatchLabel" style="margin-top:6px; display:none;">Stopwatch: 0:00</div>
       </div>
 
       <div class="tool-row" style="margin-top:14px;">
@@ -78,10 +85,10 @@
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="music.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=90001" defer></script>
+  <script src="app.js?v=90010" defer></script>
 </body>
 </html>
