@@ -948,3 +948,61 @@ body.night .home-help-cta:visited {
   border-color: rgba(255,255,255,.18);
   box-shadow: 0 12px 30px rgba(0,0,0,.45);
 }
+/* =========================
+   HOME • Help button (remove blue underline + make it look like a button)
+========================= */
+a.home-help,
+a.home-help:visited,
+a.home-help:hover,
+a.home-help:active {
+  text-decoration: none !important;
+  -webkit-text-decoration: none !important;
+  color: inherit !important;
+}
+
+a.home-help * {
+  text-decoration: none !important;
+  -webkit-text-decoration: none !important;
+}
+
+.home-help.home-help-compact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 18px;
+
+  /* match your soft-card look */
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(120, 90, 160, 0.12);
+  box-shadow: 0 12px 28px rgba(30, 20, 50, 0.08);
+
+  font-weight: 700;
+}
+
+body.night .home-help.home-help-compact {
+  background: rgba(35, 35, 45, 0.80);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.home-help.home-help-compact .pill-ico {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.home-help.home-help-compact .pill-text {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.home-help.home-help-compact:active {
+  transform: scale(0.99);
+}
+
+.home-help.home-help-compact:focus-visible {
+  outline: 2px solid rgba(170, 140, 220, 0.7);
+  outline-offset: 3px;
+}
