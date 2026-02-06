@@ -23,71 +23,70 @@ body{
   overflow-x:hidden;
 }
 
-/* ---------- Night mode (more readable) ---------- */
+/* ---------- Night mode (improved readability) ---------- */
 body.night{
-  background:#101018;
-  color:rgba(250,248,255,0.92);
+  background:#0f0f16;
+  color:rgba(255,255,255,0.92);
 }
 
-/* Panels/cards */
+body.night .page-header h1{
+  color:#ffffff !important;
+}
+body.night .page-header p{
+  color:rgba(255,255,255,0.70) !important;
+}
+
+/* Cards: slightly lighter so text is readable */
 body.night .card,
 body.night .home-card,
 body.night .home-pill,
 body.night .home-help,
-body.night .quote-tile,
+body.night .quote-tile{
+  background: rgba(255,255,255,0.12) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  box-shadow: 0 18px 44px rgba(0,0,0,0.45);
+  color: rgba(255,255,255,0.92) !important;
+}
+
+body.night .section-title{
+  color:#ffffff !important;
+}
+body.night .gentle-text{
+  color: rgba(255,255,255,0.70) !important;
+}
+
+/* Inputs */
 body.night input,
-body.night select,
-body.night .chip,
-body.night .music-btn{
-  background:rgba(255,255,255,0.14) !important;
-  color:rgba(250,248,255,0.92) !important;
-  border-color:rgba(255,255,255,0.18) !important;
-}
-
-/* Titles + headings */
-body.night .section-title,
-body.night .home-card-title,
-body.night .page-header h1{
-  color:rgba(255,255,255,0.95) !important;
-}
-
-/* Subtext */
-body.night .gentle-text,
-body.night .page-header p,
-body.night .home-card-sub,
-body.night .home-card-desc{
-  color:rgba(255,255,255,0.72) !important;
+body.night .input,
+body.night select{
+  background: rgba(255,255,255,0.10) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  color: rgba(255,255,255,0.92) !important;
 }
 
 /* Buttons */
 body.night .tool-btn{
-  background:rgba(255,255,255,0.16) !important;
-  color:rgba(255,255,255,0.92) !important;
+  background: rgba(255,255,255,0.14) !important;
+  color: rgba(255,255,255,0.92) !important;
 }
-
 body.night .tool-btn.primary{
-  background:rgba(184,166,217,0.35) !important;
-  color:#fff !important;
+  background: rgba(184,166,217,0.35) !important;
 }
-
 body.night .tool-btn.danger{
-  background:rgba(255,170,150,0.28) !important;
-  color:#fff !important;
+  background: rgba(255,213,199,0.28) !important;
 }
 
 /* Bottom nav */
 body.night .bottom-nav{
-  background:rgba(16,16,24,0.94);
-  border-top:1px solid rgba(255,255,255,0.12);
+  background: rgba(18,16,26,0.92);
+  border-top: 1px solid rgba(255,255,255,0.12);
 }
-body.night .bottom-nav a{ color:rgba(255,255,255,0.70); }
-body.night .bottom-nav a.active{ color:#fff; font-weight:900; }
+body.night .bottom-nav a{ color: rgba(255,255,255,0.70); }
+body.night .bottom-nav a.active{ color: #fff; }
 
-/* Back + theme buttons */
-body.night .back-btn,
-body.night .theme-toggle-top{
-  background:rgba(255,255,255,0.18);
-  color:#fff;
+/* Make link lists NOT look like ugly blue underlines */
+.music-btn{
+  text-decoration: none;
 }
 /* ---------- Layout ---------- */
 .page-wrap{
