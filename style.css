@@ -660,3 +660,45 @@ body.night .modal-tip{ color: rgba(245,242,255,0.65); }
 .modal-word{
   font-weight: 700 !important;
 }
+/* =========================
+   HOME – thin wide tiles
+========================= */
+
+.home-card-thin{
+  padding: 14px 16px;
+}
+
+.home-card-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.home-card-desc{
+  margin-top:6px;
+  font-size:13px;
+  font-weight:600;
+  color:rgba(90,75,122,0.65);
+  line-height:1.35;
+}
+
+/* Word of the day specifics */
+#wotdTile .home-card-sub{
+  font-weight:600; /* NOT bold */
+}
+
+#wotdTile .home-card-title{
+  font-weight:900; /* bold title only */
+}
+
+/* Distraction spacing */
+#distractionCard .distraction-question{
+  margin-top:8px;
+  font-size:16px;
+  font-weight:800;
+}
+
+#distractionCard .input{
+  margin-top:10px;
+}
