@@ -49,7 +49,97 @@
     if (btn) btn.addEventListener("click", toggleTheme);
     setThemeIcon();
   }
+/* =========================
+   WORD OF THE DAY
+========================= */
+const WOTD = [
+  { w: "Simplicity", d: "Choosing what matters and letting go of the rest." },
+  { w: "Courage", d: "Feeling fear and still choosing what matters." },
+  { w: "Gentleness", d: "Soft strength—especially with yourself." },
+  { w: "Clarity", d: "Seeing what matters most, without the noise." },
+  { w: "Patience", d: "Letting growth take the time it takes." },
+  { w: "Integrity", d: "Aligning actions with values—even in small moments." },
+  { w: "Serenity", d: "A quiet steadiness, even when life is loud." },
+  { w: "Balance", d: "Making space for rest, effort, joy, and recovery." },
+  { w: "Compassion", d: "Meeting struggle with warmth instead of judgement." },
+  { w: "Reflection", d: "Looking back kindly to learn and reset." }
+];
 
+function todayKey() {
+  return new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+}
+
+function mulberry32(seed) {
+  return function () {
+    let t = (seed += 0x6D2B79F5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function seedFromToday() {
+  const s = todayKey().replaceAll("-", "");
+  const n = parseInt(s, 10);
+  return Number.isFinite(n) ? n : 20260101;
+}
+
+function pickWotd() {
+  const rand = mulberry32(seedFromToday());
+  const i = Math.floor(rand() * WOTD.length);
+  return WOTD[i] || { w: "Serenity", d: "A quiet steadiness, even when life is loud." };
+}
+
+function showWotdModal(word, desc) {
+  const modal = document.getElementById("wotdModal");
+  const backdrop = document.getElementById("wotdBackdrop");
+  const closeBtn = document.getElementById("wotdCloseBtn");
+
+  const mw = document.getElementById("wotdModalWord");
+  const md = document.getElementById("wotdModalDesc");
+
+  if (!modal || !mw || !md) return;
+
+  mw.textContent = word;
+  md.textContent = desc;
+
+  modal.style.display = "block";
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden", "false");
+
+  const close = () => {
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+    modal.style.display = "none";
+  };
+
+  if (backdrop) backdrop.onclick = close;
+  if (closeBtn) closeBtn.onclick = close;
+}
+
+function initWotd() {
+  const wEl = document.getElementById("wotdWord");
+  const dEl = document.getElementById("wotdDesc");
+  const infoBtn = document.getElementById("wotdInfoBtn");
+  const tile = document.getElementById("wotdTile");
+
+  // ✅ If these IDs don't exist on the page, exit safely
+  if (!wEl || !dEl || !tile) return;
+
+  const { w, d } = pickWotd();
+  wEl.textContent = w;
+  dEl.textContent = d;
+
+  tile.addEventListener("click", () => showWotdModal(w, d));
+
+  if (infoBtn) {
+    infoBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      showWotdModal(w, d);
+    });
+  }
+}
   /* =========================
      BREATHE (Timer + Stopwatch)
      - inhale retracts
