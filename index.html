@@ -7,8 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-
-  <link rel="stylesheet" href="style.css?v=80002" />
+  <link rel="stylesheet" href="style.css?v=80003" />
 </head>
 
 <body class="page-wrap home">
@@ -22,40 +21,54 @@
   <main class="page home-page">
     <div class="home-hero" aria-hidden="true"></div>
 
-    <a class="home-card" href="breathe.html">
+    <!-- BREATHE TILE -->
+    <a class="home-card home-tile-wide" href="breathe.html">
       <div class="home-card-title">Breathe &amp; reset</div>
       <div class="home-card-sub">A gentle 60 seconds</div>
     </a>
 
+    <!-- MAIN BUTTON GRID -->
     <div class="home-grid home-grid-compact">
-      <a class="home-pill" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
-      <a class="home-pill" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
-      <a class="home-pill" href="yoga.html"><span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span></a>
-      <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
+      <a class="home-pill" href="journal.html">
+        <span class="pill-ico">📖</span><span class="pill-text">Journal</span>
+      </a>
+      <a class="home-pill" href="quotes.html">
+        <span class="pill-ico">💬</span><span class="pill-text">Quotes</span>
+      </a>
+      <a class="home-pill" href="yoga.html">
+        <span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span>
+      </a>
+      <a class="home-pill" href="sounds.html">
+        <span class="pill-ico">🎵</span><span class="pill-text">Music</span>
+      </a>
     </div>
 
-    <!-- ✅ WORD OF THE DAY — FULL WIDTH (LIKE BREATHE TILE) -->
-    <a class="home-card home-tile-wide" id="wotdTile" href="javascript:void(0)" aria-label="Open Word of the day">
+    <!-- WORD OF THE DAY (FULL WIDTH, THIN, LIKE BREATHE TILE) -->
+    <a class="home-card home-tile-wide wotd-tile" id="wotdTile"
+       href="javascript:void(0)" aria-label="Open Word of the day">
       <div class="home-card-title wotd-title">Word of the day</div>
 
-      <!-- word is NOT bold -->
+      <!-- word NOT bold -->
       <div class="home-card-sub wotd-word" id="wotdWord">Loading…</div>
 
-      <!-- description under the word -->
+      <!-- description under word -->
       <div class="home-card-desc" id="wotdDesc">Please wait.</div>
 
-      <!-- ? button (opens modal) -->
-      <button id="wotdInfoBtn" class="wotd-info" type="button" aria-label="What to do with affirmations">?</button>
+      <!-- ? button -->
+      <button id="wotdInfoBtn" class="wotd-info" type="button"
+              aria-label="What to do with affirmations">?</button>
     </a>
 
-    <!-- ✅ DISTRACTION — FULL WIDTH (LIKE BREATHE TILE) -->
-    <div class="home-card home-tile-wide" id="distractionCard">
+    <!-- DISTRACTION (FULL WIDTH, THIN, LIKE BREATHE TILE) -->
+    <div class="home-card home-tile-wide distraction-tile" id="distractionCard">
       <div class="home-card-title">Distraction</div>
       <div class="home-card-desc">Gentle questions to interrupt a spiral.</div>
 
-      <div id="distractionQuestion" class="distraction-question">Tap Start to begin.</div>
+      <div id="distractionQuestion" class="distraction-question">
+        Tap Start to begin.
+      </div>
 
-      <div class="gentle-text">
+      <div class="gentle-text" style="margin-top:8px;">
         Answered: <b><span id="distractionAnsweredCount">0</span></b>
       </div>
 
@@ -75,12 +88,46 @@
       </div>
     </div>
 
+    <!-- HELP -->
     <a class="home-help home-help-compact" href="help.html">
       <span class="pill-ico">🆘</span><span class="pill-text">Need help right now?</span>
     </a>
   </main>
 
-  <!-- ✅ WOTD MODAL -->
+  <!-- WOTD MODAL -->
   <div class="modal" id="wotdModal" aria-hidden="true">
     <div class="modal-backdrop" id="wotdBackdrop"></div>
-    <div class="modal-card" role="dialog"
+
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="wotdModalWord">
+      <div class="modal-top">
+        <div>
+          <div class="modal-title">Word of the day</div>
+          <div class="modal-word" id="wotdModalWord">—</div>
+        </div>
+        <button class="modal-x" id="wotdCloseBtn" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-desc" id="wotdModalDesc">—</div>
+
+      <div class="modal-tip">
+        Using these words as affirmations means you can repeat them to yourself,
+        write them down, or think about them regularly to help cultivate those
+        qualities within yourself.
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=80003" defer></script>
+</body>
+</html>
