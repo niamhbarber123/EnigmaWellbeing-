@@ -20,22 +20,19 @@
   </header>
 
   <main class="page" id="breathePage">
-    <div class="card">
-
+    <div class="card breathe-card">
       <div class="section-title" id="breathPhase">Ready</div>
 
-      <!-- ✅ Timer -->
-      <div class="gentle-text" style="margin-top:-4px;">
+      <label class="gentle-text" for="breathDuration" style="display:block; margin-top:6px;">
         Session length:
-      </div>
-      <select id="breathDuration" class="input" style="margin-top:8px;">
-        <option value="60">1 minute</option>
+      </label>
+      <select id="breathDuration" class="select">
+        <option value="0">Open-ended (no set time)</option>
+        <option value="60" selected>1 minute</option>
         <option value="120">2 minutes</option>
         <option value="180">3 minutes</option>
         <option value="300">5 minutes</option>
       </select>
-
-      <div class="gentle-text" id="breathTimeLeft" style="margin-top:10px;"></div>
 
       <div class="breathe-stage">
         <div class="breathe-ring">
@@ -44,6 +41,7 @@
       </div>
 
       <div class="breath-text" id="breathTip">Tap Start to begin.</div>
+      <div class="breath-timer" id="breathTimer" aria-live="polite">00:00</div>
 
       <div class="tool-row" style="margin-top:14px;">
         <button class="tool-btn primary" id="breathStartBtn" type="button">Start</button>
@@ -53,7 +51,6 @@
       <div class="tool-row">
         <button class="tool-btn" id="breathCompleteBtn" type="button">Completed ✅</button>
       </div>
-
     </div>
   </main>
 
