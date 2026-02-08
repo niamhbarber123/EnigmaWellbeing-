@@ -1,35 +1,34 @@
-/* ==========================
-   Enigma Wellbeing • style.css (FULL)
-   - Consistent buttons
-   - Pale purple action buttons
-   - No underline links
-   - Home: watermark + no scroll + buttons lower
-   - Smaller page titles
-========================== */
+/* =========================================================
+   Enigma Wellbeing • style.css (STABLE)
+   - Home: centered grid, no scroll, bigger watermark
+   - Buttons consistent
+   - Titles slightly smaller
+   - Pale purple "danger" buttons
+   - Link underline removed
+========================================================= */
 
 :root{
   --bg: #f6f2fb;
   --text: #2f2a3a;
   --muted: rgba(47,42,58,0.62);
 
-  --card: rgba(255,255,255,0.78);
-  --card-solid: rgba(255,255,255,0.92);
-  --stroke: rgba(120,110,140,0.16);
+  --card: rgba(255,255,255,0.75);
+  --card-solid: #ffffff;
+  --stroke: rgba(120,110,140,0.14);
 
   --accent: #6b5b86;
   --accent-soft: rgba(107,91,134,0.16);
 
-  /* ✅ Pale purple “coloured buttons” */
-  --action: rgba(203,188,255,0.55);
-  --action-strong: rgba(203,188,255,0.70);
+  /* ✅ Pale purple for “danger” */
+  --danger: rgba(203,188,255,0.45);
 
-  --shadow: 0 10px 25px rgba(40,30,60,0.10);
+  --shadow: 0 10px 25px rgba(40,30,60,0.08);
 }
 
 body.night{
   --bg: #0f0f14;
   --text: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.74);
+  --muted: rgba(255,255,255,0.72);
 
   --card: rgba(255,255,255,0.08);
   --card-solid: rgba(255,255,255,0.10);
@@ -37,11 +36,9 @@ body.night{
 
   --accent: #cbbcff;
   --accent-soft: rgba(203,188,255,0.18);
+  --danger: rgba(203,188,255,0.26);
 
-  --action: rgba(203,188,255,0.22);
-  --action-strong: rgba(203,188,255,0.30);
-
-  --shadow: 0 14px 40px rgba(0,0,0,0.38);
+  --shadow: 0 14px 40px rgba(0,0,0,0.35);
 }
 
 *{ box-sizing:border-box; }
@@ -53,26 +50,20 @@ html, body{
   color: var(--text);
 }
 
-/* ✅ remove iOS underline properly */
-a, a:link, a:visited, a:hover, a:active{
+a{
   color: inherit;
-  text-decoration: none !important;
+  text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
+a:visited{ color: inherit; }
 
+/* Layout */
 .page-wrap{
   min-height: 100vh;
   padding: 18px 18px 92px;
-  position: relative;
 }
 
-/* ✅ Home: no scroll + buttons lower */
-body.home .page-wrap{
-  height: 100vh;
-  min-height: 100vh;
-  overflow: hidden;         /* ✅ stops scrolling */
-  padding: 22px 18px 92px;
-}
+.page{ max-width: 520px; margin: 0 auto; }
 
 /* Header */
 .page-header{
@@ -83,17 +74,20 @@ body.home .page-wrap{
 }
 .page-header h1{
   margin: 8px 0 6px;
-  font-size: clamp(30px, 6.2vw, 38px); /* ✅ smaller titles */
+  font-size: 36px;            /* ✅ smaller titles */
   letter-spacing: -0.02em;
   color: var(--accent);
-  font-weight: 950;
+  font-weight: 900;
 }
 .page-header p{
   margin:0;
   color: var(--muted);
-  font-weight: 800;
+  font-weight: 700;
 }
 
+.home-header h1{ font-size: 40px; } /* still slightly larger on home */
+
+/* Buttons top */
 .back-btn{
   position:absolute;
   left: 0;
@@ -123,8 +117,7 @@ body.home .page-wrap{
   z-index: 50;
 }
 
-.page{ max-width: 520px; margin: 0 auto; }
-
+/* Cards */
 .card{
   background: var(--card);
   border: 1px solid var(--stroke);
@@ -136,25 +129,20 @@ body.home .page-wrap{
 }
 
 .section-title{
-  font-weight: 950;
-  font-size: 24px;
+  font-weight: 900;
+  font-size: 22px;            /* ✅ smaller */
   letter-spacing:-0.01em;
   color: var(--accent);
 }
 
 .gentle-text{
   color: var(--muted);
-  font-weight: 750;
+  font-weight: 700;
   font-size: 16px;
   line-height: 1.35;
 }
 
-.hr{
-  height: 1px;
-  background: var(--stroke);
-  margin: 14px 0;
-}
-
+/* Tools */
 .tool-row{
   display:flex;
   gap: 12px;
@@ -168,15 +156,18 @@ body.home .page-wrap{
   border: 1px solid var(--stroke);
   background: var(--card-solid);
   box-shadow: var(--shadow);
-  font-weight: 950;
+  font-weight: 900;
   font-size: 18px;
   color: var(--accent);
 }
 
-/* ✅ pale purple for “coloured” buttons */
-.tool-btn.primary,
+.tool-btn.primary{
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
 .tool-btn.danger{
-  background: var(--action);
+  background: var(--danger);  /* ✅ pale purple */
   color: var(--accent);
 }
 
@@ -187,7 +178,7 @@ body.home .page-wrap{
   background: var(--card-solid);
   padding: 12px 14px;
   font-size: 16px;
-  font-weight: 850;
+  font-weight: 800;
   color: var(--text);
 }
 
@@ -198,13 +189,12 @@ body.home .page-wrap{
   display:flex;
   justify-content: space-around;
   padding: 10px 10px 14px;
-  background: rgba(255,255,255,0.80);
+  background: rgba(255,255,255,0.75);
   border-top: 1px solid rgba(140,120,170,0.10);
   backdrop-filter: blur(12px);
-  z-index: 40;
 }
 body.night .bottom-nav{
-  background: rgba(20,20,26,0.80);
+  background: rgba(20,20,26,0.78);
   border-top: 1px solid rgba(255,255,255,0.10);
 }
 
@@ -213,53 +203,55 @@ body.night .bottom-nav{
   flex-direction: column;
   align-items:center;
   gap: 3px;
-  font-weight: 850;
+  font-weight: 800;
   font-size: 12px;
   color: var(--muted);
 }
 .bottom-nav a.active{ color: var(--accent); }
 .nav-ico{ font-size: 18px; }
 
-/* =========
-   HOME
-========= */
-body.home .home-shell{
-  position: relative;
-  height: calc(100vh - 140px); /* leaves room for bottom nav */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+/* =========================================================
+   HOME (no scrolling + centered buttons + big watermark)
+========================================================= */
+body.home{
+  height: 100vh;
+  overflow: hidden; /* ✅ stops scrolling */
 }
 
-/* ✅ Watermark behind buttons */
+body.home .page-wrap{
+  height: 100vh;
+  overflow: hidden; /* ✅ stops scrolling */
+}
+
+.home-page{
+  position: relative;
+  height: calc(100vh - 18px - 92px - 86px); /* padding + bottom nav + header approx */
+  display:flex;
+  align-items:center;          /* ✅ center vertically */
+  justify-content:center;
+}
+
 .home-watermark{
-  position: absolute;
-  left: 50%;
-  top: 52%;
-  transform: translate(-50%, -50%);
-  width: 260px;
-  height: 260px;
-  opacity: 0.12;
-  pointer-events: none;
-  background: url("icon.png") center/contain no-repeat;
+  position:absolute;
+  inset: 0;
+  background-image: url("icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 360px;      /* ✅ bigger watermark */
+  opacity: 0.12;               /* subtle */
   filter: blur(0px);
-}
-body.night .home-watermark{
-  opacity: 0.10;
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* ✅ Buttons moved down slightly */
-.home-buttons{
-  margin-top: 26px;
+.home-grid-home{
   position: relative;
-  z-index: 2;
-}
-
-.home-grid{
+  z-index: 1;
+  width: 100%;
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 14px;
+  gap: 14px;
+  padding: 8px 0;
 }
 
 .home-pill{
@@ -267,21 +259,22 @@ body.night .home-watermark{
   align-items:center;
   justify-content:center;
   gap: 10px;
-  padding: 14px 12px;
+  padding: 16px 14px;
   border-radius: 22px;
   background: var(--card);
   border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
-  font-weight: 950;
+  font-weight: 900;
   color: var(--accent);
-  min-height: 54px;
+  min-height: 64px;
 }
-.home-pill .pill-text{ font-size: 18px; }
-.home-pill .pill-ico{ font-size: 20px; }
 
-/* =========
+.pill-ico{ font-size: 20px; }
+.pill-text{ font-size: 18px; }
+
+/* =========================================================
    Chips
-========= */
+========================================================= */
 .chip-row{
   display:flex;
   flex-wrap: wrap;
@@ -292,14 +285,14 @@ body.night .home-watermark{
   padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.6);
   font-weight: 900;
   color: var(--accent);
 }
 body.night .chip{ background: rgba(255,255,255,0.08); }
 .chip.active{ background: var(--accent-soft); }
 
-/* Music / Yoga / Resources buttons */
+/* Lists */
 .music-btn,
 .resource-item{
   display:flex;
@@ -309,22 +302,33 @@ body.night .chip{ background: rgba(255,255,255,0.08); }
   padding: 14px 16px;
   border-radius: 18px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.70);
-  font-weight: 950;
+  background: rgba(255,255,255,0.65);
+  font-weight: 900;
   color: var(--accent);
   margin-bottom: 10px;
 }
 body.night .music-btn,
 body.night .resource-item{ background: rgba(255,255,255,0.08); }
 
-.resource-left{ display:flex; flex-direction:column; gap:4px; }
-.resource-title{ font-weight: 950; font-size: 18px; }
-.resource-desc{ color: var(--muted); font-weight: 800; }
-.resource-go{ opacity: 0.75; font-weight: 950; }
+.resource-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
+.resource-desc{ color: var(--muted); font-weight: 800; margin-top: 4px; }
+.resource-go{ font-weight: 950; opacity: 0.8; }
+
+.book-item{
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.65);
+  margin-bottom: 10px;
+}
+body.night .book-item{ background: rgba(255,255,255,0.08); }
+.book-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
+.book-meta{ color: var(--muted); font-weight: 800; margin-top: 4px; }
+.book-desc{ color: var(--muted); font-weight: 700; margin-top: 6px; }
 
 /* Quotes */
 .quote-tile{
-  background: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.70);
   border: 1px solid var(--stroke);
   border-radius: 22px;
   padding: 16px;
@@ -346,20 +350,29 @@ body.night .quote-tile{ background: rgba(255,255,255,0.10); }
   justify-content:space-between;
   gap: 12px;
 }
-.quote-author{
-  color: var(--muted);
-  font-weight: 850;
-}
+.quote-author{ color: var(--muted); font-weight: 800; }
 .quote-save-btn{
   border-radius: 999px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.80);
+  background: rgba(255,255,255,0.7);
   padding: 10px 14px;
   font-weight: 950;
   color: var(--accent);
 }
 body.night .quote-save-btn{ background: rgba(255,255,255,0.10); }
 .quote-save-btn.saved{ background: var(--accent-soft); }
+
+/* Distraction */
+.distraction-question{
+  margin-top: 10px;
+  padding: 14px 14px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.55);
+  font-weight: 900;
+  color: var(--accent);
+}
+body.night .distraction-question{ background: rgba(255,255,255,0.08); }
 
 /* Breathe */
 .breathe-stage{
@@ -381,212 +394,17 @@ body.night .quote-save-btn{ background: rgba(255,255,255,0.10); }
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(170,145,210,0.55));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(170,145,210,0.55));
   box-shadow: 0 18px 40px rgba(60,40,90,0.18);
   transform: scale(1);
   transition: transform 1.5s ease-in-out;
 }
-.breathe-circle.breath-inhale{ transform: scale(0.72); }
-.breathe-circle.breath-exhale{ transform: scale(1.14); }
+.breathe-circle.breath-inhale{ transform: scale(0.72); } /* inhale smaller */
+.breathe-circle.breath-exhale{ transform: scale(1.14); } /* exhale bigger */
 
 .breath-text{
   text-align:center;
   margin-top: 10px;
-  font-weight: 950;
+  font-weight: 900;
   color: var(--accent);
-}
-
-/* Books */
-.book-item{
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.70);
-  margin-bottom: 10px;
-}
-body.night .book-item{ background: rgba(255,255,255,0.08); }
-
-.book-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
-.book-meta{ color: var(--muted); font-weight: 850; margin-top: 4px; }
-.book-desc{ color: var(--muted); font-weight: 750; margin-top: 6px; }
-/* ==========================
-   HOME layout tweaks
-   - Center buttons more
-   - Bigger watermark
-========================== */
-
-/* keep home from scrolling */
-body.home .page-wrap{
-  height: 100vh;
-  min-height: 100vh;
-  overflow: hidden;
-  padding: 22px 18px 92px;
-}
-
-/* centre the whole home area better */
-body.home .home-shell{
-  height: calc(100vh - 140px); /* leaves room for bottom nav */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;     /* ✅ vertically central */
-  align-items: center;         /* ✅ horizontally central */
-}
-
-/* buttons block centred and not too wide */
-body.home .home-buttons{
-  width: 100%;
-  max-width: 460px;            /* ✅ keeps grid nicely central */
-  margin-top: 0;               /* ✅ remove pushing down */
-  position: relative;
-  z-index: 2;
-}
-
-/* larger watermark behind buttons */
-body.home .home-watermark{
-  width: 360px;                /* ✅ bigger */
-  height: 360px;               /* ✅ bigger */
-  top: 52%;
-  opacity: 0.14;               /* optional: slightly more visible */
-}
-
-body.night .home-watermark{
-  opacity: 0.12;               /* optional: still subtle in night */
-}
-
-/* keep grid centred */
-body.home .home-grid{
-  width: 100%;
-  justify-items: stretch;
-}
-/* ==========================
-   HOME: center buttons + big watermark + stop scrolling
-   Works without extra wrappers
-========================== */
-
-/* stop scroll on home */
-body.home,
-body.home html {
-  height: 100%;
-}
-
-body.home .page-wrap {
-  height: 100vh;
-  min-height: 100vh;
-  overflow: hidden;              /* ✅ no scrolling */
-  padding-bottom: 92px;          /* keep space for bottom nav */
-}
-
-/* make the main home area centered */
-body.home .home-page {
-  height: calc(100vh - 92px);    /* bottom nav height allowance */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;       /* ✅ vertically center */
-  align-items: center;           /* ✅ horizontally center */
-  gap: 14px;
-  position: relative;
-}
-
-/* BIG watermark behind buttons */
-body.home .home-page::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 54%;
-  transform: translate(-50%, -50%);
-  width: 420px;                  /* ✅ bigger watermark */
-  height: 420px;                 /* ✅ bigger watermark */
-  background: url("icon.png") center/contain no-repeat;
-  opacity: 0.14;                 /* ✅ visible but subtle */
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* keep everything above the watermark */
-body.home .home-page > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* center the grid and keep it nicely contained */
-body.home .home-grid {
-  width: 100%;
-  max-width: 460px;              /* ✅ keeps buttons more central */
-  margin: 0 auto;
-}
-
-/* your pills already look good — this just ensures consistent width */
-body.home .home-pill {
-  width: 100%;
-}
-
-/* optional: make watermark still visible in night mode */
-body.night.home .home-page::before {
-  opacity: 0.10;
-}
-/* ==========================
-   HOME: center buttons + big watermark + stop scrolling
-   Works without extra wrappers
-========================== */
-
-/* stop scroll on home */
-body.home,
-body.home html {
-  height: 100%;
-}
-
-body.home .page-wrap {
-  height: 100vh;
-  min-height: 100vh;
-  overflow: hidden;              /* ✅ no scrolling */
-  padding-bottom: 92px;          /* keep space for bottom nav */
-}
-
-/* make the main home area centered */
-body.home .home-page {
-  height: calc(100vh - 92px);    /* bottom nav height allowance */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;       /* ✅ vertically center */
-  align-items: center;           /* ✅ horizontally center */
-  gap: 14px;
-  position: relative;
-}
-
-/* BIG watermark behind buttons */
-body.home .home-page::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 54%;
-  transform: translate(-50%, -50%);
-  width: 420px;                  /* ✅ bigger watermark */
-  height: 420px;                 /* ✅ bigger watermark */
-  background: url("icon.png") center/contain no-repeat;
-  opacity: 0.14;                 /* ✅ visible but subtle */
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* keep everything above the watermark */
-body.home .home-page > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* center the grid and keep it nicely contained */
-body.home .home-grid {
-  width: 100%;
-  max-width: 460px;              /* ✅ keeps buttons more central */
-  margin: 0 auto;
-}
-
-/* your pills already look good — this just ensures consistent width */
-body.home .home-pill {
-  width: 100%;
-}
-
-/* optional: make watermark still visible in night mode */
-body.night.home .home-page::before {
-  opacity: 0.10;
 }
