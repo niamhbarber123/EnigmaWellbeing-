@@ -7,11 +7,11 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91000" />
+  <link rel="stylesheet" href="style.css?v=100200" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
@@ -21,26 +21,26 @@
 
   <main class="page" id="distractionPage">
     <div class="card">
-      <div class="section-title">Take it one step at a time</div>
+      <div class="section-title">Question</div>
+      <div class="gentle-text" id="distractionQuestion" style="margin-top:12px;">Tap Start to begin.</div>
 
-      <div id="distractionQuestion" class="distraction-question">Tap Start to begin.</div>
-
-      <div class="gentle-text" style="margin-top:10px;">
+      <div class="gentle-text" style="margin-top:12px;">
         Answered: <b><span id="distractionAnsweredCount">0</span></b>
       </div>
 
-      <div id="distractionInputWrap" style="display:none; margin-top:10px;">
-        <input id="distractionInput" class="input" type="text" placeholder="Type your answer here…" autocomplete="off" />
-        <div class="gentle-text" style="margin-top:8px;">
-          Next requires typing. Skip if you’d rather not answer.
-        </div>
-      </div>
+      <input id="distractionInput" class="input" type="text"
+             style="margin-top:12px;"
+             placeholder="Type your answer here…" autocomplete="off" inputmode="text" />
 
       <div class="tool-row" style="margin-top:12px;">
         <button class="tool-btn primary" id="distractionStartBtn" type="button">Start</button>
         <button class="tool-btn" id="distractionNextBtn" type="button" style="display:none;">Next</button>
         <button class="tool-btn" id="distractionSkipBtn" type="button" style="display:none;">Skip</button>
         <button class="tool-btn danger" id="distractionEndBtn" type="button" style="display:none;">End</button>
+      </div>
+
+      <div class="gentle-text" style="margin-top:10px;">
+        Next requires typing. Skip if you’d rather not answer.
       </div>
     </div>
   </main>
@@ -55,6 +55,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=91000" defer></script>
+  <script src="app.js?v=100200" defer></script>
 </body>
 </html>
