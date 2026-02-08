@@ -1006,3 +1006,38 @@ body.night .home-help.home-help-compact {
   outline: 2px solid rgba(170, 140, 220, 0.7);
   outline-offset: 3px;
 }
+/* =========================
+   HOME HELP BUTTON (no blue underline)
+========================= */
+.home-help,
+.home-help:link,
+.home-help:visited {
+  text-decoration: none !important;
+  -webkit-text-decoration: none !important;
+  color: inherit;
+}
+
+.home-help {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(255,255,255,0.45);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+body.night .home-help {
+  background: rgba(28, 28, 34, 0.75);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.home-help .pill-text {
+  font-weight: 700;
+}
+
+.home-help .pill-ico {
+  font-size: 20px;
+}
