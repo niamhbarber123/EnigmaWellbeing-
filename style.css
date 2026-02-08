@@ -235,11 +235,34 @@ body.night .bottom-nav{
    Home layout
 ========================== */
 .home-hero{
-  height: 160px;
+  position: relative;
+  height: 170px;
   border-radius: 28px;
-  background: radial-gradient(circle at 45% 35%, rgba(155,130,210,0.20), transparent 55%);
   border: 1px solid var(--stroke);
   margin-bottom: 14px;
+
+  /* background gradient */
+  background:
+    radial-gradient(circle at 45% 35%,
+      rgba(155,130,210,0.22),
+      transparent 60%),
+    var(--card);
+
+  overflow: hidden;
+}
+
+/* LOGO watermark */
+.home-hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image: url("icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 120px;
+  opacity: 0.08;           /* ⬅ subtle */
+  pointer-events: none;
+}
 }
 
 .home-card{
