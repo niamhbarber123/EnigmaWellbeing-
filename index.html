@@ -3,46 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Word of the Day • Enigma Wellbeing</title>
+  <title>Enigma Wellbeing</title>
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91001" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+<body class="page-wrap home">
+  <button id="themeFab" class="theme-toggle-top">🌙</button>
 
-  <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
-    <h1>Word of the day</h1>
-    <p>A gentle affirmation for today</p>
+  <header class="page-header home-header">
+    <h1>Enigma Wellbeing</h1>
+    <p>Your calm space</p>
   </header>
 
-  <main class="page" id="wordPage">
-    <div class="card">
-      <div class="section-title" id="wotdWordBig">Loading…</div>
-      <div class="gentle-text" id="wotdDescBig" style="margin-top:10px;">Please wait.</div>
+  <main class="page home-page">
+    <!-- Logo / hero -->
+    <div class="home-hero"></div>
 
-      <div class="hr"></div>
+    <a class="home-card" href="breathe.html">
+      <div class="home-card-title">Breathe & reset</div>
+      <div class="home-card-sub">A gentle 60 seconds</div>
+    </a>
 
-      <div class="gentle-text" style="font-weight:800;">
-        Using these words as affirmations means you can repeat them to yourself, write them down,
-        or think about them regularly to help cultivate those qualities within yourself.
-      </div>
+    <!-- Main buttons -->
+    <div class="home-grid">
+      <a class="home-pill" href="journal.html">📖 Journal</a>
+      <a class="home-pill" href="quotes.html">💬 Quotes</a>
+      <a class="home-pill" href="yoga.html">🧘‍♀️ Yoga</a>
+      <a class="home-pill" href="music.html">🎵 Music</a>
+      <a class="home-pill" href="books.html">📚 Books</a>
+      <a class="home-pill" href="resources.html">🧠 Resources</a>
     </div>
+
+    <!-- Word of the day (smaller tile) -->
+    <a class="home-mini" href="word.html">
+      <span>Word of the day</span>
+      <span class="mini-go">›</span>
+    </a>
+
+    <!-- Distraction as its own page -->
+    <a class="home-mini" href="distraction.html">
+      <span>Distraction</span>
+      <span class="mini-go">›</span>
+    </a>
+
+    <a class="home-help" href="help.html">
+      🆘 Need help right now?
+    </a>
   </main>
 
   <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a class="active" href="index.html">🏠 Home</a>
+    <a href="breathe.html">🌬️ Breathe</a>
+    <a href="journal.html">📖 Journal</a>
+    <a href="quotes.html">💬 Quotes</a>
+    <a href="yoga.html">🧘‍♀️ Yoga</a>
+    <a href="music.html">🎵 Music</a>
+    <a href="progress.html">📈 Progress</a>
   </nav>
 
-  <script src="app.js?v=91001" defer></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
