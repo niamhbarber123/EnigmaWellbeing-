@@ -3,33 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Word of the Day • Enigma Wellbeing</title>
-
+  <title>Word of the day • Enigma Wellbeing</title>
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91003" />
+  <link rel="stylesheet" href="style.css?v=91000" />
 </head>
 
 <body class="page-wrap">
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
-    <h1>Word of the day</h1>
-    <p>A daily theme to reflect on</p>
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
+    <h1>Word</h1>
+    <p>Daily calm focus</p>
   </header>
 
   <main class="page" id="wotdPage">
     <div class="card">
-      <div class="section-title">Today’s word</div>
-      <div class="wotd-page-word" id="wotdPageWord">Loading…</div>
-      <div class="gentle-text" id="wotdPageDesc">Please wait.</div>
+      <div class="gentle-text">Today: <b><span id="wotdDate">—</span></b></div>
+      <div class="section-title" style="margin-top:10px;" id="wotdWordBig">Loading…</div>
+      <div class="gentle-text" style="margin-top:10px; font-size:18px;" id="wotdDescBig">Please wait.</div>
 
-      <div class="card" style="margin-top:14px;">
-        <div class="section-title">How to use it</div>
-        <div class="gentle-text">
-          Repeat it as an affirmation, write it down, or notice where you can practise it today.
-        </div>
+      <div class="gentle-text" style="margin-top:14px;">
+        Try using this as an affirmation: repeat it, write it down, or reflect on it for a minute.
       </div>
     </div>
   </main>
@@ -40,10 +36,10 @@
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="music.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=91003" defer></script>
+  <script src="app.js?v=91000" defer></script>
 </body>
 </html>
