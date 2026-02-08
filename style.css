@@ -467,3 +467,18 @@ body.night .quote-save-btn{ background: rgba(255,255,255,0.12); }
   margin: 14px 0;
   border-radius: 999px;
 }
+/* Smaller page titles */
+.page-header h1 {
+  font-size: 34px;
+}
+
+/* Smaller home buttons */
+.home-pill {
+  font-size: 16px;
+  padding: 12px;
+}
+
+/* Smaller WOTD & Distraction tiles */
+.home-mini {
+  font-size: 18px;
+}
