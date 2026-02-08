@@ -2,30 +2,119 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Books • Enigma Wellbeing</title>
+
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="page-wrap">
+  <button id="themeFab" class="theme-toggle-top">🌙</button>
+
   <header class="page-header">
     <button class="back-btn" onclick="enigmaHome()">←</button>
     <h1>Books</h1>
-    <p>Supportive reads</p>
+    <p>Supportive reads by topic</p>
   </header>
 
   <main class="page">
-    <div class="card book-item">
-      <div class="book-title">I Hate You — Don’t Leave Me</div>
-      <div class="book-meta">BPD • Jerold Kreisman</div>
-      <div class="book-desc">A classic guide to understanding BPD.</div>
+
+    <!-- GENRE FILTER -->
+    <div class="card">
+      <div class="section-title">Genres</div>
+      <div class="chip-row" id="bookChips">
+        <button class="chip active" data-genre="all">All</button>
+        <button class="chip" data-genre="bpd">BPD</button>
+        <button class="chip" data-genre="anxiety">Anxiety</button>
+        <button class="chip" data-genre="depression">Depression</button>
+        <button class="chip" data-genre="trauma">Trauma</button>
+        <button class="chip" data-genre="self-help">Self-help</button>
+      </div>
     </div>
 
-    <div class="card book-item">
-      <div class="book-title">The Buddha and the Borderline</div>
-      <div class="book-meta">BPD • Kiera Van Gelder</div>
-      <div class="book-desc">A memoir blending mindfulness and recovery.</div>
+    <!-- BOOK LIST -->
+    <div class="card" id="bookList">
+
+      <!-- BPD -->
+      <div class="book-item" data-genre="bpd">
+        <div class="book-title">I Hate You — Don’t Leave Me</div>
+        <div class="book-meta">BPD • Jerold J. Kreisman</div>
+        <div class="book-desc">
+          A classic guide explaining borderline personality disorder and how it affects relationships.
+        </div>
+      </div>
+
+      <div class="book-item" data-genre="bpd">
+        <div class="book-title">The Buddha and the Borderline</div>
+        <div class="book-meta">BPD • Kiera Van Gelder</div>
+        <div class="book-desc">
+          A memoir blending mindfulness, Buddhism, and recovery from BPD.
+        </div>
+      </div>
+
+      <!-- ANXIETY -->
+      <div class="book-item" data-genre="anxiety">
+        <div class="book-title">Hope and Help for Your Nerves</div>
+        <div class="book-meta">Anxiety • Claire Weekes</div>
+        <div class="book-desc">
+          A compassionate, practical guide for panic and anxiety.
+        </div>
+      </div>
+
+      <!-- DEPRESSION -->
+      <div class="book-item" data-genre="depression">
+        <div class="book-title">Feeling Good</div>
+        <div class="book-meta">Depression • David D. Burns</div>
+        <div class="book-desc">
+          Cognitive techniques to help challenge negative thought patterns.
+        </div>
+      </div>
+
+      <!-- TRAUMA -->
+      <div class="book-item" data-genre="trauma">
+        <div class="book-title">The Body Keeps the Score</div>
+        <div class="book-meta">Trauma • Bessel van der Kolk</div>
+        <div class="book-desc">
+          How trauma affects the body and mind, and paths to healing.
+        </div>
+      </div>
+
+      <!-- SELF-HELP -->
+      <div class="book-item" data-genre="self-help">
+        <div class="book-title">The Comfort Book</div>
+        <div class="book-meta">Self-help • Matt Haig</div>
+        <div class="book-desc">
+          Gentle reflections for reassurance and comfort during hard moments.
+        </div>
+      </div>
+
     </div>
   </main>
+
+  <script src="app.js" defer></script>
+
+  <!-- SIMPLE FILTER SCRIPT -->
+  <script>
+    const chips = document.querySelectorAll('.chip');
+    const books = document.querySelectorAll('.book-item');
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+
+        const genre = chip.dataset.genre;
+
+        books.forEach(book => {
+          book.style.display =
+            genre === 'all' || book.dataset.genre === genre
+              ? 'block'
+              : 'none';
+        });
+      });
+    });
+  </script>
 </body>
 </html>
