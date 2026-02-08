@@ -11,15 +11,15 @@
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Resources</h1>
-    <p>Information & support (NHS links)</p>
+    <p>Information & support links</p>
   </header>
 
-  <main class="page">
+  <main class="page" id="resourcesPage">
     <div class="card">
       <div class="section-title">Topics</div>
       <div id="resourceTopicRow" class="chip-row" style="margin-top:12px;"></div>
@@ -28,6 +28,7 @@
     <div class="card">
       <div class="section-title">Info</div>
       <div id="resourceList" style="margin-top:12px;"></div>
+      <div class="gentle-text" style="margin-top:10px;">Links open in a new tab.</div>
     </div>
   </main>
 
