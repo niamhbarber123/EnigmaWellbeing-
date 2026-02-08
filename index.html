@@ -7,67 +7,85 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100001" />
+  <link rel="stylesheet" href="style.css?v=91001" />
 </head>
 
 <body class="page-wrap home">
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <header class="page-header">
+  <header class="page-header home-header">
     <h1>Enigma Wellbeing</h1>
     <p>Your calm space</p>
   </header>
 
-  <main class="page">
-    <div class="home-hero"></div>
+  <main class="page home-page">
+    <div class="home-hero" aria-hidden="true"></div>
 
     <a class="home-card" href="breathe.html">
-      <div class="home-card-title">Breathe & reset</div>
-      <div class="home-card-sub">Slow your nervous system</div>
+      <div class="home-card-title">Breathe &amp; reset</div>
+      <div class="home-card-sub">A gentle 60 seconds</div>
     </a>
 
     <div class="home-grid">
-      <a class="home-pill" href="journal.html">📖 Journal</a>
-      <a class="home-pill" href="quotes.html">💬 Quotes</a>
-      <a class="home-pill" href="yoga.html">🧘‍♀️ Yoga</a>
-      <a class="home-pill" href="sounds.html">🎵 Music</a>
+      <a class="home-pill" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
+      <a class="home-pill" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
+      <a class="home-pill" href="yoga.html"><span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span></a>
+      <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
     </div>
 
-    <!-- WORD OF THE DAY (small tile) -->
-    <a class="home-mini" href="word.html">
-      <div>
-        <div>Word of the day</div>
-        <div class="mini-sub" id="wotdWord">Loading…</div>
-      </div>
-      <div class="mini-go">›</div>
+    <!-- ✅ Word of the Day (RESTORED LOOK: card style like before) -->
+    <a class="home-card home-wotd" href="word.html" aria-label="Open Word of the Day">
+      <div class="home-card-title">Word of the day</div>
+      <div class="home-card-sub" id="wotdWord">Loading…</div>
     </a>
 
-    <!-- DISTRACTION -->
+    <!-- ✅ Distraction (card style like before) -->
     <div class="home-card" id="distractionCard">
       <div class="home-card-title">Distraction</div>
-      <div class="distraction-question" id="distractionQuestion">
-        Tap Start to begin
+      <div class="home-card-sub distraction-sub">
+        Gentle questions to interrupt a spiral. Type any answer to count as “answered”, or Skip.
+      </div>
+
+      <div id="distractionQuestion" class="distraction-question">Tap Start to begin.</div>
+
+      <div class="gentle-text" style="margin-top:10px;">
+        Answered: <b><span id="distractionAnsweredCount">0</span></b>
+      </div>
+
+      <div id="distractionInputWrap" style="display:none; margin-top:10px;">
+        <input id="distractionInput" class="input" type="text"
+               placeholder="Type your answer here…" autocomplete="off" inputmode="text" />
+        <div class="gentle-text" style="margin-top:8px;">
+          Next requires typing. Skip if you’d rather not answer.
+        </div>
       </div>
 
       <div class="tool-row" style="margin-top:12px;">
-        <button class="tool-btn primary" id="distractionStartBtn">Start</button>
-        <button class="tool-btn" id="distractionNextBtn" style="display:none;">Next</button>
+        <button class="tool-btn primary" id="distractionStartBtn" type="button">Start</button>
+        <button class="tool-btn" id="distractionNextBtn" type="button" style="display:none;">Next</button>
+      </div>
+
+      <div class="tool-row">
+        <button class="tool-btn" id="distractionSkipBtn" type="button" style="display:none;">Skip</button>
+        <button class="tool-btn danger" id="distractionEndBtn" type="button" style="display:none;">End</button>
       </div>
     </div>
 
-    <a class="home-help" href="help.html">🆘 Need help right now?</a>
+    <a class="home-help" href="help.html">
+      <span class="pill-ico">🆘</span><span class="pill-text">Need help right now?</span>
+    </a>
   </main>
 
   <nav class="bottom-nav">
-    <a class="active" href="index.html">🏠 Home</a>
-    <a href="breathe.html">🌬️ Breathe</a>
-    <a href="journal.html">📖 Journal</a>
-    <a href="quotes.html">💬 Quotes</a>
-    <a href="yoga.html">🧘‍♀️ Yoga</a>
-    <a href="sounds.html">🎵 Music</a>
-    <a href="progress.html">📈 Progress</a>
+    <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100001" defer></script>
+  <script src="app.js?v=91001" defer></script>
 </body>
 </html>
