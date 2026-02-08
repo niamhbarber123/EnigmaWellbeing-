@@ -1,440 +1,145 @@
-/* =========================================================
-   Enigma Wellbeing • style.css (STABLE)
-   - Home: centered grid, no scroll, bigger watermark
-   - Buttons consistent
-   - Titles slightly smaller
-   - Pale purple "danger" buttons
-   - Link underline removed
-========================================================= */
-
 :root{
-  --bg: #f6f2fb;
-  --text: #2f2a3a;
-  --muted: rgba(47,42,58,0.62);
-
-  --card: rgba(255,255,255,0.75);
-  --card-solid: #ffffff;
-  --stroke: rgba(120,110,140,0.14);
-
-  --accent: #6b5b86;
-  --accent-soft: rgba(107,91,134,0.16);
-
-  /* ✅ Pale purple for “danger” */
-  --danger: rgba(203,188,255,0.45);
-
-  --shadow: 0 10px 25px rgba(40,30,60,0.08);
-}
-
-body.night{
-  --bg: #0f0f14;
-  --text: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.72);
-
-  --card: rgba(255,255,255,0.08);
-  --card-solid: rgba(255,255,255,0.10);
-  --stroke: rgba(255,255,255,0.12);
-
-  --accent: #cbbcff;
-  --accent-soft: rgba(203,188,255,0.18);
-  --danger: rgba(203,188,255,0.26);
-
-  --shadow: 0 14px 40px rgba(0,0,0,0.35);
+  --bg:#f6f2fb;
+  --text:#2f2a3a;
+  --muted:rgba(47,42,58,.6);
+  --card:#ffffff;
+  --stroke:rgba(120,110,140,.15);
+  --accent:#6b5b86;
+  --shadow:0 10px 25px rgba(40,30,60,.08);
 }
 
 *{ box-sizing:border-box; }
 
-html, body{
-  margin:0; padding:0;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
-  background: var(--bg);
-  color: var(--text);
+html,body{
+  margin:0;
+  padding:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
-a{
-  color: inherit;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-}
-a:visited{ color: inherit; }
+a{ text-decoration:none; color:inherit; }
 
-/* Layout */
 .page-wrap{
-  min-height: 100vh;
-  padding: 18px 18px 92px;
+  min-height:100vh;
+  padding:20px 18px 100px;
+  overflow:hidden;
 }
-
-.page{ max-width: 520px; margin: 0 auto; }
 
 /* Header */
 .page-header{
   text-align:center;
-  margin-top: 6px;
-  margin-bottom: 14px;
-  position: relative;
+  margin-bottom:30px;
 }
 .page-header h1{
-  margin: 8px 0 6px;
-  font-size: 36px;            /* ✅ smaller titles */
-  letter-spacing: -0.02em;
-  color: var(--accent);
-  font-weight: 900;
+  font-size:42px;
+  font-weight:950;
+  color:var(--accent);
+  margin:10px 0 6px;
 }
 .page-header p{
-  margin:0;
-  color: var(--muted);
-  font-weight: 700;
+  color:var(--muted);
+  font-weight:700;
 }
 
-.home-header h1{ font-size: 40px; } /* still slightly larger on home */
-
-/* Buttons top */
-.back-btn{
-  position:absolute;
-  left: 0;
-  top: 6px;
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  border: 1px solid var(--stroke);
-  background: var(--card);
-  box-shadow: var(--shadow);
-  color: var(--text);
-  font-size: 22px;
-  font-weight: 900;
-}
-
+/* Night toggle */
 .theme-toggle-top{
-  position: fixed;
-  right: 16px;
-  top: 16px;
-  width: 56px;
-  height: 56px;
-  border-radius: 999px;
-  border: 1px solid var(--stroke);
-  background: var(--card);
-  box-shadow: var(--shadow);
-  font-size: 24px;
-  z-index: 50;
+  position:fixed;
+  top:16px;
+  right:16px;
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  border:1px solid var(--stroke);
+  background:var(--card);
+  box-shadow:var(--shadow);
+  font-size:24px;
+  z-index:10;
 }
 
-/* Cards */
-.card{
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  border-radius: 26px;
-  padding: 16px 16px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  margin-bottom: 14px;
-}
-
-.section-title{
-  font-weight: 900;
-  font-size: 22px;            /* ✅ smaller */
-  letter-spacing:-0.01em;
-  color: var(--accent);
-}
-
-.gentle-text{
-  color: var(--muted);
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.35;
-}
-
-/* Tools */
-.tool-row{
+/* Watermark */
+.home-watermark{
+  position:absolute;
+  inset:0;
   display:flex;
-  gap: 12px;
-  width: 100%;
+  justify-content:center;
+  align-items:center;
+  pointer-events:none;
+  opacity:.07;
+}
+.home-watermark img{
+  width:320px;
+  max-width:80%;
 }
 
-.tool-btn{
-  flex:1;
-  padding: 14px 14px;
-  border-radius: 18px;
-  border: 1px solid var(--stroke);
-  background: var(--card-solid);
-  box-shadow: var(--shadow);
-  font-weight: 900;
-  font-size: 18px;
-  color: var(--accent);
+/* Grid */
+.home-grid{
+  max-width:520px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  position:relative;
+  z-index:2;
 }
 
-.tool-btn.primary{
-  background: var(--accent-soft);
-  color: var(--accent);
+/* BUTTONS — SINGLE SOURCE OF TRUTH */
+.home-pill,
+.home-pill *{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif !important;
+  font-weight:950 !important;
+  color:var(--accent) !important;
 }
 
-.tool-btn.danger{
-  background: var(--danger);  /* ✅ pale purple */
-  color: var(--accent);
+.home-pill{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:16px 18px;
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  font-size:18px;
+  letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased;
 }
 
-.input{
-  width:100%;
-  border-radius: 16px;
-  border: 1px solid var(--stroke);
-  background: var(--card-solid);
-  padding: 12px 14px;
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--text);
+.pill-ico{
+  font-size:20px;
+  line-height:1;
+}
+
+.pill-text{
+  font-size:18px;
 }
 
 /* Bottom nav */
 .bottom-nav{
-  position: fixed;
-  left:0; right:0; bottom:0;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
   display:flex;
-  justify-content: space-around;
-  padding: 10px 10px 14px;
-  background: rgba(255,255,255,0.75);
-  border-top: 1px solid rgba(140,120,170,0.10);
-  backdrop-filter: blur(12px);
-}
-body.night .bottom-nav{
-  background: rgba(20,20,26,0.78);
-  border-top: 1px solid rgba(255,255,255,0.10);
+  justify-content:space-around;
+  padding:10px 10px 14px;
+  background:rgba(255,255,255,.85);
+  border-top:1px solid rgba(140,120,170,.12);
+  backdrop-filter:blur(12px);
 }
 
 .bottom-nav a{
   display:flex;
-  flex-direction: column;
+  flex-direction:column;
   align-items:center;
-  gap: 3px;
-  font-weight: 800;
-  font-size: 12px;
-  color: var(--muted);
-}
-.bottom-nav a.active{ color: var(--accent); }
-.nav-ico{ font-size: 18px; }
-
-/* =========================================================
-   HOME (no scrolling + centered buttons + big watermark)
-========================================================= */
-body.home{
-  height: 100vh;
-  overflow: hidden; /* ✅ stops scrolling */
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
 }
 
-body.home .page-wrap{
-  height: 100vh;
-  overflow: hidden; /* ✅ stops scrolling */
+.bottom-nav a.active{
+  color:var(--accent);
 }
 
-.home-page{
-  position: relative;
-  height: calc(100vh - 18px - 92px - 86px); /* padding + bottom nav + header approx */
-  display:flex;
-  align-items:center;          /* ✅ center vertically */
-  justify-content:center;
-}
-
-.home-watermark{
-  position:absolute;
-  inset: 0;
-  background-image: url("icon.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 360px;      /* ✅ bigger watermark */
-  opacity: 0.12;               /* subtle */
-  filter: blur(0px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.home-grid-home{
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  padding: 8px 0;
-}
-
-.home-pill{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap: 10px;
-  padding: 16px 14px;
-  border-radius: 22px;
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  box-shadow: var(--shadow);
-  font-weight: 900;
-  color: var(--accent);
-  min-height: 64px;
-}
-
-.pill-ico{ font-size: 20px; }
-.pill-text{ font-size: 18px; }
-
-/* =========================================================
-   Chips
-========================================================= */
-.chip-row{
-  display:flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.chip{
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.6);
-  font-weight: 900;
-  color: var(--accent);
-}
-body.night .chip{ background: rgba(255,255,255,0.08); }
-.chip.active{ background: var(--accent-soft); }
-
-/* Lists */
-.music-btn,
-.resource-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.65);
-  font-weight: 900;
-  color: var(--accent);
-  margin-bottom: 10px;
-}
-body.night .music-btn,
-body.night .resource-item{ background: rgba(255,255,255,0.08); }
-
-.resource-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
-.resource-desc{ color: var(--muted); font-weight: 800; margin-top: 4px; }
-.resource-go{ font-weight: 950; opacity: 0.8; }
-
-.book-item{
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.65);
-  margin-bottom: 10px;
-}
-body.night .book-item{ background: rgba(255,255,255,0.08); }
-.book-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
-.book-meta{ color: var(--muted); font-weight: 800; margin-top: 4px; }
-.book-desc{ color: var(--muted); font-weight: 700; margin-top: 6px; }
-
-/* Quotes */
-.quote-tile{
-  background: rgba(255,255,255,0.70);
-  border: 1px solid var(--stroke);
-  border-radius: 22px;
-  padding: 16px;
-  box-shadow: var(--shadow);
-  margin-bottom: 12px;
-}
-body.night .quote-tile{ background: rgba(255,255,255,0.10); }
-
-.quote-text{
-  font-weight: 950;
-  font-size: 18px;
-  line-height: 1.35;
-  color: var(--text);
-}
-.quote-meta{
-  margin-top: 12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
-}
-.quote-author{ color: var(--muted); font-weight: 800; }
-.quote-save-btn{
-  border-radius: 999px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.7);
-  padding: 10px 14px;
-  font-weight: 950;
-  color: var(--accent);
-}
-body.night .quote-save-btn{ background: rgba(255,255,255,0.10); }
-.quote-save-btn.saved{ background: var(--accent-soft); }
-
-/* Distraction */
-.distraction-question{
-  margin-top: 10px;
-  padding: 14px 14px;
-  border-radius: 18px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.55);
-  font-weight: 900;
-  color: var(--accent);
-}
-body.night .distraction-question{ background: rgba(255,255,255,0.08); }
-
-/* Breathe */
-.breathe-stage{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding: 18px 0 6px;
-}
-.breathe-ring{
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  border: 2px solid rgba(120,110,150,0.25);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-.breathe-circle{
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(170,145,210,0.55));
-  box-shadow: 0 18px 40px rgba(60,40,90,0.18);
-  transform: scale(1);
-  transition: transform 1.5s ease-in-out;
-}
-.breathe-circle.breath-inhale{ transform: scale(0.72); } /* inhale smaller */
-.breathe-circle.breath-exhale{ transform: scale(1.14); } /* exhale bigger */
-
-.breath-text{
-  text-align:center;
-  margin-top: 10px;
-  font-weight: 900;
-  color: var(--accent);
-}
-/* =========================================
-   HOME BUTTONS — make ALL look like Help/Distraction
-   (same font weight + colour + alignment)
-========================================= */
-
-/* Make every home tile use the same text styling */
-.home-pill{
-  color: var(--accent) !important;      /* same purple */
-  font-weight: 950 !important;          /* bold like Help/Distraction */
-  letter-spacing: -0.01em;
-}
-
-/* Force the text inside to match */
-.home-pill .pill-text{
-  color: var(--accent) !important;
-  font-weight: 950 !important;
-  font-size: 18px;                      /* consistent size */
-  line-height: 1;
-}
-
-/* Icons consistent size + slight tint like others */
-.home-pill .pill-ico{
-  font-size: 20px;
-  opacity: 0.95;
-}
-
-/* Remove any random hover/active styling differences */
-.home-pill:active{
-  transform: scale(0.99);
-}
+.nav-ico{ font-size:18px; }
