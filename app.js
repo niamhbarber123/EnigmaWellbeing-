@@ -819,6 +819,9 @@ function initWOTD() {
 
     try{ initWotdHomeTile(); }catch{}
     try{ initWotdPage(); }catch{}
+     document.addEventListener("DOMContentLoaded", () => {
+  try { initWOTD(); } catch {}
+});
     try{ initDistraction(); }catch{}
     try{ initBreathe(); }catch{}
     try{ initQuotes(); }catch{}
