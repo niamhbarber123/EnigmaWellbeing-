@@ -247,3 +247,49 @@ body.night .bottom-nav{
 .nav-ico{
   font-size:18px;
 }
+/* ==========================
+   HOME BUTTON GRID (2 PER ROW)
+========================== */
+
+.home-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:16px;
+  margin-top:32px;
+}
+
+/* Standard home buttons */
+.home-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  padding:16px 14px;
+  border-radius:26px;
+
+  background:var(--card-solid);
+  border:1px solid var(--stroke);
+  box-shadow:var(--shadow);
+
+  font-size:16px;
+  font-weight:800;
+  color:var(--accent);
+
+  width:auto;        /* ✅ IMPORTANT */
+}
+
+/* Icon size */
+.home-btn span{
+  font-size:20px;
+}
+
+/* Wide button (HELP only) */
+.home-btn.wide{
+  grid-column: span 2;
+}
+
+/* Tap feedback */
+.home-btn:active{
+  transform:scale(0.97);
+}
