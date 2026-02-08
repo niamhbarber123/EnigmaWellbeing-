@@ -409,3 +409,52 @@ body.night .book-item{ background: rgba(255,255,255,0.08); }
 .book-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
 .book-meta{ color: var(--muted); font-weight: 850; margin-top: 4px; }
 .book-desc{ color: var(--muted); font-weight: 750; margin-top: 6px; }
+/* ==========================
+   HOME layout tweaks
+   - Center buttons more
+   - Bigger watermark
+========================== */
+
+/* keep home from scrolling */
+body.home .page-wrap{
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 22px 18px 92px;
+}
+
+/* centre the whole home area better */
+body.home .home-shell{
+  height: calc(100vh - 140px); /* leaves room for bottom nav */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     /* ✅ vertically central */
+  align-items: center;         /* ✅ horizontally central */
+}
+
+/* buttons block centred and not too wide */
+body.home .home-buttons{
+  width: 100%;
+  max-width: 460px;            /* ✅ keeps grid nicely central */
+  margin-top: 0;               /* ✅ remove pushing down */
+  position: relative;
+  z-index: 2;
+}
+
+/* larger watermark behind buttons */
+body.home .home-watermark{
+  width: 360px;                /* ✅ bigger */
+  height: 360px;               /* ✅ bigger */
+  top: 52%;
+  opacity: 0.14;               /* optional: slightly more visible */
+}
+
+body.night .home-watermark{
+  opacity: 0.12;               /* optional: still subtle in night */
+}
+
+/* keep grid centred */
+body.home .home-grid{
+  width: 100%;
+  justify-items: stretch;
+}
