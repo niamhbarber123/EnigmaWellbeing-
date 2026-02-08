@@ -532,3 +532,8 @@ body.night .quote-save-btn{ background: rgba(255,255,255,0.12); }
   position: relative;
   z-index: 1;
 }
+/* Help button – same style as other home pills */
+.home-pill-help{
+  grid-column: 1 / -1; /* full width like a primary action */
+  justify-content: center;
+}
