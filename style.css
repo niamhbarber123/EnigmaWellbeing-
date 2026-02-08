@@ -1,101 +1,100 @@
-/* ==========================
-   Enigma Wellbeing • style.css (STABLE)
-   - Consistent button styling
-   - Home buttons centred + big watermark
-   - Better night mode readability
-   - Removes blue underline on links
-========================== */
+/* =========================================================
+   Enigma Wellbeing • style.css (FULL FIXED BUILD)
+   - Consistent nav across all pages
+   - Home buttons all identical (font/colour)
+   - Home centred grid + no scroll
+   - Bigger watermark behind buttons
+   - Smaller page titles
+   - Pale purple action buttons
+   - Breathe animation class names match JS
+========================================================= */
 
 :root{
   --bg: #f6f2fb;
   --text: #2f2a3a;
-  --muted: rgba(47,42,58,0.62);
+  --muted: rgba(47,42,58,0.60);
 
   --card: rgba(255,255,255,0.78);
   --card-solid: #ffffff;
   --stroke: rgba(120,110,140,0.16);
 
-  /* pale purple theme */
   --accent: #6b5b86;
   --accent-soft: rgba(107,91,134,0.18);
 
-  --danger: #ffd0c2;
+  /* ✅ pale purple (replaces orange/danger look) */
+  --action: rgba(170,155,210,0.35);
+  --action-strong: rgba(170,155,210,0.55);
+
   --shadow: 0 10px 25px rgba(40,30,60,0.08);
 }
 
 body.night{
   --bg: #0f0f14;
   --text: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.74);
+  --muted: rgba(255,255,255,0.70);
 
-  --card: rgba(255,255,255,0.10);
-  --card-solid: rgba(255,255,255,0.12);
-  --stroke: rgba(255,255,255,0.14);
+  --card: rgba(255,255,255,0.08);
+  --card-solid: rgba(255,255,255,0.10);
+  --stroke: rgba(255,255,255,0.12);
 
-  --accent: #d6ccff;
-  --accent-soft: rgba(214,204,255,0.18);
+  --accent: #cbbcff;
+  --accent-soft: rgba(203,188,255,0.18);
 
-  --danger: rgba(255,208,194,0.55);
+  --action: rgba(203,188,255,0.14);
+  --action-strong: rgba(203,188,255,0.22);
+
   --shadow: 0 14px 40px rgba(0,0,0,0.35);
 }
 
-*{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+*{ box-sizing:border-box; }
 
 html, body{
   margin:0; padding:0;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
   background: var(--bg);
   color: var(--text);
-  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ✅ no blue underline / blue line */
 a{
   color: inherit;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
 a:visited{ color: inherit; }
-a:focus{ outline: none; }
-a, button{ -webkit-tap-highlight-color: transparent; }
 
 .page-wrap{
   min-height: 100vh;
-  padding: 18px 18px 102px; /* room for nav */
-}
-
-.page{
-  max-width: 560px;
-  margin: 0 auto;
+  padding: 18px 18px 92px; /* room for fixed nav */
 }
 
 .page-header{
   text-align:center;
-  margin-top: 4px;
+  margin-top: 6px;
   margin-bottom: 14px;
   position: relative;
-  padding: 4px 0 0;
 }
 
+/* ✅ smaller titles everywhere */
 .page-header h1{
-  margin: 6px 0 6px;
-  font-size: 34px;           /* ✅ smaller titles */
+  margin: 8px 0 6px;
+  font-size: 40px;       /* was 44 */
   letter-spacing: -0.02em;
   color: var(--accent);
-  font-weight: 950;
+  font-weight: 900;
 }
 
 .page-header p{
   margin:0;
   color: var(--muted);
-  font-weight: 750;
-  font-size: 14px;
+  font-weight: 700;
 }
 
-/* Back button */
 .back-btn{
   position:absolute;
   left: 0;
-  top: 0;
+  top: 6px;
   width: 48px;
   height: 48px;
   border-radius: 999px;
@@ -104,50 +103,55 @@ a, button{ -webkit-tap-highlight-color: transparent; }
   box-shadow: var(--shadow);
   color: var(--text);
   font-size: 22px;
-  font-weight: 950;
+  font-weight: 900;
 }
 
-/* Theme toggle */
 .theme-toggle-top{
   position: fixed;
   right: 16px;
-  top: calc(16px + env(safe-area-inset-top));
-  width: 54px;
-  height: 54px;
+  top: 16px;
+  width: 56px;
+  height: 56px;
   border-radius: 999px;
   border: 1px solid var(--stroke);
   background: var(--card);
   box-shadow: var(--shadow);
   font-size: 24px;
-  z-index: 60;
+  z-index: 200;
 }
 
-/* Cards */
+.page{ max-width: 520px; margin: 0 auto; }
+
 .card{
   background: var(--card);
   border: 1px solid var(--stroke);
   border-radius: 26px;
-  padding: 16px;
+  padding: 16px 16px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
   margin-bottom: 14px;
 }
 
 .section-title{
-  font-weight: 950;
-  font-size: 22px;
+  font-weight: 900;
+  font-size: 24px; /* slightly smaller */
   letter-spacing:-0.01em;
   color: var(--accent);
 }
 
 .gentle-text{
   color: var(--muted);
-  font-weight: 750;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 16px;
   line-height: 1.35;
 }
 
-/* Buttons */
+.hr{
+  height: 1px;
+  background: var(--stroke);
+  margin: 14px 0;
+}
+
 .tool-row{
   display:flex;
   gap: 12px;
@@ -157,28 +161,29 @@ a, button{ -webkit-tap-highlight-color: transparent; }
 
 .tool-btn{
   flex:1;
-  min-width: 140px;
   padding: 14px 14px;
   border-radius: 18px;
   border: 1px solid var(--stroke);
   background: var(--card-solid);
   box-shadow: var(--shadow);
-  font-weight: 950;
-  font-size: 16px;
+  font-weight: 900;
+  font-size: 18px;
   color: var(--accent);
+  min-width: 140px;
 }
 
+/* ✅ pale purple action buttons */
 .tool-btn.primary{
-  background: var(--accent-soft);
+  background: var(--action);
   color: var(--accent);
 }
 
 .tool-btn.danger{
-  background: var(--danger);
-  color: rgba(40,20,20,0.85);
+  background: var(--action-strong);
+  color: var(--accent);
 }
 
-.input, select.input{
+.input{
   width:100%;
   border-radius: 16px;
   border: 1px solid var(--stroke);
@@ -189,22 +194,24 @@ a, button{ -webkit-tap-highlight-color: transparent; }
   color: var(--text);
 }
 
-/* Bottom nav */
+/* ==========================
+   Bottom nav (LOCKED consistent)
+========================== */
 .bottom-nav{
   position: fixed;
   left:0; right:0; bottom:0;
   display:flex;
   justify-content: space-around;
-  padding: 10px 10px calc(14px + env(safe-area-inset-bottom));
+  align-items:flex-end;
+  padding: 10px 10px 14px;
   background: rgba(255,255,255,0.78);
-  border-top: 1px solid rgba(140,120,170,0.10);
+  border-top: 1px solid rgba(140,120,170,0.12);
   backdrop-filter: blur(12px);
-  z-index: 50;
+  z-index: 150;
 }
-
 body.night .bottom-nav{
-  background: rgba(20,20,26,0.84);
-  border-top: 1px solid rgba(255,255,255,0.12);
+  background: rgba(20,20,26,0.78);
+  border-top: 1px solid rgba(255,255,255,0.10);
 }
 
 .bottom-nav a{
@@ -212,163 +219,169 @@ body.night .bottom-nav{
   flex-direction: column;
   align-items:center;
   gap: 3px;
-  font-weight: 850;
-  font-size: 11px;
-  color: var(--muted);
-  min-width: 44px;
-}
 
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+
+  color: rgba(47,42,58,0.55);
+  text-decoration: none;
+}
+body.night .bottom-nav a{
+  color: rgba(255,255,255,0.55);
+}
 .bottom-nav a.active{
   color: var(--accent);
 }
-
 .nav-ico{ font-size: 18px; line-height: 1; }
 
 /* ==========================
-   HOME
+   HOME (NO SCROLL + CENTERED GRID)
 ========================== */
-
-.home-page{
-  position: relative;
-  min-height: calc(100vh - 160px); /* helps centring without forcing scroll */
+.page-wrap.home{
+  height: 100vh;
+  overflow: hidden; /* ✅ stop scroll on home */
+  display:flex;
+  flex-direction: column;
 }
 
-/* ✅ Big watermark behind buttons */
-.home-watermark{
-  position: absolute;
+/* main fills space above nav and centers content */
+.home-main{
+  flex: 1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position: relative;
+}
+
+/* ✅ bigger watermark behind buttons */
+.home-main::before{
+  content:"";
+  position:absolute;
   inset: 0;
   background-image: url("icon.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 520px;
-  opacity: 0.14;               /* visible but subtle */
-  filter: saturate(1.05) contrast(1.05);
+  background-size: min(520px, 92vw);
+  opacity: 0.09;
   pointer-events: none;
+  transform: translateY(20px);
 }
 
-body.night .home-watermark{
-  opacity: 0.10;
-  filter: saturate(1.0) contrast(1.12);
-}
-
-/* ✅ Centre the button grid */
-.home-center{
+/* content sits above watermark */
+.home-inner{
+  width: 100%;
+  max-width: 520px;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: calc(100vh - 230px); /* header+nav taken into account */
+  z-index: 2;
+  padding-bottom: 10px;
 }
 
 .home-grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
+  margin: 0 auto;
 }
 
-.home-grid-main{
-  max-width: 560px;
-}
-
-/* ✅ All buttons same style (like help/distraction) */
+/* ✅ ALL HOME BUTTONS IDENTICAL */
 .home-pill{
   display:flex;
   align-items:center;
   justify-content:center;
   gap: 10px;
-  padding: 14px 12px;
-  border-radius: 22px;
-  background: var(--card);
+
+  padding: 16px 14px;
+  border-radius: 24px;
+
+  background: rgba(255,255,255,0.72);
   border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
-  font-weight: 950;
-  color: var(--accent);
-}
 
-.home-pill .pill-ico{ font-size: 20px; }
-.home-pill .pill-text{ font-size: 16px; }
-
-/* full width button */
-.home-pill-wide{
-  grid-column: 1 / -1;
-  justify-content: space-between;
-  padding-left: 14px;
-  padding-right: 14px;
-}
-
-.pill-go{
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+  font-weight: 900;
   font-size: 20px;
-  opacity: 0.75;
-}
-.home-page{
-  overflow: hidden;
+  color: var(--accent);
+  letter-spacing: -0.01em;
 }
 
-.home-main{
-  min-height: calc(100vh - 220px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+body.night .home-pill{
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.12);
 }
 
-.home-watermark{
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 0;
+.home-pill .pill-ico{ font-size: 22px; line-height: 1; }
+.home-pill .pill-text{
+  font-size: 20px;
+  font-weight: 900;
+  color: inherit;
 }
 
-.home-watermark img{
-  width: 260px;
-  opacity: 0.08;
-}
-
-.home-grid{
-  position: relative;
-  z-index: 2;
+/* make single full-width button span both columns */
+.home-pill.wide{
+  grid-column: 1 / -1;
 }
 
 /* ==========================
-   DISRACTION BOX (used on distraction page)
+   Chips
 ========================== */
-.distraction-question{
-  margin-top: 10px;
-  padding: 14px 14px;
-  border-radius: 18px;
+.chip-row{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip{
+  padding: 10px 14px;
+  border-radius: 999px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.6);
   font-weight: 900;
   color: var(--accent);
 }
-body.night .distraction-question{
-  background: rgba(255,255,255,0.10);
-}
+body.night .chip{ background: rgba(255,255,255,0.08); }
+
+.chip.active{ background: var(--accent-soft); }
 
 /* ==========================
-   MUSIC / YOGA buttons
+   Music/Yoga/Resources links
 ========================== */
-.music-btn{
+.music-btn,
+.resource-item{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap: 12px;
+
   padding: 14px 16px;
   border-radius: 18px;
   border: 1px solid var(--stroke);
   background: rgba(255,255,255,0.65);
+  margin-bottom: 10px;
+
   font-weight: 900;
   color: var(--accent);
-  margin-bottom: 10px;
 }
-body.night .music-btn{
-  background: rgba(255,255,255,0.10);
+body.night .music-btn,
+body.night .resource-item{
+  background: rgba(255,255,255,0.08);
 }
 
+.resource-title{
+  font-weight: 950;
+  color: var(--accent);
+  font-size: 18px;
+}
+.resource-desc{
+  color: var(--muted);
+  font-weight: 800;
+  margin-top: 4px;
+}
+.resource-go{ font-weight: 950; opacity: 0.8; }
+
 /* ==========================
-   QUOTES
+   Quotes
 ========================== */
 .quote-tile{
   background: rgba(255,255,255,0.70);
@@ -378,17 +391,14 @@ body.night .music-btn{
   box-shadow: var(--shadow);
   margin-bottom: 12px;
 }
-body.night .quote-tile{
-  background: rgba(255,255,255,0.12);
-}
+body.night .quote-tile{ background: rgba(255,255,255,0.10); }
 
 .quote-text{
   font-weight: 950;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.35;
   color: var(--text);
 }
-
 .quote-meta{
   margin-top: 12px;
   display:flex;
@@ -396,13 +406,10 @@ body.night .quote-tile{
   justify-content:space-between;
   gap: 12px;
 }
-
 .quote-author{
   color: var(--muted);
   font-weight: 800;
-  font-size: 13px;
 }
-
 .quote-save-btn{
   border-radius: 999px;
   border: 1px solid var(--stroke);
@@ -411,15 +418,11 @@ body.night .quote-tile{
   font-weight: 950;
   color: var(--accent);
 }
-body.night .quote-save-btn{
-  background: rgba(255,255,255,0.12);
-}
-.quote-save-btn.saved{
-  background: var(--accent-soft);
-}
+body.night .quote-save-btn{ background: rgba(255,255,255,0.10); }
+.quote-save-btn.saved{ background: var(--accent-soft); }
 
 /* ==========================
-   BREATHE
+   Breathe
 ========================== */
 .breathe-stage{
   display:flex;
@@ -440,16 +443,14 @@ body.night .quote-save-btn{
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(170,145,210,0.55));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(170,145,210,0.55));
   box-shadow: 0 18px 40px rgba(60,40,90,0.18);
   transform: scale(1);
-  transition: transform 1.6s ease-in-out, background 300ms ease-in-out;
+  transition: transform 1.5s ease-in-out;
 }
 
-/* inhale = retract smaller */
+/* ✅ class names that JS uses */
 .breathe-circle.breath-inhale{ transform: scale(0.72); }
-
-/* exhale = expand bigger */
 .breathe-circle.breath-exhale{ transform: scale(1.14); }
 
 .breath-text{
@@ -460,10 +461,17 @@ body.night .quote-save-btn{
 }
 
 /* ==========================
-   Small screens: allow scroll if needed
+   Books
 ========================== */
-@media (max-height: 740px){
-  .home-center{ min-height: auto; align-items: flex-start; padding-top: 10px; }
-  .home-watermark{ background-size: 440px; }
-  .page-header h1{ font-size: 30px; }
+.book-item{
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.65);
+  margin-bottom: 10px;
 }
+body.night .book-item{ background: rgba(255,255,255,0.08); }
+
+.book-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
+.book-meta{ color: var(--muted); font-weight: 800; margin-top: 4px; }
+.book-desc{ color: var(--muted); font-weight: 700; margin-top: 6px; }
