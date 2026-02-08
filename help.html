@@ -7,11 +7,11 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91000" />
+  <link rel="stylesheet" href="style.css?v=100200" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
@@ -21,25 +21,38 @@
 
   <main class="page">
     <div class="card">
-      <div class="section-title">If you’re in danger</div>
+      <div class="section-title">If you need urgent help</div>
       <div class="gentle-text" style="margin-top:10px;">
-        If you feel unsafe right now, call <b>999</b> or go to A&E.
+        If you or someone else is in immediate danger, call <b>999</b>.
       </div>
-    </div>
 
-    <div class="card">
-      <div class="section-title">Talk to someone</div>
-      <div class="gentle-text" style="margin-top:10px;">
-        <b>Samaritans</b>: 116 123 (24/7) <br />
-        <b>SHOUT</b>: text <b>SHOUT</b> to 85258 <br />
-        <b>NHS 111</b>: call 111 for urgent help (non-emergency)
-      </div>
-    </div>
+      <div class="hr"></div>
 
-    <div class="card">
-      <div class="section-title">Quick grounding</div>
-      <div class="gentle-text" style="margin-top:10px;">
-        Put both feet on the floor. Breathe in for 4, out for 6. Repeat 5 times.
+      <div class="section-title">UK support</div>
+      <div style="margin-top:12px;">
+        <a class="resource-item" href="https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline" target="_blank" rel="noopener">
+          <div>
+            <div class="resource-title">NHS urgent mental health helplines</div>
+            <div class="resource-desc">Find your local urgent helpline.</div>
+          </div>
+          <div class="resource-go">▶</div>
+        </a>
+
+        <a class="resource-item" href="https://www.samaritans.org/how-we-can-help/contact-samaritan/" target="_blank" rel="noopener">
+          <div>
+            <div class="resource-title">Samaritans</div>
+            <div class="resource-desc">24/7 listening support.</div>
+          </div>
+          <div class="resource-go">▶</div>
+        </a>
+
+        <a class="resource-item" href="https://www.mind.org.uk/information-support/" target="_blank" rel="noopener">
+          <div>
+            <div class="resource-title">Mind</div>
+            <div class="resource-desc">Information and support resources.</div>
+          </div>
+          <div class="resource-go">▶</div>
+        </a>
       </div>
     </div>
   </main>
@@ -54,6 +67,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=91000" defer></script>
+  <script src="app.js?v=100200" defer></script>
 </body>
 </html>
