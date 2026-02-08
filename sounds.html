@@ -4,56 +4,119 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Music • Enigma Wellbeing</title>
+
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91000" />
+  <!-- bump version to clear cache -->
+  <link rel="stylesheet" href="style.css?v=91001" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <!-- Theme toggle -->
+  <button id="themeFab"
+          class="theme-toggle-top"
+          type="button"
+          aria-label="Toggle night mode">🌙</button>
 
+  <!-- Header -->
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Music</h1>
     <p>Pick a mood and open calming tracks</p>
   </header>
 
+  <!-- Main -->
   <main class="page" id="soundsPage">
+
+    <!-- Mood selection -->
     <div class="card">
       <div class="section-title">Mood</div>
-      <div id="musicMoodRow" class="chip-row" style="margin-top:12px;"></div>
+      <div id="musicMoodRow"
+           class="chip-row"
+           style="margin-top:12px;">
+        <!-- chips injected by app.js -->
+      </div>
     </div>
 
+    <!-- Track list -->
     <div class="card">
       <div class="section-title">Tracks</div>
-      <div id="musicList" style="margin-top:12px;"></div>
-      <div class="gentle-text" style="margin-top:10px;">Links open in a new tab.</div>
+      <div id="musicList"
+           class="music-list"
+           style="margin-top:10px;">
+        <!-- tracks injected by app.js -->
+      </div>
+      <div class="gentle-text" style="margin-top:10px;">
+        Links open in a new tab.
+      </div>
     </div>
 
+    <!-- Session + minutes -->
     <div class="card">
-      <div class="section-title">Minutes listened</div>
-      <div class="gentle-text">Today: <b><span id="musicTodayMin">0</span></b> min</div>
-      <div class="gentle-text">Total: <b><span id="musicTotalMin">0</span></b> min</div>
+      <div class="section-title">Listening time</div>
 
-      <div class="tool-row" style="margin-top:12px;">
-        <button class="tool-btn primary" id="musicStartBtn" type="button">Start session</button>
-        <button class="tool-btn danger" id="musicEndBtn" type="button">End session</button>
+      <div class="gentle-text">
+        Today: <b><span id="musicTodayMin">0</span></b> min
+      </div>
+      <div class="gentle-text">
+        Total: <b><span id="musicTotalMin">0</span></b> min
       </div>
 
-      <div class="gentle-text" id="musicStatus" style="margin-top:10px;">No active session.</div>
+      <div class="tool-row" style="margin-top:12px;">
+        <button class="tool-btn primary"
+                id="musicStartBtn"
+                type="button">
+          Start session
+        </button>
+        <button class="tool-btn danger"
+                id="musicEndBtn"
+                type="button">
+          End session
+        </button>
+      </div>
+
+      <div class="gentle-text"
+           id="musicStatus"
+           style="margin-top:10px;">
+        No active session.
+      </div>
     </div>
+
   </main>
 
+  <!-- Bottom navigation -->
   <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a class="active" href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a href="index.html">
+      <div class="nav-ico">🏠</div>
+      <span>Home</span>
+    </a>
+    <a href="breathe.html">
+      <div class="nav-ico">🌬️</div>
+      <span>Breathe</span>
+    </a>
+    <a href="journal.html">
+      <div class="nav-ico">📖</div>
+      <span>Journal</span>
+    </a>
+    <a href="quotes.html">
+      <div class="nav-ico">💬</div>
+      <span>Quotes</span>
+    </a>
+    <a href="yoga.html">
+      <div class="nav-ico">🧘‍♀️</div>
+      <span>Yoga</span>
+    </a>
+    <a class="active" href="sounds.html">
+      <div class="nav-ico">🎵</div>
+      <span>Music</span>
+    </a>
+    <a href="progress.html">
+      <div class="nav-ico">📈</div>
+      <span>Progress</span>
+    </a>
   </nav>
 
-  <script src="app.js?v=91000" defer></script>
+  <!-- App JS -->
+  <script src="app.js?v=91001" defer></script>
 </body>
 </html>
