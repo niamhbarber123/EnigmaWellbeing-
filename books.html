@@ -2,41 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Books • Enigma Wellbeing</title>
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91000" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
-
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
+    <button class="back-btn" onclick="enigmaHome()">←</button>
     <h1>Books</h1>
-    <p>Recommendations sorted by genre</p>
+    <p>Supportive reads</p>
   </header>
 
   <main class="page">
-    <div class="card">
-      <div class="section-title">Genre</div>
-      <div id="bookGenreRow" class="chip-row" style="margin-top:12px;"></div>
+    <div class="card book-item">
+      <div class="book-title">I Hate You — Don’t Leave Me</div>
+      <div class="book-meta">BPD • Jerold Kreisman</div>
+      <div class="book-desc">A classic guide to understanding BPD.</div>
     </div>
 
-    <div id="bookList"></div>
+    <div class="card book-item">
+      <div class="book-title">The Buddha and the Borderline</div>
+      <div class="book-meta">BPD • Kiera Van Gelder</div>
+      <div class="book-desc">A memoir blending mindfulness and recovery.</div>
+    </div>
   </main>
-
-  <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-  </nav>
-
-  <script src="app.js?v=91000" defer></script>
 </body>
 </html>
