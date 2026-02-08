@@ -1,39 +1,40 @@
 /* =========================================================
-   Enigma Wellbeing • app.js (FULL FIXED BUILD)
-   - Back always goes Home
-   - Theme toggle
-   - Breathe (Timer/Stopwatch + Vibration)
-   - Quotes (search/random/saved)
-   - Music (mood + minutes)
-   - Yoga (mood + links)
-   - Progress
-   - Word of the Day (word.html)
-   - Distraction (distraction.html)
-   - Books (genre filtering)
-   - Resources (topic filtering)
+   Enigma Wellbeing • app.js (STABLE BASELINE)
+   - Back button always Home
+   - Theme toggle (moon/sun)
+   - Word of the Day (deterministic daily pick) for:
+       - Home preview
+       - word.html full view
+   - Breathe: timer + stopwatch + vibration, inhale retracts / exhale expands
+   - Quotes: local search + random + saved, separate boxes
+   - Yoga/Music: chips + links + music minutes
+   - Progress: totals
+   - Books/Resources: optional genre chips
 ========================================================= */
 
 (function () {
   "use strict";
+
   const $ = (id) => document.getElementById(id);
 
-  /* =========================
-     NAV
-  ========================= */
+  /* ---------- NAV ---------- */
   window.enigmaHome = function () { location.href = "index.html"; };
-  window.enigmaBack = function () { location.href = "index.html"; };
+  window.enigmaBack = function () { location.href = "index.html"; }; // compatibility
 
-  /* =========================
-     DATE + STORAGE
-  ========================= */
-  function todayKey() { return new Date().toISOString().split("T")[0]; }
+  /* ---------- Date key ---------- */
+  function todayKey() {
+    return new Date().toISOString().split("T")[0];
+  }
 
+  /* ---------- Safe JSON storage ---------- */
   function readJSON(key, fallback) {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) return fallback;
       return JSON.parse(raw);
-    } catch { return fallback; }
+    } catch {
+      return fallback;
+    }
   }
   function writeJSON(key, val) {
     localStorage.setItem(key, JSON.stringify(val));
@@ -63,14 +64,7 @@
   }
 
   /* =========================
-     VIBRATION
-  ========================= */
-  function vibrate(ms) {
-    try { if (navigator.vibrate) navigator.vibrate(ms); } catch {}
-  }
-
-  /* =========================
-     WORD OF THE DAY (bigger list)
+     WORD OF THE DAY
   ========================= */
   function mulberry32(seed) {
     return function () {
@@ -80,206 +74,101 @@
       return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   }
+
   function seedFromToday() {
     const s = todayKey().replaceAll("-", "");
     const n = parseInt(s, 10);
     return Number.isFinite(n) ? n : 20260101;
   }
 
+  // Full list (from your affirmation set)
   const WOTD = [
-    { w: "Harmony", d: "Finding calm alignment within and around you." },
-    { w: "Simplicity", d: "Reducing the load—one less thing at a time." },
-    { w: "Courage", d: "Feeling fear and still choosing what matters." },
-    { w: "Compassion", d: "Meeting struggle with warmth instead of judgement." },
-    { w: "Clarity", d: "Seeing what matters most, without the noise." },
-    { w: "Patience", d: "Letting growth take the time it takes." },
-    { w: "Integrity", d: "Aligning actions with values—even in small moments." },
-    { w: "Gentleness", d: "Soft strength—especially with yourself." },
-    { w: "Balance", d: "Making space for rest, effort, joy, and recovery." },
-    { w: "Acceptance", d: "Letting reality be what it is—so you can respond wisely." },
-    { w: "Serenity", d: "A quiet steadiness, even when life is loud." },
-    { w: "Authenticity", d: "Being real—no performance required." },
-    { w: "Reflection", d: "Looking back kindly to learn and reset." },
-    { w: "Strength", d: "Endurance, boundaries, and quiet resilience." },
-    { w: "Freedom", d: "Creating room to breathe, choose, and be yourself." },
-    { w: "Joy", d: "Noticing what feels bright—even briefly." },
-    { w: "Hope", d: "A small light you can walk toward." },
-    { w: "Grounded", d: "Returning to the present, one breath at a time." },
-    { w: "Steady", d: "Small steps, stable footing, gentle progress." },
-    { w: "Kindness", d: "Softness in how you speak to yourself today." },
-    { w: "Resilience", d: "Bending without breaking—again and again." },
-    { w: "Trust", d: "Letting yourself be supported—by you and others." },
-    { w: "Release", d: "Loosening your grip on what you can’t control." },
-    { w: "Presence", d: "Being here—just this moment." },
-    { w: "Rest", d: "Permission to pause and recover." },
-    { w: "Belonging", d: "You deserve safe connection and care." },
-    { w: "Healing", d: "Not linear, but real—one day at a time." }
+    { w:"Forgiveness", d:"Releasing resentment so you can move forward lighter." },
+    { w:"Honesty", d:"Choosing truth with kindness—to yourself and others." },
+    { w:"Trust", d:"Allowing confidence in yourself, others, or the process." },
+    { w:"Responsibility", d:"Owning your choices and responding with intention." },
+    { w:"Flexibility", d:"Adapting without losing your centre." },
+    { w:"Boldness", d:"Taking brave steps even when you feel unsure." },
+    { w:"Discretion", d:"Using good judgement about what to share and when." },
+    { w:"Discipline", d:"Doing what helps you—even when motivation fades." },
+    { w:"Detail", d:"Noticing the small things that improve the whole." },
+    { w:"Prosperity", d:"Growing resources and wellbeing in a healthy way." },
+    { w:"Acceptance", d:"Letting reality be what it is—so you can respond wisely." },
+    { w:"Surrender", d:"Loosening the grip on what you can’t control." },
+    { w:"Sincerity", d:"Being genuine—your real self is enough." },
+    { w:"Serenity", d:"A quiet steadiness, even when life is loud." },
+    { w:"Humility", d:"Staying grounded and open to learning." },
+    { w:"Sensitivity", d:"Noticing feelings and needs—yours and others’." },
+    { w:"Compassion", d:"Meeting struggle with warmth instead of judgement." },
+    { w:"Leadership", d:"Guiding with care, clarity, and example." },
+    { w:"Integrity", d:"Aligning actions with values—even in small moments." },
+    { w:"Action", d:"One doable step—progress over perfection." },
+    { w:"Courage", d:"Feeling fear and still choosing what matters." },
+    { w:"Creativity", d:"Letting new ideas and possibilities appear." },
+    { w:"Gentleness", d:"Soft strength—especially with yourself." },
+    { w:"Clarity", d:"Seeing what matters most, without the noise." },
+    { w:"Balance", d:"Making space for rest, effort, joy, and recovery." },
+    { w:"Fun", d:"Allowing lightness—your nervous system needs it." },
+    { w:"Commitment", d:"Staying with what you choose, one day at a time." },
+    { w:"Patience", d:"Letting growth take the time it takes." },
+    { w:"Freedom", d:"Creating room to breathe, choose, and be yourself." },
+    { w:"Reflection", d:"Looking back kindly to learn and reset." },
+    { w:"Giving", d:"Offering support without emptying yourself." },
+    { w:"Enthusiasm", d:"Inviting energy and interest into the day." },
+    { w:"Joy", d:"Noticing what feels bright—even briefly." },
+    { w:"Satisfaction", d:"Letting ‘enough’ be enough." },
+    { w:"Grace", d:"Moving with softness through imperfect moments." },
+    { w:"Simplicity", d:"Reducing the load—one less thing at a time." },
+    { w:"Communication", d:"Sharing clearly, listening carefully." },
+    { w:"Appropriateness", d:"Matching your response to the moment wisely." },
+    { w:"Strength", d:"Endurance, boundaries, and quiet resilience." },
+    { w:"Love", d:"Choosing care—for yourself and others." },
+    { w:"Tenderness", d:"Being gentle with what’s sensitive." },
+    { w:"Perseverance", d:"Keeping going, especially on the slow days." },
+    { w:"Reliability", d:"Being steady and consistent—small promises kept." },
+    { w:"Initiative", d:"Starting before you feel ready." },
+    { w:"Confidence", d:"Trusting your ability to figure things out." },
+    { w:"Authenticity", d:"Being real—no performance required." },
+    { w:"Harmony", d:"Finding calm alignment within and around you." },
+    { w:"Pleasure", d:"Letting good moments count." },
+    { w:"Risk", d:"Trying something new, gently and safely." },
+    { w:"Efficiency", d:"Using energy wisely—not doing everything." },
+    { w:"Spontaneity", d:"Letting life surprise you in kind ways." },
+    { w:"Fulfilment", d:"A sense of meaning—built over time." }
   ];
 
   function pickWotd() {
-    const seed = seedFromToday();
-    const rand = mulberry32(seed);
+    const rand = mulberry32(seedFromToday());
     const i = Math.floor(rand() * WOTD.length);
     return WOTD[i] || WOTD[0];
   }
 
-  function initWordPage() {
-    const page = $("wordPage");
-    if (!page) return;
+  function initWotdHome() {
+    const w = $("wotdHomeWord");
+    if (!w) return;
+    const pick = pickWotd();
+    w.textContent = pick.w;
+  }
+
+  function initWotdPage() {
     const bigW = $("wotdWordBig");
     const bigD = $("wotdDescBig");
     if (!bigW || !bigD) return;
 
-    const { w, d } = pickWotd();
-    bigW.textContent = w;
-    bigD.textContent = d;
+    const pick = pickWotd();
+    bigW.textContent = pick.w;
+    bigD.textContent = pick.d;
   }
 
   /* =========================
-     DISTRACTION (own page)
+     VIBRATION (optional)
   ========================= */
-  const DISTRACTION_QUESTIONS = [
-    "Name 5 things you can see right now.",
-    "Name 4 things you can feel (touch/texture).",
-    "Name 3 things you can hear.",
-    "Name 2 things you can smell.",
-    "Name 1 thing you can taste (or would like to taste).",
-    "What colour feels calming to you today?",
-    "What’s a tiny ‘safe’ plan for the next 10 minutes?",
-    "What’s one kind thing you’d say to a friend feeling this way?",
-    "What’s your favourite cosy drink?",
-    "What’s a small win you’ve had this week?",
-    "What’s something you’re looking forward to (even small)?",
-    "What is a ‘good enough’ goal for today?"
-  ];
-
-  function shuffle(arr) {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
-
-  function initDistractionPage() {
-    const page = $("distractionPage");
-    if (!page) return;
-
-    const qEl = $("distractionQuestion");
-    const answeredEl = $("distractionAnsweredCount");
-    const input = $("distractionInput");
-
-    const startBtn = $("distractionStartBtn");
-    const nextBtn = $("distractionNextBtn");
-    const skipBtn = $("distractionSkipBtn");
-    const endBtn = $("distractionEndBtn");
-
-    if (!qEl || !answeredEl || !input || !startBtn || !nextBtn || !skipBtn || !endBtn) return;
-
-    const KEY = "enigmaDistractionSessionV3";
-
-    function setRunning(running) {
-      startBtn.style.display = running ? "none" : "";
-      nextBtn.style.display = running ? "" : "none";
-      skipBtn.style.display = running ? "" : "none";
-      endBtn.style.display = running ? "" : "none";
-      input.style.display = running ? "" : "none";
-      if (!running) input.value = "";
-    }
-
-    function load() {
-      const s = readJSON(KEY, null);
-      if (!s || s.day !== todayKey()) return null;
-      if (!Array.isArray(s.order) || typeof s.i !== "number" || typeof s.answered !== "number") return null;
-      return s;
-    }
-
-    function save(s) { writeJSON(KEY, s); }
-    function clear() { localStorage.removeItem(KEY); }
-
-    function currentQ(s) {
-      const idx = s.order[s.i];
-      return DISTRACTION_QUESTIONS[idx] || "Take one slow breath in… and out.";
-    }
-
-    function render(s) {
-      qEl.textContent = currentQ(s);
-      answeredEl.textContent = String(s.answered);
-      input.value = "";
-      setRunning(true);
-      input.focus();
-    }
-
-    function startNew() {
-      const order = shuffle([...Array(DISTRACTION_QUESTIONS.length).keys()]);
-      const s = { day: todayKey(), order, i: 0, answered: 0 };
-      save(s);
-      render(s);
-    }
-
-    function advance(s) {
-      if (s.i >= s.order.length - 1) {
-        qEl.textContent = "You’re done. Take a slow breath.";
-        setRunning(false);
-        clear();
-        return;
-      }
-      s.i += 1;
-      save(s);
-      render(s);
-    }
-
-    startBtn.addEventListener("click", (e) => { e.preventDefault(); startNew(); });
-
-    nextBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const s = load() || (startNew(), load());
-      if (!s) return;
-
-      const text = (input.value || "").trim();
-      if (!text) {
-        qEl.textContent = "Type any answer (even one word) — or tap Skip.";
-        input.focus();
-        setTimeout(() => {
-          const s2 = load();
-          if (s2) qEl.textContent = currentQ(s2);
-        }, 900);
-        return;
-      }
-
-      s.answered += 1;
-      save(s);
-      advance(s);
-    });
-
-    skipBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const s = load() || (startNew(), load());
-      if (!s) return;
-      advance(s);
-    });
-
-    endBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      clear();
-      setRunning(false);
-      qEl.textContent = "Ended. You can start again any time.";
-      answeredEl.textContent = "0";
-    });
-
-    const existing = load();
-    if (existing) render(existing);
-    else {
-      setRunning(false);
-      qEl.textContent = "Tap Start to begin.";
-      answeredEl.textContent = "0";
-      input.style.display = "none";
-    }
+  function vibrate(ms) {
+    try { if (navigator.vibrate) navigator.vibrate(ms); } catch {}
   }
 
   /* =========================
-     BREATHE (Timer + Stopwatch)
+     BREATHE
   ========================= */
   function fmtTime(totalSec) {
     totalSec = Math.max(0, Math.floor(totalSec));
@@ -306,40 +195,45 @@
 
     const timerLabel = $("breathTimerLabel");
     const stopwatchLabel = $("breathStopwatchLabel");
+
     const vibrateToggle = $("breathVibrateToggle");
 
-    if (!phaseEl || !tipEl || !circle || !startBtn || !stopBtn || !completeBtn ||
-        !modeSelect || !durationSelect || !timerLabel || !stopwatchLabel || !durationRow) return;
+    if (!phaseEl || !tipEl || !circle || !startBtn || !stopBtn || !completeBtn) return;
+    if (!modeSelect || !durationSelect || !timerLabel || !stopwatchLabel || !durationRow) return;
 
     let running = false;
-    let rafId = null;
+    let tickInterval = null;
 
+    // phase durations
     const inhaleSec = 5;
     const exhaleSec = 6;
     const holdSec = 1;
 
-    let phase = "ready";
+    let phase = "ready"; // inhale | holdAfterInhale | exhale | holdAfterExhale
     let phaseEndsAt = 0;
-    let holdAfterExhale = false;
 
+    // session time
     let mode = "timer";
-    let endAt = 0;
-    let startAt = 0;
+    let endAt = 0;   // timer
+    let startAt = 0; // stopwatch
 
-    function wantsVibe() { return !!(vibrateToggle && vibrateToggle.checked); }
+    function wantsVibe() {
+      return !!(vibrateToggle && vibrateToggle.checked);
+    }
 
-    function setPhase(p, text) {
-      phase = p;
-      phaseEl.textContent = text;
-      tipEl.textContent = text;
-
+    function setVisual(p) {
       circle.classList.remove("breath-inhale", "breath-exhale");
-
-      // ✅ inhale = retract smaller, exhale = expand bigger
+      // inhale retracts, exhale expands
       if (p === "inhale") circle.classList.add("breath-inhale");
       if (p === "exhale") circle.classList.add("breath-exhale");
+    }
 
-      if (wantsVibe()) vibrate(20);
+    function setPhase(p, label) {
+      phase = p;
+      phaseEl.textContent = label;
+      tipEl.textContent = label;
+      setVisual(p);
+      if (wantsVibe()) vibrate(15);
     }
 
     function updateModeUI() {
@@ -361,10 +255,10 @@
     function startSession() {
       if (running) return;
       running = true;
+
       updateModeUI();
 
       const now = Date.now();
-      holdAfterExhale = false;
 
       if (mode === "timer") {
         const minutes = parseInt(durationSelect.value || "1", 10);
@@ -382,88 +276,105 @@
       startBtn.disabled = true;
       stopBtn.disabled = false;
 
-      tick();
+      if (tickInterval) clearInterval(tickInterval);
+      tickInterval = setInterval(tick, 200);
     }
 
-    function stopSession(resetText) {
+    function stopSession() {
       running = false;
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = null;
+      if (tickInterval) clearInterval(tickInterval);
+      tickInterval = null;
 
       circle.classList.remove("breath-inhale", "breath-exhale");
-      phaseEl.textContent = resetText || "Ready";
+      phaseEl.textContent = "Ready";
       tipEl.textContent = "Tap Start to begin.";
 
       startBtn.disabled = false;
       stopBtn.disabled = true;
+
+      timerLabel.textContent = "Time: —";
+      stopwatchLabel.textContent = "Stopwatch: 0:00";
+    }
+
+    function logBreathingMinutes(addMin) {
+      const log = readJSON("enigmaBreatheLog", { totalMin: 0, byDay: {} });
+      log.totalMin = Number(log.totalMin || 0) + addMin;
+      log.byDay = log.byDay || {};
+      const day = todayKey();
+      log.byDay[day] = Number(log.byDay[day] || 0) + addMin;
+      writeJSON("enigmaBreatheLog", log);
     }
 
     function completeSession() {
-      const log = readJSON("enigmaBreatheLog", { totalMin: 0, byDay: {} });
-
-      let addMin = 0;
-      if (mode === "timer") addMin = parseInt(durationSelect.value || "1", 10);
-      else {
-        const elapsedSec = (Date.now() - startAt) / 1000;
+      let addMin = 1;
+      if (mode === "timer") {
+        addMin = Math.max(1, parseInt(durationSelect.value || "1", 10));
+      } else {
+        const elapsedSec = Math.max(1, Math.floor((Date.now() - startAt) / 1000));
         addMin = Math.max(1, Math.round(elapsedSec / 60));
       }
 
-      log.totalMin = (log.totalMin || 0) + addMin;
-      log.byDay = log.byDay || {};
-      log.byDay[todayKey()] = (log.byDay[todayKey()] || 0) + addMin;
+      logBreathingMinutes(addMin);
+      if (wantsVibe()) vibrate([25, 60, 25]);
 
-      writeJSON("enigmaBreatheLog", log);
+      // show completed briefly
+      if (tickInterval) clearInterval(tickInterval);
+      tickInterval = null;
+      running = false;
 
-      if (wantsVibe()) vibrate([30, 60, 30]);
-      stopSession("Completed ✅");
+      phaseEl.textContent = "Completed ✅";
+      tipEl.textContent = `Saved ${addMin} min`;
+      circle.classList.remove("breath-inhale", "breath-exhale");
+
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+
       setTimeout(() => {
         phaseEl.textContent = "Ready";
         tipEl.textContent = "Tap Start to begin.";
-      }, 900);
+      }, 1200);
     }
 
     function tick() {
       if (!running) return;
       const now = Date.now();
 
-      // timer/stopwatch label
+      // session time labels
       if (mode === "timer") {
-        const remainingSec = Math.ceil((endAt - now) / 1000);
-        timerLabel.textContent = `Time: ${fmtTime(remainingSec)}`;
-        if (remainingSec <= 0) { completeSession(); return; }
+        const remaining = Math.ceil((endAt - now) / 1000);
+        timerLabel.textContent = `Time: ${fmtTime(remaining)}`;
+        if (remaining <= 0) {
+          completeSession();
+          return;
+        }
       } else {
-        const elapsedSec = Math.floor((now - startAt) / 1000);
-        stopwatchLabel.textContent = `Stopwatch: ${fmtTime(elapsedSec)}`;
+        const elapsed = Math.floor((now - startAt) / 1000);
+        stopwatchLabel.textContent = `Stopwatch: ${fmtTime(elapsed)}`;
       }
 
       // phase transitions
       if (now >= phaseEndsAt) {
         if (phase === "inhale") {
-          setPhase("hold", "Hold");
-          holdAfterExhale = false;
+          setPhase("holdAfterInhale", "Hold");
           phaseEndsAt = now + holdSec * 1000;
+        } else if (phase === "holdAfterInhale") {
+          setPhase("exhale", "Breathe out");
+          phaseEndsAt = now + exhaleSec * 1000;
         } else if (phase === "exhale") {
-          setPhase("hold", "Hold");
-          holdAfterExhale = true;
+          setPhase("holdAfterExhale", "Hold");
           phaseEndsAt = now + holdSec * 1000;
-        } else if (phase === "hold") {
-          if (holdAfterExhale) {
-            setPhase("inhale", "Breathe in");
-            phaseEndsAt = now + inhaleSec * 1000;
-          } else {
-            setPhase("exhale", "Breathe out");
-            phaseEndsAt = now + exhaleSec * 1000;
-          }
+        } else if (phase === "holdAfterExhale") {
+          setPhase("inhale", "Breathe in");
+          phaseEndsAt = now + inhaleSec * 1000;
         }
       }
-
-      rafId = requestAnimationFrame(tick);
     }
 
     startBtn.addEventListener("click", (e) => { e.preventDefault(); startSession(); });
-    stopBtn.addEventListener("click", (e) => { e.preventDefault(); stopSession("Ready"); });
+    stopBtn.addEventListener("click", (e) => { e.preventDefault(); stopSession(); });
     completeBtn.addEventListener("click", (e) => { e.preventDefault(); completeSession(); });
 
+    // defaults
     startBtn.disabled = false;
     stopBtn.disabled = true;
     updateModeUI();
@@ -475,25 +386,29 @@
      QUOTES
   ========================= */
   const QUOTES = [
-    { t: "Start where you are. Use what you have. Do what you can.", a: "Arthur Ashe" },
-    { t: "You do not have to see the whole staircase—just take the first step.", a: "Martin Luther King Jr." },
-    { t: "Small steps every day.", a: "Unknown" },
-    { t: "Breathe. This is just a moment, not your whole life.", a: "Unknown" },
-    { t: "You have survived 100% of your hardest days.", a: "Unknown" },
-    { t: "Progress, not perfection.", a: "Unknown" },
-    { t: "Gentle is still strong.", a: "Unknown" },
-    { t: "Slow progress is still progress.", a: "Unknown" },
-    { t: "Rest is productive.", a: "Unknown" },
-    { t: "Not everything you think is true.", a: "Unknown" },
-    { t: "You are not behind. You are on your path.", a: "Unknown" },
-    { t: "The only way out is through.", a: "Robert Frost" },
-    { t: "This too shall pass.", a: "Persian proverb" },
-    { t: "Wherever you go, there you are.", a: "Jon Kabat-Zinn" },
-    { t: "What you practice grows stronger.", a: "Unknown" },
-    { t: "You can be nervous and do it anyway.", a: "Unknown" },
-    { t: "Make peace with your pace.", a: "Unknown" },
-    { t: "Your calm is a superpower.", a: "Unknown" },
-    { t: "One day at a time.", a: "Unknown" }
+    { t:"Start where you are. Use what you have. Do what you can.", a:"Arthur Ashe" },
+    { t:"You do not have to see the whole staircase—just take the first step.", a:"Martin Luther King Jr." },
+    { t:"It always seems impossible until it’s done.", a:"Nelson Mandela" },
+    { t:"Small steps every day.", a:"Unknown" },
+    { t:"Breathe. This is just a moment, not your whole life.", a:"Unknown" },
+    { t:"You have survived 100% of your hardest days.", a:"Unknown" },
+    { t:"Progress, not perfection.", a:"Unknown" },
+    { t:"Feelings are visitors. Let them come and go.", a:"Rumi" },
+    { t:"Nothing can dim the light that shines from within.", a:"Maya Angelou" },
+    { t:"Act as if what you do makes a difference. It does.", a:"William James" },
+    { t:"Be kind to yourself. You’re doing the best you can.", a:"Unknown" },
+    { t:"Make peace with your pace.", a:"Unknown" },
+    { t:"Your calm is a superpower.", a:"Unknown" },
+    { t:"The only way out is through.", a:"Robert Frost" },
+    { t:"This too shall pass.", a:"Persian proverb" },
+    { t:"Gentle is still strong.", a:"Unknown" },
+    { t:"Slow progress is still progress.", a:"Unknown" },
+    { t:"Rest is productive.", a:"Unknown" },
+    { t:"Not everything you think is true.", a:"Unknown" },
+    { t:"You are not behind. You are on your path.", a:"Unknown" },
+    { t:"One day at a time.", a:"Unknown" },
+    { t:"Do the next right thing.", a:"Unknown" },
+    { t:"When you can’t control what’s happening, control how you respond.", a:"Unknown" }
   ];
 
   function getSavedQuotes() { return readJSON("enigmaSavedQuotes", []); }
@@ -512,8 +427,7 @@
     const status = $("quoteStatus");
 
     function updateSavedCount() {
-      if (!savedCount) return;
-      savedCount.textContent = String(getSavedQuotes().length);
+      if (savedCount) savedCount.textContent = String(getSavedQuotes().length);
     }
 
     function render(list) {
@@ -549,7 +463,6 @@
           const exists = current.some((s) => s.key === key);
           if (exists) setSavedQuotes(current.filter((s) => s.key !== key));
           else setSavedQuotes([{ key, ...q }, ...current]);
-
           updateSavedCount();
           render(list);
         });
@@ -565,55 +478,55 @@
       updateSavedCount();
     }
 
-    function search() {
+    function doSearch() {
       const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
       if (!q) {
-        status && (status.textContent = "Tip: type a word like “calm”, “hope”, “rest”…");
+        if (status) status.textContent = "Tip: type “calm”, “hope”, “courage”…";
         render(QUOTES.slice(0, 12));
         return;
       }
       const hits = QUOTES.filter((x) => x.t.toLowerCase().includes(q) || x.a.toLowerCase().includes(q));
-      status && (status.textContent = hits.length ? `Showing ${hits.length} result(s).` : "No results — try another word.");
+      if (status) status.textContent = hits.length ? `Showing ${hits.length} result(s).` : "No results — try another word.";
       render(hits.slice(0, 30));
     }
 
     function random() {
       const pick = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-      status && (status.textContent = "Random quote:");
+      if (status) status.textContent = "Random quote:";
       render([pick]);
     }
 
     function viewSaved() {
       const s = getSavedQuotes();
-      status && (status.textContent = s.length ? "Your saved quotes:" : "No saved quotes yet.");
+      if (status) status.textContent = s.length ? "Your saved quotes:" : "No saved quotes yet.";
       render(s.map(({ t, a }) => ({ t, a })));
     }
 
     function clearSaved() {
       setSavedQuotes([]);
       updateSavedCount();
-      status && (status.textContent = "Saved quotes deleted.");
+      if (status) status.textContent = "Saved quotes deleted.";
       render(QUOTES.slice(0, 12));
     }
 
-    searchBtn && searchBtn.addEventListener("click", search);
-    randomBtn && randomBtn.addEventListener("click", random);
-    viewSavedBtn && viewSavedBtn.addEventListener("click", viewSaved);
-    clearSavedBtn && clearSavedBtn.addEventListener("click", clearSaved);
+    if (searchBtn) searchBtn.addEventListener("click", doSearch);
+    if (randomBtn) randomBtn.addEventListener("click", random);
+    if (viewSavedBtn) viewSavedBtn.addEventListener("click", viewSaved);
+    if (clearSavedBtn) clearSavedBtn.addEventListener("click", clearSaved);
 
     updateSavedCount();
     render(QUOTES.slice(0, 12));
   }
 
   /* =========================
-     MUSIC
+     MUSIC (sounds.html)
   ========================= */
   const MUSIC_TRACKS = [
-    { mood: "Anxious", label: "Calm breathing music", url: "https://www.youtube.com/results?search_query=calm+breathing+music" },
-    { mood: "Focus", label: "Lo-fi focus mix", url: "https://www.youtube.com/results?search_query=lofi+focus+music" },
-    { mood: "Sleep", label: "Sleep music", url: "https://www.youtube.com/results?search_query=sleep+music+relaxing" },
-    { mood: "Stressed", label: "Relaxing piano", url: "https://www.youtube.com/results?search_query=relaxing+piano" },
-    { mood: "Sleep", label: "Ocean waves", url: "https://www.youtube.com/results?search_query=ocean+waves+sleep" }
+    { mood:"Anxious", label:"Calm breathing music", url:"https://www.youtube.com/results?search_query=calm+breathing+music" },
+    { mood:"Focus", label:"Lo-fi focus mix", url:"https://www.youtube.com/results?search_query=lofi+focus+music" },
+    { mood:"Sleep", label:"Sleep music", url:"https://www.youtube.com/results?search_query=sleep+music+relaxing" },
+    { mood:"Stressed", label:"Relaxing piano", url:"https://www.youtube.com/results?search_query=relaxing+piano" },
+    { mood:"Sleep", label:"Ocean waves", url:"https://www.youtube.com/results?search_query=ocean+waves+sleep" }
   ];
 
   function initMusic() {
@@ -632,7 +545,6 @@
       return readJSON(KEY, { today: todayKey(), todayMin: 0, totalMin: 0, sessionStart: 0 });
     }
     function save(s) { writeJSON(KEY, s); }
-
     function syncDay(s) {
       if (s.today !== todayKey()) {
         s.today = todayKey();
@@ -642,31 +554,8 @@
       return s;
     }
 
-    function renderMinutes() {
-      const s = syncDay(load());
-      save(s);
-      if (todayEl) todayEl.textContent = String(s.todayMin || 0);
-      if (totalEl) totalEl.textContent = String(s.totalMin || 0);
-      if (statusEl) statusEl.textContent = s.sessionStart ? "Session running…" : "No active session.";
-    }
-
     const moods = ["All", "Anxious", "Stressed", "Focus", "Sleep"];
     let active = "All";
-
-    function makeChip(name) {
-      const b = document.createElement("button");
-      b.className = "chip";
-      b.type = "button";
-      b.textContent = name;
-      if (name === active) b.classList.add("active");
-      b.addEventListener("click", () => {
-        active = name;
-        [...moodRow.querySelectorAll(".chip")].forEach((x) => x.classList.remove("active"));
-        b.classList.add("active");
-        renderTracks();
-      });
-      return b;
-    }
 
     function renderTracks() {
       list.innerHTML = "";
@@ -682,28 +571,54 @@
       });
     }
 
-    moodRow.innerHTML = "";
-    moods.forEach((m) => moodRow.appendChild(makeChip(m)));
+    function renderChips() {
+      moodRow.innerHTML = "";
+      moods.forEach((m) => {
+        const b = document.createElement("button");
+        b.className = "chip" + (m === active ? " active" : "");
+        b.type = "button";
+        b.textContent = m;
+        b.addEventListener("click", () => {
+          active = m;
+          renderChips();
+          renderTracks();
+        });
+        moodRow.appendChild(b);
+      });
+    }
 
-    startBtn && startBtn.addEventListener("click", () => {
+    function renderMinutes() {
       const s = syncDay(load());
-      if (s.sessionStart) return;
-      s.sessionStart = Date.now();
       save(s);
-      renderMinutes();
-    });
+      if (todayEl) todayEl.textContent = String(s.todayMin || 0);
+      if (totalEl) totalEl.textContent = String(s.totalMin || 0);
+      if (statusEl) statusEl.textContent = s.sessionStart ? "Session running…" : "No active session.";
+    }
 
-    endBtn && endBtn.addEventListener("click", () => {
-      const s = syncDay(load());
-      if (!s.sessionStart) return;
-      const mins = Math.max(1, Math.round((Date.now() - s.sessionStart) / 60000));
-      s.sessionStart = 0;
-      s.todayMin = (s.todayMin || 0) + mins;
-      s.totalMin = (s.totalMin || 0) + mins;
-      save(s);
-      renderMinutes();
-    });
+    if (startBtn) {
+      startBtn.addEventListener("click", () => {
+        const s = syncDay(load());
+        if (s.sessionStart) return;
+        s.sessionStart = Date.now();
+        save(s);
+        renderMinutes();
+      });
+    }
 
+    if (endBtn) {
+      endBtn.addEventListener("click", () => {
+        const s = syncDay(load());
+        if (!s.sessionStart) return;
+        const mins = Math.max(1, Math.round((Date.now() - s.sessionStart) / 60000));
+        s.sessionStart = 0;
+        s.todayMin = (s.todayMin || 0) + mins;
+        s.totalMin = (s.totalMin || 0) + mins;
+        save(s);
+        renderMinutes();
+      });
+    }
+
+    renderChips();
     renderTracks();
     renderMinutes();
   }
@@ -712,11 +627,12 @@
      YOGA
   ========================= */
   const YOGA_VIDEOS = [
-    { mood: "Anxiety", label: "10 min Yoga for Anxiety", url: "https://www.youtube.com/results?search_query=10+minute+yoga+for+anxiety" },
-    { mood: "Stress", label: "15 min Gentle Yoga for Stress", url: "https://www.youtube.com/results?search_query=gentle+yoga+for+stress+15+minutes" },
-    { mood: "Sleep", label: "Yoga for Sleep (wind down)", url: "https://www.youtube.com/results?search_query=yoga+for+sleep+wind+down" },
-    { mood: "Morning", label: "Morning Yoga (wake up)", url: "https://www.youtube.com/results?search_query=morning+yoga+wake+up" },
-    { mood: "Stiff body", label: "Yoga for stiff back/hips", url: "https://www.youtube.com/results?search_query=yoga+for+stiff+back+hips" }
+    { mood:"Anxiety", label:"10 min Yoga for Anxiety", url:"https://www.youtube.com/results?search_query=10+minute+yoga+for+anxiety" },
+    { mood:"Stress", label:"15 min Gentle Yoga for Stress", url:"https://www.youtube.com/results?search_query=gentle+yoga+for+stress+15+minutes" },
+    { mood:"Sleep", label:"Yoga for Sleep (wind down)", url:"https://www.youtube.com/results?search_query=yoga+for+sleep+wind+down" },
+    { mood:"Morning", label:"Morning Yoga (wake up)", url:"https://www.youtube.com/results?search_query=morning+yoga+wake+up" },
+    { mood:"Stiff body", label:"Yoga for stiff back/hips", url:"https://www.youtube.com/results?search_query=yoga+for+stiff+back+hips" },
+    { mood:"All", label:"Gentle yoga (all levels)", url:"https://www.youtube.com/results?search_query=gentle+yoga+all+levels" }
   ];
 
   function initYoga() {
@@ -727,24 +643,12 @@
     const moods = ["All", "Anxiety", "Stress", "Sleep", "Morning", "Stiff body"];
     let active = "All";
 
-    function makeChip(name) {
-      const b = document.createElement("button");
-      b.className = "chip";
-      b.type = "button";
-      b.textContent = name;
-      if (name === active) b.classList.add("active");
-      b.addEventListener("click", () => {
-        active = name;
-        [...moodRow.querySelectorAll(".chip")].forEach((x) => x.classList.remove("active"));
-        b.classList.add("active");
-        renderVideos();
-      });
-      return b;
-    }
-
     function renderVideos() {
       list.innerHTML = "";
-      const vids = active === "All" ? YOGA_VIDEOS : YOGA_VIDEOS.filter((v) => v.mood === active);
+      const vids = active === "All"
+        ? YOGA_VIDEOS
+        : YOGA_VIDEOS.filter((v) => v.mood === active);
+
       vids.forEach((v) => {
         const a = document.createElement("a");
         a.className = "music-btn";
@@ -756,8 +660,23 @@
       });
     }
 
-    moodRow.innerHTML = "";
-    moods.forEach((m) => moodRow.appendChild(makeChip(m)));
+    function renderChips() {
+      moodRow.innerHTML = "";
+      moods.forEach((m) => {
+        const b = document.createElement("button");
+        b.className = "chip" + (m === active ? " active" : "");
+        b.type = "button";
+        b.textContent = m;
+        b.addEventListener("click", () => {
+          active = m;
+          renderChips();
+          renderVideos();
+        });
+        moodRow.appendChild(b);
+      });
+    }
+
+    renderChips();
     renderVideos();
   }
 
@@ -768,11 +687,10 @@
     const page = $("progressPage");
     if (!page) return;
 
-    // supports both older IDs and newer ones
-    const breathedTodayEl = $("pBreathedToday") || $("progressBreatheToday");
-    const musicTodayEl = $("pMusicToday") || $("progressMusicToday");
-    const savedQuotesEl = $("pSavedQuotes") || $("progressSavedQuotes");
-    const musicTotalEl = $("pMusicTotal") || $("progressMusicMin");
+    const pBreathedToday = $("pBreathedToday");
+    const pMusicToday = $("pMusicToday");
+    const pSavedQuotes = $("pSavedQuotes");
+    const pMusicTotal = $("pMusicTotal");
 
     const b = readJSON("enigmaBreatheLog", { totalMin: 0, byDay: {} });
     const m = readJSON("enigmaMusic", { totalMin: 0, today: todayKey(), todayMin: 0 });
@@ -782,163 +700,26 @@
     const musicToday = (m.today === todayKey()) ? Number(m.todayMin || 0) : 0;
     const musicTotal = Number(m.totalMin || 0);
 
-    if (breathedTodayEl) breathedTodayEl.textContent = String(breatheToday);
-    if (musicTodayEl) musicTodayEl.textContent = String(musicToday);
-    if (savedQuotesEl) savedQuotesEl.textContent = String(s.length || 0);
-    if (musicTotalEl) musicTotalEl.textContent = String(musicTotal);
+    if (pBreathedToday) pBreathedToday.textContent = String(breatheToday);
+    if (pMusicToday) pMusicToday.textContent = String(musicToday);
+    if (pSavedQuotes) pSavedQuotes.textContent = String(s.length || 0);
+    if (pMusicTotal) pMusicTotal.textContent = String(musicTotal);
   }
 
   /* =========================
-     BOOKS (Genre filtering)
-  ========================= */
-  const BOOKS = [
-    { genre: "Anxiety", title: "Dare", author: "Barry McDonagh", desc: "A practical approach to anxiety and panic." },
-    { genre: "Anxiety", title: "The Anxiety and Phobia Workbook", author: "Edmund J. Bourne", desc: "Tools and worksheets for anxiety." },
-    { genre: "Depression", title: "Feeling Good", author: "David D. Burns", desc: "CBT-based strategies for mood." },
-    { genre: "Trauma/PTSD", title: "The Body Keeps the Score", author: "Bessel van der Kolk", desc: "How trauma impacts mind and body." },
-    { genre: "Mindfulness", title: "Wherever You Go, There You Are", author: "Jon Kabat-Zinn", desc: "Mindfulness for everyday life." },
-
-    /* ✅ BPD (more) */
-    { genre: "BPD", title: "The Dialectical Behavior Therapy Skills Workbook", author: "McKay, Wood, Brantley", desc: "DBT skills: mindfulness, distress tolerance, emotion regulation." },
-    { genre: "BPD", title: "I Hate You—Don’t Leave Me", author: "Jerold J. Kreisman & Hal Straus", desc: "Understanding borderline personality disorder." },
-    { genre: "BPD", title: "Stop Walking on Eggshells", author: "Paul T. Mason & Randi Kreger", desc: "Support for relationships affected by BPD." },
-    { genre: "BPD", title: "Mindfulness for Borderline Personality Disorder", author: "Blaise Aguirre & Gillian Galen", desc: "Mindfulness-based skills for BPD." },
-
-    { genre: "Self-esteem", title: "The Gifts of Imperfection", author: "Brené Brown", desc: "Letting go of who you think you’re supposed to be." }
-  ];
-
-  function initBooks() {
-    const page = $("booksPage");
-    if (!page) return;
-
-    const chipRow = $("bookGenreRow");
-    const list = $("bookList");
-    if (!chipRow || !list) return;
-
-    const genres = ["All", ...Array.from(new Set(BOOKS.map(b => b.genre)))];
-    let active = "All";
-
-    function makeChip(name) {
-      const b = document.createElement("button");
-      b.className = "chip";
-      b.type = "button";
-      b.textContent = name;
-      if (name === active) b.classList.add("active");
-      b.addEventListener("click", () => {
-        active = name;
-        [...chipRow.querySelectorAll(".chip")].forEach(x => x.classList.remove("active"));
-        b.classList.add("active");
-        render();
-      });
-      return b;
-    }
-
-    function render() {
-      list.innerHTML = "";
-      const items = active === "All" ? BOOKS : BOOKS.filter(b => b.genre === active);
-
-      items.forEach(bk => {
-        const div = document.createElement("div");
-        div.className = "book-item";
-        div.innerHTML = `
-          <div class="book-title">${bk.title}</div>
-          <div class="book-meta">${bk.author} • <b>${bk.genre}</b></div>
-          <div class="book-desc">${bk.desc}</div>
-        `;
-        list.appendChild(div);
-      });
-    }
-
-    chipRow.innerHTML = "";
-    genres.forEach(g => chipRow.appendChild(makeChip(g)));
-    render();
-  }
-
-  /* =========================
-     RESOURCES (Topic filtering + NHS links)
-  ========================= */
-  const RESOURCES = [
-    { topic: "Anxiety", title: "Anxiety", desc: "Symptoms, causes and treatment.", url: "https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/" },
-    { topic: "Depression", title: "Depression", desc: "Signs, support and treatment options.", url: "https://www.nhs.uk/mental-health/conditions/clinical-depression/" },
-    { topic: "Panic disorder", title: "Panic disorder", desc: "Panic attacks and coping support.", url: "https://www.nhs.uk/mental-health/conditions/panic-disorder/" },
-    { topic: "OCD", title: "OCD", desc: "Obsessive compulsive disorder information.", url: "https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" },
-    { topic: "PTSD", title: "PTSD", desc: "Post-traumatic stress disorder support.", url: "https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/" },
-    { topic: "Eating disorders", title: "Eating disorders", desc: "Support and guidance.", url: "https://www.nhs.uk/mental-health/conditions/eating-disorders/" },
-    { topic: "Self-harm", title: "Self-harm", desc: "Help and advice.", url: "https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/behaviours/self-harm/" },
-    { topic: "Stress", title: "Stress", desc: "Managing stress and overwhelm.", url: "https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress/" },
-
-    /* ✅ BPD */
-    { topic: "BPD", title: "Borderline personality disorder (BPD)", desc: "Signs, support and treatment info.", url: "https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" }
-  ];
-
-  function initResources() {
-    const page = $("resourcesPage");
-    if (!page) return;
-
-    const chipRow = $("resourceTopicRow");
-    const list = $("resourceList");
-    if (!chipRow || !list) return;
-
-    const topics = ["All", ...Array.from(new Set(RESOURCES.map(r => r.topic)))];
-    let active = "All";
-
-    function makeChip(name) {
-      const b = document.createElement("button");
-      b.className = "chip";
-      b.type = "button";
-      b.textContent = name;
-      if (name === active) b.classList.add("active");
-      b.addEventListener("click", () => {
-        active = name;
-        [...chipRow.querySelectorAll(".chip")].forEach(x => x.classList.remove("active"));
-        b.classList.add("active");
-        render();
-      });
-      return b;
-    }
-
-    function render() {
-      list.innerHTML = "";
-      const items = active === "All" ? RESOURCES : RESOURCES.filter(r => r.topic === active);
-
-      items.forEach(r => {
-        const a = document.createElement("a");
-        a.className = "resource-item";
-        a.href = r.url;
-        a.target = "_blank";
-        a.rel = "noopener";
-        a.innerHTML = `
-          <div>
-            <div class="resource-title">${r.title}</div>
-            <div class="resource-desc">${r.desc}</div>
-          </div>
-          <div class="resource-go">▶</div>
-        `;
-        list.appendChild(a);
-      });
-    }
-
-    chipRow.innerHTML = "";
-    topics.forEach(t => chipRow.appendChild(makeChip(t)));
-    render();
-  }
-
-  /* =========================
-     BOOT
+     BOOT (never let one page break others)
   ========================= */
   document.addEventListener("DOMContentLoaded", () => {
     try { applyTheme(); } catch {}
     try { initTheme(); } catch {}
 
-    try { initWordPage(); } catch {}
-    try { initDistractionPage(); } catch {}
+    try { initWotdHome(); } catch {}
+    try { initWotdPage(); } catch {}
 
     try { initBreathe(); } catch {}
     try { initQuotes(); } catch {}
     try { initMusic(); } catch {}
     try { initYoga(); } catch {}
     try { initProgress(); } catch {}
-    try { initBooks(); } catch {}
-    try { initResources(); } catch {}
   });
 })();
