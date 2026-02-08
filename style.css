@@ -482,3 +482,29 @@ body.night .quote-save-btn{ background: rgba(255,255,255,0.12); }
 .home-mini {
   font-size: 18px;
 }
+/* Home pills grid – consistent sizing */
+.home-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.home-pill{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 22px;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.home-pill-help{
+  margin-top: 12px;
+  justify-content:center;
+}
