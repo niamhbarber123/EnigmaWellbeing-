@@ -22,7 +22,7 @@
 
     <a class="home-card" href="breathe.html">
       <div class="home-card-title">Breathe &amp; reset</div>
-      <div class="home-card-sub">A gentle 60 seconds</div>
+      <div class="home-card-sub">A gentle reset</div>
     </a>
 
     <div class="home-grid">
@@ -34,11 +34,11 @@
       <a class="home-pill" href="resources.html"><span class="pill-ico">🧠</span><span class="pill-text">Resources</span></a>
     </div>
 
-    <!-- ✅ WOTD mini tile (title only) -->
-    <a class="home-mini" href="wotd.html" aria-label="Open word of the day">
+    <!-- ✅ small WOTD tile (title only) -->
+    <a class="home-mini" id="wotdMiniTile" href="wotd.html" aria-label="Open Word of the Day">
       <div>
-        <div>Word of the day</div>
-        <div class="mini-sub">Tap to open</div>
+        <div style="font-weight:950;">Word of the day</div>
+        <div class="mini-sub" id="wotdMiniSub">Tap to open</div>
       </div>
       <div class="mini-go">▶</div>
     </a>
@@ -50,16 +50,13 @@
 
       <div id="distractionQuestion" class="distraction-question">Tap Start to begin.</div>
 
-      <div class="gentle-text" style="margin-top:8px;">
+      <div class="gentle-text" style="margin-top:10px;">
         Answered: <b><span id="distractionAnsweredCount">0</span></b>
       </div>
 
       <div id="distractionInputWrap" style="display:none; margin-top:10px;">
-        <input id="distractionInput" class="input" type="text"
-          placeholder="Type your answer here…" autocomplete="off" inputmode="text" />
-        <div class="gentle-text" style="margin-top:8px;">
-          Next requires typing. Skip if you’d rather not answer.
-        </div>
+        <input id="distractionInput" class="input" type="text" placeholder="Type your answer…" autocomplete="off" />
+        <div class="gentle-text" style="margin-top:8px;">Next requires typing. Skip if you’d rather not answer.</div>
       </div>
 
       <div class="tool-row" style="margin-top:12px;">
@@ -72,8 +69,7 @@
 
     <!-- ✅ Help pill button (no underline) -->
     <a class="home-help" href="help.html">
-      <span class="pill-ico">🆘</span>
-      <span class="pill-text">Need help right now?</span>
+      <span class="pill-ico">🆘</span><span class="pill-text">Need help right now?</span>
     </a>
   </main>
 
