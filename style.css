@@ -437,3 +437,36 @@ hr.hr{
   border-top: 1px solid var(--stroke);
   margin: 14px 0;
 }
+/* ===== HOME BUTTON TEXT FIX ===== */
+
+/* Ensure all home buttons use same font + colour */
+.home-btn,
+.home-btn span {
+  color: var(--accent) !important;
+  font-weight: 800;
+}
+
+/* Centre content inside ALL buttons */
+.home-btn {
+  justify-content: center;
+}
+
+/* Special handling for wide (Help) button */
+.home-btn.wide {
+  justify-content: center;
+}
+
+/* Remove spacing tricks that push Help text left */
+.home-btn.wide span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Hide the arrow so it doesn't offset centring */
+.home-btn.wide .right {
+  display: none;
+}
