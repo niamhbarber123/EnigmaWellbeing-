@@ -1,100 +1,98 @@
 /* =========================================================
-   Enigma Wellbeing • style.css (FULL)
-   - Consistent typography + buttons
+   Enigma Wellbeing • style.css (STABLE BASELINE)
+   - Consistent typography + button styling
+   - Smaller page titles
    - Smaller night mode button
-   - Home: centered grid + big watermark
-   - No blue link underline
-   - Nav: fixed 7 items across all pages
+   - Home buttons centered + large watermark
+   - Same 7-item bottom nav everywhere
+   - Breathe centered + timer/stopwatch card
 ========================================================= */
 
 :root{
-  --bg: #f6f2fb;
-  --text: #2f2a3a;
-  --muted: rgba(47,42,58,0.60);
+  --bg:#f6f2fb;
+  --text:#2f2a3a;
+  --muted:rgba(47,42,58,0.62);
 
-  --card: rgba(255,255,255,0.76);
-  --card-solid: #ffffff;
-  --stroke: rgba(120,110,140,0.15);
+  --card:rgba(255,255,255,0.78);
+  --cardSolid:#ffffff;
 
-  --accent: #6b5b86;
-  --accent-soft: rgba(107,91,134,0.16);
+  --stroke:rgba(120,110,140,0.16);
+  --shadow:0 10px 25px rgba(40,30,60,0.08);
 
-  /* buttons that used to be orange/red -> pale purple now */
-  --danger: rgba(203,188,255,0.55);
+  --accent:#6b5b86;
+  --accentSoft:rgba(107,91,134,0.18);
 
-  --shadow: 0 10px 25px rgba(40,30,60,0.08);
-  --nav-h: 76px;
+  /* pale purple for “primary” */
+  --palePurple: rgba(184,166,217,0.40);
+
+  --danger:rgba(255,183,161,0.85);
 }
 
 body.night{
-  --bg: #0f0f14;
-  --text: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.70);
+  --bg:#0f0f14;
+  --text:rgba(255,255,255,0.93);
+  --muted:rgba(255,255,255,0.72);
 
-  --card: rgba(255,255,255,0.08);
-  --card-solid: rgba(255,255,255,0.10);
-  --stroke: rgba(255,255,255,0.12);
+  --card:rgba(255,255,255,0.08);
+  --cardSolid:rgba(255,255,255,0.10);
+  --stroke:rgba(255,255,255,0.12);
+  --shadow:0 14px 40px rgba(0,0,0,0.35);
 
-  --accent: #cbbcff;
-  --accent-soft: rgba(203,188,255,0.18);
+  --accent:#d7ccff;
+  --accentSoft:rgba(215,204,255,0.18);
 
-  --danger: rgba(203,188,255,0.28);
-
-  --shadow: 0 14px 40px rgba(0,0,0,0.35);
+  --palePurple: rgba(215,204,255,0.18);
+  --danger:rgba(255,183,161,0.55);
 }
 
-*{ box-sizing:border-box; }
-html, body{ margin:0; padding:0; }
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body{ margin:0; padding:0; }
+
 body{
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
-/* links: remove blue underline everywhere */
-a{
-  color: inherit;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-}
-a:visited{ color: inherit; }
+a{ color:inherit; text-decoration:none; }
+a:visited{ color:inherit; }
 
+/* ---------- Layout ---------- */
 .page-wrap{
-  min-height: 100vh;
-  padding: 18px 18px calc(var(--nav-h) + 18px);
+  min-height:100vh;
+  padding: 16px 16px calc(92px + env(safe-area-inset-bottom));
 }
 
 .page{
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
 }
 
+/* ---------- Header ---------- */
 .page-header{
+  position:relative;
   text-align:center;
-  margin-top: 6px;
-  margin-bottom: 10px;
-  position: relative;
+  padding-top: 6px;
+  margin-bottom: 14px;
 }
-
-/* slightly smaller titles across app */
 .page-header h1{
-  margin: 8px 0 6px;
-  font-size: 36px;
-  letter-spacing: -0.02em;
-  color: var(--accent);
+  margin: 10px 0 6px;
+  font-size: 30px;            /* ✅ smaller */
   font-weight: 950;
+  letter-spacing:-0.02em;
+  color: var(--accent);
 }
-
 .page-header p{
   margin:0;
-  color: var(--muted);
+  font-size: 14px;
   font-weight: 750;
+  color: var(--muted);
 }
 
-/* back button */
+/* ---------- Back button (always left) ---------- */
 .back-btn{
   position:absolute;
-  left: 0;
+  left:0;
   top: 6px;
   width: 46px;
   height: 46px;
@@ -103,31 +101,31 @@ a:visited{ color: inherit; }
   background: var(--card);
   box-shadow: var(--shadow);
   color: var(--text);
-  font-size: 20px;
-  font-weight: 900;
+  font-size: 22px;
+  font-weight: 950;
 }
 
-/* smaller night mode button */
+/* ---------- Theme button smaller ---------- */
 .theme-toggle-top{
   position: fixed;
   right: 14px;
-  top: 14px;
-  width: 48px;
-  height: 48px;
+  top: calc(14px + env(safe-area-inset-top));
+  width: 44px;              /* ✅ smaller */
+  height: 44px;             /* ✅ smaller */
   border-radius: 999px;
   border: 1px solid var(--stroke);
   background: var(--card);
   box-shadow: var(--shadow);
-  font-size: 20px;
+  font-size: 20px;          /* ✅ smaller */
   z-index: 50;
 }
+.theme-toggle-top:active{ transform:scale(0.98); }
 
-/* cards */
 .card{
   background: var(--card);
   border: 1px solid var(--stroke);
-  border-radius: 26px;
-  padding: 16px 16px;
+  border-radius: 24px;
+  padding: 16px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
   margin-bottom: 14px;
@@ -135,161 +133,219 @@ a:visited{ color: inherit; }
 
 .section-title{
   font-weight: 950;
-  font-size: 22px;
+  font-size: 20px;
   letter-spacing:-0.01em;
   color: var(--accent);
+  margin-bottom: 10px;
 }
 
 .gentle-text{
   color: var(--muted);
   font-weight: 750;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.35;
 }
-
-/* buttons + inputs */
-.tool-row{ display:flex; gap: 12px; width:100%; }
-
-.tool-btn{
-  flex:1;
-  padding: 14px 14px;
-  border-radius: 18px;
-  border: 1px solid var(--stroke);
-  background: var(--card-solid);
-  box-shadow: var(--shadow);
-  font-weight: 950;
-  font-size: 18px;
-  color: var(--accent);
-}
-.tool-btn.primary{ background: var(--accent-soft); color: var(--accent); }
-.tool-btn.danger{ background: var(--danger); color: var(--accent); }
 
 .input{
   width:100%;
   border-radius: 16px;
   border: 1px solid var(--stroke);
-  background: var(--card-solid);
+  background: var(--cardSolid);
   padding: 12px 14px;
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 750;
   color: var(--text);
 }
 
+.tool-row{
+  display:flex;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.tool-btn{
+  flex:1;
+  min-width: 140px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: var(--cardSolid);
+  box-shadow: var(--shadow);
+  font-weight: 900;
+  font-size: 15px;
+  color: var(--accent);
+}
+.tool-btn.primary{
+  background: var(--palePurple);  /* ✅ pale purple */
+  color: var(--accent);
+}
+.tool-btn.danger{
+  background: var(--danger);
+  color: rgba(40,20,20,0.85);
+}
+
 /* =========================================================
-   Bottom nav (7 items)
+   Bottom nav (7 items only)
 ========================================================= */
 .bottom-nav{
   position: fixed;
   left:0; right:0; bottom:0;
-  height: var(--nav-h);
   display:flex;
   justify-content: space-around;
-  padding: 10px 10px 14px;
+  padding: 10px 8px calc(12px + env(safe-area-inset-bottom));
   background: rgba(255,255,255,0.78);
-  border-top: 1px solid rgba(140,120,170,0.10);
+  border-top: 1px solid rgba(140,120,170,0.12);
   backdrop-filter: blur(12px);
+  z-index: 40;
 }
 body.night .bottom-nav{
   background: rgba(20,20,26,0.78);
   border-top: 1px solid rgba(255,255,255,0.10);
 }
-
 .bottom-nav a{
   display:flex;
   flex-direction: column;
   align-items:center;
   gap: 3px;
-  font-weight: 850;
-  font-size: 12px;
+  font-weight: 800;
+  font-size: 11px;
   color: var(--muted);
+  min-width: 44px;
 }
 .bottom-nav a.active{ color: var(--accent); }
-.nav-ico{ font-size: 18px; }
+.nav-ico{ font-size: 18px; line-height:1; }
 
 /* =========================================================
-   HOME (center grid + watermark)
+   Home (centered buttons + watermark)
 ========================================================= */
-.home-header h1{ font-size: 42px; }
-.home-header p{ font-size: 18px; }
-
-/* center the grid vertically WITHOUT making it scroll */
-.home-page{
-  min-height: calc(100vh - var(--nav-h) - 110px);
-}
-
-.home-center{
+.home-shell{
+  position:relative;
+  max-width: 560px;
+  margin: 0 auto;
+  min-height: calc(100vh - 140px);
   display:flex;
-  align-items:center;
-  justify-content:center;
+  flex-direction: column;
 }
 
+/* watermark behind buttons */
 .home-watermark{
-  position: relative;
-}
-.home-watermark::before{
-  content:"";
   position:absolute;
-  inset: 0;
-  margin:auto;
-  width: 420px;
-  height: 420px;
+  left:50%;
+  top: 52%;
+  transform: translate(-50%,-50%);
+  width: min(520px, 92vw);
+  height: min(520px, 92vw);
   background-image: url("icon.png");
-  background-repeat: no-repeat;
-  background-position: center;
+  background-repeat:no-repeat;
+  background-position:center;
   background-size: contain;
-  opacity: 0.10;          /* bigger + visible */
+  opacity: 0.10;         /* ✅ visible but subtle */
+  filter: saturate(1.1) contrast(1.1);
   pointer-events:none;
-  filter: saturate(0.8);
+  z-index: 0;
 }
+body.night .home-watermark{ opacity: 0.12; }
 
-/* 2-column grid of identical buttons */
-.home-grid-2{
-  width: 100%;
+.home-buttons{
+  position:relative;
+  z-index: 1;
+  margin-top: 40px;       /* ✅ pushes buttons down */
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  padding: 8px 0 6px;
-  position: relative;
-  z-index: 1; /* above watermark */
+  gap: 12px;
 }
 
-/* unify ALL home buttons look (including Help/Word/Distraction) */
+/* uniform home button style (matches Help/Distraction look) */
 .home-btn{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap: 12px;
-  padding: 16px 14px;
+  gap: 10px;
+  padding: 14px 12px;
   border-radius: 22px;
   background: var(--card);
   border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
-  font-weight: 950;
+  font-weight: 900;
+  font-size: 15px;
   color: var(--accent);
-  min-height: 62px;
+  text-align:center;
 }
+.home-btn:active{ transform: scale(0.99); }
+.home-btn .ico{ font-size: 18px; }
+.home-btn.small{ padding: 13px 12px; font-size: 14px; }
 
-.pill-ico{ font-size: 22px; line-height: 1; }
-.pill-text{ font-size: 20px; }
+/* make some full width */
+.home-btn.wide{ grid-column: 1 / -1; justify-content: space-between; padding-left: 16px; padding-right: 16px; }
+.home-btn.wide .right{ opacity:0.8; font-weight:900; }
+
+.home-foot{
+  position:relative;
+  z-index: 1;
+  margin-top: 14px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.home-foot .home-btn{ font-size: 14px; }
 
 /* =========================================================
-   Chips
+   Quotes
 ========================================================= */
-.chip-row{ display:flex; flex-wrap: wrap; gap: 10px; }
+.quote-grid{ display:grid; grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
+
+.quote-tile{
+  background: rgba(255,255,255,0.75);
+  border: 1px solid var(--stroke);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+body.night .quote-tile{ background: rgba(255,255,255,0.10); }
+
+.quote-text{
+  font-weight: 950;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--text);
+}
+.quote-meta{
+  margin-top: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+}
+.quote-author{ color: var(--muted); font-weight: 800; font-size: 13px; }
+
+.quote-save-btn{
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.75);
+  padding: 10px 12px;
+  font-weight: 900;
+  color: var(--accent);
+}
+body.night .quote-save-btn{ background: rgba(255,255,255,0.10); }
+.quote-save-btn.saved{ background: var(--accentSoft); }
+
+/* =========================================================
+   Chips (Music / Yoga / Genres)
+========================================================= */
+.chip-row{ display:flex; flex-wrap:wrap; gap:10px; }
+
 .chip{
   padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.60);
+  background: rgba(255,255,255,0.65);
   font-weight: 900;
   color: var(--accent);
 }
 body.night .chip{ background: rgba(255,255,255,0.08); }
-.chip.active{ background: var(--accent-soft); }
+.chip.active{ background: var(--accentSoft); }
 
-/* =========================================================
-   Music / Yoga list buttons
-========================================================= */
 .music-btn{
   display:flex;
   align-items:center;
@@ -305,45 +361,7 @@ body.night .chip{ background: rgba(255,255,255,0.08); }
 body.night .music-btn{ background: rgba(255,255,255,0.08); }
 
 /* =========================================================
-   Quotes
-========================================================= */
-.quote-tile{
-  background: rgba(255,255,255,0.70);
-  border: 1px solid var(--stroke);
-  border-radius: 22px;
-  padding: 16px;
-  box-shadow: var(--shadow);
-  margin-bottom: 12px;
-}
-body.night .quote-tile{ background: rgba(255,255,255,0.10); }
-
-.quote-text{
-  font-weight: 950;
-  font-size: 18px;
-  line-height: 1.35;
-  color: var(--text);
-}
-.quote-meta{
-  margin-top: 12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
-}
-.quote-author{ color: var(--muted); font-weight: 800; }
-.quote-save-btn{
-  border-radius: 999px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.7);
-  padding: 10px 14px;
-  font-weight: 950;
-  color: var(--accent);
-}
-body.night .quote-save-btn{ background: rgba(255,255,255,0.10); }
-.quote-save-btn.saved{ background: var(--accent-soft); }
-
-/* =========================================================
-   Distraction
+   Distraction question box
 ========================================================= */
 .distraction-question{
   margin-top: 10px;
@@ -357,33 +375,39 @@ body.night .quote-save-btn{ background: rgba(255,255,255,0.10); }
 body.night .distraction-question{ background: rgba(255,255,255,0.08); }
 
 /* =========================================================
-   Breathe
+   Breathe (centered, inhale retract / exhale expand)
 ========================================================= */
 .breathe-stage{
   display:flex;
   justify-content:center;
   align-items:center;
-  padding: 18px 0 6px;
+  padding: 18px 0 10px;
 }
+
 .breathe-ring{
-  width: 280px;
-  height: 280px;
+  width: min(300px, 78vw);
+  height: min(300px, 78vw);
   border-radius: 50%;
   border: 2px solid rgba(120,110,150,0.25);
   display:flex;
   justify-content:center;
   align-items:center;
+  background: rgba(255,255,255,0.18);
 }
+
 .breathe-circle{
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(170,145,210,0.55));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(170,145,210,0.55));
   box-shadow: 0 18px 40px rgba(60,40,90,0.18);
   transform: scale(1);
-  transition: transform 1.5s ease-in-out;
+  transition: transform 1.6s ease-in-out, background 300ms ease;
 }
+
+/* inhale retracts */
 .breathe-circle.breath-inhale{ transform: scale(0.72); }
+/* exhale expands */
 .breathe-circle.breath-exhale{ transform: scale(1.14); }
 
 .breath-text{
@@ -394,110 +418,22 @@ body.night .distraction-question{ background: rgba(255,255,255,0.08); }
 }
 
 /* =========================================================
-   Resources + Books lists
+   Resources / Books list items
 ========================================================= */
 .resource-item, .book-item{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap: 12px;
   padding: 14px 16px;
   border-radius: 18px;
   border: 1px solid var(--stroke);
   background: rgba(255,255,255,0.65);
   margin-bottom: 10px;
 }
-body.night .resource-item,
-body.night .book-item{ background: rgba(255,255,255,0.08); }
+body.night .resource-item, body.night .book-item{ background: rgba(255,255,255,0.08); }
 
-.resource-title, .book-title{
-  font-weight: 950;
-  color: var(--accent);
-  font-size: 18px;
-}
-.resource-desc, .book-meta{
-  color: var(--muted);
-  font-weight: 800;
-  margin-top: 4px;
-}
-.book-desc{
-  color: var(--muted);
-  font-weight: 700;
-  margin-top: 6px;
-}
-.resource-go{ font-weight: 950; opacity: 0.8; }
+.resource-title, .book-title{ font-weight: 950; color: var(--accent); font-size: 16px; }
+.resource-desc, .book-meta, .book-desc{ color: var(--muted); font-weight: 750; margin-top: 6px; line-height:1.35; }
 
-/* simple divider */
-.hr{
-  height: 1px;
-  background: var(--stroke);
+hr.hr{
+  border: none;
+  border-top: 1px solid var(--stroke);
   margin: 14px 0;
-}
-/* FORCE smaller night mode button */
-.theme-toggle-top{
-  width: 44px !important;
-  height: 44px !important;
-  font-size: 18px !important;
-  padding: 0 !important;
-}
-/* ==========================
-   GLOBAL FONT + BUTTON TIDY
-========================== */
-
-/* Slightly smaller page titles */
-.page-header h1{
-  font-size: 34px !important;
-}
-
-/* Slightly smaller subtitles */
-.page-header p{
-  font-size: 15px !important;
-}
-
-/* Standard button text colour + size (match Help) */
-.home-card,
-.home-pill,
-.home-help,
-.home-mini,
-.tool-btn,
-.music-btn,
-.quote-save-btn{
-  font-size: 16px !important;
-  font-weight: 900 !important;
-  color: var(--accent) !important;
-}
-
-/* Reduce large card titles (Breathe, WOTD, etc) */
-.home-card-title{
-  font-size: 22px !important;
-  font-weight: 900 !important;
-  color: var(--accent) !important;
-}
-
-/* Reduce sub text */
-.home-card-sub,
-.home-card-desc,
-.gentle-text{
-  font-size: 14px !important;
-}
-
-/* Make all home buttons visually consistent */
-.home-card,
-.home-pill,
-.home-help,
-.home-mini{
-  padding: 14px 16px !important;
-  border-radius: 22px !important;
-}
-
-/* Remove visual dominance from Breathe tile */
-.home-card:first-of-type{
-  padding: 16px !important;
-}
-
-/* Ensure help looks identical to others */
-.home-help{
-  font-size: 16px !important;
-  font-weight: 900 !important;
-  color: var(--accent) !important;
 }
