@@ -7,84 +7,41 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=99999" />
+
+  <!-- ✅ bump version to break iPhone cache -->
+  <link rel="stylesheet" href="style.css?v=100200" />
 </head>
 
-<body class="page-wrap home-page">
-
-  <!-- Night mode toggle -->
+<body class="page-wrap home">
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <!-- Header -->
-  <header class="page-header home-header">
+  <header class="page-header">
     <h1>Enigma Wellbeing</h1>
     <p>Your calm space</p>
   </header>
 
-  <!-- Watermark logo -->
-  <div class="home-watermark">
-    <img src="icon.png" alt="" />
-  </div>
+  <main class="home-main">
+    <div class="home-inner">
+      <div class="home-grid">
+        <a class="home-pill" href="breathe.html"><span class="pill-ico">🌬️</span><span class="pill-text">Breathe</span></a>
+        <a class="home-pill" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
 
-  <!-- Main -->
-  <main class="page home-main">
+        <a class="home-pill" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
+        <a class="home-pill" href="yoga.html"><span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span></a>
 
-    <div class="home-grid">
+        <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
+        <a class="home-pill" href="books.html"><span class="pill-ico">📚</span><span class="pill-text">Books</span></a>
 
-      <a class="home-pill" href="breathe.html">
-        <span class="pill-ico">🌬️</span>
-        <span class="pill-text">Breathe</span>
-      </a>
+        <a class="home-pill" href="resources.html"><span class="pill-ico">🧠</span><span class="pill-text">Resources</span></a>
+        <a class="home-pill" href="word.html"><span class="pill-ico">✨</span><span class="pill-text">Word of the day</span></a>
 
-      <a class="home-pill" href="journal.html">
-        <span class="pill-ico">📖</span>
-        <span class="pill-text">Journal</span>
-      </a>
-
-      <a class="home-pill" href="quotes.html">
-        <span class="pill-ico">💬</span>
-        <span class="pill-text">Quotes</span>
-      </a>
-
-      <a class="home-pill" href="yoga.html">
-        <span class="pill-ico">🧘‍♀️</span>
-        <span class="pill-text">Yoga</span>
-      </a>
-
-      <a class="home-pill" href="sounds.html">
-        <span class="pill-ico">🎵</span>
-        <span class="pill-text">Music</span>
-      </a>
-
-      <a class="home-pill" href="books.html">
-        <span class="pill-ico">📚</span>
-        <span class="pill-text">Books</span>
-      </a>
-
-      <a class="home-pill" href="resources.html">
-        <span class="pill-ico">🧠</span>
-        <span class="pill-text">Resources</span>
-      </a>
-
-      <a class="home-pill" href="word.html">
-        <span class="pill-ico">✨</span>
-        <span class="pill-text">Word of the day</span>
-      </a>
-
-      <a class="home-pill" href="distraction.html">
-        <span class="pill-ico">🧩</span>
-        <span class="pill-text">Distraction</span>
-      </a>
-
-      <a class="home-pill" href="help.html">
-        <span class="pill-ico">🆘</span>
-        <span class="pill-text">Help</span>
-      </a>
-
+        <a class="home-pill" href="distraction.html"><span class="pill-ico">🧩</span><span class="pill-text">Distraction</span></a>
+        <a class="home-pill" href="help.html"><span class="pill-ico">🆘</span><span class="pill-text">Help</span></a>
+      </div>
     </div>
   </main>
 
-  <!-- Bottom nav -->
+  <!-- ✅ bottom nav ONLY these 7, identical everywhere -->
   <nav class="bottom-nav">
     <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
@@ -95,6 +52,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=99999" defer></script>
+  <script src="app.js?v=100200" defer></script>
 </body>
 </html>
