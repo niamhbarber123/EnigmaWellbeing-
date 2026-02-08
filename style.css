@@ -408,3 +408,33 @@ body.night .distraction-question{ background: rgba(255,255,255,0.08); }
   font-weight: 900;
   color: var(--accent);
 }
+/* =========================================
+   HOME BUTTONS — make ALL look like Help/Distraction
+   (same font weight + colour + alignment)
+========================================= */
+
+/* Make every home tile use the same text styling */
+.home-pill{
+  color: var(--accent) !important;      /* same purple */
+  font-weight: 950 !important;          /* bold like Help/Distraction */
+  letter-spacing: -0.01em;
+}
+
+/* Force the text inside to match */
+.home-pill .pill-text{
+  color: var(--accent) !important;
+  font-weight: 950 !important;
+  font-size: 18px;                      /* consistent size */
+  line-height: 1;
+}
+
+/* Icons consistent size + slight tint like others */
+.home-pill .pill-ico{
+  font-size: 20px;
+  opacity: 0.95;
+}
+
+/* Remove any random hover/active styling differences */
+.home-pill:active{
+  transform: scale(0.99);
+}
