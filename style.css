@@ -537,3 +537,28 @@ body.night .quote-save-btn{ background: rgba(255,255,255,0.12); }
   grid-column: 1 / -1; /* full width like a primary action */
   justify-content: center;
 }
+/* Home watermark logo */
+.home-watermark{
+  position: absolute;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 220px;
+  background: url("icon.png") no-repeat center / contain;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure buttons sit above watermark */
+.home-page{
+  position: relative;
+  z-index: 1;
+}
+
+/* Help button full width */
+.home-pill-help{
+  grid-column: 1 / -1;
+  margin-top: 10px;
+}
