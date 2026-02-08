@@ -4,46 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Quotes • Enigma Wellbeing</title>
-
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=80002" />
+  <link rel="stylesheet" href="style.css?v=91000" />
 </head>
 
 <body class="page-wrap">
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Quotes</h1>
     <p>Search and save motivational quotes</p>
   </header>
 
-  <main class="page">
+  <main class="page" id="quotesPage">
     <div class="card">
       <div class="section-title">Find a motivational quote</div>
 
-      <input id="quoteSearch" class="input" type="search"
-             placeholder="Search quotes or authors… (e.g. courage, hope, Mandela)" />
+      <input id="quoteSearch" class="input" type="text" placeholder="Search quotes or authors… (e.g. calm, hope)" style="margin-top:12px;" />
 
       <div class="tool-row" style="margin-top:12px;">
-        <button id="quoteSearchBtn" class="tool-btn primary" type="button">Search</button>
-        <button id="quoteRandomBtn" class="tool-btn" type="button">Random</button>
+        <button class="tool-btn primary" id="quoteSearchBtn" type="button">Search</button>
+        <button class="tool-btn" id="quoteRandomBtn" type="button">Random</button>
       </div>
 
-      <div class="tool-row">
-        <button id="viewSavedBtn" class="tool-btn" type="button">
-          💜 Saved (<span id="savedCount">0</span>)
-        </button>
-        <button id="clearSavedBtn" class="tool-btn danger" type="button">Delete saved</button>
+      <div class="tool-row" style="margin-top:12px;">
+        <button class="tool-btn" id="viewSavedBtn" type="button">💜 Saved (<span id="savedCount">0</span>)</button>
+        <button class="tool-btn danger" id="clearSavedBtn" type="button">Delete saved</button>
       </div>
 
-      <div class="gentle-text" id="quoteStatus">
-        Tip: only the 💜 button saves.
+      <div class="gentle-text" id="quoteStatus" style="margin-top:10px;">
+        Tip: only the 💜 Save button saves.
       </div>
     </div>
 
-    <div id="quoteGrid" class="quote-grid"></div>
+    <div class="card">
+      <div class="section-title">Quotes</div>
+      <div id="quoteGrid" style="margin-top:12px;"></div>
+    </div>
   </main>
 
   <nav class="bottom-nav">
@@ -56,6 +55,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=80002" defer></script>
+  <script src="app.js?v=91000" defer></script>
 </body>
 </html>
