@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Journal • Enigma Wellbeing</title>
+
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91000" />
+  <link rel="stylesheet" href="style.css?v=100200" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
@@ -21,18 +22,23 @@
   <main class="page">
     <div class="card">
       <div class="section-title">New entry</div>
-      <textarea class="input" id="journalText" rows="7" placeholder="Type here…" style="margin-top:10px;"></textarea>
+      <textarea id="journalText" class="input" style="min-height:180px; resize:none;"></textarea>
 
       <div class="tool-row" style="margin-top:12px;">
         <button class="tool-btn primary" id="journalSaveBtn" type="button">Save entry</button>
-        <button class="tool-btn" id="journalViewBtn" type="button">View saved</button>
+        <button class="tool-btn" id="journalViewBtn" type="button">View saved entries</button>
       </div>
+
       <div class="tool-row" style="margin-top:10px;">
         <button class="tool-btn danger" id="journalClearBtn" type="button">Delete all entries</button>
       </div>
 
       <div class="gentle-text" style="margin-top:10px;">Saved entries stay on this device.</div>
-      <div id="journalList" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="card" id="journalListCard" style="display:none;">
+      <div class="section-title">Saved entries</div>
+      <div id="journalList" class="gentle-text" style="margin-top:10px;"></div>
     </div>
   </main>
 
@@ -46,41 +52,45 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=91000" defer></script>
   <script>
-    // tiny journal logic (kept here so app.js stays focused)
     (function(){
       const $ = (id)=>document.getElementById(id);
-      const KEY="enigmaJournal";
-      function read(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]");}catch{return [];} }
-      function write(v){ localStorage.setItem(KEY, JSON.stringify(v)); }
-      function esc(s){ return (s||"").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+      const KEY = "enigmaJournal";
+      const text = $("journalText");
+      const saveBtn = $("journalSaveBtn");
+      const viewBtn = $("journalViewBtn");
+      const clearBtn = $("journalClearBtn");
+      const listCard = $("journalListCard");
+      const list = $("journalList");
 
-      const text=$("journalText"), save=$("journalSaveBtn"), view=$("journalViewBtn"), clear=$("journalClearBtn"), list=$("journalList");
-      if(!text||!save||!view||!clear||!list) return;
-
-      function render(items){
-        list.innerHTML="";
-        items.slice(0,40).forEach((e)=>{
-          const div=document.createElement("div");
-          div.className="book-item";
-          div.innerHTML=`<div class="book-meta"><b>${esc(e.date)}</b></div><div class="book-desc">${esc(e.text)}</div>`;
-          list.appendChild(div);
-        });
+      function read(){
+        try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); }catch{ return []; }
       }
+      function write(v){ localStorage.setItem(KEY, JSON.stringify(v)); }
 
-      save.onclick=()=>{
-        const v=(text.value||"").trim();
+      saveBtn.addEventListener("click", ()=>{
+        const v = (text.value||"").trim();
         if(!v) return;
-        const items=read();
-        items.unshift({date:new Date().toLocaleString(), text:v});
+        const items = read();
+        items.unshift({ t: new Date().toLocaleString(), v });
         write(items);
-        text.value="";
-        render(items);
-      };
-      view.onclick=()=>render(read());
-      clear.onclick=()=>{ write([]); render([]); };
+        text.value = "";
+      });
+
+      viewBtn.addEventListener("click", ()=>{
+        const items = read();
+        listCard.style.display = "";
+        list.innerHTML = items.length ? items.map(x=>`<div style="margin-bottom:12px;"><b>${x.t}</b><div>${x.v.replaceAll("\n","<br>")}</div></div>`).join("") : "No saved entries yet.";
+      });
+
+      clearBtn.addEventListener("click", ()=>{
+        write([]);
+        listCard.style.display = "none";
+        list.innerHTML = "";
+      });
     })();
   </script>
+
+  <script src="app.js?v=100200" defer></script>
 </body>
 </html>
