@@ -47,65 +47,138 @@
   }
 
   /* =========================
-   WORD OF THE DAY (GLOBAL)
-   - Used on Home tile
-   - Used on words.html page
+   WORD OF THE DAY — FINAL
 ========================= */
 
 const WOTD = [
-  { w: "Harmony", d: "Finding calm alignment within and around you." },
-  { w: "Gentleness", d: "Soft strength — especially with yourself." },
-  { w: "Clarity", d: "Seeing what matters most without the noise." },
-  { w: "Balance", d: "Making space for rest, effort, and recovery." },
-  { w: "Patience", d: "Letting growth take the time it takes." },
-  { w: "Courage", d: "Feeling fear and still choosing what matters." },
-  { w: "Compassion", d: "Meeting struggle with warmth instead of judgement." },
-  { w: "Acceptance", d: "Allowing things to be as they are — without fighting them." },
-  { w: "Resilience", d: "Bending without breaking." },
-  { w: "Presence", d: "Being here — not where your thoughts are pulling you." },
-  { w: "Calm", d: "A steady breath in a noisy world." },
-  { w: "Trust", d: "Letting go of control where you can." },
-  { w: "Strength", d: "Quiet endurance and self-respect." },
-  { w: "Kindness", d: "Toward yourself first." },
-  { w: "Hope", d: "Light, even if it feels far away." }
+  {
+    w: "Harmony",
+    d: "Finding calm alignment within and around you.",
+    a: "I allow my thoughts and feelings to exist in balance."
+  },
+  {
+    w: "Gentleness",
+    d: "Soft strength — especially with yourself.",
+    a: "I treat myself with patience and care."
+  },
+  {
+    w: "Clarity",
+    d: "Seeing what matters most without the noise.",
+    a: "I let go of what distracts me from what matters."
+  },
+  {
+    w: "Balance",
+    d: "Making space for rest, effort, and recovery.",
+    a: "I honour both rest and action."
+  },
+  {
+    w: "Patience",
+    d: "Letting growth take the time it takes.",
+    a: "I trust my timing."
+  },
+  {
+    w: "Courage",
+    d: "Feeling fear and still choosing what matters.",
+    a: "I am brave in small, meaningful ways."
+  },
+  {
+    w: "Compassion",
+    d: "Meeting struggle with warmth instead of judgement.",
+    a: "I respond to difficulty with kindness."
+  },
+  {
+    w: "Acceptance",
+    d: "Allowing things to be as they are.",
+    a: "I stop fighting what I cannot change."
+  },
+  {
+    w: "Resilience",
+    d: "Bending without breaking.",
+    a: "I recover, even when things are hard."
+  },
+  {
+    w: "Presence",
+    d: "Being here — not where your thoughts pull you.",
+    a: "I return to this moment."
+  }
 ];
 
-function todayKey() {
-  return new Date().toISOString().split("T")[0];
+function dateKey(offset = 0) {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  return d.toISOString().split("T")[0];
 }
 
-function seededRandom(seed) {
-  let t = seed + 0x6D2B79F5;
-  t = Math.imul(t ^ (t >>> 15), t | 1);
-  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+function seededIndex(key) {
+  let n = Number(key.replace(/-/g, ""));
+  n = Math.sin(n) * 10000;
+  return Math.floor((n - Math.floor(n)) * WOTD.length);
 }
 
-function getTodayWOTD() {
-  const seed = Number(todayKey().replace(/-/g, ""));
-  const index = Math.floor(seededRandom(seed) * WOTD.length);
-  return WOTD[index];
+function getWOTD(offset = 0) {
+  const key = dateKey(offset);
+  return { ...WOTD[seededIndex(key)], key };
+}
+
+function getSavedWords() {
+  return JSON.parse(localStorage.getItem("enigmaSavedWords") || "[]");
+}
+
+function toggleSave(wordObj) {
+  let saved = getSavedWords();
+  const exists = saved.find(w => w.key === wordObj.key);
+  if (exists) {
+    saved = saved.filter(w => w.key !== wordObj.key);
+  } else {
+    saved.unshift(wordObj);
+  }
+  localStorage.setItem("enigmaSavedWords", JSON.stringify(saved));
+  return !exists;
 }
 
 function initWOTD() {
-  const data = getTodayWOTD();
-  if (!data) return;
+  let offset = 0;
 
-  /* Home tile */
-  const homeWord = document.getElementById("wotdWord");
-  const homeDesc = document.getElementById("wotdDesc");
-  if (homeWord && homeDesc) {
-    homeWord.textContent = data.w;
-    homeDesc.textContent = data.d;
+  const els = {
+    word: document.getElementById("wotdWord"),
+    desc: document.getElementById("wotdDesc"),
+    bigWord: document.getElementById("wotdWordBig"),
+    bigDesc: document.getElementById("wotdDescBig"),
+    affirm: document.getElementById("wotdAffirm"),
+    save: document.getElementById("wotdSaveBtn"),
+    prev: document.getElementById("wotdPrevBtn"),
+    next: document.getElementById("wotdNextBtn")
+  };
+
+  function render() {
+    const data = getWOTD(offset);
+
+    if (els.word) els.word.textContent = data.w;
+    if (els.desc) els.desc.textContent = data.d;
+
+    if (els.bigWord) els.bigWord.textContent = data.w;
+    if (els.bigDesc) els.bigDesc.textContent = data.d;
+    if (els.affirm) els.affirm.textContent = data.a;
+
+    if (els.save) {
+      const saved = getSavedWords().some(w => w.key === data.key);
+      els.save.textContent = saved ? "Saved 💜" : "Save 💜";
+      els.save.classList.toggle("saved", saved);
+      els.save.onclick = () => {
+        toggleSave(data);
+        render();
+      };
+    }
+
+    document.body.classList.remove("fade");
+    void document.body.offsetWidth;
+    document.body.classList.add("fade");
   }
 
-  /* Full page (words.html) */
-  const bigWord = document.getElementById("wotdWordBig");
-  const bigDesc = document.getElementById("wotdDescBig");
-  if (bigWord && bigDesc) {
-    bigWord.textContent = data.w;
-    bigDesc.textContent = data.d;
-  }
+  els.prev && (els.prev.onclick = () => { offset--; render(); });
+  els.next && (els.next.onclick = () => { offset++; render(); });
+
+  render();
 }
   /* ============ DISTRACTION ============ */
   const DISTRACTION_QUESTIONS = [
