@@ -870,7 +870,140 @@
     if (pSavedQuotes) pSavedQuotes.textContent = String(saved.length || 0);
     if (pMusicTotal) pMusicTotal.textContent = String(musicTotal);
   }
+function el(tag, className) {
+  const x = document.createElement(tag);
+  if (className) x.className = className;
+  return x;
+}
+   function initWotdPage() {
+  const page = document.getElementById("wotdPage");
+  if (!page) return;
 
+  const wEl = document.getElementById("wotdPageWord");
+  const dEl = document.getElementById("wotdPageDesc");
+  if (!wEl || !dEl) return;
+
+  const { w, d } = pickWotd();
+  wEl.textContent = w;
+  dEl.textContent = d;
+}
+   const BOOKS = [
+  // Self-help / wellbeing
+  { g: "Wellbeing", t: "Why Has Nobody Told Me This Before?", a: "Dr Julie Smith", url: "https://www.google.com/search?q=Why+Has+Nobody+Told+Me+This+Before+Julie+Smith" },
+  { g: "Wellbeing", t: "The Comfort Book", a: "Matt Haig", url: "https://www.google.com/search?q=The+Comfort+Book+Matt+Haig" },
+  { g: "Wellbeing", t: "The Power of Now", a: "Eckhart Tolle", url: "https://www.google.com/search?q=The+Power+of+Now+Eckhart+Tolle" },
+
+  // Anxiety / stress
+  { g: "Anxiety", t: "Dare", a: "Barry McDonagh", url: "https://www.google.com/search?q=Dare+Barry+McDonagh+book" },
+  { g: "Anxiety", t: "Hope and Help for Your Nerves", a: "Dr Claire Weekes", url: "https://www.google.com/search?q=Hope+and+Help+for+Your+Nerves+Claire+Weekes" },
+
+  // Fiction comfort reads
+  { g: "Fiction", t: "Eleanor Oliphant Is Completely Fine", a: "Gail Honeyman", url: "https://www.google.com/search?q=Eleanor+Oliphant+Is+Completely+Fine" },
+  { g: "Fiction", t: "The Midnight Library", a: "Matt Haig", url: "https://www.google.com/search?q=The+Midnight+Library+Matt+Haig" },
+
+  // Sleep
+  { g: "Sleep", t: "Why We Sleep", a: "Matthew Walker", url: "https://www.google.com/search?q=Why+We+Sleep+Matthew+Walker" },
+];
+
+function initBooks() {
+  const page = document.getElementById("booksPage");
+  if (!page) return;
+
+  const row = document.getElementById("bookGenreRow");
+  const list = document.getElementById("bookList");
+  if (!row || !list) return;
+
+  const genres = ["All", ...Array.from(new Set(BOOKS.map(b => b.g)))];
+  let active = "All";
+
+  function render() {
+    list.innerHTML = "";
+    const items = active === "All" ? BOOKS : BOOKS.filter(b => b.g === active);
+
+    items.forEach(b => {
+      const a = document.createElement("a");
+      a.className = "music-btn";
+      a.href = b.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.innerHTML = `<span>${b.t} — <em style="font-style:normal; opacity:.85">${b.a}</em></span><span>▶</span>`;
+      list.appendChild(a);
+    });
+  }
+
+  function chip(name) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip" + (name === active ? " active" : "");
+    btn.textContent = name;
+    btn.addEventListener("click", () => {
+      active = name;
+      [...row.querySelectorAll(".chip")].forEach(x => x.classList.remove("active"));
+      btn.classList.add("active");
+      render();
+    });
+    return btn;
+  }
+
+  row.innerHTML = "";
+  genres.forEach(g => row.appendChild(chip(g)));
+  render();
+}
+   const RESOURCES = [
+  { t: "Anxiety", d: "Symptoms, causes and treatment.", url: "https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/overview/" },
+  { t: "Depression", d: "Signs, support and treatment options.", url: "https://www.nhs.uk/mental-health/conditions/clinical-depression/overview/" },
+  { t: "Panic disorder", d: "Panic attacks and coping support.", url: "https://www.nhs.uk/mental-health/conditions/panic-disorder/overview/" },
+  { t: "OCD", d: "Obsessive compulsive disorder information.", url: "https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/overview/" },
+  { t: "PTSD", d: "Post-traumatic stress disorder support.", url: "https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/overview/" },
+  { t: "Eating disorders", d: "Support and treatment routes.", url: "https://www.nhs.uk/mental-health/conditions/eating-disorders/overview/" },
+  { t: "Self-harm", d: "Help and support for self-harm.", url: "https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/behaviours/self-harm/" },
+  { t: "Stress", d: "Tips for managing stress.", url: "https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/mental-wellbeing-audio-guides/" },
+];
+
+function initResources() {
+  const page = document.getElementById("resourcesPage");
+  if (!page) return;
+
+  const row = document.getElementById("resourceTopicRow");
+  const list = document.getElementById("resourceList");
+  if (!row || !list) return;
+
+  const topics = ["All", ...Array.from(new Set(RESOURCES.map(r => r.t)))];
+  let active = "All";
+
+  function render() {
+    list.innerHTML = "";
+    const items = active === "All" ? RESOURCES : RESOURCES.filter(r => r.t === active);
+
+    items.forEach(r => {
+      const a = document.createElement("a");
+      a.className = "music-btn";
+      a.href = r.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.innerHTML = `<span><b>${r.t}</b><div class="gentle-text" style="margin-top:4px;">${r.d}</div></span><span>▶</span>`;
+      list.appendChild(a);
+    });
+  }
+
+  function chip(name) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip" + (name === active ? " active" : "");
+    btn.textContent = name;
+    btn.addEventListener("click", () => {
+      active = name;
+      [...row.querySelectorAll(".chip")].forEach(x => x.classList.remove("active"));
+      btn.classList.add("active");
+      render();
+    });
+    return btn;
+  }
+
+  row.innerHTML = "";
+  topics.forEach(t => row.appendChild(chip(t)));
+  render();
+}
   /* =========================
      BOOT
   ========================= */
@@ -886,5 +1019,8 @@
     try { initMusic(); } catch {}
     try { initYoga(); } catch {}
     try { initProgress(); } catch {}
+     try { initWotdPage(); } catch {}
+try { initBooks(); } catch {}
+try { initResources(); } catch {}
   });
 })();
