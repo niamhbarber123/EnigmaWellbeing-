@@ -10,7 +10,7 @@
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
 
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
@@ -18,7 +18,7 @@
     <p>Search and save motivational quotes</p>
   </header>
 
-  <main class="page" id="quotesPage">
+  <main class="page">
     <div class="card">
       <div class="section-title">Find a motivational quote</div>
 
@@ -34,15 +34,10 @@
         <button class="tool-btn danger" id="clearSavedBtn" type="button">Delete saved</button>
       </div>
 
-      <div class="gentle-text" id="quoteStatus" style="margin-top:10px;">
-        Tip: only the 💜 Save button saves.
-      </div>
+      <div class="gentle-text" id="quoteStatus" style="margin-top:10px;">Tip: only the 💜 button saves.</div>
     </div>
 
-    <div class="card">
-      <div class="section-title">Quotes</div>
-      <div id="quoteGrid" style="margin-top:12px;"></div>
-    </div>
+    <div id="quoteGrid"></div>
   </main>
 
   <nav class="bottom-nav">
