@@ -1,176 +1,439 @@
+/* ==========================
+   Enigma Wellbeing • style.css (STABLE)
+   - Consistent button styling
+   - Home buttons centred + big watermark
+   - Better night mode readability
+   - Removes blue underline on links
+========================== */
+
 :root{
-  --bg:#f6f2fb;
-  --text:#2f2a3a;
-  --muted:rgba(47,42,58,.6);
-  --card:#ffffff;
-  --stroke:rgba(120,110,140,.15);
-  --accent:#6b5b86;
-  --shadow:0 10px 25px rgba(40,30,60,.08);
+  --bg: #f6f2fb;
+  --text: #2f2a3a;
+  --muted: rgba(47,42,58,0.62);
+
+  --card: rgba(255,255,255,0.78);
+  --card-solid: #ffffff;
+  --stroke: rgba(120,110,140,0.16);
+
+  /* pale purple theme */
+  --accent: #6b5b86;
+  --accent-soft: rgba(107,91,134,0.18);
+
+  --danger: #ffd0c2;
+  --shadow: 0 10px 25px rgba(40,30,60,0.08);
 }
 
-*{ box-sizing:border-box; }
+body.night{
+  --bg: #0f0f14;
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.74);
 
-html,body{
-  margin:0;
-  padding:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  --card: rgba(255,255,255,0.10);
+  --card-solid: rgba(255,255,255,0.12);
+  --stroke: rgba(255,255,255,0.14);
+
+  --accent: #d6ccff;
+  --accent-soft: rgba(214,204,255,0.18);
+
+  --danger: rgba(255,208,194,0.55);
+  --shadow: 0 14px 40px rgba(0,0,0,0.35);
 }
 
-a{ text-decoration:none; color:inherit; }
+*{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body{
+  margin:0; padding:0;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100%;
+}
+
+/* ✅ no blue underline / blue line */
+a{
+  color: inherit;
+  text-decoration: none;
+}
+a:visited{ color: inherit; }
+a:focus{ outline: none; }
+a, button{ -webkit-tap-highlight-color: transparent; }
 
 .page-wrap{
   min-height: 100vh;
-  padding: 18px 18px 92px;
-  /* IMPORTANT: do NOT make this flex globally */
-  display: block;
-}
-/* Home-only layout */
-.page-wrap.home{
-  display: flex;
-  flex-direction: column;
+  padding: 18px 18px 102px; /* room for nav */
 }
 
-/* Keep header at top */
-.page-wrap.home .page-header{
-  margin-bottom: 20px;
+.page{
+  max-width: 560px;
+  margin: 0 auto;
 }
 
-/* Centre the button grid vertically */
-.page-wrap.home .home-grid{
-  margin-top: auto;
-  margin-bottom: auto;
-}
-/* Home-specific centering */
-.page-wrap.home{
-  justify-content:flex-start;
-}
-
-.page-wrap.home .page-header{
-  margin-bottom:20px;
-}
-
-.page-wrap.home .home-grid{
-  margin-top:auto;
-  margin-bottom:auto;
-}
-
-
-/* Header */
 .page-header{
   text-align:center;
-  margin-bottom:30px;
+  margin-top: 4px;
+  margin-bottom: 14px;
+  position: relative;
+  padding: 4px 0 0;
 }
+
 .page-header h1{
-  font-size:42px;
-  font-weight:950;
-  color:var(--accent);
-  margin:10px 0 6px;
+  margin: 6px 0 6px;
+  font-size: 34px;           /* ✅ smaller titles */
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  font-weight: 950;
 }
+
 .page-header p{
-  color:var(--muted);
-  font-weight:700;
+  margin:0;
+  color: var(--muted);
+  font-weight: 750;
+  font-size: 14px;
 }
 
-/* Night toggle */
-.theme-toggle-top{
-  position:fixed;
-  top:16px;
-  right:16px;
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  border:1px solid var(--stroke);
-  background:var(--card);
-  box-shadow:var(--shadow);
-  font-size:24px;
-  z-index:10;
-}
-
-/* Watermark */
-.home-watermark{
+/* Back button */
+.back-btn{
   position:absolute;
-  inset:0;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 950;
+}
+
+/* Theme toggle */
+.theme-toggle-top{
+  position: fixed;
+  right: 16px;
+  top: calc(16px + env(safe-area-inset-top));
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-size: 24px;
+  z-index: 60;
+}
+
+/* Cards */
+.card{
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 26px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  margin-bottom: 14px;
+}
+
+.section-title{
+  font-weight: 950;
+  font-size: 22px;
+  letter-spacing:-0.01em;
+  color: var(--accent);
+}
+
+.gentle-text{
+  color: var(--muted);
+  font-weight: 750;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+/* Buttons */
+.tool-row{
   display:flex;
-  justify-content:center;
-  align-items:center;
-  pointer-events:none;
-  opacity:.07;
-}
-.home-watermark img{
-  width:320px;
-  max-width:80%;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
-/* Grid */
-.home-grid{
-  max-width:520px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-  position:relative;
-  z-index:2;
+.tool-btn{
+  flex:1;
+  min-width: 140px;
+  padding: 14px 14px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: var(--card-solid);
+  box-shadow: var(--shadow);
+  font-weight: 950;
+  font-size: 16px;
+  color: var(--accent);
 }
 
-/* BUTTONS — SINGLE SOURCE OF TRUTH */
-.home-pill,
-.home-pill *{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif !important;
-  font-weight:950 !important;
-  color:var(--accent) !important;
+.tool-btn.primary{
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
-.home-pill{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:16px 18px;
-  background:var(--card);
-  border:1px solid var(--stroke);
-  border-radius:22px;
-  box-shadow:var(--shadow);
-  font-size:18px;
-  letter-spacing:-.01em;
-  -webkit-font-smoothing:antialiased;
+.tool-btn.danger{
+  background: var(--danger);
+  color: rgba(40,20,20,0.85);
 }
 
-.pill-ico{
-  font-size:20px;
-  line-height:1;
-}
-
-.pill-text{
-  font-size:18px;
+.input, select.input{
+  width:100%;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: var(--card-solid);
+  padding: 12px 14px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
 }
 
 /* Bottom nav */
 .bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
+  position: fixed;
+  left:0; right:0; bottom:0;
   display:flex;
-  justify-content:space-around;
-  padding:10px 10px 14px;
-  background:rgba(255,255,255,.85);
-  border-top:1px solid rgba(140,120,170,.12);
-  backdrop-filter:blur(12px);
+  justify-content: space-around;
+  padding: 10px 10px calc(14px + env(safe-area-inset-bottom));
+  background: rgba(255,255,255,0.78);
+  border-top: 1px solid rgba(140,120,170,0.10);
+  backdrop-filter: blur(12px);
+  z-index: 50;
+}
+
+body.night .bottom-nav{
+  background: rgba(20,20,26,0.84);
+  border-top: 1px solid rgba(255,255,255,0.12);
 }
 
 .bottom-nav a{
   display:flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items:center;
-  font-size:12px;
-  font-weight:800;
-  color:var(--muted);
+  gap: 3px;
+  font-weight: 850;
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 44px;
 }
 
 .bottom-nav a.active{
-  color:var(--accent);
+  color: var(--accent);
 }
 
-.nav-ico{ font-size:18px; }
+.nav-ico{ font-size: 18px; line-height: 1; }
+
+/* ==========================
+   HOME
+========================== */
+
+.home-page{
+  position: relative;
+  min-height: calc(100vh - 160px); /* helps centring without forcing scroll */
+}
+
+/* ✅ Big watermark behind buttons */
+.home-watermark{
+  position: absolute;
+  inset: 0;
+  background-image: url("icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 520px;
+  opacity: 0.14;               /* visible but subtle */
+  filter: saturate(1.05) contrast(1.05);
+  pointer-events: none;
+}
+
+body.night .home-watermark{
+  opacity: 0.10;
+  filter: saturate(1.0) contrast(1.12);
+}
+
+/* ✅ Centre the button grid */
+.home-center{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 230px); /* header+nav taken into account */
+}
+
+.home-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.home-grid-main{
+  max-width: 560px;
+}
+
+/* ✅ All buttons same style (like help/distraction) */
+.home-pill{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 10px;
+  padding: 14px 12px;
+  border-radius: 22px;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  font-weight: 950;
+  color: var(--accent);
+}
+
+.home-pill .pill-ico{ font-size: 20px; }
+.home-pill .pill-text{ font-size: 16px; }
+
+/* full width button */
+.home-pill-wide{
+  grid-column: 1 / -1;
+  justify-content: space-between;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.pill-go{
+  font-size: 20px;
+  opacity: 0.75;
+}
+
+/* ==========================
+   DISRACTION BOX (used on distraction page)
+========================== */
+.distraction-question{
+  margin-top: 10px;
+  padding: 14px 14px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.55);
+  font-weight: 900;
+  color: var(--accent);
+}
+body.night .distraction-question{
+  background: rgba(255,255,255,0.10);
+}
+
+/* ==========================
+   MUSIC / YOGA buttons
+========================== */
+.music-btn{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.65);
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+body.night .music-btn{
+  background: rgba(255,255,255,0.10);
+}
+
+/* ==========================
+   QUOTES
+========================== */
+.quote-tile{
+  background: rgba(255,255,255,0.70);
+  border: 1px solid var(--stroke);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+}
+body.night .quote-tile{
+  background: rgba(255,255,255,0.12);
+}
+
+.quote-text{
+  font-weight: 950;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.quote-meta{
+  margin-top: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+}
+
+.quote-author{
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.quote-save-btn{
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.7);
+  padding: 10px 14px;
+  font-weight: 950;
+  color: var(--accent);
+}
+body.night .quote-save-btn{
+  background: rgba(255,255,255,0.12);
+}
+.quote-save-btn.saved{
+  background: var(--accent-soft);
+}
+
+/* ==========================
+   BREATHE
+========================== */
+.breathe-stage{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding: 18px 0 6px;
+}
+.breathe-ring{
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 2px solid rgba(120,110,150,0.25);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.breathe-circle{
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(170,145,210,0.55));
+  box-shadow: 0 18px 40px rgba(60,40,90,0.18);
+  transform: scale(1);
+  transition: transform 1.6s ease-in-out, background 300ms ease-in-out;
+}
+
+/* inhale = retract smaller */
+.breathe-circle.breath-inhale{ transform: scale(0.72); }
+
+/* exhale = expand bigger */
+.breathe-circle.breath-exhale{ transform: scale(1.14); }
+
+.breath-text{
+  text-align:center;
+  margin-top: 10px;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* ==========================
+   Small screens: allow scroll if needed
+========================== */
+@media (max-height: 740px){
+  .home-center{ min-height: auto; align-items: flex-start; padding-top: 10px; }
+  .home-watermark{ background-size: 440px; }
+  .page-header h1{ font-size: 30px; }
+}
