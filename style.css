@@ -524,3 +524,69 @@ body.home .home-pill {
 body.night.home .home-page::before {
   opacity: 0.10;
 }
+/* ==========================
+   HOME: center buttons + big watermark + stop scrolling
+   Works without extra wrappers
+========================== */
+
+/* stop scroll on home */
+body.home,
+body.home html {
+  height: 100%;
+}
+
+body.home .page-wrap {
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;              /* ✅ no scrolling */
+  padding-bottom: 92px;          /* keep space for bottom nav */
+}
+
+/* make the main home area centered */
+body.home .home-page {
+  height: calc(100vh - 92px);    /* bottom nav height allowance */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;       /* ✅ vertically center */
+  align-items: center;           /* ✅ horizontally center */
+  gap: 14px;
+  position: relative;
+}
+
+/* BIG watermark behind buttons */
+body.home .home-page::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  transform: translate(-50%, -50%);
+  width: 420px;                  /* ✅ bigger watermark */
+  height: 420px;                 /* ✅ bigger watermark */
+  background: url("icon.png") center/contain no-repeat;
+  opacity: 0.14;                 /* ✅ visible but subtle */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* keep everything above the watermark */
+body.home .home-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* center the grid and keep it nicely contained */
+body.home .home-grid {
+  width: 100%;
+  max-width: 460px;              /* ✅ keeps buttons more central */
+  margin: 0 auto;
+}
+
+/* your pills already look good — this just ensures consistent width */
+body.home .home-pill {
+  width: 100%;
+}
+
+/* optional: make watermark still visible in night mode */
+body.night.home .home-page::before {
+  opacity: 0.10;
+}
