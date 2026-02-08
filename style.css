@@ -301,6 +301,36 @@ body.night .home-watermark{
   font-size: 20px;
   opacity: 0.75;
 }
+.home-page{
+  overflow: hidden;
+}
+
+.home-main{
+  min-height: calc(100vh - 220px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-watermark{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-watermark img{
+  width: 260px;
+  opacity: 0.08;
+}
+
+.home-grid{
+  position: relative;
+  z-index: 2;
+}
 
 /* ==========================
    DISRACTION BOX (used on distraction page)
