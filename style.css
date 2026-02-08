@@ -433,3 +433,10 @@ body.night .book-item{ background: rgba(255,255,255,0.08); }
   background: var(--stroke);
   margin: 14px 0;
 }
+/* FORCE smaller night mode button */
+.theme-toggle-top{
+  width: 44px !important;
+  height: 44px !important;
+  font-size: 18px !important;
+  padding: 0 !important;
+}
