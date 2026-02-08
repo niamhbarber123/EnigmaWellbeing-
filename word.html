@@ -7,14 +7,14 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91000" />
+  <link rel="stylesheet" href="style.css?v=91001" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Word of the day</h1>
     <p>A gentle affirmation for today</p>
   </header>
@@ -22,11 +22,13 @@
   <main class="page" id="wordPage">
     <div class="card">
       <div class="section-title" id="wotdWordBig">Loading…</div>
-      <div class="gentle-text" id="wotdDescBig" style="margin-top:10px;">Please wait.</div>
+      <div class="gentle-text" id="wotdDescBig">Please wait.</div>
 
-      <div class="gentle-text" style="margin-top:14px; font-weight:800;">
-        Using these words as affirmations means you can repeat them to yourself, write them down,
-        or think about them regularly to help cultivate those qualities within yourself.
+      <div class="card" style="margin-top:12px;">
+        <div class="gentle-text" style="font-weight:850;">
+          Using these words as affirmations means you can repeat them to yourself, write them down,
+          or think about them regularly to help cultivate those qualities within yourself.
+        </div>
       </div>
     </div>
   </main>
@@ -34,13 +36,13 @@
   <nav class="bottom-nav">
     <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a class="active" href="word.html"><div class="nav-ico">✨</div><span>Word</span></a>
+    <a href="distraction.html"><div class="nav-ico">🧠</div><span>Distract</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
     <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=91000" defer></script>
+  <script src="app.js?v=91001" defer></script>
 </body>
 </html>
