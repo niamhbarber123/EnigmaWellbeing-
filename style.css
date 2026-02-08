@@ -1,11 +1,14 @@
 /* ==========================
-   Enigma Wellbeing • style.css
+   Enigma Wellbeing • style.css (FULL)
    - Higher contrast night mode
-   - Removes blue underline on links
-   - Cleaner home + help pill button
+   - Removes blue underline on links (iOS-safe)
+   - Cleaner home + nicer help button
    - Better quote readability in night
-   - Breath circle centered + smooth
+   - Breath circle centered + smooth inhale/exhale
+   - Chips + lists styling
+   - Resources + Books styling
 ========================== */
+
 :root{
   --bg: #f6f2fb;
   --text: #2f2a3a;
@@ -22,14 +25,14 @@
 body.night{
   --bg: #0f0f14;
   --text: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.70);
-  --card: rgba(255,255,255,0.08);
+  --muted: rgba(255,255,255,0.72);
+  --card: rgba(255,255,255,0.09);
   --card-solid: rgba(255,255,255,0.10);
-  --stroke: rgba(255,255,255,0.12);
-  --accent: #cbbcff;
-  --accent-soft: rgba(203,188,255,0.18);
-  --danger: rgba(255,183,161,0.65);
-  --shadow: 0 14px 40px rgba(0,0,0,0.35);
+  --stroke: rgba(255,255,255,0.14);
+  --accent: #d6ccff;
+  --accent-soft: rgba(214,204,255,0.20);
+  --danger: rgba(255,183,161,0.70);
+  --shadow: 0 14px 40px rgba(0,0,0,0.38);
 }
 
 *{ box-sizing:border-box; }
@@ -41,24 +44,42 @@ html, body{
   color: var(--text);
 }
 
-a{
-  color: inherit;
-  text-decoration: none; /* ✅ removes blue underline */
-  -webkit-tap-highlight-color: transparent;
-}
-a:visited{ color: inherit; }
-
 .page-wrap{
   min-height: 100vh;
   padding: 18px 18px 92px;
 }
 
+/* ✅ iOS / Safari underline + link colour insurance */
+a,
+a:link,
+a:visited,
+a:hover,
+a:active{
+  color: inherit !important;
+  text-decoration: none !important;
+  -webkit-text-decoration: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove iOS “telephone/email detection” styling */
+a[x-apple-data-detectors],
+span[x-apple-data-detectors],
+a[href^="tel"],
+a[href^="mailto"]{
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* ==========================
+   Header + buttons
+========================== */
 .page-header{
   text-align:center;
   margin-top: 6px;
   margin-bottom: 14px;
   position: relative;
 }
+
 .page-header h1{
   margin: 8px 0 6px;
   font-size: 44px;
@@ -66,6 +87,7 @@ a:visited{ color: inherit; }
   color: var(--accent);
   font-weight: 900;
 }
+
 .page-header p{
   margin:0;
   color: var(--muted);
@@ -107,9 +129,10 @@ a:visited{ color: inherit; }
   background: var(--card);
   border: 1px solid var(--stroke);
   border-radius: 26px;
-  padding: 16px 16px;
+  padding: 16px;
   box-shadow: var(--shadow);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   margin-bottom: 14px;
 }
 
@@ -152,7 +175,11 @@ a:visited{ color: inherit; }
 
 .tool-btn.danger{
   background: var(--danger);
-  color: rgba(40,20,20,0.85);
+  color: rgba(40,20,20,0.88);
+}
+
+.tool-btn:disabled{
+  opacity: 0.55;
 }
 
 .input{
@@ -164,6 +191,7 @@ a:visited{ color: inherit; }
   font-size: 16px;
   font-weight: 800;
   color: var(--text);
+  outline: none;
 }
 
 /* ==========================
@@ -175,12 +203,15 @@ a:visited{ color: inherit; }
   display:flex;
   justify-content: space-around;
   padding: 10px 10px 14px;
-  background: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.78);
   border-top: 1px solid rgba(140,120,170,0.10);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 40;
 }
+
 body.night .bottom-nav{
-  background: rgba(20,20,26,0.78);
+  background: rgba(20,20,26,0.80);
   border-top: 1px solid rgba(255,255,255,0.10);
 }
 
@@ -193,9 +224,11 @@ body.night .bottom-nav{
   font-size: 12px;
   color: var(--muted);
 }
+
 .bottom-nav a.active{
   color: var(--accent);
 }
+
 .nav-ico{ font-size: 18px; }
 
 /* ==========================
@@ -224,12 +257,20 @@ body.night .bottom-nav{
   font-size: 28px;
   color: var(--accent);
 }
+
 .home-card-sub{
   margin-top: 6px;
   color: var(--muted);
   font-weight: 800;
 }
 
+.home-card-desc{
+  margin-top: 6px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* grid of pills */
 .home-grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -237,12 +278,16 @@ body.night .bottom-nav{
   margin-bottom: 14px;
 }
 
+.home-grid.home-grid-compact{
+  grid-template-columns: 1fr 1fr;
+}
+
 .home-pill{
   display:flex;
   align-items:center;
   justify-content:center;
   gap: 10px;
-  padding: 14px 12px;
+  padding: 13px 12px;     /* slightly slimmer */
   border-radius: 22px;
   background: var(--card);
   border: 1px solid var(--stroke);
@@ -251,11 +296,10 @@ body.night .bottom-nav{
   color: var(--accent);
 }
 
-/* ✅ smaller Quotes button (and all pills slightly slimmer) */
 .home-pill .pill-text{ font-size: 18px; }
 .home-pill .pill-ico{ font-size: 20px; }
 
-/* ✅ WOTD tile smaller (title only) */
+/* Small “mini tile” (for WOTD title-only option) */
 .home-mini{
   display:flex;
   align-items:center;
@@ -269,17 +313,19 @@ body.night .bottom-nav{
   color: var(--accent);
   margin-bottom: 14px;
 }
+
 .home-mini .mini-sub{
   color: var(--muted);
   font-weight: 800;
   font-size: 14px;
 }
+
 .home-mini .mini-go{
   font-size: 18px;
   opacity: 0.8;
 }
 
-/* ✅ Help button nice + no underline */
+/* Help button (pill style) */
 .home-help{
   display:flex;
   align-items:center;
@@ -294,6 +340,33 @@ body.night .bottom-nav{
   color: var(--accent);
 }
 
+.home-help-compact{
+  margin-top: 10px;
+}
+
+/* ==========================
+   WOTD
+========================== */
+.wotd-info{
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.55);
+  font-weight: 950;
+  color: var(--accent);
+}
+body.night .wotd-info{
+  background: rgba(255,255,255,0.10);
+}
+
+.home-tile-wide{
+  position: relative;
+}
+
 /* ==========================
    Distraction nicer instruction
 ========================== */
@@ -306,8 +379,9 @@ body.night .bottom-nav{
   font-weight: 900;
   color: var(--accent);
 }
+
 body.night .distraction-question{
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.10);
 }
 
 /* ==========================
@@ -323,12 +397,13 @@ body.night .distraction-question{
   padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.60);
   font-weight: 900;
   color: var(--accent);
 }
+
 body.night .chip{
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.10);
 }
 
 .chip.active{
@@ -338,6 +413,8 @@ body.night .chip{
 /* ==========================
    Music / Yoga list buttons
 ========================== */
+.music-list{ margin-top: 10px; }
+
 .music-btn{
   display:flex;
   align-items:center;
@@ -350,31 +427,36 @@ body.night .chip{
   color: var(--accent);
   margin-bottom: 10px;
 }
+
 body.night .music-btn{
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.10);
 }
 
 /* ==========================
    Quotes
 ========================== */
+.quote-grid{ margin-top: 12px; }
+
 .quote-tile{
-  background: rgba(255,255,255,0.70);
+  background: rgba(255,255,255,0.72);
   border: 1px solid var(--stroke);
   border-radius: 22px;
   padding: 16px;
   box-shadow: var(--shadow);
   margin-bottom: 12px;
 }
+
 body.night .quote-tile{
-  background: rgba(255,255,255,0.10); /* ✅ more readable */
+  background: rgba(255,255,255,0.12);
 }
 
 .quote-text{
   font-weight: 950;
   font-size: 18px;
   line-height: 1.35;
-  color: var(--text); /* ✅ bright in night via var */
+  color: var(--text);
 }
+
 .quote-meta{
   margin-top: 12px;
   display:flex;
@@ -382,21 +464,25 @@ body.night .quote-tile{
   justify-content:space-between;
   gap: 12px;
 }
+
 .quote-author{
   color: var(--muted);
   font-weight: 800;
 }
+
 .quote-save-btn{
   border-radius: 999px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.75);
   padding: 10px 14px;
   font-weight: 950;
   color: var(--accent);
 }
+
 body.night .quote-save-btn{
-  background: rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.12);
 }
+
 .quote-save-btn.saved{
   background: var(--accent-soft);
 }
@@ -406,10 +492,11 @@ body.night .quote-save-btn{
 ========================== */
 .breathe-stage{
   display:flex;
-  justify-content:center; /* ✅ centered */
+  justify-content:center;
   align-items:center;
   padding: 18px 0 6px;
 }
+
 .breathe-ring{
   width: 280px;
   height: 280px;
@@ -419,11 +506,16 @@ body.night .quote-save-btn{
   justify-content:center;
   align-items:center;
 }
+
+body.night .breathe-ring{
+  border-color: rgba(255,255,255,0.18);
+}
+
 .breathe-circle{
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(170,145,210,0.55));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.92), rgba(170,145,210,0.58));
   box-shadow: 0 18px 40px rgba(60,40,90,0.18);
   transform: scale(1);
   transition: transform 1.5s ease-in-out;
@@ -447,6 +539,83 @@ body.night .quote-save-btn{
 }
 
 /* ==========================
+   Modal (WOTD)
+========================== */
+.modal{
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 80;
+}
+
+.modal.show{ display: block; }
+
+.modal-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+}
+
+.modal-card{
+  position: relative;
+  margin: 90px auto 0;
+  width: min(520px, calc(100% - 28px));
+  background: var(--card-solid);
+  border: 1px solid var(--stroke);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+body.night .modal-card{
+  background: rgba(25,25,32,0.95);
+}
+
+.modal-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+}
+
+.modal-title{
+  font-weight: 900;
+  color: var(--muted);
+}
+
+.modal-word{
+  font-weight: 950;
+  font-size: 26px;
+  margin-top: 6px;
+  color: var(--accent);
+}
+
+.modal-desc{
+  margin-top: 12px;
+  color: var(--text);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.modal-tip{
+  margin-top: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.modal-x{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-weight: 900;
+  color: var(--text);
+}
+
+/* ==========================
    Resources + Books
 ========================== */
 .resource-item{
@@ -460,12 +629,27 @@ body.night .quote-save-btn{
   background: rgba(255,255,255,0.65);
   margin-bottom: 10px;
 }
+
 body.night .resource-item{
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.10);
 }
-.resource-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
-.resource-desc{ color: var(--muted); font-weight: 800; margin-top: 4px; }
-.resource-go{ font-weight: 950; opacity: 0.8; }
+
+.resource-title{
+  font-weight: 950;
+  color: var(--accent);
+  font-size: 18px;
+}
+
+.resource-desc{
+  color: var(--muted);
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.resource-go{
+  font-weight: 950;
+  opacity: 0.8;
+}
 
 .book-item{
   padding: 14px 16px;
@@ -474,9 +658,25 @@ body.night .resource-item{
   background: rgba(255,255,255,0.65);
   margin-bottom: 10px;
 }
+
 body.night .book-item{
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.10);
 }
-.book-title{ font-weight: 950; color: var(--accent); font-size: 18px; }
-.book-meta{ color: var(--muted); font-weight: 800; margin-top: 4px; }
-.book-desc{ color: var(--muted); font-weight: 700; margin-top: 6px; }
+
+.book-title{
+  font-weight: 950;
+  color: var(--accent);
+  font-size: 18px;
+}
+
+.book-meta{
+  color: var(--muted);
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.book-desc{
+  color: var(--muted);
+  font-weight: 700;
+  margin-top: 6px;
+}
