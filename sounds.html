@@ -7,11 +7,11 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91000" />
+  <link rel="stylesheet" href="style.css?v=91001" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
@@ -22,12 +22,12 @@
   <main class="page" id="soundsPage">
     <div class="card">
       <div class="section-title">Mood</div>
-      <div id="musicMoodRow" class="chip-row" style="margin-top:12px;"></div>
+      <div id="musicMoodRow" class="tool-row" style="margin-top:12px; flex-wrap:wrap;"></div>
     </div>
 
     <div class="card">
       <div class="section-title">Tracks</div>
-      <div id="musicList" style="margin-top:12px;"></div>
+      <div id="musicList" style="margin-top:10px;"></div>
       <div class="gentle-text" style="margin-top:10px;">Links open in a new tab.</div>
     </div>
 
@@ -48,13 +48,13 @@
   <nav class="bottom-nav">
     <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="word.html"><div class="nav-ico">✨</div><span>Word</span></a>
+    <a href="distraction.html"><div class="nav-ico">🧠</div><span>Distract</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
     <a class="active" href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=91000" defer></script>
+  <script src="app.js?v=91001" defer></script>
 </body>
 </html>
