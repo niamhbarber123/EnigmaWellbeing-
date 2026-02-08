@@ -5,41 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Distraction • Enigma Wellbeing</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=91000" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" onclick="enigmaHome()">←</button>
+    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
     <h1>Distraction</h1>
-    <p>Gentle grounding questions</p>
+    <p>Gentle questions to interrupt a spiral</p>
   </header>
 
   <main class="page">
-    <div class="card" id="distractionCard">
-      <div id="distractionQuestion" class="distraction-question">
+    <div class="card">
+      <div class="section-title">Session</div>
+
+      <div id="distractionQuestion" class="gentle-text" style="margin-top:10px; font-weight:950; color:var(--accent);">
         Tap Start to begin.
       </div>
 
-      <div class="gentle-text">
+      <div class="gentle-text" style="margin-top:10px;">
         Answered: <b><span id="distractionAnsweredCount">0</span></b>
       </div>
 
-      <div id="distractionInputWrap" style="display:none;">
-        <input id="distractionInput" class="input" placeholder="Type your answer…" />
+      <div id="distractionInputWrap" style="display:none; margin-top:10px;">
+        <input id="distractionInput" class="input" type="text"
+               placeholder="Type your answer here…" autocomplete="off" inputmode="text" />
+        <div class="gentle-text" style="margin-top:8px;">
+          Next requires typing. Skip if you’d rather not answer.
+        </div>
       </div>
 
-      <div class="tool-row">
-        <button class="tool-btn primary" id="distractionStartBtn">Start</button>
-        <button class="tool-btn" id="distractionNextBtn" style="display:none;">Next</button>
-        <button class="tool-btn" id="distractionSkipBtn" style="display:none;">Skip</button>
-        <button class="tool-btn danger" id="distractionEndBtn" style="display:none;">End</button>
+      <div class="tool-row" style="margin-top:14px;">
+        <button class="tool-btn primary" id="distractionStartBtn" type="button">Start</button>
+        <button class="tool-btn" id="distractionNextBtn" type="button" style="display:none;">Next</button>
+      </div>
+
+      <div class="tool-row" style="margin-top:12px;">
+        <button class="tool-btn" id="distractionSkipBtn" type="button" style="display:none;">Skip</button>
+        <button class="tool-btn primary" id="distractionEndBtn" type="button" style="display:none;">End</button>
       </div>
     </div>
   </main>
 
-  <script src="app.js" defer></script>
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=91000" defer></script>
 </body>
 </html>
