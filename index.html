@@ -7,36 +7,48 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=9999">
+  <link rel="stylesheet" href="style.css?v=99901" />
 </head>
 
-<body class="page-wrap home">
+<body class="page-wrap">
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <header class="page-header home-header">
+  <header class="page-header">
     <h1>Enigma Wellbeing</h1>
     <p>Your calm space</p>
   </header>
 
-  <main class="page home-page home-center home-watermark">
-    <div class="home-grid home-grid-2">
-      <a class="home-btn" href="breathe.html"><span class="pill-ico">🌬️</span><span class="pill-text">Breathe</span></a>
-      <a class="home-btn" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
+  <main class="page">
+    <div class="home-shell">
+      <div class="home-watermark" aria-hidden="true"></div>
 
-      <a class="home-btn" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
-      <a class="home-btn" href="yoga.html"><span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span></a>
+      <!-- Main 7 pages (nav set) -->
+      <div class="home-buttons">
+        <a class="home-btn" href="breathe.html"><span class="ico">🌬️</span><span>Breathe</span></a>
+        <a class="home-btn" href="journal.html"><span class="ico">📖</span><span>Journal</span></a>
+        <a class="home-btn" href="quotes.html"><span class="ico">💬</span><span>Quotes</span></a>
+        <a class="home-btn" href="yoga.html"><span class="ico">🧘‍♀️</span><span>Yoga</span></a>
+        <a class="home-btn" href="sounds.html"><span class="ico">🎵</span><span>Music</span></a>
+        <a class="home-btn" href="progress.html"><span class="ico">📈</span><span>Progress</span></a>
 
-      <a class="home-btn" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
-      <a class="home-btn" href="books.html"><span class="pill-ico">📚</span><span class="pill-text">Books</span></a>
+        <!-- Word of the day button (small like others) -->
+        <a class="home-btn wide small" href="word.html" aria-label="Open Word of the day">
+          <span><span class="ico">✨</span> Word of the day: <span id="wotdHomeWord">Loading…</span></span>
+          <span class="right">›</span>
+        </a>
+      </div>
 
-      <a class="home-btn" href="resources.html"><span class="pill-ico">🧠</span><span class="pill-text">Resources</span></a>
-      <a class="home-btn" href="word.html"><span class="pill-ico">✨</span><span class="pill-text">Word of the day</span></a>
-
-      <a class="home-btn" href="distraction.html"><span class="pill-ico">🧩</span><span class="pill-text">Distraction</span></a>
-      <a class="home-btn" href="help.html"><span class="pill-ico">🆘</span><span class="pill-text">Help</span></a>
+      <!-- Extra buttons (NOT in bottom nav) -->
+      <div class="home-foot">
+        <a class="home-btn small" href="distraction.html"><span class="ico">🧠</span><span>Distraction</span></a>
+        <a class="home-btn small" href="resources.html"><span class="ico">🧩</span><span>Resources</span></a>
+        <a class="home-btn small" href="books.html"><span class="ico">📚</span><span>Books</span></a>
+        <a class="home-btn small" href="help.html"><span class="ico">🆘</span><span>Help</span></a>
+      </div>
     </div>
   </main>
 
+  <!-- Bottom nav (7 items only, consistent everywhere notice: no resources/books/word/distraction here) -->
   <nav class="bottom-nav">
     <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
@@ -47,6 +59,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=90100" defer></script>
+  <script src="app.js?v=99901" defer></script>
 </body>
 </html>
