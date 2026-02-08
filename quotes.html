@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=91001" />
+  <link rel="stylesheet" href="style.css?v=100200" />
 </head>
 
 <body class="page-wrap">
@@ -21,24 +21,21 @@
 
   <main class="page">
     <div class="card">
-      <div class="section-title">Find a quote</div>
+      <div class="section-title">Find a motivational quote</div>
 
-      <input id="quoteSearch" class="input" type="search"
-             placeholder="Search quotes or authors… (e.g. calm, hope, Mandela)" />
+      <input id="quoteSearch" class="input" type="text" placeholder="Search quotes or authors… (e.g. calm, rest)" />
 
       <div class="tool-row" style="margin-top:12px;">
-        <button id="quoteSearchBtn" class="tool-btn primary" type="button">Search</button>
-        <button id="quoteRandomBtn" class="tool-btn" type="button">Random</button>
+        <button class="tool-btn primary" id="quoteSearchBtn" type="button">Search</button>
+        <button class="tool-btn" id="quoteRandomBtn" type="button">Random</button>
       </div>
 
-      <div class="tool-row">
-        <button id="viewSavedBtn" class="tool-btn" type="button">
-          💜 Saved (<span id="savedCount">0</span>)
-        </button>
-        <button id="clearSavedBtn" class="tool-btn danger" type="button">Delete saved</button>
+      <div class="tool-row" style="margin-top:10px;">
+        <button class="tool-btn" id="viewSavedBtn" type="button">💜 Saved (<span id="savedCount">0</span>)</button>
+        <button class="tool-btn danger" id="clearSavedBtn" type="button">Delete saved</button>
       </div>
 
-      <div class="gentle-text" id="quoteStatus">Tip: only the 💜 button saves.</div>
+      <div class="gentle-text" id="quoteStatus" style="margin-top:10px;">Tip: only the 💜 button saves.</div>
     </div>
 
     <div id="quoteGrid"></div>
@@ -47,13 +44,13 @@
   <nav class="bottom-nav">
     <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="word.html"><div class="nav-ico">✨</div><span>Word</span></a>
-    <a href="distraction.html"><div class="nav-ico">🧠</div><span>Distract</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a class="active" href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
     <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=91001" defer></script>
+  <script src="app.js?v=100200" defer></script>
 </body>
 </html>
