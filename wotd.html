@@ -3,35 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Word of the day • Enigma Wellbeing</title>
+  <title>Word of the Day • Enigma Wellbeing</title>
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
   <link rel="stylesheet" href="style.css?v=91000" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
 
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
-    <h1>Word</h1>
-    <p>Daily calm focus</p>
+    <h1>Word of the day</h1>
+    <p>A small anchor for today</p>
   </header>
 
-  <main class="page" id="wotdPage">
+  <main class="page">
     <div class="card">
-      <div class="gentle-text">Today: <b><span id="wotdDate">—</span></b></div>
-      <div class="section-title" style="margin-top:10px;" id="wotdWordBig">Loading…</div>
-      <div class="gentle-text" style="margin-top:10px; font-size:18px;" id="wotdDescBig">Please wait.</div>
-
-      <div class="gentle-text" style="margin-top:14px;">
-        Try using this as an affirmation: repeat it, write it down, or reflect on it for a minute.
+      <div class="section-title" id="wotdWord">Loading…</div>
+      <div class="gentle-text" id="wotdDesc" style="margin-top:10px;">Please wait.</div>
+      <div class="gentle-text" style="margin-top:12px;">
+        Try using it as an affirmation: repeat it, write it down, or notice where it could fit into your day.
       </div>
     </div>
   </main>
 
   <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
