@@ -533,8 +533,7 @@ body.night .quote-save-btn{ background: rgba(255,255,255,0.12); }
   z-index: 1;
 }
 /* Help button – same style as other home pills */
-.home-pill-help{
-  grid-column: 1 / -1; /* full width like a primary action */
+ /* full width like a primary action */
   justify-content: center;
 }
 /* Home watermark logo */
@@ -556,9 +555,13 @@ body.night .quote-save-btn{ background: rgba(255,255,255,0.12); }
   position: relative;
   z-index: 1;
 }
+/* Stop scrolling on home page */
+body.home{
+  height: 100vh;
+  overflow: hidden;
+}
 
-/* Help button full width */
-.home-pill-help{
-  grid-column: 1 / -1;
-  margin-top: 10px;
+.home-page{
+  max-height: calc(100vh - 170px); /* header + bottom nav */
+  overflow: hidden;
 }
