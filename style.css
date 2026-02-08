@@ -440,3 +440,64 @@ body.night .book-item{ background: rgba(255,255,255,0.08); }
   font-size: 18px !important;
   padding: 0 !important;
 }
+/* ==========================
+   GLOBAL FONT + BUTTON TIDY
+========================== */
+
+/* Slightly smaller page titles */
+.page-header h1{
+  font-size: 34px !important;
+}
+
+/* Slightly smaller subtitles */
+.page-header p{
+  font-size: 15px !important;
+}
+
+/* Standard button text colour + size (match Help) */
+.home-card,
+.home-pill,
+.home-help,
+.home-mini,
+.tool-btn,
+.music-btn,
+.quote-save-btn{
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  color: var(--accent) !important;
+}
+
+/* Reduce large card titles (Breathe, WOTD, etc) */
+.home-card-title{
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  color: var(--accent) !important;
+}
+
+/* Reduce sub text */
+.home-card-sub,
+.home-card-desc,
+.gentle-text{
+  font-size: 14px !important;
+}
+
+/* Make all home buttons visually consistent */
+.home-card,
+.home-pill,
+.home-help,
+.home-mini{
+  padding: 14px 16px !important;
+  border-radius: 22px !important;
+}
+
+/* Remove visual dominance from Breathe tile */
+.home-card:first-of-type{
+  padding: 16px !important;
+}
+
+/* Ensure help looks identical to others */
+.home-help{
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  color: var(--accent) !important;
+}
