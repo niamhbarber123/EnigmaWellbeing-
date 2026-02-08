@@ -11,42 +11,36 @@
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Distraction</h1>
     <p>Gentle questions to interrupt a spiral</p>
   </header>
 
-  <main class="page">
+  <main class="page" id="distractionPage">
     <div class="card">
-      <div class="section-title">Session</div>
+      <div class="section-title">Take it one step at a time</div>
 
-      <div id="distractionQuestion" class="gentle-text" style="margin-top:10px; font-weight:950; color:var(--accent);">
-        Tap Start to begin.
-      </div>
+      <div id="distractionQuestion" class="distraction-question">Tap Start to begin.</div>
 
       <div class="gentle-text" style="margin-top:10px;">
         Answered: <b><span id="distractionAnsweredCount">0</span></b>
       </div>
 
       <div id="distractionInputWrap" style="display:none; margin-top:10px;">
-        <input id="distractionInput" class="input" type="text"
-               placeholder="Type your answer here…" autocomplete="off" inputmode="text" />
+        <input id="distractionInput" class="input" type="text" placeholder="Type your answer here…" autocomplete="off" />
         <div class="gentle-text" style="margin-top:8px;">
           Next requires typing. Skip if you’d rather not answer.
         </div>
       </div>
 
-      <div class="tool-row" style="margin-top:14px;">
+      <div class="tool-row" style="margin-top:12px;">
         <button class="tool-btn primary" id="distractionStartBtn" type="button">Start</button>
         <button class="tool-btn" id="distractionNextBtn" type="button" style="display:none;">Next</button>
-      </div>
-
-      <div class="tool-row" style="margin-top:12px;">
         <button class="tool-btn" id="distractionSkipBtn" type="button" style="display:none;">Skip</button>
-        <button class="tool-btn primary" id="distractionEndBtn" type="button" style="display:none;">End</button>
+        <button class="tool-btn danger" id="distractionEndBtn" type="button" style="display:none;">End</button>
       </div>
     </div>
   </main>
