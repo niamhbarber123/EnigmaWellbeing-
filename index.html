@@ -7,51 +7,50 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=91000" />
 </head>
 
 <body class="page-wrap home">
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header home-header">
     <h1>Enigma Wellbeing</h1>
     <p>Your calm space</p>
   </header>
 
-  <main class="page home-page">
+  <main class="page home-shell">
+    <div class="home-watermark" aria-hidden="true"></div>
 
-    <!-- BUTTON GRID -->
-    <div class="home-grid">
+    <div class="home-buttons">
+      <div class="home-grid">
+        <a class="home-pill" href="breathe.html"><span class="pill-ico">🌬️</span><span class="pill-text">Breathe</span></a>
+        <a class="home-pill" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
 
-      <a class="home-pill" href="breathe.html">🌬️ Breathe</a>
-      <a class="home-pill" href="journal.html">📖 Journal</a>
+        <a class="home-pill" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
+        <a class="home-pill" href="yoga.html"><span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span></a>
 
-      <a class="home-pill" href="quotes.html">💬 Quotes</a>
-      <a class="home-pill" href="yoga.html">🧘‍♀️ Yoga</a>
+        <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
+        <a class="home-pill" href="books.html"><span class="pill-ico">📚</span><span class="pill-text">Books</span></a>
 
-      <a class="home-pill" href="sounds.html">🎵 Music</a>
-      <a class="home-pill" href="books.html">📚 Books</a>
+        <a class="home-pill" href="resources.html"><span class="pill-ico">🧠</span><span class="pill-text">Resources</span></a>
+        <a class="home-pill" href="word.html"><span class="pill-ico">✨</span><span class="pill-text">Word of the day</span></a>
 
-      <a class="home-pill" href="resources.html">🧠 Resources</a>
-      <a class="home-pill" href="word.html">✨ Word of the day</a>
-
-      <a class="home-pill" href="distraction.html">🧩 Distraction</a>
-      <a class="home-pill help" href="help.html">🆘 Help</a>
-
+        <a class="home-pill" href="distraction.html"><span class="pill-ico">🧩</span><span class="pill-text">Distraction</span></a>
+        <a class="home-pill" href="help.html"><span class="pill-ico">🆘</span><span class="pill-text">Help</span></a>
+      </div>
     </div>
-
   </main>
 
   <nav class="bottom-nav">
-    <a class="active" href="index.html">🏠 Home</a>
-    <a href="breathe.html">🌬️ Breathe</a>
-    <a href="journal.html">📖 Journal</a>
-    <a href="quotes.html">💬 Quotes</a>
-    <a href="yoga.html">🧘‍♀️ Yoga</a>
-    <a href="sounds.html">🎵 Music</a>
-    <a href="progress.html">📈 Progress</a>
+    <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=91000" defer></script>
 </body>
 </html>
