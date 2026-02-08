@@ -830,5 +830,8 @@ function initWOTD() {
     try{ initResources(); }catch{}
     try{ initBooks(); }catch{}
     try{ initProgress(); }catch{}
+     document.addEventListener("DOMContentLoaded", () => {
+  try { initWOTD(); } catch {}
+});
   });
 })();
