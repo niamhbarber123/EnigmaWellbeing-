@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Journal • Enigma</title>
-  <link rel="stylesheet" href="style.css?v=9991" />
+  <title>Journal • Enigma Wellbeing</title>
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=91000" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaBack()">←</button>
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Journal</h1>
     <p>Write what’s on your mind</p>
   </header>
@@ -19,37 +21,66 @@
   <main class="page">
     <div class="card">
       <div class="section-title">New entry</div>
-      <textarea id="journalText" rows="6"
-        style="width:100%; border:none; border-radius:18px; padding:14px; background:rgba(239,233,248,0.65); font-size:16px; outline:none;"></textarea>
+      <textarea class="input" id="journalText" rows="7" placeholder="Type here…" style="margin-top:10px;"></textarea>
 
-      <div class="tool-row">
-        <button class="tool-btn primary" type="button" id="saveEntryBtn">Save entry</button>
-        <button class="tool-btn" type="button" id="viewEntriesBtn">View saved entries</button>
+      <div class="tool-row" style="margin-top:12px;">
+        <button class="tool-btn primary" id="journalSaveBtn" type="button">Save entry</button>
+        <button class="tool-btn" id="journalViewBtn" type="button">View saved</button>
+      </div>
+      <div class="tool-row" style="margin-top:10px;">
+        <button class="tool-btn danger" id="journalClearBtn" type="button">Delete all entries</button>
       </div>
 
-      <div class="tool-row">
-        <button class="tool-btn danger" type="button" id="clearEntriesBtn">Delete all entries</button>
-      </div>
-
-      <div class="gentle-text" id="journalMsg">Saved entries stay on this device.</div>
-    </div>
-
-    <div class="card" id="entriesCard" style="display:none;">
-      <div class="section-title">Saved entries</div>
-      <div id="entriesGrid" class="journal-grid"></div>
+      <div class="gentle-text" style="margin-top:10px;">Saved entries stay on this device.</div>
+      <div id="journalList" style="margin-top:12px;"></div>
     </div>
   </main>
 
   <nav class="bottom-nav">
-  <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-  <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-  <a class="active" href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-  <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-  <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-  <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-  <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-</nav>
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a class="active" href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
 
-  <script src="app.js?v=91000"></script>
+  <script src="app.js?v=91000" defer></script>
+  <script>
+    // tiny journal logic (kept here so app.js stays focused)
+    (function(){
+      const $ = (id)=>document.getElementById(id);
+      const KEY="enigmaJournal";
+      function read(){ try{return JSON.parse(localStorage.getItem(KEY)||"[]");}catch{return [];} }
+      function write(v){ localStorage.setItem(KEY, JSON.stringify(v)); }
+      function esc(s){ return (s||"").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+      const text=$("journalText"), save=$("journalSaveBtn"), view=$("journalViewBtn"), clear=$("journalClearBtn"), list=$("journalList");
+      if(!text||!save||!view||!clear||!list) return;
+
+      function render(items){
+        list.innerHTML="";
+        items.slice(0,40).forEach((e)=>{
+          const div=document.createElement("div");
+          div.className="book-item";
+          div.innerHTML=`<div class="book-meta"><b>${esc(e.date)}</b></div><div class="book-desc">${esc(e.text)}</div>`;
+          list.appendChild(div);
+        });
+      }
+
+      save.onclick=()=>{
+        const v=(text.value||"").trim();
+        if(!v) return;
+        const items=read();
+        items.unshift({date:new Date().toLocaleString(), text:v});
+        write(items);
+        text.value="";
+        render(items);
+      };
+      view.onclick=()=>render(read());
+      clear.onclick=()=>{ write([]); render([]); };
+    })();
+  </script>
 </body>
 </html>
