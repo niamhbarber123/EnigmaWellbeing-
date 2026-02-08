@@ -46,56 +46,67 @@
     if (btn) btn.addEventListener("click", toggleTheme);
   }
 
-  /* ============ WOTD ============ */
-  function mulberry32(seed) {
-    return function () {
-      let t = (seed += 0x6D2B79F5);
-      t = Math.imul(t ^ (t >>> 15), t | 1);
-      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-  function seedFromToday() {
-    const s = todayKey().replaceAll("-", "");
-    const n = parseInt(s, 10);
-    return Number.isFinite(n) ? n : 20260101;
-  }
-  const WOTD = [
-    { w:"Harmony", d:"Finding calm alignment within and around you." },
-    { w:"Simplicity", d:"Reducing the load—one less thing at a time." },
-    { w:"Courage", d:"Feeling fear and still choosing what matters." },
-    { w:"Compassion", d:"Meeting struggle with warmth instead of judgement." },
-    { w:"Clarity", d:"Seeing what matters most, without the noise." },
-    { w:"Patience", d:"Letting growth take the time it takes." },
-    { w:"Gentleness", d:"Soft strength—especially with yourself." },
-    { w:"Balance", d:"Making space for rest, effort, joy, and recovery." },
-    { w:"Acceptance", d:"Letting reality be what it is—so you can respond wisely." },
-    { w:"Serenity", d:"A quiet steadiness, even when life is loud." },
-    { w:"Reflection", d:"Looking back kindly to learn and reset." },
-    { w:"Resilience", d:"Bending without breaking, returning again and again." },
-    { w:"Hope", d:"A small light you can carry forward." }
-  ];
-  function pickWotd() {
-    const rand = mulberry32(seedFromToday());
-    const i = Math.floor(rand() * WOTD.length);
-    return WOTD[i] || WOTD[0];
-  }
-  function initWotdHomeTile() {
-    const tile = $("wotdMiniTile");
-    if (!tile) return;
-    const sub = $("wotdMiniSub");
-    const { w } = pickWotd();
-    if (sub) sub.textContent = `Today: ${w}`;
-  }
-  function initWotdPage() {
-    const wordEl = $("wotdWord");
-    const descEl = $("wotdDesc");
-    if (!wordEl || !descEl) return;
-    const { w, d } = pickWotd();
-    wordEl.textContent = w;
-    descEl.textContent = d;
+  /* =========================
+   WORD OF THE DAY (GLOBAL)
+   - Used on Home tile
+   - Used on words.html page
+========================= */
+
+const WOTD = [
+  { w: "Harmony", d: "Finding calm alignment within and around you." },
+  { w: "Gentleness", d: "Soft strength — especially with yourself." },
+  { w: "Clarity", d: "Seeing what matters most without the noise." },
+  { w: "Balance", d: "Making space for rest, effort, and recovery." },
+  { w: "Patience", d: "Letting growth take the time it takes." },
+  { w: "Courage", d: "Feeling fear and still choosing what matters." },
+  { w: "Compassion", d: "Meeting struggle with warmth instead of judgement." },
+  { w: "Acceptance", d: "Allowing things to be as they are — without fighting them." },
+  { w: "Resilience", d: "Bending without breaking." },
+  { w: "Presence", d: "Being here — not where your thoughts are pulling you." },
+  { w: "Calm", d: "A steady breath in a noisy world." },
+  { w: "Trust", d: "Letting go of control where you can." },
+  { w: "Strength", d: "Quiet endurance and self-respect." },
+  { w: "Kindness", d: "Toward yourself first." },
+  { w: "Hope", d: "Light, even if it feels far away." }
+];
+
+function todayKey() {
+  return new Date().toISOString().split("T")[0];
+}
+
+function seededRandom(seed) {
+  let t = seed + 0x6D2B79F5;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+}
+
+function getTodayWOTD() {
+  const seed = Number(todayKey().replace(/-/g, ""));
+  const index = Math.floor(seededRandom(seed) * WOTD.length);
+  return WOTD[index];
+}
+
+function initWOTD() {
+  const data = getTodayWOTD();
+  if (!data) return;
+
+  /* Home tile */
+  const homeWord = document.getElementById("wotdWord");
+  const homeDesc = document.getElementById("wotdDesc");
+  if (homeWord && homeDesc) {
+    homeWord.textContent = data.w;
+    homeDesc.textContent = data.d;
   }
 
+  /* Full page (words.html) */
+  const bigWord = document.getElementById("wotdWordBig");
+  const bigDesc = document.getElementById("wotdDescBig");
+  if (bigWord && bigDesc) {
+    bigWord.textContent = data.w;
+    bigDesc.textContent = data.d;
+  }
+}
   /* ============ DISTRACTION ============ */
   const DISTRACTION_QUESTIONS = [
     "Name 5 things you can see right now.",
