@@ -1,15 +1,15 @@
 /* =========================================================
-   Enigma Wellbeing • app.js (FULL STABLE)
-   - Back always goes Home
+   Enigma Wellbeing • app.js (STABLE)
+   - Back always home
    - Theme toggle
-   - Word of the day (home button -> word.html)
-   - Distraction is its own page (distraction.html)
+   - Word of the Day (word.html)
+   - Distraction (distraction.html)
    - Breathe timer/stopwatch + vibration
-   - Quotes saved/search/random
-   - Yoga + Music chips + lists
+   - Quotes (search/random/saved)
+   - Yoga + Music
+   - Books (genre filter)
+   - Resources (topic filter incl. BPD)
    - Progress
-   - Resources chips (incl BPD)
-   - Books chips + genre filtering
 ========================================================= */
 
 (function () {
@@ -21,10 +21,12 @@
   window.enigmaHome = function () { location.href = "index.html"; };
   window.enigmaBack = function () { location.href = "index.html"; };
 
+  /* DATE KEY */
   function todayKey() {
     return new Date().toISOString().split("T")[0];
   }
 
+  /* STORAGE */
   function readJSON(key, fallback) {
     try {
       const raw = localStorage.getItem(key);
@@ -57,7 +59,12 @@
     if (btn) btn.addEventListener("click", toggleTheme);
   }
 
-  /* WORD OF THE DAY */
+  /* VIBRATION */
+  function vibrate(ms) {
+    try { if (navigator.vibrate) navigator.vibrate(ms); } catch {}
+  }
+
+  /* WOTD (expand this list as much as you want) */
   function mulberry32(seed) {
     return function () {
       let t = (seed += 0x6D2B79F5);
@@ -72,7 +79,6 @@
     return Number.isFinite(n) ? n : 20260101;
   }
 
-  /* ✅ Expanded WOTD list (you can add more anytime) */
   const WOTD = [
     { w: "Harmony", d: "Finding calm alignment within and around you." },
     { w: "Simplicity", d: "Reducing the load—one less thing at a time." },
@@ -90,13 +96,11 @@
     { w: "Strength", d: "Endurance, boundaries, and quiet resilience." },
     { w: "Freedom", d: "Creating room to breathe, choose, and be yourself." },
     { w: "Joy", d: "Noticing what feels bright—even briefly." },
-    { w: "Grounding", d: "Returning to what is real, here and now." },
-    { w: "Hope", d: "A small light you can carry forward." },
-    { w: "Kindness", d: "Softness that changes the day." },
-    { w: "Resilience", d: "Bending without breaking—then coming back." },
-    { w: "Self-respect", d: "Treating your needs as valid." },
-    { w: "Calm", d: "A steady breath, a quieter mind." },
-    { w: "Trust", d: "Letting yourself rely on support." }
+
+    /* add more from your old word list here */
+    { w: "Grounding", d: "Coming back to the present moment, gently." },
+    { w: "Trust", d: "Taking one small step without needing certainty." },
+    { w: "Hope", d: "A small light you can carry forward." }
   ];
 
   function pickWotd() {
@@ -106,15 +110,19 @@
   }
 
   function initWordPage() {
-    const bigW = $("wotdWordBig");
-    const bigD = $("wotdDescBig");
-    if (!bigW || !bigD) return;
-    const { w, d } = pickWotd();
-    bigW.textContent = w;
-    bigD.textContent = d;
+    const wrap = $("wordPage");
+    if (!wrap) return;
+
+    const w = $("wotdWordBig");
+    const d = $("wotdDescBig");
+    if (!w || !d) return;
+
+    const pick = pickWotd();
+    w.textContent = pick.w;
+    d.textContent = pick.d;
   }
 
-  /* DISTRACTION (own page) */
+  /* DISTRACTION (page) */
   const DISTRACTION_QUESTIONS = [
     "Name 5 things you can see right now.",
     "Name 4 things you can feel (touch/texture).",
@@ -140,17 +148,19 @@
   }
 
   function initDistractionPage() {
+    const page = $("distractionPage");
+    if (!page) return;
+
     const qEl = $("distractionQuestion");
     const answeredEl = $("distractionAnsweredCount");
     const inputWrap = $("distractionInputWrap");
     const input = $("distractionInput");
-
     const startBtn = $("distractionStartBtn");
     const nextBtn = $("distractionNextBtn");
     const skipBtn = $("distractionSkipBtn");
     const endBtn = $("distractionEndBtn");
 
-    if (!qEl || !answeredEl || !startBtn || !nextBtn || !skipBtn || !endBtn || !inputWrap || !input) return;
+    if (!qEl || !answeredEl || !inputWrap || !input || !startBtn || !nextBtn || !skipBtn || !endBtn) return;
 
     const KEY = "enigmaDistractionSessionV3";
 
@@ -215,10 +225,7 @@
       if (!text) {
         input.focus();
         qEl.textContent = "Type any answer (even one word) — or tap Skip.";
-        setTimeout(() => {
-          const s2 = load();
-          if (s2) qEl.textContent = currentQ(s2);
-        }, 900);
+        setTimeout(() => { const s2 = load(); if (s2) qEl.textContent = currentQ(s2); }, 900);
         return;
       }
 
@@ -244,19 +251,10 @@
 
     const existing = load();
     if (existing) render(existing);
-    else {
-      setRunning(false);
-      qEl.textContent = "Tap Start to begin.";
-      answeredEl.textContent = "0";
-    }
+    else { setRunning(false); qEl.textContent = "Tap Start to begin."; answeredEl.textContent = "0"; }
   }
 
-  /* VIBRATION */
-  function vibrate(ms) {
-    try { if (navigator.vibrate) navigator.vibrate(ms); } catch {}
-  }
-
-  /* BREATHE */
+  /* BREATHE (fixed classes) */
   function fmtTime(totalSec) {
     totalSec = Math.max(0, Math.floor(totalSec));
     const m = Math.floor(totalSec / 60);
@@ -283,7 +281,7 @@
     const stopwatchLabel = $("breathStopwatchLabel");
     const vibrateToggle = $("breathVibrateToggle");
 
-    if (!phaseEl || !tipEl || !circle || !startBtn || !stopBtn || !completeBtn || !modeSelect || !durationSelect || !timerLabel || !stopwatchLabel) return;
+    if (!phaseEl || !tipEl || !circle || !startBtn || !stopBtn || !completeBtn || !modeSelect || !durationSelect || !durationRow || !timerLabel || !stopwatchLabel) return;
 
     let running = false;
     let rafId = null;
@@ -299,28 +297,24 @@
     let endAt = 0;
     let startAt = 0;
 
-    function wantsVibe() {
-      return !!(vibrateToggle && vibrateToggle.checked);
-    }
-
-    function applyBreathVisual(p) {
-      circle.classList.remove("breath-inhale", "breath-exhale");
-      if (p === "inhale") circle.classList.add("breath-inhale"); // retract
-      if (p === "exhale") circle.classList.add("breath-exhale"); // expand
-    }
+    function wantsVibe() { return !!(vibrateToggle && vibrateToggle.checked); }
 
     function setPhase(p, text) {
       phase = p;
       phaseEl.textContent = text;
       tipEl.textContent = text;
-      applyBreathVisual(p);
-      if (wantsVibe()) vibrate(15);
+
+      circle.classList.remove("breath-inhale", "breath-exhale");
+      if (p === "inhale") circle.classList.add("breath-inhale");
+      if (p === "exhale") circle.classList.add("breath-exhale");
+
+      if (wantsVibe()) vibrate(20);
     }
 
     function updateModeUI() {
       mode = modeSelect.value || "timer";
       const isTimer = mode === "timer";
-      if (durationRow) durationRow.style.display = isTimer ? "" : "none";
+      durationRow.style.display = isTimer ? "" : "none";
       timerLabel.style.display = isTimer ? "" : "none";
       stopwatchLabel.style.display = isTimer ? "none" : "";
     }
@@ -332,6 +326,38 @@
         stopwatchLabel.textContent = "Stopwatch: 0:00";
       }
     });
+
+    function stopSession(resetText) {
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+
+      circle.classList.remove("breath-inhale", "breath-exhale");
+      phaseEl.textContent = resetText || "Ready";
+      tipEl.textContent = "Tap Start to begin.";
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+    }
+
+    function completeSession() {
+      const log = readJSON("enigmaBreatheLog", { totalMin: 0, byDay: {} });
+
+      let addMin = 0;
+      if (mode === "timer") addMin = parseInt(durationSelect.value || "1", 10);
+      else {
+        const elapsedSec = (Date.now() - startAt) / 1000;
+        addMin = Math.max(1, Math.round(elapsedSec / 60));
+      }
+
+      log.totalMin = (log.totalMin || 0) + addMin;
+      log.byDay = log.byDay || {};
+      log.byDay[todayKey()] = (log.byDay[todayKey()] || 0) + addMin;
+      writeJSON("enigmaBreatheLog", log);
+
+      if (wantsVibe()) vibrate([30, 60, 30]);
+      stopSession("Completed ✅");
+      setTimeout(() => { phaseEl.textContent = "Ready"; tipEl.textContent = "Tap Start to begin."; }, 900);
+    }
 
     function startSession() {
       if (running) return;
@@ -359,43 +385,6 @@
       tick();
     }
 
-    function stopSession(resetText) {
-      running = false;
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = null;
-
-      circle.classList.remove("breath-inhale", "breath-exhale");
-      phaseEl.textContent = resetText || "Ready";
-      tipEl.textContent = "Tap Start to begin.";
-
-      startBtn.disabled = false;
-      stopBtn.disabled = true;
-    }
-
-    function completeSession() {
-      const log = readJSON("enigmaBreatheLog", { totalMin: 0, byDay: {} });
-
-      let addMin = 0;
-      if (mode === "timer") addMin = parseInt(durationSelect.value || "1", 10);
-      else {
-        const elapsedSec = (Date.now() - startAt) / 1000;
-        addMin = Math.max(1, Math.round(elapsedSec / 60));
-      }
-
-      log.totalMin = (log.totalMin || 0) + addMin;
-      log.byDay = log.byDay || {};
-      log.byDay[todayKey()] = (log.byDay[todayKey()] || 0) + addMin;
-      writeJSON("enigmaBreatheLog", log);
-
-      if (wantsVibe()) vibrate([25, 50, 25]);
-
-      stopSession("Completed ✅");
-      setTimeout(() => {
-        phaseEl.textContent = "Ready";
-        tipEl.textContent = "Tap Start to begin.";
-      }, 900);
-    }
-
     function tick() {
       if (!running) return;
       const now = Date.now();
@@ -411,17 +400,22 @@
 
       if (now >= phaseEndsAt) {
         if (phase === "inhale") {
+          phase = "hold1";
           setPhase("hold", "Hold");
           phaseEndsAt = now + holdSec * 1000;
         } else if (phase === "hold") {
           setPhase("exhale", "Breathe out");
           phaseEndsAt = now + exhaleSec * 1000;
         } else if (phase === "exhale") {
-          setPhase("hold2", "Hold");
+          phase = "hold";
+          setPhase("hold", "Hold");
           phaseEndsAt = now + holdSec * 1000;
-        } else {
-          setPhase("inhale", "Breathe in");
-          phaseEndsAt = now + inhaleSec * 1000;
+          // after hold, go back to inhale by flipping:
+          setTimeout(() => {
+            if (!running) return;
+            setPhase("inhale", "Breathe in");
+            phaseEndsAt = Date.now() + inhaleSec * 1000;
+          }, holdSec * 1000);
         }
       }
 
@@ -448,19 +442,11 @@
     { t: "Breathe. This is just a moment, not your whole life.", a: "Unknown" },
     { t: "You have survived 100% of your hardest days.", a: "Unknown" },
     { t: "Progress, not perfection.", a: "Unknown" },
-    { t: "Feelings are visitors. Let them come and go.", a: "Rumi" },
-    { t: "Nothing can dim the light that shines from within.", a: "Maya Angelou" },
-    { t: "The only way out is through.", a: "Robert Frost" },
-    { t: "This too shall pass.", a: "Persian proverb" },
     { t: "Gentle is still strong.", a: "Unknown" },
     { t: "Slow progress is still progress.", a: "Unknown" },
     { t: "Rest is productive.", a: "Unknown" },
-    { t: "You are not behind. You are on your path.", a: "Unknown" },
-    { t: "What you practice grows stronger.", a: "Unknown" },
-    { t: "Not everything you think is true.", a: "Unknown" },
     { t: "Make peace with your pace.", a: "Unknown" },
-    { t: "One day at a time.", a: "Unknown" },
-    { t: "Do the next right thing.", a: "Unknown" }
+    { t: "Your calm is a superpower.", a: "Unknown" }
   ];
 
   function getSavedQuotes() { return readJSON("enigmaSavedQuotes", []); }
@@ -516,13 +502,13 @@
           const exists = current.some((s) => s.key === key);
           if (exists) setSavedQuotes(current.filter((s) => s.key !== key));
           else setSavedQuotes([{ key, ...q }, ...current]);
-
           updateSavedCount();
           render(list);
         });
 
         meta.appendChild(author);
         meta.appendChild(btn);
+
         tile.appendChild(text);
         tile.appendChild(meta);
         grid.appendChild(tile);
@@ -534,13 +520,13 @@
     function search() {
       const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
       if (!q) {
-        status && (status.textContent = "Tip: try “calm”, “hope”, “strong”…");
-        render(QUOTES.slice(0, 12));
+        status && (status.textContent = "Tip: type a word like “calm”, “hope”, “courage”…");
+        render(QUOTES);
         return;
       }
       const hits = QUOTES.filter((x) => x.t.toLowerCase().includes(q) || x.a.toLowerCase().includes(q));
       status && (status.textContent = hits.length ? `Showing ${hits.length} result(s).` : "No results — try another word.");
-      render(hits.slice(0, 30));
+      render(hits);
     }
 
     function random() {
@@ -559,7 +545,7 @@
       setSavedQuotes([]);
       updateSavedCount();
       status && (status.textContent = "Saved quotes deleted.");
-      render(QUOTES.slice(0, 12));
+      render(QUOTES);
     }
 
     searchBtn && searchBtn.addEventListener("click", search);
@@ -568,7 +554,7 @@
     clearSavedBtn && clearSavedBtn.addEventListener("click", clearSaved);
 
     updateSavedCount();
-    render(QUOTES.slice(0, 12));
+    render(QUOTES);
   }
 
   /* MUSIC */
@@ -592,9 +578,10 @@
     const statusEl = $("musicStatus");
 
     const KEY = "enigmaMusic";
-    function load() { return readJSON(KEY, { today: todayKey(), todayMin: 0, totalMin: 0, sessionStart: 0 }); }
+    function load() {
+      return readJSON(KEY, { today: todayKey(), todayMin: 0, totalMin: 0, sessionStart: 0 });
+    }
     function save(s) { writeJSON(KEY, s); }
-
     function syncDay(s) {
       if (s.today !== todayKey()) {
         s.today = todayKey();
@@ -709,6 +696,7 @@
     function renderVideos() {
       list.innerHTML = "";
       const vids = active === "All" ? YOGA_VIDEOS : YOGA_VIDEOS.filter((v) => v.mood === active);
+
       vids.forEach((v) => {
         const a = document.createElement("a");
         a.className = "music-btn";
@@ -725,29 +713,31 @@
     renderVideos();
   }
 
-  /* RESOURCES (incl BPD) */
-  const RESOURCES = [
-    { topic: "Anxiety", title: "Anxiety", desc: "Symptoms, causes and treatment.", url: "https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/" },
-    { topic: "Depression", title: "Depression", desc: "Support and treatment options.", url: "https://www.nhs.uk/mental-health/conditions/clinical-depression/" },
-    { topic: "Panic disorder", title: "Panic disorder", desc: "Panic attacks and coping support.", url: "https://www.nhs.uk/mental-health/conditions/panic-disorder/" },
-    { topic: "OCD", title: "OCD", desc: "Obsessive compulsive disorder information.", url: "https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" },
-    { topic: "PTSD", title: "PTSD", desc: "Post-traumatic stress disorder support.", url: "https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/" },
-    { topic: "Eating disorders", title: "Eating disorders", desc: "Information and help.", url: "https://www.nhs.uk/mental-health/conditions/eating-disorders/" },
-    { topic: "Self-harm", title: "Self-harm", desc: "Support and advice.", url: "https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/behaviours/self-harm/" },
-    { topic: "Stress", title: "Stress", desc: "Stress management and support.", url: "https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-manage-stress/" },
+  /* BOOKS (genre filtering) */
+  const BOOKS = [
+    { g: "BPD", title: "The Dialectical Behavior Therapy Skills Workbook", author: "McKay, Wood, Brantley", desc: "Practical DBT skills for emotion regulation, distress tolerance, and relationships." },
+    { g: "BPD", title: "Stop Walking on Eggshells", author: "Paul T. Mason & Randi Kreger", desc: "Support for loved ones + boundaries and communication." },
+    { g: "BPD", title: "I Hate You—Don’t Leave Me", author: "Jerold J. Kreisman & Hal Straus", desc: "Understanding patterns and coping tools." },
 
-    /* ✅ BPD */
-    { topic: "BPD", title: "Borderline personality disorder (BPD)", desc: "Symptoms, treatment and support.", url: "https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" },
-    { topic: "BPD", title: "Talking therapies", desc: "How therapy can help.", url: "https://www.nhs.uk/mental-health/talking-therapies-medicine-treatments/talking-therapies-and-counselling/" },
-    { topic: "BPD", title: "DBT overview", desc: "Dialectical behaviour therapy basics.", url: "https://www.nhs.uk/mental-health/talking-therapies-medicine-treatments/talking-therapies-and-counselling/types-of-talking-therapies/" }
+    { g: "Anxiety", title: "The Anxiety and Phobia Workbook", author: "Edmund J. Bourne", desc: "CBT tools, worksheets, and practical strategies." },
+    { g: "Anxiety", title: "DARE", author: "Barry McDonagh", desc: "A step-by-step approach for panic and anxiety." },
+
+    { g: "Depression", title: "Feeling Good", author: "David D. Burns", desc: "Classic CBT techniques for low mood." },
+
+    { g: "Trauma", title: "The Body Keeps the Score", author: "Bessel van der Kolk", desc: "How trauma affects mind/body and paths to healing." },
+
+    { g: "Mindfulness", title: "Wherever You Go, There You Are", author: "Jon Kabat-Zinn", desc: "Accessible mindfulness guidance." }
   ];
 
-  function initResources() {
-    const chipRow = $("resourceTopicRow");
-    const list = $("resourceList");
-    if (!chipRow || !list) return;
+  function initBooks() {
+    const page = $("booksPage");
+    if (!page) return;
 
-    const topics = ["All", "Anxiety", "Depression", "Panic disorder", "OCD", "PTSD", "Eating disorders", "Self-harm", "Stress", "BPD"];
+    const chips = $("bookGenreRow");
+    const list = $("bookList");
+    if (!chips || !list) return;
+
+    const genres = ["All", ...Array.from(new Set(BOOKS.map(b => b.g)))];
     let active = "All";
 
     function makeChip(name) {
@@ -758,7 +748,7 @@
       if (name === active) b.classList.add("active");
       b.addEventListener("click", () => {
         active = name;
-        [...chipRow.querySelectorAll(".chip")].forEach((x) => x.classList.remove("active"));
+        [...chips.querySelectorAll(".chip")].forEach((x) => x.classList.remove("active"));
         b.classList.add("active");
         render();
       });
@@ -767,17 +757,80 @@
 
     function render() {
       list.innerHTML = "";
-      const rows = active === "All" ? RESOURCES : RESOURCES.filter(r => r.topic === active);
-      rows.forEach((r) => {
+      const items = active === "All" ? BOOKS : BOOKS.filter(b => b.g === active);
+      items.forEach((b) => {
+        const div = document.createElement("div");
+        div.className = "book-item";
+        div.innerHTML = `
+          <div class="book-title">${b.title}</div>
+          <div class="book-meta">${b.author} • <b>${b.g}</b></div>
+          <div class="book-desc">${b.desc}</div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    chips.innerHTML = "";
+    genres.forEach(g => chips.appendChild(makeChip(g)));
+    render();
+  }
+
+  /* RESOURCES (topic filtering incl. BPD) */
+  const RESOURCES = [
+    { t: "Anxiety", title: "NHS – Anxiety disorders", desc: "Symptoms and treatment overview.", url: "https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/overview/" },
+    { t: "Depression", title: "NHS – Clinical depression", desc: "Signs and support options.", url: "https://www.nhs.uk/mental-health/conditions/clinical-depression/overview/" },
+    { t: "Panic disorder", title: "NHS – Panic disorder", desc: "Panic attacks and treatment.", url: "https://www.nhs.uk/mental-health/conditions/panic-disorder/overview/" },
+    { t: "OCD", title: "NHS – Obsessive compulsive disorder (OCD)", desc: "Symptoms and treatment.", url: "https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/overview/" },
+    { t: "PTSD", title: "NHS – Post-traumatic stress disorder (PTSD)", desc: "Symptoms and support.", url: "https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/overview/" },
+    { t: "Stress", title: "NHS – Stress, anxiety and low mood", desc: "Self-help and advice.", url: "https://www.nhs.uk/every-mind-matters/" },
+
+    /* ✅ BPD */
+    { t: "BPD", title: "Mind – Borderline personality disorder (BPD)", desc: "Understanding and support.", url: "https://www.mind.org.uk/information-support/types-of-mental-health-problems/borderline-personality-disorder-bpd/" },
+    { t: "BPD", title: "SAMH – Understanding BPD (PDF)", desc: "Clear guide + coping + support.", url: "https://www.samh.org.uk/documents/SAMH_Borderline_Personality_Disorder.pdf" },
+
+    /* Self-harm (support) */
+    { t: "Self-harm", title: "NHS – Self-harm", desc: "Support and what to do.", url: "https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/behaviours/self-harm/" }
+  ];
+
+  function initResources() {
+    const page = $("resourcesPage");
+    if (!page) return;
+
+    const chips = $("resourceTopicRow");
+    const list = $("resourceList");
+    if (!chips || !list) return;
+
+    const topics = ["All", ...Array.from(new Set(RESOURCES.map(r => r.t)))];
+    let active = "All";
+
+    function makeChip(name) {
+      const b = document.createElement("button");
+      b.className = "chip";
+      b.type = "button";
+      b.textContent = name;
+      if (name === active) b.classList.add("active");
+      b.addEventListener("click", () => {
+        active = name;
+        [...chips.querySelectorAll(".chip")].forEach((x) => x.classList.remove("active"));
+        b.classList.add("active");
+        render();
+      });
+      return b;
+    }
+
+    function render() {
+      list.innerHTML = "";
+      const items = active === "All" ? RESOURCES : RESOURCES.filter(r => r.t === active);
+      items.forEach((r) => {
         const a = document.createElement("a");
         a.className = "resource-item";
         a.href = r.url;
         a.target = "_blank";
         a.rel = "noopener";
         a.innerHTML = `
-          <div class="resource-left">
+          <div>
             <div class="resource-title">${r.title}</div>
-            <div class="resource-desc">${r.desc}</div>
+            <div class="resource-desc">${r.desc} • <b>${r.t}</b></div>
           </div>
           <div class="resource-go">▶</div>
         `;
@@ -785,115 +838,47 @@
       });
     }
 
-    chipRow.innerHTML = "";
-    topics.forEach(t => chipRow.appendChild(makeChip(t)));
+    chips.innerHTML = "";
+    topics.forEach(t => chips.appendChild(makeChip(t)));
     render();
   }
 
-  /* BOOKS + GENRE FILTERING */
-  const BOOKS = [
-    /* Anxiety / calm */
-    { genre: "Anxiety", title: "Hope and Help for Your Nerves", author: "Claire Weekes", desc: "Classic anxiety recovery guidance." },
-    { genre: "Anxiety", title: "Dare", author: "Barry McDonagh", desc: "Practical approach to panic/anxiety." },
-
-    /* Depression / mood */
-    { genre: "Mood", title: "Feeling Good", author: "David D. Burns", desc: "CBT tools for mood and thinking patterns." },
-
-    /* Trauma */
-    { genre: "Trauma", title: "The Body Keeps the Score", author: "Bessel van der Kolk", desc: "Trauma understanding and recovery." },
-
-    /* Habits / self-help */
-    { genre: "Habits", title: "Atomic Habits", author: "James Clear", desc: "Small changes that stick." },
-
-    /* Mindfulness */
-    { genre: "Mindfulness", title: "Wherever You Go, There You Are", author: "Jon Kabat-Zinn", desc: "Mindfulness basics." },
-
-    /* ✅ BPD */
-    { genre: "BPD", title: "The Dialectical Behavior Therapy Skills Workbook", author: "McKay, Wood & Brantley", desc: "DBT skills: distress tolerance, emotion regulation." },
-    { genre: "BPD", title: "I Hate You—Don’t Leave Me", author: "Kreisman & Straus", desc: "Understanding BPD patterns and support." },
-    { genre: "BPD", title: "Sometimes I Act Crazy", author: "Jerold J. Kreisman", desc: "Guidance for navigating BPD experiences." },
-    { genre: "BPD", title: "Building a Life Worth Living", author: "Marsha M. Linehan", desc: "DBT creator’s story + therapy insights." }
-  ];
-
-  function initBooks() {
-    const chipRow = $("bookGenreRow");
-    const list = $("bookList");
-    if (!chipRow || !list) return;
-
-    const genres = ["All", "BPD", "Anxiety", "Mood", "Trauma", "Mindfulness", "Habits"];
-    let active = "All";
-
-    function makeChip(name) {
-      const b = document.createElement("button");
-      b.className = "chip";
-      b.type = "button";
-      b.textContent = name;
-      if (name === active) b.classList.add("active");
-      b.addEventListener("click", () => {
-        active = name;
-        [...chipRow.querySelectorAll(".chip")].forEach((x) => x.classList.remove("active"));
-        b.classList.add("active");
-        render();
-      });
-      return b;
-    }
-
-    function render() {
-      list.innerHTML = "";
-      const rows = active === "All" ? BOOKS : BOOKS.filter(b => b.genre === active);
-      rows.forEach((b) => {
-        const div = document.createElement("div");
-        div.className = "book-item";
-        div.innerHTML = `
-          <div class="book-title">${b.title}</div>
-          <div class="book-meta">${b.author} • <b>${b.genre}</b></div>
-          <div class="book-desc">${b.desc}</div>
-        `;
-        list.appendChild(div);
-      });
-    }
-
-    chipRow.innerHTML = "";
-    genres.forEach(g => chipRow.appendChild(makeChip(g)));
-    render();
-  }
-
-  /* PROGRESS */
+  /* PROGRESS (IDs match progress.html below) */
   function initProgress() {
-    const breathedToday = $("pBreathedToday");
-    const musicToday = $("pMusicToday");
-    const savedQuotes = $("pSavedQuotes");
-    const musicTotal = $("pMusicTotal");
+    const page = $("progressPage");
+    if (!page) return;
 
-    if (!breathedToday && !musicToday && !savedQuotes && !musicTotal) return;
+    const pBreathedToday = $("pBreathedToday");
+    const pMusicToday = $("pMusicToday");
+    const pSavedQuotes = $("pSavedQuotes");
+    const pMusicTotal = $("pMusicTotal");
 
     const b = readJSON("enigmaBreatheLog", { totalMin: 0, byDay: {} });
     const m = readJSON("enigmaMusic", { totalMin: 0, today: todayKey(), todayMin: 0 });
     const s = readJSON("enigmaSavedQuotes", []);
 
-    const breatheTodayVal = Number((b.byDay && b.byDay[todayKey()]) || 0);
-    const musicTodayVal = (m.today === todayKey()) ? Number(m.todayMin || 0) : 0;
-    const musicTotalVal = Number(m.totalMin || 0);
+    const breathedToday = Number((b.byDay && b.byDay[todayKey()]) || 0);
+    const musicToday = (m.today === todayKey()) ? Number(m.todayMin || 0) : 0;
 
-    if (breathedToday) breathedToday.textContent = String(breatheTodayVal);
-    if (musicToday) musicToday.textContent = String(musicTodayVal);
-    if (savedQuotes) savedQuotes.textContent = String(s.length || 0);
-    if (musicTotal) musicTotal.textContent = String(musicTotalVal);
+    if (pBreathedToday) pBreathedToday.textContent = String(breathedToday);
+    if (pMusicToday) pMusicToday.textContent = String(musicToday);
+    if (pSavedQuotes) pSavedQuotes.textContent = String(s.length || 0);
+    if (pMusicTotal) pMusicTotal.textContent = String(Number(m.totalMin || 0));
   }
 
   /* BOOT */
   document.addEventListener("DOMContentLoaded", () => {
-    applyTheme();
-    initTheme();
+    try { applyTheme(); } catch {}
+    try { initTheme(); } catch {}
 
-    initWordPage();
-    initDistractionPage();
-    initBreathe();
-    initQuotes();
-    initMusic();
-    initYoga();
-    initResources();
-    initBooks();
-    initProgress();
+    try { initWordPage(); } catch {}
+    try { initDistractionPage(); } catch {}
+    try { initBreathe(); } catch {}
+    try { initQuotes(); } catch {}
+    try { initMusic(); } catch {}
+    try { initYoga(); } catch {}
+    try { initBooks(); } catch {}
+    try { initResources(); } catch {}
+    try { initProgress(); } catch {}
   });
 })();
