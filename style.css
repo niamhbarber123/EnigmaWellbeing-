@@ -834,3 +834,32 @@ body.night .btn{
     grid-template-columns: 1fr;
   }
 }
+/* =========================
+   BREATHE — move time above circle, remove bottom Ready
+   ========================= */
+
+/* Hide the duplicate Ready text below the circle */
+.breathe-page .breathe-status .breath-label{
+  display: none;
+}
+
+/* Move time ABOVE the breathing circle */
+.breathe-page .breathe-circle-wrap{
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Style the time so it feels calm + intentional */
+.breathe-page .time-display{
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--inkSoft);
+  letter-spacing: 0.3px;
+}
+
+/* Optional: slightly tighten spacing so it feels balanced */
+.breathe-page .breathe-status{
+  padding-top: 0;
+}
