@@ -1,218 +1,165 @@
 (() => {
-  const circle = document.getElementById("breathCircle");
-  const breathLabel = document.getElementById("breathLabel");
-  const timeEl = document.getElementById("timeDisplay");
-  const topTitle = document.getElementById("topTitle");
-  const topHint = document.getElementById("topHint");
-
   const modeSelect = document.getElementById("modeSelect");
   const minutesSelect = document.getElementById("minutesSelect");
   const minutesField = document.getElementById("minutesField");
-  const vibrationToggle = document.getElementById("vibrationToggle");
 
   const startBtn = document.getElementById("startBtn");
   const pauseBtn = document.getElementById("pauseBtn");
   const resetBtn = document.getElementById("resetBtn");
+
+  const timeDisplay = document.getElementById("timeDisplay");
+  const breathCircle = document.getElementById("breathCircle");
+  const breathLabel = document.getElementById("breathLabel"); // kept for compatibility
   const completedPill = document.getElementById("completedPill");
 
-  // If any core elements are missing, do nothing (prevents silent crashes)
-  const required = [circle, breathLabel, timeEl, topTitle, topHint, modeSelect, minutesSelect, startBtn, pauseBtn, resetBtn];
-  if (required.some(x => !x)) return;
-
-  const INHALE_MS = 4000;
-  const EXHALE_MS = 6000;
-
+  let intervalId = null;
   let running = false;
-  let paused = false;
 
-  let phaseTimer = null;
-  let tickTimer = null;
-
+  // modes
+  // timer: counts down from selected minutes
+  // stopwatch: counts up from 0
   let mode = "timer";
-  let endTime = 0;
-  let startTime = 0;
-  let pausedAt = 0;
-  let pausedAccum = 0;
 
-  function pad(n){ return String(n).padStart(2, "0"); }
-  function fmt(ms){
-    const total = Math.max(0, Math.floor(ms / 1000));
-    const m = Math.floor(total / 60);
-    const s = total % 60;
-    return `${pad(m)}:${pad(s)}`;
+  // time state (seconds)
+  let remaining = 60; // for timer
+  let elapsed = 0;    // for stopwatch
+
+  // breathing animation state
+  const inhaleSec = 4;
+  const exhaleSec = 6;
+  let breathPhase = "inhale"; // inhale/exhale
+  let phaseLeft = inhaleSec;
+
+  function fmt(sec) {
+    const s = Math.max(0, Math.floor(sec));
+    const mm = String(Math.floor(s / 60)).padStart(2, "0");
+    const ss = String(s % 60).padStart(2, "0");
+    return `${mm}:${ss}`;
   }
 
-  function vibrate(pattern){
-    try{
-      if (!vibrationToggle?.checked) return;
-      if (navigator.vibrate) navigator.vibrate(pattern);
-    }catch{}
-  }
-
-  function clearTimers(){
-    if (phaseTimer) { clearTimeout(phaseTimer); phaseTimer = null; }
-    if (tickTimer)  { clearInterval(tickTimer); tickTimer = null; }
-  }
-
-  function setCompleted(on){
-    if (!completedPill) return;
-    completedPill.style.display = on ? "inline-flex" : "none";
-  }
-
-  function inhale(){
-    if (!running || paused) return;
-    topTitle.textContent = "Inhale";
-    breathLabel.textContent = "Inhale";
-    circle.classList.remove("exhale");
-    void circle.offsetWidth;
-    circle.classList.add("inhale");
-    vibrate(10);
-    phaseTimer = setTimeout(exhale, INHALE_MS);
-  }
-
-  function exhale(){
-    if (!running || paused) return;
-    topTitle.textContent = "Exhale";
-    breathLabel.textContent = "Exhale";
-    circle.classList.remove("inhale");
-    void circle.offsetWidth;
-    circle.classList.add("exhale");
-    vibrate([10, 30, 10]);
-    phaseTimer = setTimeout(inhale, EXHALE_MS);
-  }
-
-  function startTicking(){
-    clearInterval(tickTimer);
-    tickTimer = setInterval(() => {
-      if (!running || paused) return;
-
-      if (mode === "stopwatch") {
-        const elapsed = Date.now() - startTime - pausedAccum;
-        timeEl.textContent = `Time: ${fmt(elapsed)}`;
-        return;
-      }
-
-      const remaining = endTime - Date.now() + pausedAccum;
-      timeEl.textContent = `Time: ${fmt(remaining)}`;
-      if (remaining <= 0) finish();
-    }, 250);
-  }
-
-  function finish(){
-    running = false;
-    paused = false;
-    clearTimers();
-    circle.classList.remove("inhale", "exhale");
-
-    topTitle.textContent = "Completed";
-    topHint.textContent = "Nice work.";
-    breathLabel.textContent = "Completed";
-    timeEl.textContent = "Time: 00:00";
-    pauseBtn.textContent = "Pause";
-    setCompleted(true);
-    vibrate([50, 70, 50]);
-  }
-
-  function setModeUI(){
+  function updateModeUI() {
     mode = modeSelect.value;
-    minutesField.style.display = (mode === "timer") ? "grid" : "none";
-
-    if (!running) {
-      topTitle.textContent = "Ready";
-      topHint.textContent = "Choose settings, then tap Start.";
-      breathLabel.textContent = "Ready";
-      setCompleted(false);
-
-      if (mode === "timer") {
-        const mins = Number(minutesSelect.value || "1");
-        timeEl.textContent = `Time: ${fmt(mins * 60 * 1000)}`;
-      } else {
-        timeEl.textContent = "Time: 00:00";
-      }
-    }
-  }
-
-  function start(){
-    if (running) return;
-
-    setCompleted(false);
-    paused = false;
-    pausedAccum = 0;
-    mode = modeSelect.value;
-    running = true;
-
-    circle.classList.remove("inhale", "exhale");
 
     if (mode === "stopwatch") {
-      startTime = Date.now();
-      timeEl.textContent = "Time: 00:00";
+      minutesField.style.display = "none";
+      timeDisplay.textContent = `Time: ${fmt(elapsed)}`;
     } else {
-      const mins = Number(minutesSelect.value || "1");
-      const duration = mins * 60 * 1000;
-      endTime = Date.now() + duration;
-      timeEl.textContent = `Time: ${fmt(duration)}`;
+      minutesField.style.display = "";
+      const mins = Number(minutesSelect.value || 1);
+      remaining = mins * 60;
+      timeDisplay.textContent = `Time: ${fmt(remaining)}`;
     }
 
-    topHint.textContent = "Breathe with the circle.";
-    pauseBtn.textContent = "Pause";
-    inhale();
-    startTicking();
+    completedPill.style.display = "none";
   }
 
-  function togglePause(){
-    if (!running) return;
+  function setCirclePhase(phase) {
+    breathPhase = phase;
+    phaseLeft = (phase === "inhale") ? inhaleSec : exhaleSec;
 
-    paused = !paused;
+    breathCircle.classList.remove("inhale", "exhale");
+    // restart animation reliably
+    void breathCircle.offsetWidth;
+    breathCircle.classList.add(phase);
 
-    if (paused) {
-      pausedAt = Date.now();
-      clearTimers();
-      circle.classList.remove("inhale", "exhale");
-      topTitle.textContent = "Paused";
-      topHint.textContent = "Tap Resume to continue.";
-      breathLabel.textContent = "Paused";
-      pauseBtn.textContent = "Resume";
-      return;
+    // keep label updated internally (hidden via CSS)
+    if (breathLabel) breathLabel.textContent = phase === "inhale" ? "Inhale" : "Exhale";
+  }
+
+  function tickBreath() {
+    phaseLeft -= 1;
+    if (phaseLeft <= 0) {
+      setCirclePhase(breathPhase === "inhale" ? "exhale" : "inhale");
+    }
+  }
+
+  function tickTimer() {
+    remaining -= 1;
+    timeDisplay.textContent = `Time: ${fmt(remaining)}`;
+    if (remaining <= 0) {
+      stop(true);
+    }
+  }
+
+  function tickStopwatch() {
+    elapsed += 1;
+    timeDisplay.textContent = `Time: ${fmt(elapsed)}`;
+  }
+
+  function start() {
+    if (running) return;
+    running = true;
+    completedPill.style.display = "none";
+
+    // Set initial time display
+    if (mode === "timer") {
+      if (remaining <= 0) {
+        const mins = Number(minutesSelect.value || 1);
+        remaining = mins * 60;
+      }
+      timeDisplay.textContent = `Time: ${fmt(remaining)}`;
+    } else {
+      timeDisplay.textContent = `Time: ${fmt(elapsed)}`;
     }
 
-    pausedAccum += (Date.now() - pausedAt);
-    pauseBtn.textContent = "Pause";
-    topHint.textContent = "Breathe with the circle.";
-    inhale();
-    startTicking();
+    // start breathing animation cycle
+    setCirclePhase(breathPhase || "inhale");
+
+    intervalId = window.setInterval(() => {
+      tickBreath();
+      if (mode === "timer") tickTimer();
+      else tickStopwatch();
+    }, 1000);
   }
 
-  function reset(){
+  function stop(completed = false) {
     running = false;
-    paused = false;
-    pausedAccum = 0;
-    clearTimers();
-    circle.classList.remove("inhale", "exhale");
+    if (intervalId) window.clearInterval(intervalId);
+    intervalId = null;
 
-    pauseBtn.textContent = "Pause";
-    setCompleted(false);
+    breathCircle.classList.remove("inhale", "exhale");
 
-    topTitle.textContent = "Ready";
-    topHint.textContent = "Choose settings, then tap Start.";
-    breathLabel.textContent = "Ready";
-
-    if (modeSelect.value === "timer") {
-      const mins = Number(minutesSelect.value || "1");
-      timeEl.textContent = `Time: ${fmt(mins * 60 * 1000)}`;
-    } else {
-      timeEl.textContent = "Time: 00:00";
+    if (completed) {
+      completedPill.style.display = "";
     }
   }
 
-  // Hook up buttons
+  function reset() {
+    stop(false);
+    elapsed = 0;
+
+    const mins = Number(minutesSelect.value || 1);
+    remaining = mins * 60;
+
+    // reset breath state
+    breathPhase = "inhale";
+    phaseLeft = inhaleSec;
+
+    completedPill.style.display = "none";
+    timeDisplay.textContent = `Time: ${fmt(mode === "timer" ? remaining : elapsed)}`;
+  }
+
+  // Events
+  modeSelect.addEventListener("change", () => {
+    reset();
+    updateModeUI();
+  });
+
+  minutesSelect.addEventListener("change", () => {
+    reset();
+    updateModeUI();
+  });
+
   startBtn.addEventListener("click", start);
-  pauseBtn.addEventListener("click", togglePause);
+
+  pauseBtn.addEventListener("click", () => {
+    if (!running) return;
+    stop(false);
+  });
+
   resetBtn.addEventListener("click", reset);
 
-  // Mode changes
-  modeSelect.addEventListener("change", () => { if (!running) setModeUI(); });
-  minutesSelect.addEventListener("change", () => { if (!running) setModeUI(); });
-
-  // Initial UI
-  setModeUI();
+  // init
+  updateModeUI();
+  reset();
 })();
