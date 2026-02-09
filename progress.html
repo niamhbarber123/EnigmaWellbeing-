@@ -7,50 +7,29 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-
-  <!-- Use ./ to avoid path/case issues on GitHub Pages + cache bust -->
-  <link rel="stylesheet" href="./style.css?v=20260210p1" />
+  <link rel="stylesheet" href="style.css?v=20260209-final" />
 </head>
 
 <body class="page-wrap">
-  <!-- ✅ Back ALWAYS works -->
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-
-  <!-- Night mode top-right -->
+  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <h1>Your progress</h1>
-    <p>Quiet growth over time</p>
+    <h1>Progress</h1>
+    <p>A gentle overview</p>
   </header>
 
   <main class="page">
     <section class="card">
       <div class="section-title">Today</div>
+      <div class="gentle-text" style="margin-top:6px;">Small wins count.</div>
 
-      <div class="gentle-text" style="margin-top:10px;">
-        🌬️ Breathed today: <strong><span id="breatheToday">0</span></strong> min
-      </div>
-
-      <div class="gentle-text" style="margin-top:10px;">
-        🎵 Music today: <strong><span id="musicToday">0</span></strong> min
-      </div>
+      <div id="todayStats" style="margin-top:12px;"></div>
     </section>
 
     <section class="card" style="margin-top:14px;">
       <div class="section-title">Totals</div>
-
-      <div class="gentle-text" style="margin-top:10px;">
-        🌬️ Breathe total: <strong><span id="breatheTotal">0</span></strong> min
-      </div>
-
-      <div class="gentle-text" style="margin-top:10px;">
-        🎵 Music total: <strong><span id="musicTotal">0</span></strong> min
-      </div>
-
-      <div class="gentle-text" style="margin-top:10px;">
-        💬 Saved quotes: <strong><span id="savedQuotes">0</span></strong>
-      </div>
+      <div id="totalStats" style="margin-top:12px;"></div>
     </section>
   </main>
 
@@ -61,10 +40,10 @@
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
     <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a class="active" href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="./app.js?v=20260210p1" defer></script>
-  <script src="./progress.js?v=20260210p1" defer></script>
+  <script src="app.js?v=20260209-final" defer></script>
+  <script src="progress.js?v=20260209-final" defer></script>
 </body>
 </html>
