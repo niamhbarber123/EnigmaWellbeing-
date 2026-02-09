@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100001" />
+  <link rel="stylesheet" href="style.css?v=100002" />
 </head>
 
 <body class="page-wrap">
@@ -19,12 +19,38 @@
     <p>A quiet space to write</p>
   </header>
 
-  <main class="page">
+  <main class="page" id="journalPage">
     <div class="card">
-      <div class="section-title">Prompt</div>
+      <div class="section-title">New entry</div>
       <div class="gentle-text">What’s on your mind right now? No judgement — just words.</div>
-      <textarea class="input" style="margin-top:12px; min-height:180px; resize:vertical;"></textarea>
-      <div class="gentle-text">Tip: you can copy/paste this into Notes if you want to keep it.</div>
+
+      <textarea
+        id="journalText"
+        class="input"
+        style="margin-top:12px; min-height:180px; resize:vertical;"
+        placeholder="Write here…"
+      ></textarea>
+
+      <div class="tool-row" style="margin-top:12px;">
+        <button id="journalSaveBtn" class="tool-btn primary" type="button">Save entry</button>
+        <button id="journalViewBtn" class="tool-btn" type="button">View saved entries</button>
+      </div>
+
+      <div class="tool-row">
+        <button id="journalDeleteAllBtn" class="tool-btn danger" type="button">Delete all entries</button>
+      </div>
+
+      <div class="gentle-text" id="journalStatus" style="margin-top:10px;">
+        Saved entries stay on this device.
+      </div>
+    </div>
+
+    <!-- Saved entries list -->
+    <div class="card" id="journalSavedCard" style="display:none;">
+      <div class="section-title">Saved entries</div>
+      <div class="gentle-text" style="margin-top:-4px;">Tap an entry to expand/collapse.</div>
+
+      <div id="journalSavedList" style="margin-top:12px;"></div>
     </div>
   </main>
 
@@ -38,6 +64,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100001" defer></script>
+  <script src="app.js?v=100002" defer></script>
 </body>
 </html>
