@@ -863,3 +863,25 @@ body.night .btn{
 .breathe-page .breathe-status{
   padding-top: 0;
 }
+/* =========================
+   BREATHE — clock above circle, remove bottom Ready
+   ========================= */
+
+.breathe-page .breathe-time-top{
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
+.breathe-page .time-display{
+  font-size: 16px;
+  font-weight: 850;
+  color: var(--inkSoft);
+  letter-spacing: 0.2px;
+}
+
+/* Hide the old bottom label area visually */
+.breathe-page .breathe-status{
+  display: none;
+}
