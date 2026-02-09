@@ -966,3 +966,42 @@ body.night .btn{
     grid-template-columns: 1fr;
   }
 }
+/* =========================
+   BREATHE — session layout polish
+   ========================= */
+
+/* Force Mode + Timer length into two equal columns */
+.breathe-page .session-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+/* Make labels bigger + clearer */
+.breathe-page .session-grid .form-label{
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+/* Ensure selects are full-width and equal */
+.breathe-page .session-grid select{
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  border-radius: 18px;
+}
+
+/* Push Timer length visually to the right */
+.breathe-page .session-grid .timer-length{
+  text-align: left;
+}
+
+/* Stack on very small screens */
+@media (max-width: 360px){
+  .breathe-page .session-grid{
+    grid-template-columns: 1fr;
+  }
+}
