@@ -500,3 +500,111 @@ body.night .saved-item{
 }
 
 body.night .saved-notes{ color: var(--text); }
+/* =========================
+   Breathe: non-scroll full screen
+   ========================= */
+.no-scroll{
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Keep breathe content visible above the nav */
+.breathe-container{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 0; /* page already pads for nav */
+}
+
+.breathe-settings{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.breathe-settings .field{
+  display: grid;
+  gap: 8px;
+}
+
+.breathe-controls{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.breathe-stage-card{
+  flex: 1;
+}
+
+.breathe-stage{
+  height: calc(100vh - 370px); /* keeps it sized nicely on iPhone */
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+/* Breath circle */
+.breath-circle{
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #e8e3ff);
+  box-shadow:
+    0 20px 40px rgba(120,110,160,0.25),
+    inset 0 0 0 10px rgba(255,255,255,0.6);
+  transform: scale(0.80);
+}
+
+/* Animations */
+.breath-circle.inhale{
+  animation: inhale 4s ease-in-out forwards;
+}
+
+.breath-circle.exhale{
+  animation: exhale 6s ease-in-out forwards;
+}
+
+@keyframes inhale{
+  from{ transform: scale(0.80); }
+  to  { transform: scale(1.00); }
+}
+
+@keyframes exhale{
+  from{ transform: scale(1.00); }
+  to  { transform: scale(0.80); }
+}
+
+.breath-label{
+  margin-top: 18px;
+  font-size: 18px;
+  font-weight: 750;
+  color: #5b5376;
+}
+
+.time-display{
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #4b4761;
+}
+
+/* Night mode tweaks */
+body.night .breath-label{
+  color: rgba(255,255,255,0.85);
+}
+
+body.night .time-display{
+  color: rgba(255,255,255,0.95);
+}
+
+body.night .breath-circle{
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25), rgba(124,112,170,0.18));
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.55),
+    inset 0 0 0 10px rgba(255,255,255,0.08);
+}
