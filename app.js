@@ -1,13 +1,6 @@
 (function () {
   const THEME_KEY = "enigma_theme"; // "night" or "day"
 
-  function ensureThemeButton() {
-    let btn = document.getElementById("themeFab");
-    if (!btn) return null;
-    btn.classList.add("theme-toggle-top");
-    return btn;
-  }
-
   function applyTheme(theme) {
     if (theme === "night") document.body.classList.add("night");
     else document.body.classList.remove("night");
@@ -27,17 +20,41 @@
     btn.textContent = isNight ? "☀️" : "🌙";
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const themeBtn = ensureThemeButton();
-    applyTheme(getSavedTheme());
-    if (themeBtn) updateThemeIcon(themeBtn);
+  function wireBackButtonsToHome() {
+    const backs = document.querySelectorAll(".back-btn");
+    backs.forEach((el) => {
+      // if it's an <a>, ensure it links home
+      if (el.tagName.toLowerCase() === "a") {
+        el.setAttribute("href", "index.html");
+        return;
+      }
 
+      // if it's a <button>, force home navigation
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "index.html";
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Theme button
+    const themeBtn = document.getElementById("themeFab");
     if (themeBtn) {
+      themeBtn.classList.add("theme-toggle-top");
+      applyTheme(getSavedTheme());
+      updateThemeIcon(themeBtn);
+
       themeBtn.addEventListener("click", () => {
         const isNight = document.body.classList.toggle("night");
         setSavedTheme(isNight ? "night" : "day");
         updateThemeIcon(themeBtn);
       });
+    } else {
+      applyTheme(getSavedTheme());
     }
+
+    // Back button always to home
+    wireBackButtonsToHome();
   });
 })();
