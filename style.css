@@ -1,217 +1,222 @@
-/* ===============================
-   ENIGMA WELLBEING — GLOBAL FIX
-   Applies to ALL pages
-================================ */
+/* =========================
+   Enigma Wellbeing – Core
+========================= */
 
-/* --------- VARIABLES --------- */
-:root{
-  --bg:#f6f3fb;
-  --card:#ffffffcc;
-  --border:rgba(120,110,150,.15);
-  --text:#2f2a3a;
-  --muted:#7a728a;
-  --accent:#6b5b86;
-  --accent-soft:rgba(107,91,134,.15);
-  --shadow:0 10px 25px rgba(0,0,0,.08);
+:root {
+  --bg: #f7f5fb;
+  --card: #ffffff;
+  --accent: #6b5b95;
+  --text: #4a3f66;
+  --muted: #8a82a6;
+  --shadow: 0 14px 30px rgba(0,0,0,0.08);
 }
 
-body.night{
-  --bg:#0f0f14;
-  --card:rgba(255,255,255,.08);
-  --border:rgba(255,255,255,.15);
-  --text:#ffffff;
-  --muted:rgba(255,255,255,.65);
-  --accent:#cbbcff;
-  --accent-soft:rgba(203,188,255,.18);
-  --shadow:0 20px 45px rgba(0,0,0,.45);
+/* ===== Base ===== */
+
+* {
+  box-sizing: border-box;
 }
 
-/* --------- RESET --------- */
-*{ box-sizing:border-box; }
-html,body{
-  margin:0;
-  padding:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-a{ text-decoration:none; color:inherit; }
-
-/* --------- PAGE WRAP --------- */
-.page-wrap{
-  min-height:100vh;
-  padding:18px 18px 90px;
-  position:relative;
-  overflow-x:hidden;
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* WATERMARK */
-.page-wrap::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:url("icon.png") center 58% no-repeat;
-  background-size:600px;
-  opacity:.08;
-  pointer-events:none;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-/* --------- HEADER --------- */
-.page-header{
-  text-align:center;
-  margin:10px 0 20px;
-}
-.page-header h1{
-  margin:0;
-  font-size:38px;
-  font-weight:900;
-  color:var(--accent);
-}
-.page-header p{
-  margin-top:6px;
-  font-size:15px;
-  font-weight:700;
-  color:var(--muted);
+/* ===== Page Layout ===== */
+
+.page-wrap {
+  min-height: 100vh;
+  padding-bottom: 96px;
 }
 
-/* NIGHT BUTTON */
-.theme-toggle-top{
-  position:fixed;
-  right:16px;
-  top:16px;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  border:1px solid var(--border);
-  background:var(--card);
-  box-shadow:var(--shadow);
-  font-size:18px;
-  z-index:99;
+.page {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
-/* BACK BUTTON */
-.back-btn{
-  position:absolute;
-  left:0;
-  top:4px;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  border:1px solid var(--border);
-  background:var(--card);
-  box-shadow:var(--shadow);
-  font-size:20px;
+/* ===== Header ===== */
+
+.page-header {
+  text-align: center;
+  margin: 16px 0 8px;
+  position: relative;
 }
 
-/* --------- PAGE CONTAINER --------- */
-.page{
-  max-width:520px;
-  margin:0 auto;
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 8px 0 4px;
 }
 
-/* --------- CARDS --------- */
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:26px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:var(--shadow);
+.page-header p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
 }
 
-/* --------- HOME GRID (FIXED) --------- */
-.home-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
+.back-btn {
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: none;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-size: 20px;
 }
 
-/* HOME BUTTONS */
-.home-pill{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:26px;
-  padding:16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  font-size:18px;
-  font-weight:900;
-  color:var(--accent);
-  box-shadow:var(--shadow);
+/* ===== Theme Toggle ===== */
+
+.theme-toggle-top {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: none;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-size: 20px;
+  z-index: 20;
 }
 
-/* FULL WIDTH BUTTON (HELP) */
-.home-pill.full{
-  grid-column:1 / -1;
+/* ===== Cards ===== */
+
+.card {
+  background: var(--card);
+  border-radius: 24px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
 }
 
-/* --------- CHIPS --------- */
-.chip-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-.chip{
-  padding:8px 14px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:#fff;
-  font-weight:800;
-  color:var(--accent);
-}
-.chip.active{
-  background:var(--accent-soft);
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: var(--accent);
 }
 
-/* --------- BUTTONS --------- */
-.btn-row{
-  display:flex;
-  gap:12px;
-}
-.btn{
-  flex:1;
-  padding:14px;
-  border-radius:18px;
-  border:1px solid var(--border);
-  background:var(--accent-soft);
-  font-weight:900;
-  color:var(--accent);
-  box-shadow:var(--shadow);
+/* ===== Buttons ===== */
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
 }
 
-/* --------- LIST ITEMS --------- */
-.list-item{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:14px;
-  margin-bottom:10px;
-  box-shadow:var(--shadow);
+.btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  background: #ece8f6;
+  color: var(--accent);
 }
 
-/* --------- BOTTOM NAV --------- */
-.bottom-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  height:68px;
-  background:#fff;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  border-top:1px solid var(--border);
+.btn-danger {
+  background: #f2c7c7;
+  color: #6a2b2b;
 }
-.bottom-nav a{
-  font-size:12px;
-  font-weight:800;
-  color:var(--muted);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+
+/* ===== Chips ===== */
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
-.bottom-nav a.active{
-  color:var(--accent);
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #eee;
+  font-size: 14px;
+}
+
+/* ===== Inputs ===== */
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  background: #f1eef8;
+  font-size: 14px;
+}
+
+/* ===== Home Buttons ===== */
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.home-btn {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--accent);
+  text-align: center;
+}
+
+/* ===== Large Help Button ===== */
+
+.help-btn {
+  grid-column: span 2;
+  background: #fff;
+  font-weight: 700;
+}
+
+/* ===== Watermark ===== */
+
+.watermark {
+  position: fixed;
+  inset: 0;
+  background: url("icon.png") center 55% / 320px no-repeat;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== Bottom Nav ===== */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255,255,255,0.9);
+  padding: 10px 0;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.bottom-nav a {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.bottom-nav a.active {
+  color: var(--accent);
 }
