@@ -7,51 +7,38 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210final" />
+  <link rel="stylesheet" href="./style.css?v=20260210fix3" />
 </head>
 
-<body class="page-wrap journal-page">
+<body class="page-wrap">
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Journal</h1>
     <p>A quiet space to write</p>
   </header>
 
-  <main class="page" id="journalPage">
-    <div class="card">
+  <main class="page">
+    <section class="card">
       <div class="section-title">New entry</div>
       <div class="gentle-text">What’s on your mind right now? No judgement — just words.</div>
 
-      <textarea
-        id="journalText"
-        class="input"
-        style="margin-top:12px; min-height:180px; resize:vertical;"
-        placeholder="Write here…"
-      ></textarea>
+      <textarea id="entryText" rows="7" placeholder="Write here…"></textarea>
 
-      <div class="tool-row" style="margin-top:12px;">
-        <button id="journalSaveBtn" class="tool-btn primary" type="button">Save entry</button>
-        <button id="journalViewBtn" class="tool-btn" type="button">View saved entries</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+        <button id="saveEntry" class="small-pill" type="button">Save entry</button>
+        <button id="viewEntries" class="small-pill" type="button">View saved entries</button>
+        <button id="deleteEntries" class="small-pill" type="button" style="background:var(--dangerSoft);">Delete all entries</button>
       </div>
 
-      <div class="tool-row">
-        <button id="journalDeleteAllBtn" class="tool-btn danger" type="button">Delete all entries</button>
-      </div>
+      <div class="gentle-text" style="margin-top:12px;">Saved entries stay on this device.</div>
+    </section>
 
-      <div class="gentle-text" id="journalStatus" style="margin-top:10px;">
-        Saved entries stay on this device.
-      </div>
-    </div>
-
-    <!-- Saved entries list -->
-    <div class="card" id="journalSavedCard" style="display:none;">
+    <section class="card" id="entriesWrap" style="display:none;">
       <div class="section-title">Saved entries</div>
-      <div class="gentle-text" style="margin-top:-4px;">Tap an entry to expand/collapse.</div>
-
-      <div id="journalSavedList" style="margin-top:12px;"></div>
-    </div>
+      <div id="entriesList" style="display:grid;gap:12px;margin-top:12px;"></div>
+    </section>
   </main>
 
   <nav class="bottom-nav">
@@ -64,6 +51,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100002" defer></script>
+  <script src="./app.js?v=20260210fix3" defer></script>
+  <script src="./journal.js?v=20260210fix3" defer></script>
 </body>
 </html>
