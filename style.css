@@ -400,3 +400,11 @@ body.night .breath-circle{
 body.night .breath-label{
   color: rgba(255,255,255,0.88);
 }
+/* Breathe: make controls a bit clearer + tappable */
+.breathe-controls .small-pill{
+  min-width: 92px;
+}
+
+.breathe-ready-sub{
+  line-height: 1.35;
+}
