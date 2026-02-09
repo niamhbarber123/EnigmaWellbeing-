@@ -445,3 +445,41 @@ body.night .breath-circle{
 body.night .breath-label{
   color: rgba(255,255,255,0.88);
 }
+/* =========================
+   BREATHE — viewport fit fix
+   ========================= */
+
+/* This ensures the Breathe content area fits above the fixed nav */
+.breathe-viewport{
+  height: calc(100vh - var(--navH) - var(--safeTop) - var(--safeBottom) - 120px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 0 !important;
+}
+
+/* Ready card stays compact */
+.breathe-ready-card{
+  flex: 0 0 auto;
+}
+
+/* Session card takes remaining height */
+.breathe-session-card{
+  flex: 1 1 auto;
+}
+
+/* Allow session to scroll INSIDE itself if content overflows */
+.breathe-session-scroll{
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 14px;
+}
+
+/* Slightly reduce circle if needed on smaller screens */
+@media (max-height: 760px){
+  .breath-circle{
+    width: 155px;
+    height: 155px;
+  }
+  .page-header h1{ font-size: 32px; }
+}
