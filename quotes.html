@@ -7,66 +7,56 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="./style.css?v=20260210q1" />
+  <link rel="stylesheet" href="style.css?v=20260209-final" />
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <h1>Quotes</h1>
-    <p>Save the ones that calm you</p>
+    <p>Search and save words that ground you</p>
   </header>
 
   <main class="page">
-    <!-- SEARCH / CONTROLS -->
     <section class="card">
-      <div class="section-title">Find a quote</div>
+      <div class="section-title">Daily quote</div>
+      <div class="gentle-text" style="margin-top:6px;">A gentle one for today.</div>
+      <div id="dailyQuote" style="margin-top:12px;"></div>
+    </section>
 
-      <input
-        id="quoteQuery"
-        class="input"
-        type="text"
-        inputmode="search"
-        autocomplete="off"
-        placeholder="Search by word or author…"
-        style="margin-top:12px;"
-      />
+    <section class="card" style="margin-top:14px;">
+      <div class="section-title">Find a quote</div>
+      <input id="quoteQuery" class="input" style="margin-top:12px;" placeholder="Search quotes or authors..." />
 
       <div class="row" style="margin-top:12px;">
         <button id="searchBtn" class="btn primary" type="button">Search</button>
         <button id="randomBtn" class="btn" type="button">Random</button>
       </div>
 
-      <div class="row" style="margin-top:10px;">
-        <button id="showSavedBtn" class="btn" type="button">Show saved</button>
+      <div class="row" style="margin-top:12px;">
+        <button id="showSavedBtn" class="btn primary" type="button">💜 Saved (<span id="savedCount">0</span>)</button>
         <button id="deleteSavedBtn" class="btn danger" type="button">Delete saved</button>
       </div>
 
-      <div class="gentle-text" style="margin-top:10px;">
-        Saved: <strong><span id="savedCount">0</span></strong>
-      </div>
+      <div class="gentle-text" style="margin-top:10px;">Tip: only the 💜 button saves.</div>
     </section>
 
-    <!-- RESULTS -->
-    <section class="card" style="margin-top:14px;">
-      <div class="section-title" id="resultsTitle">Today’s picks</div>
-      <div id="quotesList" style="margin-top:12px;"></div>
-    </section>
+    <div id="quotesList" style="margin-top:14px;"></div>
   </main>
 
   <nav class="bottom-nav">
     <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a class="active" href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
     <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="./app.js?v=20260210q1" defer></script>
-  <script src="./quotes.js?v=20260210q1" defer></script>
+  <script src="app.js?v=20260209-final" defer></script>
+  <script src="quotes.js?v=20260209-final" defer></script>
 </body>
 </html>
