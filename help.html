@@ -7,83 +7,120 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100002" />
+  <link rel="stylesheet" href="style.css?v=20260210g" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+
+  <!-- Back + Night mode -->
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
-    <h1>Need help now?</h1>
-    <p>You deserve support</p>
+    <h1>Help</h1>
+    <p>Support if things feel overwhelming</p>
   </header>
 
-  <main class="page" id="helpPage">
+  <main class="page">
 
-    <div class="card">
-      <div class="section-title">UK support (NHS)</div>
-      <div class="gentle-text" style="margin-top:6px;">Tap a box to open the NHS page.</div>
-
-      <div class="music-list" style="margin-top:12px;">
-        <a class="resource-item" href="https://www.nhs.uk/nhs-services/urgent-and-emergency-care/nhs-111/" target="_blank" rel="noopener">
-          <div style="flex:1;">
-            <div class="resource-title">NHS 111 (urgent advice)</div>
-            <div class="resource-desc">If you need urgent medical help or advice.</div>
-          </div>
-          <div class="resource-go">↗</div>
-        </a>
-
-        <a class="resource-item" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/suicidal-thoughts/" target="_blank" rel="noopener">
-          <div style="flex:1;">
-            <div class="resource-title">Get help for suicidal thoughts</div>
-            <div class="resource-desc">Immediate NHS support options.</div>
-          </div>
-          <div class="resource-go">↗</div>
-        </a>
-
-        <a class="resource-item" href="https://www.nhs.uk/mental-health/advice-for-life-situations-and-events/where-to-get-urgent-help-for-mental-health/" target="_blank" rel="noopener">
-          <div style="flex:1;">
-            <div class="resource-title">Urgent mental health help</div>
-            <div class="resource-desc">What to do if you need urgent support right now.</div>
-          </div>
-          <div class="resource-go">↗</div>
-        </a>
-
-        <a class="resource-item" href="https://www.nhs.uk/service-search/mental-health/find-an-nhs-talking-therapies-service/" target="_blank" rel="noopener">
-          <div style="flex:1;">
-            <div class="resource-title">Find NHS Talking Therapies</div>
-            <div class="resource-desc">Self-refer for anxiety/depression support.</div>
-          </div>
-          <div class="resource-go">↗</div>
-        </a>
-      </div>
-
-      <div class="gentle-text" style="margin-top:10px;">
-        If you are in immediate danger, call <b>999</b>.
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="section-title">Grounding (30 seconds)</div>
+    <!-- IMMEDIATE DANGER -->
+    <section class="card">
+      <div class="section-title">Immediate danger</div>
       <div class="gentle-text">
-        Look around and name: 5 things you see, 4 you feel, 3 you hear, 2 you smell, 1 you taste.
+        If you or someone else is in immediate danger, call <strong>999</strong>.
       </div>
-    </div>
+    </section>
 
-    <div class="card">
-      <div class="section-title">Tiny plan (2 minutes)</div>
-      <div class="gentle-text">
-        1) Sip water • 2) Unclench your jaw • 3) One slow breath in… and out • 4) Pick one “next small step”.
-      </div>
-    </div>
+    <!-- NHS & URGENT -->
+    <section class="card">
+      <div class="section-title">NHS urgent support</div>
 
-    <div class="card">
-      <div class="section-title">Quick reset</div>
-      <div class="gentle-text">
-        Drop your shoulders. Soften your tongue. Place one hand on your chest. Count 4 in… 6 out… three times.
+      <div class="list">
+        <a class="card" href="https://111.nhs.uk/" target="_blank" rel="noopener">
+          <strong>NHS 111</strong>
+          <div class="gentle-text">Urgent medical advice, 24/7.</div>
+        </a>
+
+        <a class="card" href="https://www.nhs.uk/nhs-services/mental-health-services/where-to-get-urgent-help-for-mental-health/" target="_blank" rel="noopener">
+          <strong>Urgent mental health help</strong>
+          <div class="gentle-text">Crisis teams and local services.</div>
+        </a>
       </div>
-    </div>
+    </section>
+
+    <!-- UK CRISIS & LISTENING SERVICES -->
+    <section class="card">
+      <div class="section-title">Talk to someone now</div>
+
+      <div class="list">
+        <a class="card" href="https://www.samaritans.org/" target="_blank" rel="noopener">
+          <strong>Samaritans</strong>
+          <div class="gentle-text">Call free on 116 123 • 24/7 listening support.</div>
+        </a>
+
+        <a class="card" href="https://giveusashout.org/" target="_blank" rel="noopener">
+          <strong>Shout</strong>
+          <div class="gentle-text">Text <strong>SHOUT</strong> to <strong>85258</strong> for crisis text support.</div>
+        </a>
+
+        <a class="card" href="https://www.papyrus-uk.org/" target="_blank" rel="noopener">
+          <strong>PAPYRUS HOPELINE247</strong>
+          <div class="gentle-text">Under 35s • Call 0800 068 4141.</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONDITION-SPECIFIC SUPPORT -->
+    <section class="card">
+      <div class="section-title">Condition-specific support</div>
+
+      <div class="list">
+        <a class="card" href="https://www.mind.org.uk/" target="_blank" rel="noopener">
+          <strong>Mind</strong>
+          <div class="gentle-text">Mental health information and local support.</div>
+        </a>
+
+        <a class="card" href="https://www.rethink.org/" target="_blank" rel="noopener">
+          <strong>Rethink Mental Illness</strong>
+          <div class="gentle-text">Support for severe mental illness.</div>
+        </a>
+
+        <a class="card" href="https://www.bipolaruk.org/" target="_blank" rel="noopener">
+          <strong>Bipolar UK</strong>
+          <div class="gentle-text">Peer support and education.</div>
+        </a>
+
+        <a class="card" href="https://www.nationalelfservice.net/" target="_blank" rel="noopener">
+          <strong>National Elf Service</strong>
+          <div class="gentle-text">Research summaries (plain English).</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ABUSE & SAFETY -->
+    <section class="card">
+      <div class="section-title">Safety & abuse support</div>
+
+      <div class="list">
+        <a class="card" href="https://www.nationaldahelpline.org.uk/" target="_blank" rel="noopener">
+          <strong>National Domestic Abuse Helpline</strong>
+          <div class="gentle-text">0808 2000 247 • 24/7.</div>
+        </a>
+
+        <a class="card" href="https://www.victimsupport.org.uk/" target="_blank" rel="noopener">
+          <strong>Victim Support</strong>
+          <div class="gentle-text">Free confidential help after crime.</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- GENTLE CLOSE -->
+    <section class="card">
+      <div class="gentle-text">
+        You don’t have to go through this alone.  
+        Reaching out — even quietly — still counts.
+      </div>
+    </section>
 
   </main>
 
@@ -97,6 +134,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100002" defer></script>
+  <script src="app.js?v=20260210g" defer></script>
 </body>
 </html>
