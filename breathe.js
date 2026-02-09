@@ -1,6 +1,7 @@
 (() => {
   const circle = document.getElementById("breathCircle");
   const timeText = document.getElementById("timeText");
+  const phaseLabel = document.getElementById("phaseLabel");
 
   const modeSelect = document.getElementById("modeSelect");
   const minutesSelect = document.getElementById("minutesSelect");
@@ -9,28 +10,24 @@
   const startBtn = document.getElementById("startBtn");
   const pauseBtn = document.getElementById("pauseBtn");
   const resetBtn = document.getElementById("resetBtn");
-
   const completedPill = document.getElementById("completedPill");
 
   if (!circle || !timeText || !modeSelect || !minutesSelect || !startBtn || !pauseBtn || !resetBtn) return;
 
-  // Breathing phases (seconds)
+  // Phases
   const INHALE_SEC = 4;
   const HOLD_SEC   = 2;
   const EXHALE_SEC = 6;
-
-  // Progress tracking
-  const BREATHE_DONE_KEY = "enigma_breathe_completed_v1";
 
   let running = false;
   let paused = false;
   let intervalId = null;
 
-  let mode = "timer";     // timer | stopwatch
+  let mode = "timer";
   let remainingSec = 60;
   let elapsedSec = 0;
 
-  let phase = "inhale";   // inhale | hold | exhale
+  let phase = "inhale";
   let phaseLeft = INHALE_SEC;
 
   function pad(n){ return String(n).padStart(2,"0"); }
@@ -46,19 +43,20 @@
     completedPill.style.display = on ? "block" : "none";
   }
 
-  function setCirclePhase(next){
+  function setPhase(next){
     phase = next;
-    if (phase === "inhale") phaseLeft = INHALE_SEC;
-    if (phase === "hold")   phaseLeft = HOLD_SEC;
-    if (phase === "exhale") phaseLeft = EXHALE_SEC;
+    if (phase === "inhale") { phaseLeft = INHALE_SEC; if (phaseLabel) phaseLabel.textContent = "Inhale"; }
+    if (phase === "hold")   { phaseLeft = HOLD_SEC;   if (phaseLabel) phaseLabel.textContent = "Hold"; }
+    if (phase === "exhale") { phaseLeft = EXHALE_SEC; if (phaseLabel) phaseLabel.textContent = "Exhale"; }
 
     circle.classList.remove("inhale","hold","exhale");
-    void circle.offsetWidth; // restart animation
+    void circle.offsetWidth; // restart CSS animation
     circle.classList.add(phase);
   }
 
-  function resetBreathingVisual(){
+  function resetVisual(){
     circle.classList.remove("inhale","hold","exhale");
+    if (phaseLabel) phaseLabel.textContent = "Ready";
     phase = "inhale";
     phaseLeft = INHALE_SEC;
   }
@@ -77,6 +75,7 @@
         timeText.textContent = fmt(elapsedSec);
       }
       setCompleted(false);
+      resetVisual();
     }
   }
 
@@ -84,9 +83,9 @@
     phaseLeft -= 1;
     if (phaseLeft > 0) return;
 
-    if (phase === "inhale") setCirclePhase("hold");
-    else if (phase === "hold") setCirclePhase("exhale");
-    else setCirclePhase("inhale");
+    if (phase === "inhale") setPhase("hold");
+    else if (phase === "hold") setPhase("exhale");
+    else setPhase("inhale");
   }
 
   function tickClock(){
@@ -98,7 +97,10 @@
 
     remainingSec -= 1;
     timeText.textContent = fmt(remainingSec);
-    if (remainingSec <= 0) finishSession();
+
+    if (remainingSec <= 0){
+      finish();
+    }
   }
 
   function startInterval(){
@@ -110,13 +112,13 @@
     }, 1000);
   }
 
-  function startSession(){
+  function start(){
     if (running && !paused) return;
 
     if (!running){
-      setCompleted(false);
-      paused = false;
       running = true;
+      paused = false;
+      setCompleted(false);
 
       if (modeSelect.value === "timer"){
         const mins = Number(minutesSelect.value || 1);
@@ -127,7 +129,7 @@
         timeText.textContent = fmt(elapsedSec);
       }
 
-      setCirclePhase("inhale");
+      setPhase("inhale");
       pauseBtn.textContent = "Pause";
       startInterval();
       return;
@@ -141,8 +143,8 @@
 
   function togglePause(){
     if (!running) return;
-
     paused = !paused;
+
     if (paused){
       pauseBtn.textContent = "Resume";
       clearInterval(intervalId);
@@ -153,58 +155,37 @@
     }
   }
 
-  function resetSession(){
+  function reset(){
     running = false;
     paused = false;
-
     clearInterval(intervalId);
     intervalId = null;
 
     pauseBtn.textContent = "Pause";
     setCompleted(false);
-
-    resetBreathingVisual();
     updateModeUI();
   }
 
-  function bumpCompleted(){
-    try {
-      const n = Number(localStorage.getItem(BREATHE_DONE_KEY) || "0");
-      localStorage.setItem(BREATHE_DONE_KEY, String(n + 1));
-    } catch {}
-  }
-
-  function finishSession(){
+  function finish(){
     running = false;
     paused = false;
-
     clearInterval(intervalId);
     intervalId = null;
 
-    resetBreathingVisual();
+    resetVisual();
     setCompleted(true);
     timeText.textContent = "00:00";
     pauseBtn.textContent = "Pause";
-
-    bumpCompleted();
   }
 
-  startBtn.addEventListener("click", startSession);
+  // Events
+  startBtn.addEventListener("click", start);
   pauseBtn.addEventListener("click", togglePause);
-  resetBtn.addEventListener("click", resetSession);
+  resetBtn.addEventListener("click", reset);
 
-  modeSelect.addEventListener("change", () => {
-    resetSession();
-    updateModeUI();
-  });
+  modeSelect.addEventListener("change", () => { reset(); updateModeUI(); });
+  minutesSelect.addEventListener("change", () => { if (modeSelect.value === "timer"){ reset(); updateModeUI(); } });
 
-  minutesSelect.addEventListener("change", () => {
-    if (modeSelect.value === "timer"){
-      resetSession();
-      updateModeUI();
-    }
-  });
-
+  // Init
   updateModeUI();
-  resetSession();
 })();
