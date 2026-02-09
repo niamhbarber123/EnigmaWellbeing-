@@ -691,3 +691,58 @@ body.night .quote-save{
   gap: 12px;
   flex-wrap: wrap;
 }
+/* =========================
+   Resources: stop “card inside card” weirdness + nicer spacing
+   ========================= */
+body.resources-page .page-header{
+  padding-top: calc(env(safe-area-inset-top) + 10px);
+}
+
+body.resources-page .card{
+  margin-bottom: 14px;
+}
+
+/* Link tiles inside sections */
+.tile-list{
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.tile{
+  display: block;
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 12px 26px rgba(120,110,160,0.16), inset 0 1px 0 rgba(255,255,255,0.75);
+  text-decoration: none;
+  color: inherit;
+}
+
+.tile-title{
+  font-size: 18px;
+  font-weight: 850;
+  color: #4b4761;
+  margin: 0;
+}
+
+.tile-sub{
+  margin-top: 6px;
+  font-size: 15px;
+  color: #8f8faa;
+  font-weight: 650;
+}
+
+/* Night mode */
+body.night .tile{
+  background: rgba(24, 22, 34, 0.72);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+}
+
+body.night .tile-title{
+  color: rgba(255,255,255,0.92);
+}
+
+body.night .tile-sub{
+  color: rgba(255,255,255,0.70);
+}
