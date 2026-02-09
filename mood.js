@@ -34,9 +34,8 @@
     localStorage.setItem(KEY, JSON.stringify(arr));
   }
 
-  function fmtDate(d) {
-    const dt = new Date(d);
-    // e.g. 10 Feb 2026, 17:55
+  function fmtDate(iso) {
+    const dt = new Date(iso);
     return dt.toLocaleString(undefined, {
       day: "2-digit", month: "short", year: "numeric",
       hour: "2-digit", minute: "2-digit"
@@ -84,13 +83,15 @@
       meta.className = "saved-meta";
       meta.textContent = fmtDate(item.createdAt);
 
-      const notes = document.createElement("div");
-      notes.className = "saved-notes";
-      notes.textContent = item.notes || "";
-
       row.appendChild(title);
       row.appendChild(meta);
-      if (item.notes) row.appendChild(notes);
+
+      if (item.notes) {
+        const notes = document.createElement("div");
+        notes.className = "saved-notes";
+        notes.textContent = item.notes;
+        row.appendChild(notes);
+      }
 
       savedList.appendChild(row);
     });
@@ -98,8 +99,7 @@
 
   saveBtn.addEventListener("click", () => {
     const notes = (notesEl.value || "").trim();
-
-    if (!selectedMood && !notes) return; // nothing to save
+    if (!selectedMood && !notes) return;
 
     const entry = {
       moodLabel: selectedMood ? selectedMood.label : "Unlabelled",
@@ -112,7 +112,6 @@
     items.push(entry);
     saveAll(items);
 
-    // reset input
     notesEl.value = "";
     renderSaved();
   });
@@ -128,7 +127,6 @@
     renderSaved();
   });
 
-  // initial
   renderMoodButtons();
   renderSaved();
 })();
