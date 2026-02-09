@@ -664,3 +664,41 @@ body.night .btn{
 .breathe-controls{
   margin-top: 10px !important;    /* pulls buttons up a bit */
 }
+/* =========================
+   BREATHE — fit screen better (iPhone safe)
+   ========================= */
+
+/* Use dynamic viewport height on mobile browsers */
+.breathe-page.no-scroll{
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Slightly tighter header spacing just for Breathe */
+.breathe-page .page-header{
+  margin: 14px auto 8px;
+}
+
+.breathe-page .page-header h1{ font-size: 30px; }
+.breathe-page .page-header p{ font-size: 15px; }
+
+/* Give the content area a touch more room above the fixed nav */
+.breathe-page .breathe-viewport{
+  height: calc(100dvh - var(--navH) - var(--safeTop) - var(--safeBottom) - 110px);
+  gap: 12px;
+}
+
+/* Compact cards a bit */
+.breathe-page .card{ padding: 14px; }
+
+/* Circle a touch smaller so buttons don’t get pushed */
+.breathe-page .breath-circle{
+  width: 148px;
+  height: 148px;
+}
+
+/* Session card scrolls internally if needed (page never scrolls) */
+.breathe-page .breathe-session-scroll{
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
