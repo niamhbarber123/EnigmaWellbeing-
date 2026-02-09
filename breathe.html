@@ -7,14 +7,14 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210d" />
+  <link rel="stylesheet" href="style.css?v=20260210b1" />
 </head>
 
 <body class="page-wrap breathe-page no-scroll">
 
   <!-- Back + Night mode -->
   <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <h1>Breathe</h1>
@@ -23,28 +23,48 @@
 
   <main class="page breathe-container">
 
-    <!-- Status -->
-    <div class="card">
-      <div class="section-title">Ready</div>
-      <div class="gentle-text">Tap Start to begin.</div>
-    </div>
-
-    <!-- BREATH CIRCLE -->
-    <div class="breathe-stage">
-      <div id="breathCircle" class="breath-circle"></div>
-      <div id="breathLabel" class="breath-label">Ready</div>
-    </div>
-
-    <!-- Controls -->
-    <div class="card">
+    <!-- Settings -->
+    <section class="card">
       <div class="section-title">Session</div>
+      <div class="gentle-text">Choose a timer or stopwatch.</div>
+
+      <div class="breathe-settings">
+        <div class="field">
+          <div class="form-label">Mode</div>
+          <select id="modeSelect" class="select">
+            <option value="timer">Timer</option>
+            <option value="stopwatch">Stopwatch</option>
+          </select>
+        </div>
+
+        <div class="field" id="minutesField">
+          <div class="form-label">Minutes</div>
+          <select id="minutesSelect" class="select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="5" selected>5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </div>
+      </div>
 
       <div class="breathe-controls">
-        <button id="startBtn" class="small-pill">Start</button>
-        <button id="stopBtn" class="small-pill">Stop</button>
+        <button id="startBtn" class="small-pill" type="button">Start</button>
+        <button id="stopBtn" class="small-pill" type="button">Stop</button>
         <div id="completedPill" class="small-pill" style="display:none;">Completed ✅</div>
       </div>
-    </div>
+    </section>
+
+    <!-- Breath animation -->
+    <section class="card breathe-stage-card">
+      <div class="breathe-stage">
+        <div id="breathCircle" class="breath-circle"></div>
+        <div id="breathLabel" class="breath-label">Ready</div>
+        <div id="timeDisplay" class="time-display">00:00</div>
+      </div>
+    </section>
 
   </main>
 
@@ -58,7 +78,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260210d" defer></script>
-  <script src="breathe.js?v=20260210d" defer></script>
+  <script src="app.js?v=20260210b1" defer></script>
+  <script src="breathe.js?v=20260210b1" defer></script>
 </body>
 </html>
