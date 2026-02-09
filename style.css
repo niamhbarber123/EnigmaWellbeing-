@@ -484,3 +484,18 @@ body.night .home-back{
   box-shadow: 0 10px 26px rgba(0,0,0,0.35);
   color: rgba(255,255,255,0.92);
 }
+/* =========================================================
+   REMOVE THE SMALL BACK BUTTON (CHANGE NOTHING ELSE)
+   ========================================================= */
+
+/* If the injected/global back exists from older code, hide it */
+.home-back{ display: none !important; }
+
+/* Hide common “extra” back buttons some pages include */
+.back-btn{ display: none !important; }
+
+/* Hide the tiny centred back pill/button (covers most variants) */
+.page-header button[onclick*="history.back"],
+.page-header a[onclick*="history.back"]{
+  display: none !important;
+}
