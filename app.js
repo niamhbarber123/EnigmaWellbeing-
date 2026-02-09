@@ -3,17 +3,8 @@
 
   function ensureThemeButton() {
     let btn = document.getElementById("themeFab");
-    if (!btn) {
-      btn = document.createElement("button");
-      btn.id = "themeFab";
-      btn.type = "button";
-      btn.className = "theme-toggle-top";
-      btn.setAttribute("aria-label", "Toggle night mode");
-      btn.textContent = "🌙";
-      document.body.prepend(btn);
-    } else {
-      btn.classList.add("theme-toggle-top");
-    }
+    if (!btn) return null;
+    btn.classList.add("theme-toggle-top");
     return btn;
   }
 
@@ -38,14 +29,15 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const themeBtn = ensureThemeButton();
-
     applyTheme(getSavedTheme());
-    updateThemeIcon(themeBtn);
+    if (themeBtn) updateThemeIcon(themeBtn);
 
-    themeBtn.addEventListener("click", () => {
-      const isNight = document.body.classList.toggle("night");
-      setSavedTheme(isNight ? "night" : "day");
-      updateThemeIcon(themeBtn);
-    });
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const isNight = document.body.classList.toggle("night");
+        setSavedTheme(isNight ? "night" : "day");
+        updateThemeIcon(themeBtn);
+      });
+    }
   });
 })();
