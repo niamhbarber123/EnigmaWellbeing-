@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100200" />
+  <link rel="stylesheet" href="style.css?v=100001" />
 </head>
 
 <body class="page-wrap">
@@ -21,26 +21,24 @@
 
   <main class="page" id="distractionPage">
     <div class="card">
-      <div class="section-title">Question</div>
-      <div class="gentle-text" id="distractionQuestion" style="margin-top:12px;">Tap Start to begin.</div>
+      <div class="gentle-text">Type any answer to continue — or Skip. Progress counts only answered.</div>
 
-      <div class="gentle-text" style="margin-top:12px;">
-        Answered: <b><span id="distractionAnsweredCount">0</span></b>
-      </div>
-
-      <input id="distractionInput" class="input" type="text"
-             style="margin-top:12px;"
-             placeholder="Type your answer here…" autocomplete="off" inputmode="text" />
-
-      <div class="tool-row" style="margin-top:12px;">
-        <button class="tool-btn primary" id="distractionStartBtn" type="button">Start</button>
-        <button class="tool-btn" id="distractionNextBtn" type="button" style="display:none;">Next</button>
-        <button class="tool-btn" id="distractionSkipBtn" type="button" style="display:none;">Skip</button>
-        <button class="tool-btn danger" id="distractionEndBtn" type="button" style="display:none;">End</button>
-      </div>
+      <div id="dQuestion" class="distraction-question">Tap Start to begin.</div>
 
       <div class="gentle-text" style="margin-top:10px;">
-        Next requires typing. Skip if you’d rather not answer.
+        Answered: <b><span id="dAnswered">0</span></b>
+      </div>
+
+      <input id="dInput" class="input" type="text" placeholder="Type your answer here…" autocomplete="off" style="margin-top:10px; display:none;" />
+
+      <div class="tool-row" style="margin-top:12px;">
+        <button class="tool-btn primary" id="dStart" type="button">Start</button>
+        <button class="tool-btn" id="dNext" type="button" style="display:none;">Next</button>
+      </div>
+
+      <div class="tool-row">
+        <button class="tool-btn" id="dSkip" type="button" style="display:none;">Skip</button>
+        <button class="tool-btn danger" id="dEnd" type="button" style="display:none;">End</button>
       </div>
     </div>
   </main>
@@ -55,6 +53,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100200" defer></script>
+  <script src="app.js?v=100001" defer></script>
 </body>
 </html>
