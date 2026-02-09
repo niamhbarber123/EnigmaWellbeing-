@@ -933,3 +933,183 @@ body.night .select{
   background: rgba(26,24,38,0.75);
   color: rgba(255,255,255,0.95);
 }
+/* =========================
+   Breathe FIX (safe area + no-scroll + variable fallbacks)
+   ========================= */
+
+:root{
+  --navH: 78px; /* approx bottom nav height */
+  --safeTop: env(safe-area-inset-top, 0px);
+  --safeBottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* lock to viewport */
+.no-scroll{
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Make sure main "page" doesn't create extra bottom spacing that forces scroll */
+.breathe-page .page{
+  margin-bottom: 0 !important;
+}
+
+/* slightly tighter header so both cards fit */
+.breathe-header-compact{
+  padding-top: calc(10px + var(--safeTop));
+  padding-bottom: 6px;
+}
+
+/* main area: exact fit above nav */
+.breathe-fit{
+  height: calc(100vh - var(--navH) - var(--safeTop) - var(--safeBottom) - 110px);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 14px;
+  padding-bottom: 0;
+}
+
+/* READY CARD layout */
+.breathe-ready-card{
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.breathe-ready-title{
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.breathe-ready-sub{
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--muted, #8f8faa);
+}
+
+.breathe-circle-wrap{
+  display: grid;
+  place-items: center;
+  padding: 6px 0;
+}
+
+/* Circle */
+.breath-circle{
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 18px 35px rgba(120,110,160,0.18),
+    0 0 0 14px rgba(255,255,255,0.35);
+  transform: scale(0.86);
+}
+
+.breath-circle.inhale{ animation: inhale 4s ease-in-out forwards; }
+.breath-circle.exhale{ animation: exhale 6s ease-in-out forwards; }
+
+@keyframes inhale{ from{ transform: scale(0.86);} to{ transform: scale(1.0);} }
+@keyframes exhale{ from{ transform: scale(1.0);} to{ transform: scale(0.86);} }
+
+.breathe-status{
+  text-align: center;
+  padding-top: 2px;
+}
+
+.breath-label{
+  font-size: 20px;
+  font-weight: 900;
+  color: #5b5376;
+}
+
+.time-display{
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 750;
+  color: var(--muted, #8f8faa);
+}
+
+/* SESSION CARD */
+.breathe-session-card{
+  padding-top: 16px;
+  padding-bottom: 14px;
+}
+
+.breathe-form{
+  margin-top: 10px;
+  display: grid;
+  gap: 14px;
+}
+
+.form-row{
+  display: grid;
+  gap: 8px;
+}
+
+.form-label{
+  font-size: 14px;
+  font-weight: 850;
+  color: #6a6386;
+}
+
+.mini-hint{
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--muted, #8f8faa);
+  margin-top: -2px;
+}
+
+/* selects */
+.select{
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: none;
+  font-size: 16px;
+  font-weight: 750;
+  background: rgba(255,255,255,0.92);
+  color: var(--text);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.vibration-row{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 850;
+  color: #6a6386;
+}
+
+.vibration-row input{
+  width: 22px;
+  height: 22px;
+  margin: 0;
+}
+
+/* buttons row */
+.breathe-controls{
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.completed-pill{
+  background: rgba(231,225,251,0.95);
+}
+
+/* Night mode */
+body.night .breath-circle{
+  background: rgba(255,255,255,0.14);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.55);
+}
+
+body.night .breath-label{ color: rgba(255,255,255,0.88); }
+body.night .form-label,
+body.night .vibration-row{ color: rgba(255,255,255,0.72); }
+body.night .select{
+  background: rgba(26,24,38,0.75);
+  color: rgba(255,255,255,0.95);
+}
