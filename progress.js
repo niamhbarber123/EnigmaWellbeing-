@@ -1,80 +1,66 @@
 (() => {
-  /* =========================
-     PROGRESS — Enigma Wellbeing (FULL)
-     Works with:
-       - Breathe: enigma_breathe_minutes_v1  { total, byDay: { "YYYY-MM-DD": minutes } }
-       - Music:  enigma_music_minutes_v1    { total, byDay: { "YYYY-MM-DD": minutes } }
-       - Quotes: enigma_saved_quotes_v1     [ ... ]
-     ========================= */
+  const todayEl = document.getElementById("todayStats");
+  const totalEl = document.getElementById("totalStats");
+  if (!todayEl || !totalEl) return;
 
-  const breatheTodayEl = document.getElementById("breatheToday");
-  const breatheTotalEl = document.getElementById("breatheTotal");
-  const musicTodayEl   = document.getElementById("musicToday");
-  const musicTotalEl   = document.getElementById("musicTotal");
-  const savedQuotesEl  = document.getElementById("savedQuotes");
+  // Keys used across the app
+  const BREATHE_DONE_KEY = "enigma_breathe_completed_v1";
+  const MUSIC_MIN_KEY = "enigma_music_minutes_v1";
+  const JOURNAL_KEY = "enigma_journal_entries_v1";
+  const MOOD_KEY = "enigma_mood_entries_v1";
+  const SAVED_QUOTES_KEY = "enigma_saved_quotes_v2";
 
-  const BREATHE_KEY = "enigma_breathe_minutes_v1";
-  const MUSIC_KEY   = "enigma_music_minutes_v1";
-  const QUOTES_KEY  = "enigma_saved_quotes_v1";
-
-  function todayKey() {
-    return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  function todayKey(){
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   }
 
-  function readJSON(key, fallback) {
-    try {
-      const v = JSON.parse(localStorage.getItem(key));
-      return v ?? fallback;
-    } catch {
-      return fallback;
-    }
+  function safeNum(v){
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
   }
 
-  function normaliseMinutesStore(raw) {
-    // Expect { total:number, byDay: { [date]: number } }
-    // If missing/invalid, return empty structure.
-    if (!raw || typeof raw !== "object") return { total: 0, byDay: {} };
-
-    const byDay =
-      raw.byDay && typeof raw.byDay === "object" && !Array.isArray(raw.byDay)
-        ? raw.byDay
-        : {};
-
-    const totalFromByDay = Object.values(byDay).reduce((s, n) => s + Number(n || 0), 0);
-    const total = Number(raw.total || 0) || totalFromByDay;
-
-    return { total, byDay };
+  function loadJSON(key, fallback){
+    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+    catch { return fallback; }
   }
 
-  function setText(el, value) {
-    if (!el) return;
-    el.textContent = String(value);
+  function statRow(title, value){
+    const div = document.createElement("div");
+    div.className = "link-btn";
+    div.style.cursor = "default";
+    div.innerHTML = `
+      <div>
+        <div class="link-title">${title}</div>
+        <div class="link-sub">${value}</div>
+      </div>
+      <div class="link-arrow">•</div>
+    `;
+    return div;
   }
 
-  // ----- BREATHE -----
-  const breatheRaw = readJSON(BREATHE_KEY, null);
-  const breatheStore = normaliseMinutesStore(breatheRaw);
+  // Music minutes store format: { total: n, byDay: { "YYYY-MM-DD": n } }
+  const music = loadJSON(MUSIC_MIN_KEY, { total: 0, byDay: {} });
   const tk = todayKey();
 
-  const breatheToday = Number(breatheStore.byDay[tk] || 0);
-  const breatheTotal = Number(breatheStore.total || 0);
+  const breatheTotal = safeNum(localStorage.getItem(BREATHE_DONE_KEY) || 0);
+  const musicToday = safeNum((music.byDay || {})[tk] || 0);
+  const musicTotal = safeNum(music.total || 0);
 
-  setText(breatheTodayEl, breatheToday);
-  setText(breatheTotalEl, breatheTotal);
+  const journal = loadJSON(JOURNAL_KEY, []);
+  const mood = loadJSON(MOOD_KEY, []);
+  const savedQuotes = loadJSON(SAVED_QUOTES_KEY, []);
 
-  // ----- MUSIC -----
-  const musicRaw = readJSON(MUSIC_KEY, null);
-  const musicStore = normaliseMinutesStore(musicRaw);
+  // Today (simple)
+  todayEl.innerHTML = "";
+  todayEl.appendChild(statRow("Music minutes", `${musicToday} min today`));
+  todayEl.appendChild(statRow("Mood entries", `${mood.filter(x => (x || {}).date).length ? "Logged" : "—"}`));
 
-  const musicToday = Number(musicStore.byDay[tk] || 0);
-  const musicTotal = Number(musicStore.total || 0);
-
-  setText(musicTodayEl, musicToday);
-  setText(musicTotalEl, musicTotal);
-
-  // ----- SAVED QUOTES -----
-  const savedQuotes = readJSON(QUOTES_KEY, []);
-  const quotesCount = Array.isArray(savedQuotes) ? savedQuotes.length : 0;
-
-  setText(savedQuotesEl, quotesCount);
+  // Totals
+  totalEl.innerHTML = "";
+  totalEl.appendChild(statRow("Breathe sessions", `${breatheTotal} completed`));
+  totalEl.appendChild(statRow("Music minutes", `${musicTotal} min total`));
+  totalEl.appendChild(statRow("Journal entries", `${journal.length} saved`));
+  totalEl.appendChild(statRow("Mood entries", `${mood.length} saved`));
+  totalEl.appendChild(statRow("Saved quotes", `${savedQuotes.length} saved`));
 })();
