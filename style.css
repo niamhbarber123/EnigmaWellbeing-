@@ -420,7 +420,7 @@ body.night .breathe-ring{ background: rgba(255,255,255,.04); }
 }
 /* exhale = expand */
 .breathe-circle.breath-exhale{
-  transform: scale(1.10);
+  transform: scale(1.14);
   transition-duration: 6s;
 }
 
