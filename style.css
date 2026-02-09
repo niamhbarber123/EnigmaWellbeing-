@@ -521,7 +521,19 @@ body.night .link-btn{
 
 @keyframes inhale{ from{ transform: scale(0.90);} to{ transform: scale(1.02);} }
 @keyframes exhale{ from{ transform: scale(1.02);} to{ transform: scale(0.90);} }
+/* =========================
+   BREATHE — HOLD phase support
+   ========================= */
 
+.breath-circle.hold{
+  animation: hold 2s ease-in-out forwards;
+}
+
+/* hold keeps circle expanded and still */
+@keyframes hold{
+  from{ transform: scale(1.02); }
+  to{ transform: scale(1.02); }
+}
 .breathe-status{
   text-align: center;
   padding-top: 6px;
