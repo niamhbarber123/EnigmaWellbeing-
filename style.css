@@ -702,3 +702,31 @@ body.night .btn{
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
+/* =========================
+   BREATHE — make READY tile smaller
+   ========================= */
+
+/* Reduce padding just for the Ready tile */
+.breathe-page .breathe-ready-card{
+  padding: 12px !important;        /* was 14–18px */
+}
+
+/* Calm the title + subtitle slightly */
+.breathe-page .breathe-ready-title{
+  font-size: 20px !important;      /* was 22px */
+}
+
+.breathe-page .breathe-ready-sub{
+  font-size: 14px !important;      /* was 15px */
+  margin-top: 4px !important;
+}
+
+/* Pull the circle in a bit */
+.breathe-page .breathe-circle-wrap{
+  padding: 6px 0 0 !important;     /* was 10px+ */
+}
+
+/* Slightly tighter status spacing */
+.breathe-page .breathe-status{
+  padding-top: 4px !important;
+}
