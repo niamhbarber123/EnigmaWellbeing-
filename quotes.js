@@ -34,8 +34,8 @@ function renderQuotes(quotes) {
   quotesList.innerHTML = "";
 
   quotes.forEach((q) => {
-    const card = document.createElement("article");
-    card.className = "card";
+    const tile = document.createElement("article");
+    tile.className = "quote-item";
 
     const p = document.createElement("p");
     p.className = "quote-text";
@@ -45,11 +45,8 @@ function renderQuotes(quotes) {
     author.className = "quote-author";
     author.textContent = `— ${q.author}`;
 
-    const actions = document.createElement("div");
-    actions.className = "quote-actions";
-
     const saveBtn = document.createElement("button");
-    saveBtn.className = "pill";
+    saveBtn.className = "quote-save";
     saveBtn.type = "button";
     saveBtn.innerHTML = `<span class="heart">💜</span> Save`;
 
@@ -62,15 +59,13 @@ function renderQuotes(quotes) {
       }
     });
 
-    actions.appendChild(saveBtn);
-    card.appendChild(p);
-    card.appendChild(author);
-    card.appendChild(actions);
+    tile.appendChild(p);
+    tile.appendChild(author);
+    tile.appendChild(saveBtn);
 
-    quotesList.appendChild(card);
+    quotesList.appendChild(tile);
   });
 }
-
 searchBtn.addEventListener("click", () => {
   const q = (queryEl.value || "").trim().toLowerCase();
   if (!q) { renderQuotes(DEMO_QUOTES); return; }
