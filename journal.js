@@ -1,88 +1,105 @@
 (() => {
-  const KEY = "enigma_journal_entries_v2";
-
-  const textEl = document.getElementById("entryText");
+  const entryText = document.getElementById("entryText");
   const saveBtn = document.getElementById("saveEntry");
   const viewBtn = document.getElementById("viewEntries");
-  const delBtn  = document.getElementById("deleteEntries");
+  const delBtn = document.getElementById("deleteEntries");
+  const closeBtn = document.getElementById("closeEntries");
 
   const wrap = document.getElementById("entriesWrap");
   const list = document.getElementById("entriesList");
 
-  function loadAll() {
+  if (!entryText || !saveBtn || !viewBtn || !delBtn || !closeBtn || !wrap || !list) return;
+
+  const KEY = "enigma_journal_entries_v1";
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[c]));
+  }
+
+  function nowStamp(){
+    const d = new Date();
+    const dd = String(d.getDate()).padStart(2,"0");
+    const mm = String(d.getMonth()+1).padStart(2,"0");
+    const yyyy = d.getFullYear();
+    const hh = String(d.getHours()).padStart(2,"0");
+    const mi = String(d.getMinutes()).padStart(2,"0");
+    return `${dd}/${mm}/${yyyy} • ${hh}:${mi}`;
+  }
+
+  function load(){
     try { return JSON.parse(localStorage.getItem(KEY)) || []; }
     catch { return []; }
   }
 
-  function saveAll(arr) {
-    localStorage.setItem(KEY, JSON.stringify(arr));
+  function save(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch {}
   }
 
-  function fmt(iso) {
-    const dt = new Date(iso);
-    return dt.toLocaleString(undefined, {
-      day: "2-digit", month: "short", year: "numeric",
-      hour: "2-digit", minute: "2-digit"
-    });
-  }
+  function render(){
+    const arr = load().slice().reverse();
+    list.innerHTML = "";
 
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, s => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-    }[s]));
-  }
-
-  function render() {
-    const items = loadAll();
-    if (!items.length) {
-      wrap.style.display = "none";
-      list.innerHTML = "";
+    if (!arr.length){
+      list.innerHTML = `<div class="gentle-text">No saved entries yet.</div>`;
       return;
     }
 
-    wrap.style.display = "block";
-    list.innerHTML = "";
-
-    items.slice().reverse().forEach(item => {
-      const tile = document.createElement("div");
-      tile.className = "card";
-      tile.style.margin = "0";
-      tile.style.padding = "14px 16px";
-
-      tile.innerHTML = `
-        <div style="font-weight:900;font-size:14px;color:var(--muted);">${fmt(item.createdAt)}</div>
-        <div style="margin-top:10px;font-weight:750;font-size:16px;line-height:1.5;color:var(--ink);">
-          ${escapeHtml(item.text)}
+    arr.forEach((it, i) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="section-title">${esc(it.date || "Entry")}</div>
+        <div class="gentle-text" style="margin-top:10px; white-space:pre-wrap;">${esc(it.text || "")}</div>
+        <div class="row" style="margin-top:12px; grid-template-columns: 1fr;">
+          <button class="btn danger" type="button" data-del="${i}">Delete this entry</button>
         </div>
       `;
+      list.appendChild(card);
+    });
 
-      list.appendChild(tile);
+    // Wire deletes (index based on reversed list)
+    list.querySelectorAll("button[data-del]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const revIndex = Number(btn.getAttribute("data-del"));
+        const original = load();
+        const realIndex = original.length - 1 - revIndex;
+        original.splice(realIndex, 1);
+        save(original);
+        render();
+      });
     });
   }
 
+  function showList(){
+    wrap.style.display = "";
+    render();
+  }
+  function hideList(){
+    wrap.style.display = "none";
+  }
+
   saveBtn.addEventListener("click", () => {
-    const text = (textEl.value || "").trim();
+    const text = (entryText.value || "").trim();
     if (!text) return;
 
-    const items = loadAll();
-    items.push({ text, createdAt: new Date().toISOString() });
-    saveAll(items);
+    const arr = load();
+    arr.push({ text, date: nowStamp(), ts: Date.now() });
+    save(arr);
 
-    textEl.value = "";
-    render();
+    entryText.value = "";
+    showList();
   });
 
-  viewBtn.addEventListener("click", () => {
-    render();
-    if (wrap.style.display !== "none") {
-      wrap.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
+  viewBtn.addEventListener("click", showList);
+  closeBtn.addEventListener("click", hideList);
 
   delBtn.addEventListener("click", () => {
-    localStorage.removeItem(KEY);
+    save([]);
     render();
   });
 
-  render();
+  // init
+  hideList();
 })();
