@@ -1,59 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Quotes • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100002" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enigma • Quotes</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
+<body>
+  <main class="page">
 
-<body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <!-- Header -->
+    <header class="header">
+      <button class="icon-btn" onclick="history.back()" aria-label="Back">←</button>
 
-  <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
-    <h1>Quotes</h1>
-    <p>Search and save motivational quotes</p>
-  </header>
-
-  <main class="page" id="quotesPage">
-    <div class="card">
-      <div class="section-title">Find a quote</div>
-
-      <input id="quoteSearch" class="input" type="search"
-             placeholder="Search quotes or authors… (e.g. calm, courage, Mandela)" />
-
-      <div class="tool-row" style="margin-top:12px;">
-        <button id="quoteSearchBtn" class="tool-btn primary" type="button">Search</button>
-        <button id="quoteRandomBtn" class="tool-btn" type="button">Random</button>
+      <div class="title-wrap">
+        <h1 class="h1">Quotes</h1>
+        <p class="subtitle">Search and save motivational quotes</p>
       </div>
 
-      <div class="tool-row">
-        <button id="viewSavedBtn" class="tool-btn" type="button">
-          💜 Saved (<span id="savedCount">0</span>)
-        </button>
-        <button id="clearSavedBtn" class="tool-btn danger" type="button">Delete saved</button>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">🌙</button>
+    </header>
+
+    <!-- Search box card -->
+    <section class="card">
+      <h2 class="block-title">Find a quote</h2>
+
+      <input
+        id="quoteQuery"
+        class="input"
+        type="text"
+        placeholder="Search quotes or authors… (e.g. calm, courage, Mandela)"
+      />
+
+      <div class="row">
+        <button class="btn primary" id="searchBtn">Search</button>
+        <button class="btn" id="randomBtn">Random</button>
       </div>
 
-      <div class="gentle-text" id="quoteStatus">Tip: only the 💜 button saves.</div>
-    </div>
+      <div class="row">
+        <button class="btn" id="savedBtn">💜 Saved (<span id="savedCount">0</span>)</button>
+        <button class="btn danger" id="deleteSavedBtn">Delete saved</button>
+      </div>
 
-    <div id="quoteGrid" class="quote-grid"></div>
+      <p class="tip">Tip: only the 💜 button saves.</p>
+    </section>
+
+    <!-- Quote results list -->
+    <section class="section" id="quotesList">
+      <!-- JS will inject quote cards here -->
+    </section>
+
   </main>
 
-  <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a class="active" href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-  </nav>
-
-  <script src="app.js?v=100002" defer></script>
+  <script src="quotes.js"></script>
 </body>
 </html>
