@@ -9,32 +9,12 @@
       btn.type = "button";
       btn.className = "theme-toggle-top";
       btn.setAttribute("aria-label", "Toggle night mode");
+      btn.textContent = "🌙";
       document.body.prepend(btn);
     } else {
       btn.classList.add("theme-toggle-top");
     }
     return btn;
-  }
-
-  function ensureBackButton() {
-    const isHome = document.body.classList.contains("home");
-    let back = document.querySelector(".home-back");
-
-    if (isHome) {
-      if (back) back.remove();
-      return;
-    }
-
-    if (!back) {
-      back = document.createElement("a");
-      back.className = "home-back";
-      back.href = "index.html";
-      back.setAttribute("aria-label", "Back to Home");
-      back.textContent = "←";
-      document.body.prepend(back);
-    } else {
-      back.href = "index.html";
-    }
   }
 
   function applyTheme(theme) {
@@ -58,7 +38,6 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const themeBtn = ensureThemeButton();
-    ensureBackButton();
 
     applyTheme(getSavedTheme());
     updateThemeIcon(themeBtn);
