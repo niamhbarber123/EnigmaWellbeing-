@@ -7,30 +7,54 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100002" />
+  <link rel="stylesheet" href="style.css?v=20260210c" />
 </head>
 
 <body class="page-wrap">
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Resources</h1>
     <p>NHS support links</p>
   </header>
 
-  <main class="page" id="resourcesPage">
-    <div class="card">
-      <div class="section-title">NHS links</div>
+  <main class="page">
+    <section class="card">
+      <div class="section-title">UK support (NHS)</div>
       <div class="gentle-text" style="margin-top:6px;">Tap a box to open the NHS page.</div>
-      <div id="resourcesGenres" class="chip-row" style="margin-top:12px;"></div>
-    </div>
 
-    <div class="card">
+      <div class="list">
+        <a class="card" href="https://111.nhs.uk/" target="_blank" rel="noopener">
+          <div class="section-title" style="margin:0;">NHS 111 (urgent advice)</div>
+          <div class="gentle-text" style="margin-top:6px;">If you need urgent medical help or advice.</div>
+        </a>
+
+        <a class="card" href="https://www.nhs.uk/nhs-services/mental-health-services/where-to-get-urgent-help-for-mental-health/" target="_blank" rel="noopener">
+          <div class="section-title" style="margin:0;">Urgent mental health help</div>
+          <div class="gentle-text" style="margin-top:6px;">What to do if you need urgent support right now.</div>
+        </a>
+
+        <a class="card" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/behaviours/help-for-suicidal-thoughts/" target="_blank" rel="noopener">
+          <div class="section-title" style="margin:0;">Help for suicidal thoughts</div>
+          <div class="gentle-text" style="margin-top:6px;">Immediate NHS support options.</div>
+        </a>
+
+        <a class="card" href="https://www.nhs.uk/nhs-services/mental-health-services/find-nhs-talking-therapies-for-anxiety-and-depression/" target="_blank" rel="noopener">
+          <div class="section-title" style="margin:0;">Find NHS Talking Therapies</div>
+          <div class="gentle-text" style="margin-top:6px;">Self-refer for anxiety/depression support.</div>
+        </a>
+      </div>
+
+      <div class="gentle-text" style="margin-top:12px;">
+        If you are in immediate danger, call 999.
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:14px;">
       <div class="section-title">Links</div>
-      <div id="resourcesList" class="music-list" style="margin-top:10px;"></div>
-      <div class="gentle-text">Links open in a new tab.</div>
-    </div>
+      <div class="gentle-text" style="margin-top:6px;">Links open in a new tab.</div>
+    </section>
   </main>
 
   <nav class="bottom-nav">
@@ -43,6 +67,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100002" defer></script>
+  <script src="app.js?v=20260210c" defer></script>
 </body>
 </html>
