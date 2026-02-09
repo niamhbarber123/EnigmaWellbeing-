@@ -284,3 +284,29 @@ a, a:visited, a:hover, a:active{
 .open-link:hover{
   opacity: 0.8;
 }
+/* =========================
+   QUOTES PAGE POLISH
+   ========================= */
+
+/* Soften page headers (not home) */
+.page-wrap:not(.home) .page-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.page-wrap:not(.home) .page-header p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Ensure quote cards stack cleanly */
+#quotesList .card {
+  margin-top: 14px;
+}
+
+/* Prevent any rogue blue links */
+#quotesList a {
+  color: inherit;
+  text-decoration: none;
+}
