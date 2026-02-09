@@ -7,14 +7,14 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210e" />
+  <link rel="stylesheet" href="style.css?v=20260210r1" />
 </head>
 
-<body class="page-wrap">
+<body class="page-wrap resources-page">
 
   <!-- Back + Night mode -->
   <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <h1>Resources</h1>
@@ -23,25 +23,25 @@
 
   <main class="page">
 
-    <!-- URGENT SUPPORT -->
+    <!-- URGENT -->
     <section class="card">
       <div class="section-title">Urgent support (UK)</div>
       <div class="gentle-text">If you need help right now.</div>
 
-      <div class="list">
-        <a class="card" href="https://111.nhs.uk/" target="_blank" rel="noopener">
-          <strong>NHS 111</strong>
-          <div class="gentle-text">Urgent medical advice.</div>
+      <div class="tile-list">
+        <a class="tile" href="https://111.nhs.uk/" target="_blank" rel="noopener">
+          <div class="tile-title">NHS 111</div>
+          <div class="tile-sub">Urgent medical advice.</div>
         </a>
 
-        <a class="card" href="https://www.nhs.uk/nhs-services/mental-health-services/where-to-get-urgent-help-for-mental-health/" target="_blank" rel="noopener">
-          <strong>Urgent mental health help</strong>
-          <div class="gentle-text">Crisis teams & local services.</div>
+        <a class="tile" href="https://www.nhs.uk/nhs-services/mental-health-services/where-to-get-urgent-help-for-mental-health/" target="_blank" rel="noopener">
+          <div class="tile-title">Urgent mental health help</div>
+          <div class="tile-sub">Crisis teams & local services.</div>
         </a>
 
-        <a class="card" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/behaviours/help-for-suicidal-thoughts/" target="_blank" rel="noopener">
-          <strong>Help for suicidal thoughts</strong>
-          <div class="gentle-text">Immediate NHS guidance.</div>
+        <a class="tile" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/behaviours/help-for-suicidal-thoughts/" target="_blank" rel="noopener">
+          <div class="tile-title">Help for suicidal thoughts</div>
+          <div class="tile-sub">Immediate NHS guidance.</div>
         </a>
       </div>
 
@@ -50,14 +50,16 @@
       </div>
     </section>
 
-    <!-- TALKING THERAPIES -->
+    <!-- THERAPY -->
     <section class="card">
       <div class="section-title">Therapy & treatment</div>
 
-      <a class="card" href="https://www.nhs.uk/nhs-services/mental-health-services/find-nhs-talking-therapies-for-anxiety-and-depression/" target="_blank" rel="noopener">
-        <strong>NHS Talking Therapies</strong>
-        <div class="gentle-text">Self-refer for anxiety, depression & more.</div>
-      </a>
+      <div class="tile-list">
+        <a class="tile" href="https://www.nhs.uk/nhs-services/mental-health-services/find-nhs-talking-therapies-for-anxiety-and-depression/" target="_blank" rel="noopener">
+          <div class="tile-title">NHS Talking Therapies</div>
+          <div class="tile-sub">Self-refer for anxiety, depression & more.</div>
+        </a>
+      </div>
     </section>
 
     <!-- CONDITIONS -->
@@ -65,52 +67,52 @@
       <div class="section-title">Mental health conditions</div>
       <div class="gentle-text">Trusted NHS information.</div>
 
-      <div class="list">
-        <a class="card" href="https://www.nhs.uk/mental-health/conditions/depression/" target="_blank" rel="noopener">
-          <strong>Depression</strong>
-          <div class="gentle-text">Symptoms, causes & treatment.</div>
+      <div class="tile-list">
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/depression/" target="_blank" rel="noopener">
+          <div class="tile-title">Depression</div>
+          <div class="tile-sub">Symptoms, causes & treatment.</div>
         </a>
 
-        <a class="card" href="https://www.nhs.uk/mental-health/conditions/anxiety-disorders/" target="_blank" rel="noopener">
-          <strong>Anxiety disorders</strong>
-          <div class="gentle-text">Panic, GAD, phobias.</div>
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/anxiety-disorders/" target="_blank" rel="noopener">
+          <div class="tile-title">Anxiety disorders</div>
+          <div class="tile-sub">Panic, GAD, phobias.</div>
         </a>
 
-        <a class="card" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" target="_blank" rel="noopener">
-          <strong>Borderline personality disorder (BPD)</strong>
-          <div class="gentle-text">Understanding emotions & relationships.</div>
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" target="_blank" rel="noopener">
+          <div class="tile-title">Borderline personality disorder (BPD)</div>
+          <div class="tile-sub">Understanding emotions & relationships.</div>
         </a>
 
-        <a class="card" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/" target="_blank" rel="noopener">
-          <strong>PTSD</strong>
-          <div class="gentle-text">Trauma responses & recovery.</div>
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/" target="_blank" rel="noopener">
+          <div class="tile-title">PTSD</div>
+          <div class="tile-sub">Trauma responses & recovery.</div>
         </a>
 
-        <a class="card" href="https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" target="_blank" rel="noopener">
-          <strong>OCD</strong>
-          <div class="gentle-text">Obsessions & compulsions.</div>
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" target="_blank" rel="noopener">
+          <div class="tile-title">OCD</div>
+          <div class="tile-sub">Obsessions & compulsions.</div>
         </a>
 
-        <a class="card" href="https://www.nhs.uk/mental-health/conditions/eating-disorders/" target="_blank" rel="noopener">
-          <strong>Eating disorders</strong>
-          <div class="gentle-text">Support & treatment options.</div>
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/eating-disorders/" target="_blank" rel="noopener">
+          <div class="tile-title">Eating disorders</div>
+          <div class="tile-sub">Support & treatment options.</div>
         </a>
       </div>
     </section>
 
-    <!-- SELF-HELP -->
+    <!-- SELF HELP -->
     <section class="card">
       <div class="section-title">Self-help & wellbeing</div>
 
-      <div class="list">
-        <a class="card" href="https://www.nhs.uk/mental-health/self-help/" target="_blank" rel="noopener">
-          <strong>NHS self-help tools</strong>
-          <div class="gentle-text">Guides, CBT & coping strategies.</div>
+      <div class="tile-list">
+        <a class="tile" href="https://www.nhs.uk/mental-health/self-help/" target="_blank" rel="noopener">
+          <div class="tile-title">NHS self-help guides</div>
+          <div class="tile-sub">Tools and coping strategies.</div>
         </a>
 
-        <a class="card" href="https://www.nhs.uk/every-mind-matters/" target="_blank" rel="noopener">
-          <strong>Every Mind Matters</strong>
-          <div class="gentle-text">Mental wellbeing advice & plans.</div>
+        <a class="tile" href="https://www.nhs.uk/every-mind-matters/" target="_blank" rel="noopener">
+          <div class="tile-title">Every Mind Matters</div>
+          <div class="tile-sub">Advice and personalised plans.</div>
         </a>
       </div>
     </section>
@@ -127,6 +129,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260210e" defer></script>
+  <script src="app.js?v=20260210r1" defer></script>
 </body>
 </html>
