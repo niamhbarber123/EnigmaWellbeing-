@@ -27,23 +27,20 @@ body{
   color: var(--text);
 }
 
-/* Remove default blue underline */
 a, a:visited, a:hover, a:active{
   color: inherit;
   text-decoration: none;
 }
 
 /* =========================================================
-   PAGE WRAPPER + BACKGROUND + WATERMARK
+   WRAP + BG + WATERMARK (BIGGER)
    ========================================================= */
-
 body.page-wrap{
   min-height: 100vh;
   background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
   padding-bottom: calc(120px + env(safe-area-inset-bottom));
 }
 
-/* Bigger watermark behind everything */
 body.page-wrap::before{
   content: "";
   position: fixed;
@@ -53,13 +50,12 @@ body.page-wrap::before{
 
   background-image: url("icon.png");
   background-repeat: no-repeat;
-  background-position: center 52%;
+  background-position: center 56%;
   background-size: min(92vw, 560px);
 
   opacity: 0.08;
 }
 
-/* Content above watermark */
 body.page-wrap > *{
   position: relative;
   z-index: 1;
@@ -68,17 +64,17 @@ body.page-wrap > *{
 /* =========================================================
    HEADER (SMALLER + CALMER)
    ========================================================= */
-
 .page-header{
+  position: relative;
   text-align: center;
   padding: 18px 16px 10px;
 }
 
 .page-header h1{
   margin: 10px 0 0;
-  font-size: 28px;        /* smaller + calmer */
+  font-size: 28px;
   line-height: 1.1;
-  font-weight: 700;       /* calmer */
+  font-weight: 700;
   letter-spacing: -0.35px;
   color: #5a4f78;
 }
@@ -90,7 +86,6 @@ body.page-wrap > *{
   color: #8f88a8;
 }
 
-/* Main page container */
 .page{
   width: min(460px, 92vw);
   margin: 0 auto;
@@ -98,9 +93,8 @@ body.page-wrap > *{
 }
 
 /* =========================================================
-   FLOATING THEME BUTTON (TOP RIGHT, ALL PAGES)
+   TOP RIGHT THEME BUTTON
    ========================================================= */
-
 #themeFab.theme-toggle-top{
   position: fixed;
   top: calc(env(safe-area-inset-top) + 14px);
@@ -119,11 +113,9 @@ body.page-wrap > *{
 }
 
 /* =========================================================
-   OPTIONAL: GLOBAL BACK BUTTON (TOP LEFT)
-   (app.js will inject this on all non-home pages)
+   LEFT BACK BUTTON (KEEP THIS ONE)
    ========================================================= */
-
-.home-back{
+.back-btn{
   position: fixed;
   top: calc(env(safe-area-inset-top) + 14px);
   left: 14px;
@@ -143,15 +135,20 @@ body.page-wrap > *{
   color: #5b5376;
   font-size: 20px;
   font-weight: 900;
+  cursor: pointer;
 }
 
-/* Hide back button on home */
-body.home .home-back{ display: none; }
+/* REMOVE ONLY the tiny centred pill if it exists anywhere */
+.center-back,
+.mini-back,
+.page-header .center-back,
+.page-header .mini-back{
+  display: none !important;
+}
 
 /* =========================================================
-   CARDS + PILLS (THE LOOK IN YOUR SCREENSHOT)
+   CARDS / SOFT UI
    ========================================================= */
-
 .card{
   background: rgba(255,255,255,0.88);
   border: none;
@@ -163,8 +160,20 @@ body.home .home-back{ display: none; }
 .card + .card{ margin-top: 14px; }
 .section{ margin-top: 14px; }
 
-/* Buttons / chips / pill buttons */
-.btn, .pill, .chip, .book-link{
+.section-title{
+  font-size: 16px;
+  font-weight: 800;
+  color: #4b4761;
+}
+
+.gentle-text{
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* Buttons / chips */
+.btn, .pill, .chip, .link-pill{
   border: none;
   border-radius: 999px;
   background: rgba(255,255,255,0.78);
@@ -182,18 +191,13 @@ body.home .home-back{ display: none; }
 .btn.primary{ background: var(--accentSoft); color: #5b5382; }
 .btn.danger{ background: var(--dangerSoft); color: #6a2f3a; }
 
-.pill{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  font-size: 13px;
-  color: #4b4761;
+.row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
 }
 
-.pill .heart{ color: #7d65c7; }
-
-/* Inputs */
 .input{
   width: 100%;
   padding: 12px 14px;
@@ -205,54 +209,81 @@ body.home .home-back{ display: none; }
   outline: none;
 }
 
-/* Rows for buttons */
-.row{
+/* Select + checkbox look nicer */
+.select{
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.82);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.12), inset 0 1px 0 rgba(255,255,255,0.70);
+  font-size: 14px;
+  outline: none;
+}
+
+.form-row{
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.block-title{
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0 0 12px;
-  color: #4b4761;
-}
-
-.tip{
-  margin-top: 10px;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-/* Quote item styles */
-.quote-text{
-  font-size: 16px;
-  line-height: 1.55;
-  font-weight: 400;
-  color: var(--text);
-  margin: 0;
-}
-
-.quote-author{
-  margin-top: 8px;
-  font-size: 13px;
-  color: var(--muted2);
-  font-weight: 700;
-}
-
-.quote-actions{
-  margin-top: 12px;
-  display: flex;
   gap: 10px;
+  margin-top: 12px;
+}
+
+.form-label{
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b6486;
+}
+
+.checkbox-row{
+  display: flex;
   align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  color: #6b6486;
+  font-weight: 700;
+}
+
+.checkbox-row input{
+  width: 18px;
+  height: 18px;
+}
+
+/* Chips */
+.chip-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.chip{
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #5b5376;
+}
+
+.chip.active{
+  background: var(--accentSoft);
+}
+
+/* Link pills (for video/track links) */
+.link-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.list{
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 /* =========================================================
-   HOME SCREEN GRID + PILLS
+   HOME (PILLS GRID)
    ========================================================= */
-
 .home-grid{
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
@@ -282,114 +313,61 @@ body.home .home-back{ display: none; }
 
 .pill-ico{ font-size: 20px; opacity: 0.75; }
 .pill-text{ font-size: 17px; font-weight: 800; color: #5b5376; }
-
 .home-pill:active{ transform: scale(0.985); }
 
 /* =========================================================
-   BOOKS PAGE (chips + list)
+   BREATHE ANIMATION
    ========================================================= */
+.breathe-wrap{
+  display: grid;
+  place-items: center;
+  padding: 8px 0 6px;
+}
 
-.section-title{
-  font-size: 16px;
+.breathe-circle{
+  width: 210px;
+  height: 210px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 16px 40px rgba(120,110,160,0.18), inset 0 1px 0 rgba(255,255,255,0.75);
+  transform: scale(0.86);
+  transition: transform 900ms ease;
+}
+
+.breathe-circle.is-big{ transform: scale(1.08); }
+
+.breathe-status{
+  margin-top: 12px;
+  text-align: center;
   font-weight: 800;
-  color: #4b4761;
-}
-
-.gentle-text{
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.45;
-}
-
-.chip-row{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.chip{
-  padding: 8px 12px;
-  font-size: 13px;
   color: #5b5376;
 }
 
-.chip.active{
-  background: var(--accentSoft);
-}
-
-.book-list{
-  margin-top: 12px;
-  display: grid;
-  gap: 12px;
-}
-
-.book-item{
-  background: rgba(255,255,255,0.70);
-  border-radius: 22px;
-  padding: 14px 14px;
-  box-shadow: var(--shadowSoft), var(--shadowInset);
-}
-
-.book-top{
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  align-items: start;
-}
-
-.book-title{
-  font-size: 15px;
-  font-weight: 800;
-  color: #4b4b6a;
-}
-
-.book-meta{
-  margin-top: 4px;
-  font-size: 13px;
-  color: var(--muted2);
+.breathe-sub{
+  margin-top: 6px;
+  text-align: center;
+  color: var(--muted);
   font-weight: 700;
-}
-
-.book-desc{
-  margin-top: 10px;
-  font-size: 14px;
-  color: #55556e;
-  line-height: 1.5;
-}
-
-.fav-btn{
-  height: 36px;
-  width: 36px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-  color: #6c63a0;
-}
-
-.fav-btn.fav{ background: rgba(238,233,246,0.95); }
-
-.book-actions{
-  margin-top: 12px;
-  display: flex;
-}
-
-.book-link{
   font-size: 13px;
-  padding: 8px 12px;
-  color: var(--accent);
+}
+
+/* Mini chips for “Completed ✅” */
+.mini-pill{
   display: inline-flex;
   align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.12), inset 0 1px 0 rgba(255,255,255,0.70);
+  font-weight: 800;
+  font-size: 13px;
+  color: #4b4761;
 }
 
 /* =========================================================
    BOTTOM NAV (ALWAYS HORIZONTAL)
    ========================================================= */
-
 .bottom-nav{
   position: fixed !important;
   left: 0 !important;
@@ -431,23 +409,17 @@ body.home .home-back{ display: none; }
   opacity: 0.85;
 }
 
-.bottom-nav a.active{
-  color: #5b5376 !important;
-}
-
+.bottom-nav a.active{ color: #5b5376 !important; }
 .bottom-nav a.active .nav-ico{ opacity: 1; }
 
 /* =========================================================
    NIGHT MODE (SAME STYLE LANGUAGE)
    ========================================================= */
-
 body.night.page-wrap{
   background: linear-gradient(180deg, #151323 0%, #1c1930 100%);
 }
 
-body.night.page-wrap::before{
-  opacity: 0.06;
-}
+body.night.page-wrap::before{ opacity: 0.06; }
 
 body.night .page-header h1{ color: rgba(255,255,255,0.92); }
 body.night .page-header p{ color: rgba(255,255,255,0.62); }
@@ -457,9 +429,9 @@ body.night .home-pill,
 body.night .btn,
 body.night .pill,
 body.night .chip,
-body.night .book-link,
+body.night .link-pill,
 body.night .input,
-body.night .book-item{
+body.night .select{
   background: rgba(24, 22, 34, 0.72) !important;
   box-shadow: 0 10px 26px rgba(0,0,0,0.35);
   color: rgba(255,255,255,0.92);
@@ -470,32 +442,12 @@ body.night .bottom-nav{
   border-top-color: rgba(255,255,255,0.10) !important;
 }
 
-body.night .bottom-nav a{
-  color: rgba(255,255,255,0.60) !important;
-}
-
-body.night .bottom-nav a.active{
-  color: rgba(255,255,255,0.92) !important;
-}
+body.night .bottom-nav a{ color: rgba(255,255,255,0.60) !important; }
+body.night .bottom-nav a.active{ color: rgba(255,255,255,0.92) !important; }
 
 body.night #themeFab.theme-toggle-top,
-body.night .home-back{
+body.night .back-btn{
   background: rgba(24, 22, 34, 0.72);
   box-shadow: 0 10px 26px rgba(0,0,0,0.35);
   color: rgba(255,255,255,0.92);
-}
-/* =========================================================
-   REMOVE THE SMALL BACK BUTTON (CHANGE NOTHING ELSE)
-   ========================================================= */
-
-/* If the injected/global back exists from older code, hide it */
-.home-back{ display: none !important; }
-
-/* Hide common “extra” back buttons some pages include */
-.back-btn{ display: none !important; }
-
-/* Hide the tiny centred back pill/button (covers most variants) */
-.page-header button[onclick*="history.back"],
-.page-header a[onclick*="history.back"]{
-  display: none !important;
 }
