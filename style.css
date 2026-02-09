@@ -2,6 +2,7 @@
    ENIGMA WELLBEING — style.css (FULL)
    ========================= */
 
+/* ---------- ROOT ---------- */
 :root{
   --bg1: #efeafd;
   --bg2: #f6f1ff;
@@ -31,11 +32,9 @@
   --inkSoft: #6a6386;
   --save: #7b6fae;
   --backInk: #5f5a78;
-
-  /* IMPORTANT: prevents nav overlap */
-  --pagePadBottom: calc(var(--navH) + var(--safeBottom) + 18px);
 }
 
+/* ---------- NIGHT MODE ---------- */
 body.night{
   --bg1: #0f0f16;
   --bg2: #151423;
@@ -52,15 +51,15 @@ body.night{
   --dangerSoft: rgba(255,120,140,0.18);
 
   --shadow: 0 14px 34px rgba(0,0,0,0.50);
-
   --wm-opacity: 0.10;
 
   --ink: rgba(255,255,255,0.92);
-  --inkSoft: rgba(255,255,255,0.78);
-  --save: #c4b7ff;
-  --backInk: rgba(255,255,255,0.92);
+  --inkSoft: rgba(255,255,255,0.72);
+  --save: #b8a8ff;
+  --backInk: rgba(255,255,255,0.88);
 }
 
+/* ---------- BASE ---------- */
 *{ box-sizing: border-box; }
 html, body{ height: 100%; }
 
@@ -72,12 +71,9 @@ body{
   background: linear-gradient(180deg, var(--bg1), var(--bg2));
 }
 
-a, a:visited, a:hover, a:active{
-  color: inherit;
-  text-decoration: none;
-}
+a{ color: inherit; text-decoration: none; }
 
-/* Page wrap + watermark */
+/* ---------- PAGE + WATERMARK ---------- */
 .page-wrap{
   min-height: 100vh;
   position: relative;
@@ -102,7 +98,7 @@ a, a:visited, a:hover, a:active{
   z-index: 1;
 }
 
-/* Header */
+/* ---------- HEADER ---------- */
 .page-header{
   width: min(460px, 92vw);
   margin: 18px auto 12px;
@@ -112,7 +108,7 @@ a, a:visited, a:hover, a:active{
 
 .page-header h1{
   margin: 0;
-  font-size: 32px;            /* calmer */
+  font-size: 34px;
   font-weight: 850;
   letter-spacing: -0.4px;
   color: var(--ink);
@@ -125,7 +121,7 @@ a, a:visited, a:hover, a:active{
   color: var(--muted);
 }
 
-/* Top buttons */
+/* ---------- TOP BUTTONS ---------- */
 .theme-toggle-top,
 .back-btn{
   position: fixed;
@@ -139,34 +135,33 @@ a, a:visited, a:hover, a:active{
   display: grid;
   place-items: center;
   font-size: 20px;
-  cursor: pointer;
 }
 
 .back-btn{
-  left: calc(16px + env(safe-area-inset-left, 0px));
+  left: 16px;
   font-size: 22px;
   font-weight: 900;
   color: var(--backInk);
 }
 
 .theme-toggle-top{
-  right: calc(16px + env(safe-area-inset-right, 0px));
+  right: 16px;
 }
 
 body.night .theme-toggle-top,
 body.night .back-btn{
-  background: rgba(26,24,38,0.78);
-  border-color: rgba(255,255,255,0.12);
+  background: rgba(26,24,38,0.72);
+  border-color: rgba(255,255,255,0.10);
 }
 
-/* Page container — IMPORTANT: bottom padding prevents nav overlap */
+/* ---------- PAGE CONTENT ---------- */
 .page{
   width: min(460px, 92vw);
-  margin: 0 auto 0;
-  padding-bottom: var(--pagePadBottom);
+  margin: 0 auto;
+  padding-bottom: calc(var(--navH) + 24px); /* prevents nav overlap */
 }
 
-/* Cards */
+/* ---------- CARDS ---------- */
 .card{
   background: var(--card);
   border: 1px solid var(--card-border);
@@ -189,10 +184,10 @@ body.night .back-btn{
   color: var(--muted);
 }
 
-/* Inputs/selects */
+/* ---------- INPUTS ---------- */
 textarea,
-select,
-.input{
+.input,
+select{
   width: 100%;
   padding: 14px 16px;
   border-radius: 18px;
@@ -204,58 +199,84 @@ select,
 }
 
 body.night textarea,
-body.night select,
-body.night .input{
-  background: rgba(26,24,38,0.78);
+body.night .input,
+body.night select{
+  background: rgba(26,24,38,0.75);
   color: rgba(255,255,255,0.95);
 }
 
-/* Buttons */
+/* ---------- BUTTONS (NEW SYSTEM) ---------- */
 .btn{
-  border: 0;
-  cursor: pointer;
   border-radius: 999px;
-  padding: 12px 16px;
+  padding: 14px 16px;
+  border: 1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
   font-size: 15px;
   font-weight: 850;
-  background: rgba(255,255,255,0.74);
+  cursor: pointer;
   color: var(--ink);
-  border: 1px solid rgba(120,110,160,0.16);
 }
-
-.btn:active{ transform: scale(0.985); }
 
 .btn.primary{
   background: var(--accentSoft);
-  color: var(--ink);
 }
 
 .btn.danger{
   background: var(--dangerSoft);
-  color: #6a2f3a;
 }
 
+.btn:active{ transform: scale(0.985); }
+
+/* ---------- OLD BUTTON COMPATIBILITY ---------- */
+.small-pill{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-size: 15px;
+  font-weight: 850;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.small-pill:active{ transform: scale(0.985); }
+
+.completed-pill{
+  background: var(--accentSoft);
+}
+
+body.night .small-pill{
+  background: rgba(40,38,60,0.95);
+  border-color: rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.96);
+}
+
+body.night .completed-pill{
+  background: rgba(184,168,255,0.28);
+}
+
+/* ---------- ROW HELPERS ---------- */
 .row{
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 10px;
 }
 
 .row.three{
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
 }
 
-/* Home pills */
+/* ---------- HOME ---------- */
 .home-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
-  padding: 18px 0 0;
 }
 
 .home-pill{
-  background: rgba(255,255,255,0.90);
+  background: rgba(255,255,255,0.9);
   border-radius: 999px;
   min-height: 66px;
   padding: 18px 20px;
@@ -263,28 +284,15 @@ body.night .input{
   align-items: center;
   gap: 14px;
   box-shadow: var(--shadow);
-  border: 1px solid rgba(120,110,160,0.10);
 }
 
-.home-pill:active{ transform: scale(0.985); }
-
-.pill-ico{ font-size: 20px; opacity: 0.80; }
-.pill-text{ font-size: 17px; font-weight: 900; color: var(--ink); }
-
-/* Night mode — make buttons easier to see */
-body.night .home-pill{
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.16);
-}
-body.night .pill-text{ color: rgba(255,255,255,0.92); }
-body.night .pill-ico{ opacity: 0.92; }
-
-/* Wide pill */
-.home-pill.wide{
-  grid-column: 1 / -1;
+.pill-text{
+  font-size: 17px;
+  font-weight: 850;
+  color: var(--ink);
 }
 
-/* Bottom nav */
+/* ---------- BOTTOM NAV ---------- */
 .bottom-nav{
   position: fixed;
   bottom: 0;
@@ -304,115 +312,58 @@ body.night .pill-ico{ opacity: 0.92; }
   place-items: center;
   gap: 4px;
   font-size: 13px;
-  font-weight: 850;
-  color: rgba(70,66,90,0.70);
+  font-weight: 800;
+  color: rgba(70,66,90,0.7);
 }
 
-.bottom-nav a.active{ color: rgba(70,66,90,0.96); }
+.bottom-nav a.active{
+  color: rgba(70,66,90,0.95);
+}
 
 body.night .bottom-nav{
-  background: rgba(18,16,28,0.86);
+  background: rgba(18,16,28,0.78);
 }
 
 body.night .bottom-nav a{
-  color: rgba(255,255,255,0.66);
+  color: rgba(255,255,255,0.62);
 }
 
 body.night .bottom-nav a.active{
-  color: rgba(255,255,255,0.94);
+  color: rgba(255,255,255,0.92);
 }
 
 .nav-ico{ font-size: 22px; }
 
-/* Chips */
-.chip-row{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.chip{
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.chip.active{
-  background: var(--accentSoft);
-}
-
-body.night .chip{
-  background: rgba(255,255,255,0.10);
-  border-color: rgba(255,255,255,0.16);
-  color: rgba(255,255,255,0.92);
-}
-
-/* Link buttons (resources/help/music/yoga lists) */
+/* ---------- LINKS / RESOURCES ---------- */
 .link-btn{
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 12px;
-  width: 100%;
   padding: 16px 18px;
   border-radius: 20px;
   background: rgba(255,255,255,0.74);
   border: 1px solid rgba(120,110,160,0.16);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.05);
   margin-top: 12px;
 }
 
-.link-btn .link-title{
+.link-title{
   font-size: 17px;
   font-weight: 900;
   color: var(--ink);
 }
 
-.link-btn .link-sub{
-  margin-top: 4px;
+.link-sub{
   font-size: 14px;
   font-weight: 650;
   color: var(--muted);
 }
 
-.link-btn .link-arrow{
-  font-size: 18px;
-  font-weight: 900;
-  opacity: 0.65;
-}
-
 body.night .link-btn{
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.14);
-}
-body.night .link-btn .link-title{
-  color: rgba(255,255,255,0.94);
+  background: rgba(40,38,60,0.95);
 }
 
-/* Quotes */
-.quote-tile{ padding: 18px; }
-
-.quote-text{
-  font-size: 17px;
-  line-height: 1.55;
-  font-weight: 750;
-  color: var(--ink);
-  margin: 0;
-}
-
-.quote-author{
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: 750;
-  color: var(--muted2);
-}
-
+/* ---------- QUOTES ---------- */
 .save-link{
   display: inline-flex;
   align-items: center;
@@ -420,165 +371,18 @@ body.night .link-btn .link-title{
   font-weight: 900;
   font-size: 15px;
   color: var(--save);
-  cursor: pointer;
 }
 
-.save-link .heart{ font-size: 16px; }
-
-/* Books tiles */
-.book-item{
-  padding: 16px 18px;
-}
-
-.book-title{
+.quote-text{
   font-size: 17px;
-  font-weight: 900;
+  line-height: 1.55;
+  font-weight: 700;
   color: var(--ink);
 }
 
-.book-meta{
-  margin-top: 6px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--muted2);
-}
-
-.book-desc{
+.quote-author{
   margin-top: 10px;
   font-size: 15px;
-  font-weight: 650;
-  color: var(--text);
-  line-height: 1.5;
-}
-
-.book-actions{
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.book-open{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-weight: 900;
-  color: var(--ink);
-}
-
-.fav-btn{
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 18px;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  color: var(--save);
-}
-
-/* =========================
-   BREATHE — fit screen, no overlap
-   ========================= */
-.breathe-page.no-scroll{
-  height: 100dvh;
-  overflow: hidden;
-}
-
-.breathe-page .page{
-  padding-bottom: var(--pagePadBottom);
-}
-
-.breathe-viewport{
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.breathe-ready-card{ flex: 0 0 auto; }
-.breathe-session-card{ flex: 0 0 auto; }
-
-.breathe-ready-title{
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--ink);
-}
-
-.breathe-ready-sub{
-  font-size: 15px;
   font-weight: 750;
-  color: var(--muted);
-}
-
-.breathe-time-top{
-  text-align: center;
-  margin-top: 8px;
-  font-size: 18px;
-  font-weight: 900;
-  color: var(--inkSoft);
-}
-
-.breathe-circle-wrap{
-  display: grid;
-  place-items: center;
-  padding: 10px 0 8px;
-}
-
-.breath-circle{
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow:
-    0 14px 28px rgba(120,110,160,0.16),
-    0 0 0 10px rgba(255,255,255,0.32);
-  transform: scale(0.92);
-}
-
-.breath-circle.inhale{ animation: inhale 4s ease-in-out forwards; }
-.breath-circle.hold  { animation: hold 2s ease-in-out forwards; }
-.breath-circle.exhale{ animation: exhale 6s ease-in-out forwards; }
-
-@keyframes inhale{ from{ transform: scale(0.92);} to{ transform: scale(1.04);} }
-@keyframes hold  { from{ transform: scale(1.04);} to{ transform: scale(1.04);} }
-@keyframes exhale{ from{ transform: scale(1.04);} to{ transform: scale(0.92);} }
-
-.session-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-top: 12px;
-}
-
-.field{
-  display: grid;
-  gap: 8px;
-}
-
-.field .label{
-  font-size: 18px;     /* bigger titles */
-  font-weight: 900;
-  color: var(--ink);
-}
-
-.field .hint{
-  font-size: 13px;
-  font-weight: 650;
-  color: var(--muted);
-}
-
-.breathe-controls{
-  margin-top: 14px;
-}
-
-/* small screens */
-@media (max-height: 760px){
-  .breath-circle{ width: 150px; height: 150px; }
-  .page-header h1{ font-size: 30px; }
+  color: var(--muted2);
 }
