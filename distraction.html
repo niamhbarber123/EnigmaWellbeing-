@@ -8,15 +8,11 @@
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
 
-  <!-- cache-bust -->
-  <link rel="stylesheet" href="style.css?v=20260210d1" />
+  <link rel="stylesheet" href="style.css?v=20260210-final" />
 </head>
 
 <body class="page-wrap">
-  <!-- Back ALWAYS goes home (same as the rest) -->
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-
-  <!-- Night mode (top-right on all pages) -->
+  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
@@ -25,8 +21,9 @@
   </header>
 
   <main class="page">
-    <div class="card">
-      <div class="gentle-text" style="line-height:1.5;">
+    <!-- Intro card -->
+    <section class="card" id="introCard">
+      <div class="gentle-text" style="line-height:1.55;">
         Type any answer to continue — or Skip. Progress counts only answered.
       </div>
 
@@ -38,24 +35,28 @@
         Answered: <strong><span id="answeredCount">0</span></strong>
       </div>
 
-      <div style="margin-top:14px;">
-        <button id="startDistraction" class="small-pill" type="button">Start</button>
+      <div class="row" style="margin-top:14px; grid-template-columns: 1fr;">
+        <button id="startDistraction" class="btn primary" type="button">Start</button>
       </div>
-    </div>
+    </section>
 
-    <!-- Question card (hidden until start) -->
-    <div class="card" id="questionCard" style="display:none;">
+    <!-- Question card -->
+    <section class="card" id="questionCard" style="display:none;">
       <div class="section-title" id="questionTitle">Question</div>
-      <div class="gentle-text" id="questionText" style="margin-top:8px; line-height:1.5;"></div>
+      <div class="gentle-text" id="questionText" style="margin-top:8px; line-height:1.55;"></div>
 
       <textarea id="answerBox" rows="4" placeholder="Type here..." style="margin-top:14px;"></textarea>
 
-      <div class="breathe-controls" style="margin-top:14px;">
-        <button id="submitAnswer" class="small-pill" type="button">Next</button>
-        <button id="skipQuestion" class="small-pill" type="button">Skip</button>
-        <button id="endDistraction" class="small-pill completed-pill" type="button">Finish</button>
+      <div class="row three" style="margin-top:14px;">
+        <button id="submitAnswer" class="btn primary" type="button">Next</button>
+        <button id="skipQuestion" class="btn" type="button">Skip</button>
+        <button id="endDistraction" class="btn danger" type="button">Finish</button>
       </div>
-    </div>
+
+      <div class="gentle-text" style="margin-top:10px;">
+        Answered: <strong><span id="answeredCount2">0</span></strong>
+      </div>
+    </section>
   </main>
 
   <nav class="bottom-nav">
@@ -68,7 +69,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260210d1" defer></script>
-  <script src="distraction.js?v=20260210d1" defer></script>
+  <script src="app.js?v=20260210-final" defer></script>
+  <script src="distraction.js?v=20260210-final" defer></script>
 </body>
 </html>
