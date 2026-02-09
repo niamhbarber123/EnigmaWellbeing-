@@ -640,3 +640,27 @@ body.night .btn{
   width: 150px;
   height: 150px;
 }
+/* =========================
+   BREATHE — make Session tile slightly smaller
+   ========================= */
+
+.breathe-session-card{
+  padding: 14px !important;       /* was 18px */
+}
+
+.breathe-session-card .section-title{
+  font-size: 18px;                /* slightly calmer */
+}
+
+.breathe-session-card .gentle-text{
+  font-size: 14px;
+}
+
+.breathe-form{
+  gap: 10px !important;           /* tighter spacing */
+  margin-top: 8px !important;
+}
+
+.breathe-controls{
+  margin-top: 10px !important;    /* pulls buttons up a bit */
+}
