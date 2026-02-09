@@ -1,123 +1,211 @@
-/* =========================
-   ENIGMA BASE
-   ========================= */
+/* =========================================================
+   ENIGMA GLOBAL THEME (MATCHES YOUR SCREENSHOT)
+   ========================================================= */
+
 :root{
   --bg1: #efeafd;
   --bg2: #f6f1ff;
-
-  --card: rgba(255,255,255,0.78);
-  --card-border: rgba(120,110,160,0.16);
 
   --text: #2f2f38;
   --muted: #8f8faa;
   --muted2: #9b9bb4;
 
-  --accent: #7b6fae;     /* Enigma purple-grey */
-  --accentSoft: #eee9f6; /* soft button bg */
-  --dangerSoft: #f4d7dd; /* delete saved */
+  --accent: #7b6fae;
+  --accentSoft: rgba(238,233,246,0.95);
+  --dangerSoft: rgba(244,215,221,0.80);
 
-  --shadow: 0 10px 26px rgba(0,0,0,0.05);
-  --radius: 16px;
+  --shadowSoft: 0 14px 34px rgba(120,110,160,0.18);
+  --shadowInset: inset 0 1px 0 rgba(255,255,255,0.75);
 }
 
 *{ box-sizing: border-box; }
 html, body { height: 100%; }
+
 body{
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text);
-  background: linear-gradient(180deg, var(--bg1), var(--bg2));
 }
 
-/* Remove default link styling (blue + underline) */
+/* Remove default blue underline */
 a, a:visited, a:hover, a:active{
   color: inherit;
   text-decoration: none;
 }
 
-/* =========================
-   LAYOUT
-   ========================= */
+/* =========================================================
+   PAGE WRAPPER + BACKGROUND + WATERMARK
+   ========================================================= */
+
+body.page-wrap{
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+  padding-bottom: calc(120px + env(safe-area-inset-bottom));
+}
+
+/* Bigger watermark behind everything */
+body.page-wrap::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background-image: url("icon.png");
+  background-repeat: no-repeat;
+  background-position: center 52%;
+  background-size: min(92vw, 560px);
+
+  opacity: 0.08;
+}
+
+/* Content above watermark */
+body.page-wrap > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   HEADER (SMALLER + CALMER)
+   ========================================================= */
+
+.page-header{
+  text-align: center;
+  padding: 18px 16px 10px;
+}
+
+.page-header h1{
+  margin: 10px 0 0;
+  font-size: 28px;        /* smaller + calmer */
+  line-height: 1.1;
+  font-weight: 700;       /* calmer */
+  letter-spacing: -0.35px;
+  color: #5a4f78;
+}
+
+.page-header p{
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #8f88a8;
+}
+
+/* Main page container */
 .page{
   width: min(460px, 92vw);
-  margin: 20px auto 90px;
+  margin: 0 auto;
+  padding: 12px 0 12px;
 }
 
-.header{
-  display: grid;
-  grid-template-columns: 44px 1fr 44px;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
+/* =========================================================
+   FLOATING THEME BUTTON (TOP RIGHT, ALL PAGES)
+   ========================================================= */
 
-.icon-btn{
-  height: 40px;
-  width: 40px;
+#themeFab.theme-toggle-top{
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 14px);
+  right: 14px;
+  z-index: 1000;
+
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
-  border: 1px solid rgba(0,0,0,0.03);
-  background: rgba(255,255,255,0.55);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.04);
-  display: grid;
-  place-items: center;
+  border: none;
+
+  background: rgba(255,255,255,0.70);
+  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
+  backdrop-filter: blur(10px);
   cursor: pointer;
 }
 
-.title-wrap{
-  text-align: center;
-}
-.h1{
-  font-size: 28px;
-  font-weight: 650;
-  letter-spacing: -0.3px;
-  margin: 0;
-  color: #49445d;
-}
-.subtitle{
-  margin: 6px 0 0;
-  font-size: 13px;
-  color: var(--muted);
+/* =========================================================
+   OPTIONAL: GLOBAL BACK BUTTON (TOP LEFT)
+   (app.js will inject this on all non-home pages)
+   ========================================================= */
+
+.home-back{
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 14px);
+  left: 14px;
+  z-index: 1000;
+
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: none;
+  display: grid;
+  place-items: center;
+
+  background: rgba(255,255,255,0.70);
+  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
+  backdrop-filter: blur(10px);
+
+  color: #5b5376;
+  font-size: 20px;
+  font-weight: 900;
 }
 
-/* =========================
-   CARDS / BOXES
-   ========================= */
+/* Hide back button on home */
+body.home .home-back{ display: none; }
+
+/* =========================================================
+   CARDS + PILLS (THE LOOK IN YOUR SCREENSHOT)
+   ========================================================= */
+
 .card{
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
+  background: rgba(255,255,255,0.88);
+  border: none;
+  border-radius: 22px;
   padding: 16px 18px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadowSoft), var(--shadowInset);
 }
 
-.card + .card{
-  margin-top: 14px;
+.card + .card{ margin-top: 14px; }
+.section{ margin-top: 14px; }
+
+/* Buttons / chips / pill buttons */
+.btn, .pill, .chip, .book-link{
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.section{
-  margin-top: 14px;
-}
-
-/* =========================
-   QUOTES - SEARCH CARD
-   ========================= */
-.block-title{
-  font-size: 18px;
-  font-weight: 650;
-  margin: 0 0 12px;
+.btn{
+  padding: 10px 12px;
+  font-size: 14px;
   color: #4b4761;
 }
 
+.btn.primary{ background: var(--accentSoft); color: #5b5382; }
+.btn.danger{ background: var(--dangerSoft); color: #6a2f3a; }
+
+.pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  color: #4b4761;
+}
+
+.pill .heart{ color: #7d65c7; }
+
+/* Inputs */
 .input{
   width: 100%;
   padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(120,110,160,0.18);
-  background: rgba(255,255,255,0.65);
+  border: none;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.82);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.12), inset 0 1px 0 rgba(255,255,255,0.70);
   font-size: 14px;
   outline: none;
 }
 
+/* Rows for buttons */
 .row{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -125,26 +213,11 @@ a, a:visited, a:hover, a:active{
   margin-top: 12px;
 }
 
-.btn{
-  border: 0;
-  cursor: pointer;
-  border-radius: 999px;
-  padding: 10px 12px;
-  font-size: 14px;
-  font-weight: 600;
-  background: rgba(255,255,255,0.7);
+.block-title{
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px;
   color: #4b4761;
-  border: 1px solid rgba(120,110,160,0.16);
-}
-
-.btn.primary{
-  background: var(--accentSoft);
-  color: #5b5382;
-}
-
-.btn.danger{
-  background: var(--dangerSoft);
-  color: #6a2f3a;
 }
 
 .tip{
@@ -153,13 +226,11 @@ a, a:visited, a:hover, a:active{
   color: var(--muted);
 }
 
-/* =========================
-   QUOTE ITEM CARD
-   ========================= */
+/* Quote item styles */
 .quote-text{
   font-size: 16px;
   line-height: 1.55;
-  font-weight: 400; /* calmer */
+  font-weight: 400;
   color: var(--text);
   margin: 0;
 }
@@ -168,391 +239,29 @@ a, a:visited, a:hover, a:active{
   margin-top: 8px;
   font-size: 13px;
   color: var(--muted2);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .quote-actions{
   margin-top: 12px;
   display: flex;
-  align-items: center;
   gap: 10px;
-}
-
-.pill{
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.65);
-  font-size: 13px;
-  font-weight: 600;
-  color: #4b4761;
-  cursor: pointer;
 }
 
-.pill .heart{
-  color: #7d65c7;
-}
+/* =========================================================
+   HOME SCREEN GRID + PILLS
+   ========================================================= */
 
-/* =========================
-   RECOMMENDATIONS - BOOK CARD
-   ========================= */
-.tabs{
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  justify-content: center;
-}
-
-.tab{
-  border-radius: 999px;
-  padding: 8px 12px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.55);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.tab.active{
-  background: rgba(255,255,255,0.75);
-  color: #4b4761;
-}
-
-.reco-header{
-  margin: 0 0 8px;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.book-title{
-  margin: 2px 0 0;
-  font-size: 15px;     /* less in your face */
-  font-weight: 600;    /* calm but readable */
-  color: #4b4b6a;
-}
-
-.book-meta{
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: var(--muted2);
-}
-
-.book-desc{
-  margin: 10px 0 0;
-  font-size: 14px;
-  color: #55556e;
-  line-height: 1.5;
-}
-
-.book-actions{
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.fav-btn{
-  height: 34px;
-  width: 34px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.65);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  font-size: 16px;
-  color: #6c63a0;
-}
-
-.open-link{
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--accent);
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.65);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.open-link:hover{
-  opacity: 0.8;
-}
-/* =========================
-   QUOTES PAGE POLISH
-   ========================= */
-
-/* Soften page headers (not home) */
-.page-wrap:not(.home) .page-header h1 {
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: -0.2px;
-}
-
-.page-wrap:not(.home) .page-header p {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-/* Ensure quote cards stack cleanly */
-#quotesList .card {
-  margin-top: 14px;
-}
-
-/* Prevent any rogue blue links */
-#quotesList a {
-  color: inherit;
-  text-decoration: none;
-}
-.page-wrap:not(.home) .page-header h1 {
-  font-size: 26px;
-  font-weight: 600;
-}
-
-.page-wrap:not(.home) .page-header p {
-  font-size: 13px;
-  color: var(--muted);
-}
-/* =========================
-   HOME SCREEN – MATCH APP MOCK
-   ========================= */
-
-.home-page {
-  padding-top: 10px;
-}
-
-/* Header */
-.home .page-header h1 {
-  font-size: 34px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  color: #5a4f78;
-}
-
-.home .page-header p {
-  font-size: 15px;
-  color: #8f88a8;
-  margin-top: 6px;
-}
-
-/* Grid spacing */
-.home-grid {
-  gap: 18px;
-}
-
-/* Pills */
-.home-pill {
-  background: rgba(255,255,255,0.85);
-  border-radius: 999px;
-  padding: 18px 22px;
-  min-height: 64px;
-
-  display: flex;
-  align-items: center;
-  gap: 14px;
-
-  box-shadow:
-    0 12px 30px rgba(120,110,160,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.6);
-
-  border: none;
-}
-
-/* Wide SOS pill */
-.home-pill.wide {
-  justify-content: center;
-  font-weight: 600;
-}
-
-/* Icons */
-.pill-ico {
-  font-size: 20px;
-  opacity: 0.75;
-}
-
-/* Text */
-.pill-text {
-  font-size: 17px;
-  font-weight: 600;
-  color: #5b5376;
-}
-
-/* Reduce tap harshness */
-.home-pill:active {
-  transform: scale(0.98);
-}
-
-/* Bottom nav softer */
-.bottom-nav {
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(10px);
-}
-
-.bottom-nav a {
-  color: #8f88a8;
-}
-
-.bottom-nav a.active {
-  color: #5b5376;
-}
-/* =========================
-   HOME SCREEN – MATCH YOUR MOCK
-   ========================= */
-
-body.page-wrap.home{
-  background: linear-gradient(180deg, #efeafd, #f6f1ff);
-}
-
-/* Header */
-body.page-wrap.home .page-header h1{
-  font-size: 34px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  color: #5a4f78;
-  margin: 8px 0 0;
-}
-
-body.page-wrap.home .page-header p{
-  font-size: 15px;
-  color: #8f88a8;
-  margin: 6px 0 0;
-}
-
-/* Grid spacing */
-
-
-body.page-wrap.home .home-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  padding: 10px 16px 0;
-}
-
-/* Make the wide button span two columns */
-body.page-wrap.home .home-pill.wide{
-  grid-column: 1 / -1;
-}
-
-/* Pills */
-body.page-wrap.home .home-pill{
-  background: rgba(255,255,255,0.85);
-  border-radius: 999px;
-  padding: 18px 22px;
-  min-height: 64px;
-
-  display: flex;
-  align-items: center;
-  gap: 14px;
-
-  border: none;
-  box-shadow:
-    0 12px 30px rgba(120,110,160,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.6);
-}
-
-/* Icon + text */
-body.page-wrap.home .pill-ico{
-  font-size: 20px;
-  opacity: 0.75;
-}
-
-body.page-wrap.home .pill-text{
-  font-size: 17px;
-  font-weight: 600;
-  color: #5b5376;
-}
-
-/* Press feedback */
-body.page-wrap.home .home-pill:active{
-  transform: scale(0.98);
-}
-
-/* Bottom nav softer */
-body.page-wrap.home .bottom-nav{
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(10px);
-}
-
-body.page-wrap.home .bottom-nav a{
-  color: #8f88a8;
-}
-
-body.page-wrap.home .bottom-nav a.active{
-  color: #5b5376;
-}
-/* =========================================
-   FORCE HOME SCREEN TO MATCH YOUR MOCK
-   (Paste at VERY BOTTOM of style.css)
-   ========================================= */
-
-body.page-wrap.home{
-  background: linear-gradient(180deg, #efeafd 0%, #f6f1ff 100%);
-}
-
-/* Header exactly like mock */
-body.page-wrap.home .page-header{
-  text-align: center;
-  padding: 18px 16px 6px;
-}
-
-body.page-wrap.home .page-header h1{
-  margin: 10px 0 0;
-  font-size: 38px;
-  line-height: 1.05;
-  font-weight: 800;
-  letter-spacing: -0.6px;
-  color: #5a4f78;
-}
-
-body.page-wrap.home .page-header p{
-  margin: 10px 0 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: #8f88a8;
-}
-
-/* Theme button top-right */
-body.page-wrap.home #themeFab.theme-toggle-top{
-  position: fixed;
-  top: calc(env(safe-area-inset-top) + 14px);
-  right: 14px;
-  z-index: 50;
-  width: 46px;
-  height: 46px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(255,255,255,0.70);
-  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
-  backdrop-filter: blur(10px);
-}
-
-/* HOME GRID = 2 columns like mock */
-body.page-wrap.home .home-page{
-  padding-bottom: calc(110px + env(safe-area-inset-bottom));
-}
-
-body.page-wrap.home .home-grid{
+.home-grid{
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
   gap: 18px !important;
   padding: 18px 16px 0 !important;
 }
 
-/* Wide SOS spans both columns */
-body.page-wrap.home .home-pill.wide{
-  grid-column: 1 / -1 !important;
-  justify-content: center !important;
-}
-
-/* Pills exactly like mock */
-body.page-wrap.home a.home-pill{
-  background: rgba(255,255,255,0.88) !important;
+.home-pill{
+  background: rgba(255,255,255,0.90) !important;
   border: none !important;
   border-radius: 999px !important;
 
@@ -563,176 +272,195 @@ body.page-wrap.home a.home-pill{
   align-items: center !important;
   gap: 14px !important;
 
-  box-shadow:
-    0 14px 34px rgba(120,110,160,0.22),
-    inset 0 1px 0 rgba(255,255,255,0.75) !important;
+  box-shadow: 0 14px 34px rgba(120,110,160,0.20), inset 0 1px 0 rgba(255,255,255,0.75) !important;
 }
 
-body.page-wrap.home .pill-ico{
-  font-size: 20px;
-  opacity: 0.75;
+.home-pill.wide{
+  grid-column: 1 / -1 !important;
+  justify-content: center !important;
 }
 
-body.page-wrap.home .pill-text{
-  font-size: 17px;
+.pill-ico{ font-size: 20px; opacity: 0.75; }
+.pill-text{ font-size: 17px; font-weight: 800; color: #5b5376; }
+
+.home-pill:active{ transform: scale(0.985); }
+
+/* =========================================================
+   BOOKS PAGE (chips + list)
+   ========================================================= */
+
+.section-title{
+  font-size: 16px;
   font-weight: 800;
+  color: #4b4761;
+}
+
+.gentle-text{
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.chip-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip{
+  padding: 8px 12px;
+  font-size: 13px;
   color: #5b5376;
 }
 
-/* Press feedback */
-body.page-wrap.home a.home-pill:active{
-  transform: scale(0.985);
+.chip.active{
+  background: var(--accentSoft);
 }
 
-/* =========================================
-   FIX BOTTOM NAV (your "FROM" screenshot issue)
-   ========================================= */
+.book-list{
+  margin-top: 12px;
+  display: grid;
+  gap: 12px;
+}
 
-body.page-wrap.home .bottom-nav{
+.book-item{
+  background: rgba(255,255,255,0.70);
+  border-radius: 22px;
+  padding: 14px 14px;
+  box-shadow: var(--shadowSoft), var(--shadowInset);
+}
+
+.book-top{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+}
+
+.book-title{
+  font-size: 15px;
+  font-weight: 800;
+  color: #4b4b6a;
+}
+
+.book-meta{
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted2);
+  font-weight: 700;
+}
+
+.book-desc{
+  margin-top: 10px;
+  font-size: 14px;
+  color: #55556e;
+  line-height: 1.5;
+}
+
+.fav-btn{
+  height: 36px;
+  width: 36px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  color: #6c63a0;
+}
+
+.fav-btn.fav{ background: rgba(238,233,246,0.95); }
+
+.book-actions{
+  margin-top: 12px;
+  display: flex;
+}
+
+.book-link{
+  font-size: 13px;
+  padding: 8px 12px;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* =========================================================
+   BOTTOM NAV (ALWAYS HORIZONTAL)
+   ========================================================= */
+
+.bottom-nav{
   position: fixed !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
-  z-index: 60 !important;
+  z-index: 999 !important;
 
   display: flex !important;
   justify-content: space-around !important;
   align-items: center !important;
 
-  padding: 10px 6px calc(10px + env(safe-area-inset-bottom)) !important;
-  background: rgba(255,255,255,0.86) !important;
+  background: rgba(255,255,255,0.88) !important;
   backdrop-filter: blur(12px);
   border-top: 1px solid rgba(120,110,160,0.16);
+
+  padding: 10px 6px calc(10px + env(safe-area-inset-bottom)) !important;
 }
 
-body.page-wrap.home .bottom-nav a{
+.bottom-nav a{
   flex: 1 1 0 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
 
-  gap: 6px !important;
-  padding: 6px 0 !important;
+  gap: 6px;
+  padding: 6px 0;
 
-  text-decoration: none !important;
-  color: #8f88a8 !important;
-  font-weight: 700;
   font-size: 12px;
+  font-weight: 700;
+  color: #8f88a8 !important;
+  text-align: center;
+  white-space: nowrap;
 }
 
-body.page-wrap.home .bottom-nav .nav-ico{
+.bottom-nav .nav-ico{
   font-size: 20px;
   line-height: 1;
   opacity: 0.85;
 }
 
-body.page-wrap.home .bottom-nav a.active{
+.bottom-nav a.active{
   color: #5b5376 !important;
 }
 
-body.page-wrap.home .bottom-nav a.active .nav-ico{
-  opacity: 1;
-}
-/* =========================================
-   GLOBAL TOP-RIGHT THEME BUTTON (ALL PAGES)
-   ========================================= */
-#themeFab.theme-toggle-top{
-  position: fixed;
-  top: calc(env(safe-area-inset-top) + 14px);
-  right: 14px;
-  z-index: 999;
-  width: 46px;
-  height: 46px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(255,255,255,0.70);
-  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
-  backdrop-filter: blur(10px);
-  cursor: pointer;
+.bottom-nav a.active .nav-ico{ opacity: 1; }
+
+/* =========================================================
+   NIGHT MODE (SAME STYLE LANGUAGE)
+   ========================================================= */
+
+body.night.page-wrap{
+  background: linear-gradient(180deg, #151323 0%, #1c1930 100%);
 }
 
-/* =========================================
-   GLOBAL BACK BUTTON (GOES HOME)
-   ========================================= */
-.home-back{
-  position: fixed;
-  top: calc(env(safe-area-inset-top) + 14px);
-  left: 14px;
-  z-index: 999;
-  width: 46px;
-  height: 46px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  background: rgba(255,255,255,0.70);
-  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
-  backdrop-filter: blur(10px);
-  border: none;
-  text-decoration: none;
-  color: #5b5376;
-  font-size: 20px;
-  font-weight: 800;
+body.night.page-wrap::before{
+  opacity: 0.06;
 }
 
-/* On HOME we don't show the back button */
-body.home .home-back{
-  display: none;
-}
+body.night .page-header h1{ color: rgba(255,255,255,0.92); }
+body.night .page-header p{ color: rgba(255,255,255,0.62); }
 
-/* =========================================
-   WATERMARK LOGO BEHIND EVERYTHING (ALL PAGES)
-   Uses your existing icon.png
-   ========================================= */
-body.page-wrap::before{
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  background-image: url("icon.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: min(72vw, 420px);
-
-  opacity: 0.07; /* tweak to taste */
-  filter: blur(0px);
-}
-
-/* Ensure your content sits above watermark */
-body.page-wrap > *{
-  position: relative;
-  z-index: 1;
-}
-
-/* =========================================
-   NIGHT MODE (WORKS + MATCHES ENIGMA)
-   ========================================= */
-body.night{
-  --bg1: #16141f;
-  --bg2: #1c1930;
-
-  --card: rgba(36, 32, 52, 0.72);
-  --card-border: rgba(180, 170, 220, 0.12);
-
-  --text: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.62);
-  --muted2: rgba(255,255,255,0.70);
-
-  --accent: #b7a7ff;
-  --accentSoft: rgba(183,167,255,0.16);
-  --dangerSoft: rgba(244, 215, 221, 0.16);
-}
-
-body.night{
-  background: linear-gradient(180deg, var(--bg1), var(--bg2));
-}
-
-/* Make nav + floating buttons match night */
-body.night #themeFab.theme-toggle-top,
-body.night .home-back{
-  background: rgba(24, 22, 34, 0.72);
+body.night .card,
+body.night .home-pill,
+body.night .btn,
+body.night .pill,
+body.night .chip,
+body.night .book-link,
+body.night .input,
+body.night .book-item{
+  background: rgba(24, 22, 34, 0.72) !important;
   box-shadow: 0 10px 26px rgba(0,0,0,0.35);
   color: rgba(255,255,255,0.92);
 }
@@ -750,7 +478,9 @@ body.night .bottom-nav a.active{
   color: rgba(255,255,255,0.92) !important;
 }
 
-/* Watermark dims slightly in night mode */
-body.night.page-wrap::before{
-  opacity: 0.05;
+body.night #themeFab.theme-toggle-top,
+body.night .home-back{
+  background: rgba(24, 22, 34, 0.72);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+  color: rgba(255,255,255,0.92);
 }
