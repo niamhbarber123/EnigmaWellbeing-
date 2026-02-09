@@ -468,3 +468,86 @@ body.night .book-link{
   background: rgba(24, 22, 34, 0.72);
   color: rgba(255,255,255,0.92);
 }
+/* =========================
+   Bigger buttons for Journal + Distraction
+   ========================= */
+body.journal-page .btn,
+body.journal-page .small-pill,
+body.distraction-page .btn,
+body.distraction-page .small-pill{
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 850;
+}
+
+/* If your Journal/Distraction uses plain <button> without classes */
+body.journal-page button,
+body.distraction-page button{
+  border-radius: 999px;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 850;
+}
+
+/* =========================
+   Quotes: make Save NOT blue + put quotes in their own tiles
+   ========================= */
+.quote-list{
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+/* Each quote tile */
+.quote-item{
+  background: rgba(255,255,255,0.88);
+  border-radius: 22px;
+  padding: 16px 18px;
+  box-shadow: 0 12px 26px rgba(120,110,160,0.16), inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+/* Quote Save button colour fix (kills iOS “link blue”) */
+.quote-save,
+.quote-item a,
+.quote-item a:visited{
+  color: #5b5376 !important;
+  text-decoration: none !important;
+}
+
+/* Style the Save control like a pill */
+.quote-save{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
+  font-size: 15px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.quote-save .heart{
+  color: #7d65c7;
+}
+
+/* Night mode versions */
+body.night .quote-item{
+  background: rgba(24, 22, 34, 0.72) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+}
+
+body.night .quote-save{
+  background: rgba(24, 22, 34, 0.72) !important;
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* Books already have their own tiles via .book-item,
+   but keep this in case anything renders as plain text */
+.book-list{
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
