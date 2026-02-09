@@ -1,5 +1,5 @@
 /* =========================================================
-   ENIGMA GLOBAL THEME (MATCHES YOUR SCREENSHOT)
+   ENIGMA GLOBAL THEME (MATCHES YOUR SCREENSHOT STYLE)
    ========================================================= */
 
 :root{
@@ -7,8 +7,8 @@
   --bg2: #f6f1ff;
 
   --text: #2f2f38;
-  --muted: #8f8faa;
-  --muted2: #9b9bb4;
+  --muted: #7f7b94;
+  --muted2: #8f8aa3;
 
   --accent: #7b6fae;
   --accentSoft: rgba(238,233,246,0.95);
@@ -25,11 +25,13 @@ body{
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text);
+  font-size: 16px;            /* ✅ BIGGER base text */
+  line-height: 1.45;
 }
 
 a, a:visited, a:hover, a:active{
   color: inherit;
-  text-decoration: none;
+  text-decoration: none;      /* ✅ remove blue underline everywhere */
 }
 
 /* =========================================================
@@ -38,7 +40,7 @@ a, a:visited, a:hover, a:active{
 body.page-wrap{
   min-height: 100vh;
   background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
-  padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  padding-bottom: calc(140px + env(safe-area-inset-bottom));
 }
 
 body.page-wrap::before{
@@ -51,7 +53,7 @@ body.page-wrap::before{
   background-image: url("icon.png");
   background-repeat: no-repeat;
   background-position: center 56%;
-  background-size: min(92vw, 560px);
+  background-size: min(92vw, 600px); /* ✅ bigger watermark */
 
   opacity: 0.08;
 }
@@ -62,7 +64,7 @@ body.page-wrap > *{
 }
 
 /* =========================================================
-   HEADER (SMALLER + CALMER)
+   HEADER (CALM + READABLE)
    ========================================================= */
 .page-header{
   position: relative;
@@ -72,24 +74,24 @@ body.page-wrap > *{
 
 .page-header h1{
   margin: 10px 0 0;
-  font-size: 28px;
+  font-size: 30px;            /* ✅ bigger heading */
   line-height: 1.1;
-  font-weight: 700;
+  font-weight: 750;
   letter-spacing: -0.35px;
   color: #5a4f78;
 }
 
 .page-header p{
   margin: 10px 0 0;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;            /* ✅ bigger subtitle */
+  font-weight: 650;
   color: #8f88a8;
 }
 
 .page{
   width: min(460px, 92vw);
   margin: 0 auto;
-  padding: 12px 0 12px;
+  padding: 12px 0 180px; /* ✅ ensures content never hides under nav */
 }
 
 /* =========================================================
@@ -113,7 +115,7 @@ body.page-wrap > *{
 }
 
 /* =========================================================
-   LEFT BACK BUTTON (KEEP THIS ONE)
+   LEFT BACK BUTTON (ALWAYS WORKS)
    ========================================================= */
 .back-btn{
   position: fixed;
@@ -136,14 +138,7 @@ body.page-wrap > *{
   font-size: 20px;
   font-weight: 900;
   cursor: pointer;
-}
-
-/* REMOVE ONLY the tiny centred pill if it exists anywhere */
-.center-back,
-.mini-back,
-.page-header .center-back,
-.page-header .mini-back{
-  display: none !important;
+  text-decoration: none;
 }
 
 /* =========================================================
@@ -158,33 +153,32 @@ body.page-wrap > *{
 }
 
 .card + .card{ margin-top: 14px; }
-.section{ margin-top: 14px; }
 
 .section-title{
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 18px;            /* ✅ bigger section headings */
+  font-weight: 850;
   color: #4b4761;
 }
 
 .gentle-text{
-  font-size: 13px;
+  font-size: 14px;            /* ✅ bigger body helper text */
   color: var(--muted);
   line-height: 1.45;
 }
 
 /* Buttons / chips */
-.btn, .pill, .chip, .link-pill{
+.btn, .pill, .chip, .link-pill, .small-pill{
   border: none;
   border-radius: 999px;
   background: rgba(255,255,255,0.78);
   box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-weight: 700;
+  font-weight: 750;
   cursor: pointer;
 }
 
 .btn{
-  padding: 10px 12px;
-  font-size: 14px;
+  padding: 12px 14px;
+  font-size: 15px;
   color: #4b4761;
 }
 
@@ -198,26 +192,14 @@ body.page-wrap > *{
   margin-top: 12px;
 }
 
-.input{
+.input, .select{
   width: 100%;
-  padding: 12px 14px;
+  padding: 14px 14px;
   border: none;
   border-radius: 18px;
   background: rgba(255,255,255,0.82);
   box-shadow: 0 10px 24px rgba(120,110,160,0.12), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-size: 14px;
-  outline: none;
-}
-
-/* Select + checkbox look nicer */
-.select{
-  width: 100%;
-  padding: 12px 14px;
-  border: none;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.82);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.12), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-size: 14px;
+  font-size: 15px;            /* ✅ bigger inputs */
   outline: none;
 }
 
@@ -228,8 +210,8 @@ body.page-wrap > *{
 }
 
 .form-label{
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 14px;            /* ✅ bigger labels */
+  font-weight: 800;
   color: #6b6486;
 }
 
@@ -239,15 +221,21 @@ body.page-wrap > *{
   gap: 10px;
   margin-top: 10px;
   color: #6b6486;
-  font-weight: 700;
+  font-weight: 800;
+  font-size: 15px;
 }
 
 .checkbox-row input{
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
-/* Chips */
+.small-pill{
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #4b4761;
+}
+
 .chip-row{
   display: flex;
   flex-wrap: wrap;
@@ -256,22 +244,19 @@ body.page-wrap > *{
 }
 
 .chip{
-  padding: 8px 12px;
-  font-size: 13px;
+  padding: 10px 14px;
+  font-size: 14px;
   color: #5b5376;
 }
 
-.chip.active{
-  background: var(--accentSoft);
-}
+.chip.active{ background: var(--accentSoft); }
 
-/* Link pills (for video/track links) */
 .link-pill{
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 12px;
-  font-size: 13px;
+  padding: 12px 14px;
+  font-size: 14px;
   color: var(--accent);
 }
 
@@ -282,7 +267,83 @@ body.page-wrap > *{
 }
 
 /* =========================================================
-   HOME (PILLS GRID)
+   BOOK TILES (EACH BOOK IN ITS OWN CARD)
+   ========================================================= */
+.book-list{
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.book-item{
+  background: rgba(255,255,255,0.88);
+  border-radius: 20px;
+  padding: 14px 14px;
+  box-shadow: 0 12px 26px rgba(120,110,160,0.16), inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+.book-top{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.book-title{
+  font-size: 16px;
+  font-weight: 850;
+  color: #4b4761;
+  margin: 0;
+}
+
+.book-meta{
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted2);
+  margin-top: 6px;
+}
+
+.book-desc{
+  font-size: 15px;
+  color: #55556e;
+  margin-top: 8px;
+  line-height: 1.45;
+}
+
+.fav-btn{
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
+  font-size: 18px;
+  cursor: pointer;
+  color: #6c63a0;
+}
+
+.fav-btn.fav{ color: #6b4fe0; }
+
+.book-actions{
+  margin-top: 12px;
+}
+
+.book-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* =========================================================
+   HOME GRID (UNCHANGED LOOK)
    ========================================================= */
 .home-grid{
   display: grid !important;
@@ -312,58 +373,8 @@ body.page-wrap > *{
 }
 
 .pill-ico{ font-size: 20px; opacity: 0.75; }
-.pill-text{ font-size: 17px; font-weight: 800; color: #5b5376; }
+.pill-text{ font-size: 17px; font-weight: 850; color: #5b5376; }
 .home-pill:active{ transform: scale(0.985); }
-
-/* =========================================================
-   BREATHE ANIMATION
-   ========================================================= */
-.breathe-wrap{
-  display: grid;
-  place-items: center;
-  padding: 8px 0 6px;
-}
-
-.breathe-circle{
-  width: 210px;
-  height: 210px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.72);
-  box-shadow: 0 16px 40px rgba(120,110,160,0.18), inset 0 1px 0 rgba(255,255,255,0.75);
-  transform: scale(0.86);
-  transition: transform 900ms ease;
-}
-
-.breathe-circle.is-big{ transform: scale(1.08); }
-
-.breathe-status{
-  margin-top: 12px;
-  text-align: center;
-  font-weight: 800;
-  color: #5b5376;
-}
-
-.breathe-sub{
-  margin-top: 6px;
-  text-align: center;
-  color: var(--muted);
-  font-weight: 700;
-  font-size: 13px;
-}
-
-/* Mini chips for “Completed ✅” */
-.mini-pill{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.12), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-weight: 800;
-  font-size: 13px;
-  color: #4b4761;
-}
 
 /* =========================================================
    BOTTOM NAV (ALWAYS HORIZONTAL)
@@ -397,7 +408,7 @@ body.page-wrap > *{
   padding: 6px 0;
 
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
   color: #8f88a8 !important;
   text-align: center;
   white-space: nowrap;
@@ -431,7 +442,8 @@ body.night .pill,
 body.night .chip,
 body.night .link-pill,
 body.night .input,
-body.night .select{
+body.night .select,
+body.night .book-item{
   background: rgba(24, 22, 34, 0.72) !important;
   box-shadow: 0 10px 26px rgba(0,0,0,0.35);
   color: rgba(255,255,255,0.92);
@@ -449,5 +461,10 @@ body.night #themeFab.theme-toggle-top,
 body.night .back-btn{
   background: rgba(24, 22, 34, 0.72);
   box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+  color: rgba(255,255,255,0.92);
+}
+
+body.night .book-link{
+  background: rgba(24, 22, 34, 0.72);
   color: rgba(255,255,255,0.92);
 }
