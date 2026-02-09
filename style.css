@@ -27,27 +27,57 @@ body.night{
   -webkit-tap-highlight-color: transparent;
 }
 
+html, body { height: 100%; }
+
 body{
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
                "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background: linear-gradient(180deg, #efe9fb 0%, var(--bg) 100%);
   color: var(--text);
+  font-size: 16px;
+  line-height: 1.45;
 }
+
+/* Remove default link styling */
+a, a:visited, a:hover, a:active{
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===============================
+   Watermark (behind everything)
+   =============================== */
+.page-wrap{
+  min-height: 100vh;
+  padding-bottom: calc(140px + env(safe-area-inset-bottom));
+  position: relative;
+}
+
+.page-wrap::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("icon.png");
+  background-repeat: no-repeat;
+  background-position: center 56%;
+  background-size: min(92vw, 600px);
+  opacity: 0.08;
+}
+
+.page-wrap > *{ position: relative; z-index: 1; }
 
 /* ===============================
    Page layout
    =============================== */
 
-.page-wrap{
-  min-height: 100vh;
-  padding-bottom: 140px; /* space for bottom nav */
-}
-
 .page{
   max-width: 520px;
   margin: 0 auto;
   padding: 18px;
+  padding-bottom: 180px; /* ensure nothing hides behind bottom nav */
 }
 
 /* ===============================
@@ -56,12 +86,13 @@ body{
 
 .page-header{
   text-align: center;
-  margin-bottom: 18px;
+  margin: 0;
+  padding: 18px 16px 10px;
 }
 
 .page-header h1{
   margin: 6px 0 4px;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.01em;
 }
@@ -70,7 +101,7 @@ body{
   margin: 0;
   font-size: 15px;
   color: var(--subtext);
-  font-weight: 600;
+  font-weight: 650;
 }
 
 /* ===============================
@@ -79,10 +110,10 @@ body{
 
 .back-btn{
   position: fixed;
-  top: 14px;
+  top: calc(env(safe-area-inset-top) + 14px);
   left: 14px;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: var(--card);
   box-shadow: var(--shadow);
@@ -97,10 +128,10 @@ body{
 
 .theme-toggle-top{
   position: fixed;
-  top: 14px;
+  top: calc(env(safe-area-inset-top) + 14px);
   right: 14px;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   border: none;
   background: var(--card);
@@ -131,37 +162,80 @@ body{
 .gentle-text{
   font-size: 15px;
   color: var(--subtext);
-  font-weight: 600;
+  font-weight: 650;
+}
+
+/* ===============================
+   Inputs
+   =============================== */
+input, textarea, select{
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: none;
+  font-size: 16px;
+  background: var(--card);
+  color: var(--text);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  margin-top: 12px;
 }
 
 /* ===============================
    Buttons
    =============================== */
-
-button{
-  font-family: inherit;
-}
+button{ font-family: inherit; }
 
 .small-pill{
   border: none;
   border-radius: 999px;
-  padding: 8px 16px;
+  padding: 10px 16px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   background: var(--accent-soft);
   color: var(--text);
+  cursor: pointer;
 }
 
-.big-btn{
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 999px;
-  border: none;
-  font-size: 16px;
-  font-weight: 800;
-  background: var(--accent);
-  color: #4b4761;
+.small-pill:active{ transform: scale(0.98); }
+
+/* Grid row helper */
+.row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
 }
+
+/* ===============================
+   Home pills
+   =============================== */
+.home-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 18px 16px 0;
+}
+
+.home-pill{
+  background: rgba(255,255,255,0.90);
+  border: none;
+  border-radius: 999px;
+  min-height: 66px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow);
+}
+
+.home-pill.wide{
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+.pill-ico{ font-size: 20px; opacity: 0.75; }
+.pill-text{ font-size: 17px; font-weight: 850; color: #5b5376; }
+.home-pill:active{ transform: scale(0.985); }
 
 /* ===============================
    Bottom navigation
@@ -176,7 +250,7 @@ button{
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: space-around;
-  padding: 10px 6px env(safe-area-inset-bottom);
+  padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
   box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
   z-index: 15;
 }
@@ -188,12 +262,14 @@ body.night .bottom-nav{
 .bottom-nav a{
   text-decoration: none;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--subtext);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  flex: 1 1 0;
+  white-space: nowrap;
 }
 
 .bottom-nav a.active{
@@ -205,7 +281,7 @@ body.night .bottom-nav{
 }
 
 /* ===============================
-   Resources – Button style links
+   Resources – button-style links
    =============================== */
 
 .tile-list{
@@ -220,7 +296,7 @@ body.night .bottom-nav{
   padding: 14px 16px;
   border-radius: 18px;
   background: var(--card);
-  box-shadow: var(--shadow);
+  box-shadow: 0 6px 14px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.85);
   text-decoration: none;
   color: inherit;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -239,83 +315,114 @@ body.night .bottom-nav{
   font-size: 14px;
   margin-top: 4px;
   color: var(--subtext);
+  font-weight: 650;
+}
+
+/* Night mode tile tweak */
+body.night .tile{
+  background: var(--card);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
 }
 
 /* ===============================
-   Books & Quotes tiles
+   Books tiles
    =============================== */
+.book-list{
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
 
-.book-item,
-.quote-card{
+.book-item{
   background: var(--card);
   border-radius: 22px;
   padding: 16px;
   box-shadow: var(--shadow);
-  margin-bottom: 14px;
 }
 
 .book-title{
   font-size: 17px;
-  font-weight: 800;
+  font-weight: 850;
 }
 
 .book-meta{
+  margin-top: 6px;
   font-size: 14px;
+  font-weight: 700;
   color: var(--subtext);
 }
 
 .book-desc{
-  margin-top: 6px;
+  margin-top: 10px;
   font-size: 15px;
+  line-height: 1.45;
 }
 
-.quote-card{
-  font-size: 16px;
-  font-weight: 600;
-}
+.book-actions{ margin-top: 12px; }
 
-/* ===============================
-   Breathe circle
-   =============================== */
-
-.breathe-circle{
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: white;
-  margin: 20px auto;
-  box-shadow: 0 0 40px rgba(200,190,240,0.6);
+.book-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  font-size: 14px;
+  font-weight: 850;
+  color: #5b5376;
 }
 
 /* ===============================
-   Forms
+   Quotes tiles
    =============================== */
+.quote-list{
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
 
-input, textarea, select{
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: none;
-  font-size: 16px;
+.quote-item{
   background: var(--card);
-  color: var(--text);
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  border-radius: 22px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
 }
 
-/* ===============================
-   Safety
-   =============================== */
-
-a{
-  color: inherit;
+.quote-text{
+  font-size: 16px;
+  font-weight: 650;
+  margin: 0;
+  line-height: 1.5;
 }
 
+.quote-author{
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 750;
+  color: var(--subtext);
+}
+
+.quote-save{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent-soft);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+  font-size: 15px;
+  font-weight: 850;
+  cursor: pointer;
+  color: #5b5376 !important;
+}
+
+.quote-save .heart{ color: #7d65c7; }
+
 /* ===============================
-   END
-   =============================== */
-/* =========================
    Mood page
-   ========================= */
+   =============================== */
 .mood-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -326,33 +433,30 @@ a{
   border: none;
   border-radius: 18px;
   padding: 14px 14px;
-  background: rgba(255,255,255,0.92);
+  background: var(--card);
   box-shadow: 0 6px 14px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.85);
   color: #4b4761;
   font-size: 15px;
-  font-weight: 800;
+  font-weight: 850;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
 }
 
-.mood-btn:active{
-  transform: scale(0.98);
-}
+.mood-btn:active{ transform: scale(0.98); }
 
 .mood-btn.active{
   background: rgba(231,225,251,0.95);
 }
 
-.mood-emoji{
-  font-size: 18px;
-}
+.mood-emoji{ font-size: 18px; }
 
 .mood-actions{
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  margin-top: 12px;
 }
 
 .saved-list{
@@ -363,21 +467,21 @@ a{
 .saved-item{
   padding: 14px 16px;
   border-radius: 18px;
-  background: rgba(255,255,255,0.92);
+  background: var(--card);
   box-shadow: 0 6px 14px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.85);
 }
 
 .saved-title{
   font-size: 16px;
   font-weight: 850;
-  color: #4b4761;
+  color: var(--text);
 }
 
 .saved-meta{
   margin-top: 4px;
   font-size: 13px;
-  font-weight: 650;
-  color: #8f8faa;
+  font-weight: 700;
+  color: var(--subtext);
 }
 
 .saved-notes{
@@ -388,18 +492,11 @@ a{
   line-height: 1.45;
 }
 
-/* Night mode */
 body.night .mood-btn,
 body.night .saved-item{
-  background: rgba(26,24,38,0.75);
+  background: var(--card);
   box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-  color: rgba(255,255,255,0.95);
+  color: var(--text);
 }
 
-body.night .saved-meta{
-  color: rgba(255,255,255,0.7);
-}
-
-body.night .saved-notes{
-  color: rgba(255,255,255,0.85);
-}
+body.night .saved-notes{ color: var(--text); }
