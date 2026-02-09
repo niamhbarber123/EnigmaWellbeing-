@@ -7,50 +7,41 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210m2" />
+  <link rel="stylesheet" href="./style.css?v=20260210fix1" />
 </head>
 
-<body class="page-wrap mood-page">
+<body class="page-wrap">
   <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <h1>Mood</h1>
-    <p>Select how you feel and write it out</p>
+    <p>Select and write it out</p>
   </header>
 
   <main class="page">
     <section class="card">
       <div class="section-title">How are you feeling?</div>
-      <div class="gentle-text">Tap a mood to select it.</div>
-
-      <div class="mood-grid" id="moodGrid" style="margin-top:12px;"></div>
-
-      <div class="gentle-text" style="margin-top:12px;">
-        Selected: <strong id="selectedMood">None</strong>
-      </div>
+      <div class="gentle-text">Tap one.</div>
+      <div id="moodGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;"></div>
+      <div class="gentle-text" style="margin-top:12px;">Selected: <strong id="selectedMood">None</strong></div>
     </section>
 
     <section class="card">
       <div class="section-title">Write about it</div>
       <div class="gentle-text">No judgement — just words.</div>
-
       <textarea id="moodNotes" rows="6" placeholder="What’s going on right now?"></textarea>
 
-      <div class="mood-actions" style="margin-top:12px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
         <button id="saveMood" class="small-pill" type="button">Save</button>
         <button id="viewMoods" class="small-pill" type="button">View saved</button>
         <button id="clearMoods" class="small-pill" type="button">Clear all</button>
-      </div>
-
-      <div class="gentle-text" style="margin-top:12px;">
-        Saved moods stay on this device.
       </div>
     </section>
 
     <section class="card" id="savedWrap" style="display:none;">
       <div class="section-title">Saved</div>
-      <div id="savedList" class="saved-list" style="margin-top:12px;"></div>
+      <div id="savedList" style="display:grid;gap:12px;margin-top:12px;"></div>
     </section>
   </main>
 
@@ -64,7 +55,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260210m2" defer></script>
-  <script src="mood.js?v=20260210m2" defer></script>
+  <script src="./app.js?v=20260210fix1" defer></script>
+  <script src="./mood.js?v=20260210fix1" defer></script>
 </body>
 </html>
