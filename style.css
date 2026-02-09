@@ -386,3 +386,24 @@ body.night .link-btn{
   font-weight: 750;
   color: var(--muted2);
 }
+/* BREATHE — animation */
+.breathe-circle-wrap{ display:grid; place-items:center; padding: 10px 0 8px; }
+
+.breath-circle{
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 14px 28px rgba(120,110,160,0.16),
+    0 0 0 10px rgba(255,255,255,0.32);
+  transform: scale(0.92);
+}
+
+.breath-circle.inhale{ animation: inhale 4s ease-in-out forwards; }
+.breath-circle.hold  { animation: hold 2s ease-in-out forwards; }
+.breath-circle.exhale{ animation: exhale 6s ease-in-out forwards; }
+
+@keyframes inhale{ from{ transform: scale(0.92);} to{ transform: scale(1.04);} }
+@keyframes hold  { from{ transform: scale(1.04);} to{ transform: scale(1.04);} }
+@keyframes exhale{ from{ transform: scale(1.04);} to{ transform: scale(0.92);} }
