@@ -7,82 +7,73 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-
-  <!-- cache-bust -->
-  <link rel="stylesheet" href="style.css?v=20260210b1" />
+  <link rel="stylesheet" href="style.css?v=20260209-final" />
 </head>
 
 <body class="page-wrap breathe-page no-scroll">
-  <!-- Back ALWAYS goes home -->
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-
-  <!-- Night mode (top-right) -->
+  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <header class="page-header breathe-header-compact">
+  <header class="page-header">
     <h1>Breathe</h1>
     <p>Follow the rhythm</p>
   </header>
 
   <main class="page">
-    <!-- Fixed-height viewport so the PAGE never scrolls -->
     <div class="breathe-viewport">
 
-      <!-- READY CARD -->
+      <!-- READY -->
       <section class="card breathe-ready-card">
         <div class="breathe-ready-title">Ready</div>
-        <div class="breathe-ready-sub" style="margin-top:6px;">
-          Choose settings, then tap Start.
+        <div class="breathe-ready-sub">Choose settings, then tap Start.</div>
+
+        <div class="breathe-time-top">
+          Time: <span id="timeText">01:00</span>
         </div>
 
-        <!-- Clock ABOVE the circle -->
-        <div class="breathe-status" style="margin-top:10px;">
-          <div class="time-display">
-            <strong>Time:</strong> <span id="timeText">01:00</span>
-          </div>
-        </div>
-
-        <!-- Circle -->
         <div class="breathe-circle-wrap">
           <div id="breathCircle" class="breath-circle" aria-hidden="true"></div>
         </div>
       </section>
 
-      <!-- SESSION CARD -->
+      <!-- SESSION -->
       <section class="card breathe-session-card">
         <div class="section-title">Session</div>
-        <div class="gentle-text" style="margin-top:6px;">
-          Timer counts down. Stopwatch counts up.
-        </div>
+        <div class="gentle-text" style="margin-top:6px;">Timer counts down. Stopwatch counts up.</div>
 
-        <!-- Two equal columns: Mode (left) + Timer length (right) -->
-        <div class="session-grid" style="margin-top:14px;">
-          <div class="form-row">
-            <div class="form-label">Mode</div>
-            <select id="modeSelect" class="select breathe-select">
+        <div class="session-grid">
+          <div class="field">
+            <div class="label">Mode</div>
+            <select id="modeSelect" aria-label="Mode">
               <option value="timer" selected>Timer</option>
               <option value="stopwatch">Stopwatch</option>
             </select>
+            <div class="hint">Choose timer or stopwatch.</div>
           </div>
 
-          <div class="form-row timer-length" id="minutesField">
-            <div class="form-label">Timer length</div>
-            <select id="minutesSelect" class="select breathe-select">
+          <div class="field" id="minutesField">
+            <div class="label">Timer length</div>
+            <select id="minutesSelect" aria-label="Timer length">
               <option value="1" selected>1 minute</option>
               <option value="2">2 minutes</option>
               <option value="3">3 minutes</option>
               <option value="5">5 minutes</option>
               <option value="10">10 minutes</option>
-              <option value="15">15 minutes</option>
             </select>
+            <div class="hint">Choose minutes.</div>
           </div>
         </div>
 
-        <!-- Controls -->
-        <div class="breathe-controls" style="margin-top:16px;">
-          <button id="startBtn" class="small-pill completed-pill" type="button">Start</button>
-          <button id="pauseBtn" class="small-pill" type="button">Pause</button>
-          <button id="resetBtn" class="small-pill" type="button">Reset</button>
+        <div class="breathe-controls">
+          <div class="row three">
+            <button id="startBtn" class="btn primary" type="button">Start</button>
+            <button id="pauseBtn" class="btn" type="button">Pause</button>
+            <button id="resetBtn" class="btn" type="button">Reset</button>
+          </div>
+
+          <div id="completedPill" class="gentle-text" style="margin-top:10px; display:none; font-weight:900;">
+            Completed ✅
+          </div>
         </div>
       </section>
 
@@ -91,7 +82,7 @@
 
   <nav class="bottom-nav">
     <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a class="active" href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
@@ -99,8 +90,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <!-- Theme toggle + breathe logic -->
-  <script src="app.js?v=20260210b1" defer></script>
-  <script src="breathe.js?v=20260210b1" defer></script>
+  <script src="app.js?v=20260209-final" defer></script>
+  <script src="breathe.js?v=20260209-final" defer></script>
 </body>
 </html>
