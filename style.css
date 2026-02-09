@@ -1,319 +1,255 @@
-/* ==========================
-   Enigma Wellbeing – style.css
-   CLEAN + STABLE VERSION
-========================== */
+/* ---------- ROOT COLOURS ---------- */
 
-/* ---------- COLOURS ---------- */
 :root{
-  --bg:#f6f3fb;
-  --text:#3d3550;
-  --muted:rgba(61,53,80,0.6);
-
-  --card:rgba(255,255,255,0.75);
-  --card-solid:#ffffff;
-  --stroke:rgba(120,110,150,0.15);
-
-  --accent:#6b5b86;
-  --accent-soft:rgba(107,91,134,0.18);
-
-  --danger:#ffd3c6;
-  --shadow:0 12px 30px rgba(40,30,60,0.08);
+  --primary:#6f6287;
+  --primary-soft:#8a7fa0;
+  --bg:#efedf3;
+  --card:#f6f5f9;
+  --text:#4d435e;
+  --shadow:0 8px 18px rgba(0,0,0,0.08);
 }
 
-/* ---------- NIGHT MODE ---------- */
-body.night{
-  --bg:#121219;
-  --text:rgba(255,255,255,0.92);
-  --muted:rgba(255,255,255,0.65);
 
-  --card:rgba(255,255,255,0.08);
-  --card-solid:rgba(255,255,255,0.10);
-  --stroke:rgba(255,255,255,0.12);
+/* ---------- BASE ---------- */
 
-  --accent:#cbbcff;
-  --accent-soft:rgba(203,188,255,0.18);
-
-  --danger:rgba(255,183,161,0.65);
-  --shadow:0 18px 45px rgba(0,0,0,0.35);
-}
-
-/* ---------- RESET ---------- */
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+body{
   margin:0;
-  padding:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
   background:var(--bg);
   color:var(--text);
 }
 
-a{
-  text-decoration:none;
-  color:inherit;
-}
 
-/* ---------- PAGE WRAP ---------- */
+/* ---------- PAGE WRAP + WATERMARK ---------- */
+
 .page-wrap{
   min-height:100vh;
-  padding:20px 18px 96px;
+  padding:20px 18px 110px;
+  position:relative;
+  overflow-x:hidden;
 }
 
-/* ---------- HEADER ---------- */
+/* Watermark */
+
+.page-wrap::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:url("icon.png") center 55% no-repeat;
+  background-size:420px;
+  opacity:0.07;
+  pointer-events:none;
+  z-index:0;
+}
+
+
+/* ---------- HEADERS ---------- */
+
 .page-header{
   text-align:center;
-  margin-bottom:28px;
+  margin-top:20px;
+  margin-bottom:25px;
+  position:relative;
+  z-index:2;
 }
 
 .page-header h1{
-  font-size:36px;
-  font-weight:900;
-  color:var(--accent);
-  margin:10px 0 6px;
+  font-size:30px;
+  margin:0;
+  color:var(--primary);
 }
 
 .page-header p{
-  margin:0;
-  font-weight:700;
-  color:var(--muted);
+  margin-top:6px;
+  font-size:15px;
+  opacity:.7;
 }
 
-/* ---------- BACK BUTTON ---------- */
-.back-btn{
-  position:absolute;
-  left:18px;
-  top:20px;
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  border:1px solid var(--stroke);
-  background:var(--card);
-  box-shadow:var(--shadow);
-  font-size:20px;
-}
 
 /* ---------- NIGHT MODE BUTTON ---------- */
+
 .theme-toggle-top{
   position:fixed;
-  right:16px;
-  top:16px;
-  width:42px;
-  height:42px;
+  right:20px;
+  top:24px;
+  width:48px;
+  height:48px;
   border-radius:50%;
-  border:1px solid var(--stroke);
-  background:var(--card);
-  box-shadow:var(--shadow);
+  border:none;
+  background:white;
   font-size:20px;
-  z-index:50;
+  box-shadow:var(--shadow);
+  z-index:10;
 }
 
-/* ---------- HOME GRID ---------- */
+
+/* ---------- CONTENT PAGE ---------- */
+
+.page{
+  max-width:420px;
+  margin:auto;
+  position:relative;
+  z-index:2;
+}
+
+
+/* ---------- CARD SECTIONS ---------- */
+
+.card{
+  background:var(--card);
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+
+.section-title{
+  font-weight:700;
+  font-size:20px;
+  color:var(--primary);
+  margin-bottom:10px;
+}
+
+.gentle-text{
+  opacity:.7;
+  font-size:14px;
+}
+
+
+/* ---------- HOME BUTTON GRID ---------- */
+
 .home-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:14px;
-  margin-top:28px;
-}
-
-/* ---------- HOME BUTTONS (UNIFIED STYLE) ---------- */
-/* ==========================
-   HOME GRID — FIXED
-========================== */
-
-.home-grid{
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
   gap:16px;
-  max-width:520px;
-  margin:40px auto 0;
-  padding-bottom:120px;
 }
+
+
+/* ---------- HOME BUTTON ---------- */
 
 .home-btn{
+  background:white;
+  border-radius:26px;
+  padding:18px 10px;
+  text-decoration:none;
+  color:var(--text);
+  font-weight:600;
+  font-size:16px;
+
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   gap:10px;
 
-  padding:16px 14px;
-  border-radius:26px;
-
-  background:var(--card-solid);
-  border:1px solid var(--stroke);
   box-shadow:var(--shadow);
-
-  font-size:16px;
-  font-weight:800;
-  color:var(--accent);
-
-  text-decoration:none;
+  transition:.2s;
 }
 
-.home-btn span{
-  font-size:20px;
-}
-
-/* Full-width HELP button */
-.home-btn-wide{
-  grid-column: span 2;
-  font-weight:900;
-}
-
-/* Tap feedback */
 .home-btn:active{
-  transform:scale(0.97);
+  transform:scale(.96);
 }
 
-/* ---------- WIDE BUTTON (HELP) ---------- */
-.home-btn.wide{
+
+/* ---------- LARGE HELP BUTTON ---------- */
+
+.home-btn.large{
   grid-column:span 2;
   justify-content:center;
 }
 
-/* ---------- ACTIVE ---------- */
-.home-btn:active{
-  transform:scale(0.97);
-}
 
-/* ---------- CARDS ---------- */
-.card{
-  background:var(--card);
-  border:1px solid var(--stroke);
-  border-radius:26px;
-  padding:18px;
+/* ---------- BACK BUTTON ---------- */
+
+.back-btn{
+  position:absolute;
+  left:0;
+  top:0;
+  border:none;
+  background:white;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  font-size:18px;
   box-shadow:var(--shadow);
-  margin-bottom:16px;
 }
 
-/* ---------- TEXT ---------- */
-.section-title{
-  font-size:24px;
-  font-weight:900;
-  color:var(--accent);
+
+/* ---------- FILTER CHIPS ---------- */
+
+.chips{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-.gentle-text{
-  font-size:16px;
-  font-weight:700;
-  color:var(--muted);
+.chip{
+  padding:6px 12px;
+  border-radius:20px;
+  background:#e7e4ee;
+  font-size:13px;
 }
 
-/* ---------- INPUTS ---------- */
-.input{
-  width:100%;
-  padding:14px;
-  border-radius:16px;
-  border:1px solid var(--stroke);
-  background:var(--card-solid);
-  font-size:16px;
-  font-weight:700;
-  color:var(--text);
-}
 
 /* ---------- BUTTONS ---------- */
-.tool-row{
-  display:flex;
-  gap:12px;
+
+button{
+  font-family:inherit;
+  cursor:pointer;
 }
 
-.tool-btn{
-  flex:1;
-  padding:14px;
+.primary-btn{
+  background:#d9d3e5;
+  border:none;
   border-radius:18px;
-  border:1px solid var(--stroke);
-  background:var(--accent-soft);
-  font-size:16px;
-  font-weight:800;
-  color:var(--accent);
+  padding:14px;
+  font-weight:600;
   box-shadow:var(--shadow);
 }
 
-.tool-btn.danger{
-  background:var(--danger);
-  color:#402020;
+.danger-btn{
+  background:#e7b1a1;
+  border:none;
+  border-radius:18px;
+  padding:14px;
+  font-weight:600;
+  box-shadow:var(--shadow);
 }
 
-/* ---------- BOTTOM NAV ---------- */
+
+/* ---------- NAV BAR ---------- */
+
 .bottom-nav{
   position:fixed;
+  bottom:0;
   left:0;
   right:0;
-  bottom:0;
+  height:70px;
+  background:white;
   display:flex;
   justify-content:space-around;
-  padding:10px 8px 14px;
-  background:rgba(255,255,255,0.75);
-  backdrop-filter:blur(12px);
-  border-top:1px solid rgba(140,120,170,0.12);
-}
-
-body.night .bottom-nav{
-  background:rgba(20,20,26,0.8);
+  align-items:center;
+  box-shadow:0 -5px 15px rgba(0,0,0,.08);
+  z-index:20;
 }
 
 .bottom-nav a{
+  text-decoration:none;
+  font-size:12px;
+  color:var(--text);
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:4px;
-  font-size:12px;
-  font-weight:800;
-  color:var(--muted);
 }
 
-.bottom-nav a.active{
-  color:var(--accent);
-}
-
-.nav-ico{
-  font-size:18px;
-}
-/* ==========================
-   HOME BUTTON GRID (2 PER ROW)
-========================== */
-
-.home-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:16px;
-  margin-top:32px;
-}
-
-/* Standard home buttons */
-.home-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-
-  padding:16px 14px;
-  border-radius:26px;
-
-  background:var(--card-solid);
-  border:1px solid var(--stroke);
-  box-shadow:var(--shadow);
-
-  font-size:16px;
-  font-weight:800;
-  color:var(--accent);
-
-  width:auto;        /* ✅ IMPORTANT */
-}
-
-/* Icon size */
-.home-btn span{
+.bottom-nav .nav-ico{
   font-size:20px;
 }
 
-/* Wide button (HELP only) */
-.home-btn.wide{
-  grid-column: span 2;
-}
-
-/* Tap feedback */
-.home-btn:active{
-  transform:scale(0.97);
+.bottom-nav a.active{
+  color:var(--primary);
 }
