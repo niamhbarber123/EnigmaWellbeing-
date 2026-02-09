@@ -1,318 +1,127 @@
-/* =========================
-   Enigma Wellbeing – Core
-========================= */
-
-:root {
-  --bg: #f7f5fb;
-  --card: #ffffff;
-  --accent: #6b5b95;
-  --text: #4a3f66;
-  --muted: #8a82a6;
-  --shadow: 0 14px 30px rgba(0,0,0,0.08);
+:root{
+  --bg:#f6f2fb;
+  --text:#2f2a3a;
+  --muted:#6b6680;
+  --accent:#6b5b86;
+  --card:#ffffffcc;
+  --stroke:#d7cfee;
 }
 
-/* ===== Base ===== */
-
-* {
-  box-sizing: border-box;
+body.night{
+  --bg:#101018;
+  --text:#f2f2f7;
+  --muted:#b9b9c9;
+  --card:#1c1c28;
+  --stroke:#2f2f44;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+a{color:inherit;text-decoration:none}
+
+.page-wrap{
+  min-height:100vh;
+  padding-bottom:88px;
 }
 
-/* ===== Page Layout ===== */
-
-.page-wrap {
-  min-height: 100vh;
-  padding-bottom: 96px;
+/* HEADER */
+.home-header{
+  text-align:center;
+  padding:48px 16px 12px;
+}
+.home-header h1{
+  margin:0;
+  font-size:30px;
+  font-weight:900;
+  color:var(--accent);
+}
+.home-header p{
+  margin-top:6px;
+  color:var(--muted);
+  font-weight:700;
 }
 
-.page {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 16px;
+/* WATERMARK */
+.home-watermark{
+  position:fixed;
+  inset:0;
+  background:url("icon.png") center/420px no-repeat;
+  opacity:0.06;
+  pointer-events:none;
+  z-index:0;
 }
 
-/* ===== Header ===== */
-
-.page-header {
-  text-align: center;
-  margin: 16px 0 8px;
-  position: relative;
+/* MAIN */
+.home-main{
+  position:relative;
+  z-index:1;
+  display:flex;
+  justify-content:center;
 }
 
-.page-header h1 {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--accent);
-  margin: 8px 0 4px;
+.home-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  width:100%;
+  max-width:420px;
+  padding:24px 18px;
 }
 
-.page-header p {
-  font-size: 14px;
-  color: var(--muted);
-  margin: 0;
+.home-btn{
+  padding:18px;
+  border-radius:22px;
+  background:var(--card);
+  border:1px solid var(--stroke);
+  text-align:center;
+  font-weight:900;
+  font-size:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
 }
 
-.back-btn {
-  position: absolute;
-  left: 8px;
-  top: 6px;
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: none;
-  background: var(--card);
-  box-shadow: var(--shadow);
-  font-size: 20px;
+.home-btn-help{
+  grid-column:1 / -1;
+  font-size:17px;
 }
 
-/* ===== Theme Toggle ===== */
-
-.theme-toggle-top {
-  position: fixed;
-  top: 14px;
-  right: 14px;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  border: none;
-  background: var(--card);
-  box-shadow: var(--shadow);
-  font-size: 20px;
-  z-index: 20;
+/* THEME BUTTON */
+.theme-btn{
+  position:fixed;
+  top:14px;
+  right:14px;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid var(--stroke);
+  background:var(--card);
+  font-size:18px;
+  z-index:10;
 }
 
-/* ===== Cards ===== */
-
-.card {
-  background: var(--card);
-  border-radius: 24px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: var(--shadow);
+/* NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0 14px;
+  background:var(--card);
+  border-top:1px solid var(--stroke);
 }
-
-.card h2 {
-  margin: 0 0 8px;
-  font-size: 20px;
-  color: var(--accent);
+.bottom-nav a{
+  font-size:18px;
+  opacity:0.7;
 }
-
-/* ===== Buttons ===== */
-
-.btn-row {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.btn {
-  flex: 1;
-  padding: 14px;
-  border-radius: 18px;
-  border: none;
-  font-weight: 600;
-  font-size: 15px;
-  background: #ece8f6;
-  color: var(--accent);
-}
-
-.btn-danger {
-  background: #f2c7c7;
-  color: #6a2b2b;
-}
-
-/* ===== Chips ===== */
-
-.chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.chip {
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: none;
-  background: #eee;
-  font-size: 14px;
-}
-
-/* ===== Inputs ===== */
-
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 14px;
-  border: none;
-  background: #f1eef8;
-  font-size: 14px;
-}
-
-/* ===== Home Buttons ===== */
-
-.home-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.home-btn {
-  background: var(--card);
-  border-radius: 22px;
-  padding: 16px;
-  box-shadow: var(--shadow);
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--accent);
-  text-align: center;
-}
-
-/* ===== Large Help Button ===== */
-
-.help-btn {
-  grid-column: span 2;
-  background: #fff;
-  font-weight: 700;
-}
-
-/* ===== Watermark ===== */
-
-.watermark {
-  position: fixed;
-  inset: 0;
-  background: url("icon.png") center 55% / 320px no-repeat;
-  opacity: 0.06;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ===== Bottom Nav ===== */
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-around;
-  background: rgba(255,255,255,0.9);
-  padding: 10px 0;
-  border-top: 1px solid rgba(0,0,0,0.08);
-}
-
-.bottom-nav a {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.bottom-nav a.active {
-  color: var(--accent);
-}
-/* =========================
-   🔒 HARD LOCK NAV BAR
-   (prevents icons disappearing)
-========================= */
-
-.bottom-nav {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 70px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background: rgba(255,255,255,0.95);
-  border-top: 1px solid rgba(0,0,0,0.08);
-  z-index: 999;
-}
-
-body.night .bottom-nav {
-  background: rgba(18,18,24,0.95);
-}
-
-.bottom-nav a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #6b5b86;
-  text-decoration: none;
-}
-
-body.night .bottom-nav a {
-  color: rgba(255,255,255,0.8);
-}
-
-.bottom-nav a.active {
-  color: #6b5b86;
-  font-weight: 900;
-}
-
-.nav-ico {
-  font-size: 20px;
-  line-height: 1;
-}
-
-/* =========================
-   🔒 HOME GRID RESTORE
-========================= */
-
-.home-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  max-width: 420px;
-  margin: 24px auto 0;
-}
-
-.home-pill {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px;
-  border-radius: 22px;
-  background: rgba(235,228,250,0.9);
-  border: 1px solid rgba(120,110,150,0.2);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-  font-weight: 800;
-  font-size: 16px;
-  color: #6b5b86;
-}
-
-.home-pill .pill-ico {
-  font-size: 20px;
-}
-
-.home-pill .pill-text {
-  font-size: 16px;
-}
-
-/* =========================
-   🔒 STOP UNWANTED SCROLL
-========================= */
-
-body.home {
-  overflow-x: hidden;
-}
-
-.page-wrap.home {
-  min-height: 100vh;
-  padding-bottom: 90px;
+.bottom-nav a.active{
+  opacity:1;
 }
