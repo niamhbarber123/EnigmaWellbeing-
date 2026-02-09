@@ -425,6 +425,8 @@ body.page-wrap.home .page-header p{
 }
 
 /* Grid spacing */
+
+
 body.page-wrap.home .home-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -631,4 +633,124 @@ body.page-wrap.home .bottom-nav a.active{
 
 body.page-wrap.home .bottom-nav a.active .nav-ico{
   opacity: 1;
+}
+/* =========================================
+   GLOBAL TOP-RIGHT THEME BUTTON (ALL PAGES)
+   ========================================= */
+#themeFab.theme-toggle-top{
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 14px);
+  right: 14px;
+  z-index: 999;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,0.70);
+  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+
+/* =========================================
+   GLOBAL BACK BUTTON (GOES HOME)
+   ========================================= */
+.home-back{
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 14px);
+  left: 14px;
+  z-index: 999;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.70);
+  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
+  backdrop-filter: blur(10px);
+  border: none;
+  text-decoration: none;
+  color: #5b5376;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* On HOME we don't show the back button */
+body.home .home-back{
+  display: none;
+}
+
+/* =========================================
+   WATERMARK LOGO BEHIND EVERYTHING (ALL PAGES)
+   Uses your existing icon.png
+   ========================================= */
+body.page-wrap::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image: url("icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: min(72vw, 420px);
+
+  opacity: 0.07; /* tweak to taste */
+  filter: blur(0px);
+}
+
+/* Ensure your content sits above watermark */
+body.page-wrap > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================
+   NIGHT MODE (WORKS + MATCHES ENIGMA)
+   ========================================= */
+body.night{
+  --bg1: #16141f;
+  --bg2: #1c1930;
+
+  --card: rgba(36, 32, 52, 0.72);
+  --card-border: rgba(180, 170, 220, 0.12);
+
+  --text: rgba(255,255,255,0.92);
+  --muted: rgba(255,255,255,0.62);
+  --muted2: rgba(255,255,255,0.70);
+
+  --accent: #b7a7ff;
+  --accentSoft: rgba(183,167,255,0.16);
+  --dangerSoft: rgba(244, 215, 221, 0.16);
+}
+
+body.night{
+  background: linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+
+/* Make nav + floating buttons match night */
+body.night #themeFab.theme-toggle-top,
+body.night .home-back{
+  background: rgba(24, 22, 34, 0.72);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+  color: rgba(255,255,255,0.92);
+}
+
+body.night .bottom-nav{
+  background: rgba(24, 22, 34, 0.78) !important;
+  border-top-color: rgba(255,255,255,0.10) !important;
+}
+
+body.night .bottom-nav a{
+  color: rgba(255,255,255,0.60) !important;
+}
+
+body.night .bottom-nav a.active{
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* Watermark dims slightly in night mode */
+body.night.page-wrap::before{
+  opacity: 0.05;
 }
