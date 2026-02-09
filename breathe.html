@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210b5" />
+  <link rel="stylesheet" href="./style.css?v=20260210fix1" />
 </head>
 
 <body class="page-wrap breathe-page no-scroll">
@@ -20,11 +20,10 @@
   </header>
 
   <main class="page breathe-fit">
-    <!-- READY CARD -->
     <section class="card breathe-ready-card">
       <div class="breathe-ready-top">
         <div class="breathe-ready-title" id="topTitle">Ready</div>
-        <div class="breathe-ready-sub" id="topHint">Choose your settings below, then tap Start.</div>
+        <div class="breathe-ready-sub" id="topHint">Tap Start to begin.</div>
       </div>
 
       <div class="breathe-circle-wrap">
@@ -37,15 +36,14 @@
       </div>
     </section>
 
-    <!-- SESSION CARD -->
     <section class="card breathe-session-card">
       <div class="section-title">Session</div>
-      <div class="gentle-text">Simple, calm, and consistent.</div>
+      <div class="gentle-text">Timer or stopwatch — your choice.</div>
 
       <div class="breathe-form">
         <div class="form-row">
           <div class="form-label">Mode</div>
-          <select id="modeSelect" class="select" aria-label="Mode">
+          <select id="modeSelect" class="select">
             <option value="timer" selected>Timer</option>
             <option value="stopwatch">Stopwatch</option>
           </select>
@@ -54,22 +52,13 @@
 
         <div class="form-row" id="minutesField">
           <div class="form-label">Timer length</div>
-          <select id="minutesSelect" class="select" aria-label="Timer length">
+          <select id="minutesSelect" class="select">
             <option value="1" selected>1 minute</option>
             <option value="2">2 minutes</option>
             <option value="3">3 minutes</option>
             <option value="5">5 minutes</option>
             <option value="10">10 minutes</option>
             <option value="15">15 minutes</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <div class="form-label">Breathing style</div>
-          <select id="patternSelect" class="select" aria-label="Breathing style">
-            <option value="calm" selected>Calm (4 in / 6 out)</option>
-            <option value="box">Box (4 in / 4 hold / 4 out / 4 hold)</option>
-            <option value="478">4–7–8 (4 in / 7 hold / 8 out)</option>
           </select>
         </div>
 
@@ -98,7 +87,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260210b5" defer></script>
-  <script src="breathe.js?v=20260210b5" defer></script>
+  <script src="./app.js?v=20260210fix1" defer></script>
+  <script src="./breathe.js?v=20260210fix1" defer></script>
 </body>
 </html>
