@@ -1,3 +1,7 @@
+// =========================
+// Quotes logic
+// =========================
+
 const quotesList = document.getElementById("quotesList");
 const savedCountEl = document.getElementById("savedCount");
 const queryEl = document.getElementById("quoteQuery");
@@ -9,8 +13,11 @@ const deleteSavedBtn = document.getElementById("deleteSavedBtn");
 const SAVED_KEY = "enigma_saved_quotes";
 
 function getSavedQuotes() {
-  try { return JSON.parse(localStorage.getItem(SAVED_KEY)) || []; }
-  catch { return []; }
+  try {
+    return JSON.parse(localStorage.getItem(SAVED_KEY)) || [];
+  } catch {
+    return [];
+  }
 }
 
 function setSavedQuotes(arr) {
@@ -24,10 +31,23 @@ function updateSavedCount() {
 
 updateSavedCount();
 
+// ✅ More quotes (short, safe, calming)
 const DEMO_QUOTES = [
   { text: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
   { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
-  { text: "You do not have to see the whole staircase—just take the first step.", author: "Martin Luther King Jr." }
+  { text: "You do not have to see the whole staircase—just take the first step.", author: "Martin Luther King Jr." },
+  { text: "Slow is smooth. Smooth is fast.", author: "Proverb" },
+  { text: "Your breath is an anchor you can return to.", author: "Unknown" },
+  { text: "Do one thing. Then the next.", author: "Unknown" },
+  { text: "Progress, not perfection.", author: "Unknown" },
+  { text: "Feelings are visitors. Let them come and go.", author: "Rumi (attributed)" },
+  { text: "You have survived 100% of your hardest days.", author: "Unknown" },
+  { text: "Small steps still move you forward.", author: "Unknown" },
+  { text: "Rest is productive.", author: "Unknown" },
+  { text: "Be where your feet are.", author: "Unknown" },
+  { text: "If it’s worth doing, it’s worth doing gently.", author: "Unknown" },
+  { text: "This is hard — and you can do hard things.", author: "Unknown" },
+  { text: "You can begin again, as many times as you need.", author: "Unknown" }
 ];
 
 function renderQuotes(quotes) {
@@ -66,9 +86,13 @@ function renderQuotes(quotes) {
     quotesList.appendChild(tile);
   });
 }
+
 searchBtn.addEventListener("click", () => {
   const q = (queryEl.value || "").trim().toLowerCase();
-  if (!q) { renderQuotes(DEMO_QUOTES); return; }
+  if (!q) {
+    renderQuotes(DEMO_QUOTES);
+    return;
+  }
   const filtered = DEMO_QUOTES.filter(item =>
     item.text.toLowerCase().includes(q) || item.author.toLowerCase().includes(q)
   );
@@ -84,4 +108,5 @@ deleteSavedBtn.addEventListener("click", () => {
   setSavedQuotes([]);
 });
 
+// initial
 renderQuotes(DEMO_QUOTES);
