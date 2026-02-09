@@ -622,3 +622,21 @@ body.night .btn{
 
 /* if any page still uses .list */
 .list{ margin-top: 10px; }
+/* =========================
+   BREATHE — slightly smaller / fits better
+   ========================= */
+
+.breathe-page .page-header h1{ font-size: 30px; }
+.breathe-page .page-header p{ font-size: 15px; }
+
+.breathe-page .card{ padding: 16px; }
+
+.breathe-page .breathe-viewport{
+  /* a bit more room for content above the nav */
+  height: calc(100vh - var(--navH) - var(--safeTop) - var(--safeBottom) - 132px);
+}
+
+.breathe-page .breath-circle{
+  width: 150px;
+  height: 150px;
+}
