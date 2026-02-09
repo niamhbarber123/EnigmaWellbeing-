@@ -27,11 +27,13 @@
   --wm-size: 520px;
   --wm-opacity: 0.14;
 
-  /* link/save/back colours */
-  --ink: #5b5376;         /* main Enigma heading ink */
-  --inkSoft: #6a6386;     /* subtle label ink */
-  --save: #7b6fae;        /* Enigma purple-grey */
-  --backInk: #5f5a78;     /* calmer back arrow */
+  --ink: #5b5376;
+  --inkSoft: #6a6386;
+  --save: #7b6fae;
+  --backInk: #5f5a78;
+
+  /* IMPORTANT: prevents nav overlap */
+  --pagePadBottom: calc(var(--navH) + var(--safeBottom) + 18px);
 }
 
 body.night{
@@ -54,9 +56,9 @@ body.night{
   --wm-opacity: 0.10;
 
   --ink: rgba(255,255,255,0.92);
-  --inkSoft: rgba(255,255,255,0.72);
-  --save: #b8a8ff;
-  --backInk: rgba(255,255,255,0.88);
+  --inkSoft: rgba(255,255,255,0.78);
+  --save: #c4b7ff;
+  --backInk: rgba(255,255,255,0.92);
 }
 
 *{ box-sizing: border-box; }
@@ -75,10 +77,7 @@ a, a:visited, a:hover, a:active{
   text-decoration: none;
 }
 
-/* =========================
-   PAGE WRAP + WATERMARK
-   ========================= */
-
+/* Page wrap + watermark */
 .page-wrap{
   min-height: 100vh;
   position: relative;
@@ -103,10 +102,7 @@ a, a:visited, a:hover, a:active{
   z-index: 1;
 }
 
-/* =========================
-   HEADER
-   ========================= */
-
+/* Header */
 .page-header{
   width: min(460px, 92vw);
   margin: 18px auto 12px;
@@ -116,7 +112,7 @@ a, a:visited, a:hover, a:active{
 
 .page-header h1{
   margin: 0;
-  font-size: 34px;
+  font-size: 32px;            /* calmer */
   font-weight: 850;
   letter-spacing: -0.4px;
   color: var(--ink);
@@ -129,10 +125,7 @@ a, a:visited, a:hover, a:active{
   color: var(--muted);
 }
 
-/* =========================
-   TOP BUTTONS
-   ========================= */
-
+/* Top buttons */
 .theme-toggle-top,
 .back-btn{
   position: fixed;
@@ -146,7 +139,7 @@ a, a:visited, a:hover, a:active{
   display: grid;
   place-items: center;
   font-size: 20px;
-  z-index: 20;
+  cursor: pointer;
 }
 
 .back-btn{
@@ -162,23 +155,18 @@ a, a:visited, a:hover, a:active{
 
 body.night .theme-toggle-top,
 body.night .back-btn{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.10);
+  background: rgba(26,24,38,0.78);
+  border-color: rgba(255,255,255,0.12);
 }
 
-/* =========================
-   PAGE CONTAINER
-   ========================= */
-
+/* Page container — IMPORTANT: bottom padding prevents nav overlap */
 .page{
   width: min(460px, 92vw);
-  margin: 0 auto calc(var(--navH) + 16px);
+  margin: 0 auto 0;
+  padding-bottom: var(--pagePadBottom);
 }
 
-/* =========================
-   CARDS
-   ========================= */
-
+/* Cards */
 .card{
   background: var(--card);
   border: 1px solid var(--card-border);
@@ -201,31 +189,9 @@ body.night .back-btn{
   color: var(--muted);
 }
 
-/* =========================
-   BUTTONS
-   ========================= */
-
-.small-pill{
-  padding: 12px 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 15px;
-  font-weight: 850;
-  cursor: pointer;
-  color: var(--ink);
-}
-
-.small-pill:active{ transform: scale(0.98); }
-
-.completed-pill{ background: var(--accentSoft); }
-
-/* =========================
-   INPUTS / SELECTS
-   ========================= */
-
+/* Inputs/selects */
 textarea,
-.select,
+select,
 .input{
   width: 100%;
   padding: 14px 16px;
@@ -237,23 +203,50 @@ textarea,
   outline: none;
 }
 
-.input::placeholder,
-textarea::placeholder{ color: rgba(140,140,165,0.65); }
-
 body.night textarea,
-body.night .select,
+body.night select,
 body.night .input{
-  background: rgba(26,24,38,0.75);
+  background: rgba(26,24,38,0.78);
   color: rgba(255,255,255,0.95);
 }
 
-body.night .input::placeholder,
-body.night textarea::placeholder{ color: rgba(255,255,255,0.45); }
+/* Buttons */
+.btn{
+  border: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 850;
+  background: rgba(255,255,255,0.74);
+  color: var(--ink);
+  border: 1px solid rgba(120,110,160,0.16);
+}
 
-/* =========================
-   HOME PILLS
-   ========================= */
+.btn:active{ transform: scale(0.985); }
 
+.btn.primary{
+  background: var(--accentSoft);
+  color: var(--ink);
+}
+
+.btn.danger{
+  background: var(--dangerSoft);
+  color: #6a2f3a;
+}
+
+.row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.row.three{
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Home pills */
 .home-grid{
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -270,17 +263,28 @@ body.night textarea::placeholder{ color: rgba(255,255,255,0.45); }
   align-items: center;
   gap: 14px;
   box-shadow: var(--shadow);
+  border: 1px solid rgba(120,110,160,0.10);
 }
 
 .home-pill:active{ transform: scale(0.985); }
 
-.pill-ico{ font-size: 20px; opacity: 0.75; }
-.pill-text{ font-size: 17px; font-weight: 850; color: var(--ink); }
+.pill-ico{ font-size: 20px; opacity: 0.80; }
+.pill-text{ font-size: 17px; font-weight: 900; color: var(--ink); }
 
-/* =========================
-   BOTTOM NAV
-   ========================= */
+/* Night mode — make buttons easier to see */
+body.night .home-pill{
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.16);
+}
+body.night .pill-text{ color: rgba(255,255,255,0.92); }
+body.night .pill-ico{ opacity: 0.92; }
 
+/* Wide pill */
+.home-pill.wide{
+  grid-column: 1 / -1;
+}
+
+/* Bottom nav */
 .bottom-nav{
   position: fixed;
   bottom: 0;
@@ -300,30 +304,56 @@ body.night textarea::placeholder{ color: rgba(255,255,255,0.45); }
   place-items: center;
   gap: 4px;
   font-size: 13px;
-  font-weight: 800;
-  color: rgba(70,66,90,0.7);
+  font-weight: 850;
+  color: rgba(70,66,90,0.70);
 }
 
-.bottom-nav a.active{ color: rgba(70,66,90,0.95); }
+.bottom-nav a.active{ color: rgba(70,66,90,0.96); }
 
 body.night .bottom-nav{
-  background: rgba(18,16,28,0.78);
+  background: rgba(18,16,28,0.86);
 }
 
 body.night .bottom-nav a{
-  color: rgba(255,255,255,0.62);
+  color: rgba(255,255,255,0.66);
 }
 
 body.night .bottom-nav a.active{
-  color: rgba(255,255,255,0.92);
+  color: rgba(255,255,255,0.94);
 }
 
 .nav-ico{ font-size: 22px; }
 
-/* =========================
-   LINK BUTTON TILES (resources/help/yoga/music)
-   ========================= */
+/* Chips */
+.chip-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
 
+.chip{
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.chip.active{
+  background: var(--accentSoft);
+}
+
+body.night .chip{
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.16);
+  color: rgba(255,255,255,0.92);
+}
+
+/* Link buttons (resources/help/music/yoga lists) */
 .link-btn{
   display: flex;
   align-items: center;
@@ -337,8 +367,6 @@ body.night .bottom-nav a.active{
   box-shadow: 0 10px 26px rgba(0,0,0,0.05);
   margin-top: 12px;
 }
-
-.link-btn:active{ transform: scale(0.99); }
 
 .link-btn .link-title{
   font-size: 17px;
@@ -360,13 +388,30 @@ body.night .bottom-nav a.active{
 }
 
 body.night .link-btn{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.14);
+}
+body.night .link-btn .link-title{
+  color: rgba(255,255,255,0.94);
 }
 
-/* =========================
-   QUOTES
-   ========================= */
+/* Quotes */
+.quote-tile{ padding: 18px; }
+
+.quote-text{
+  font-size: 17px;
+  line-height: 1.55;
+  font-weight: 750;
+  color: var(--ink);
+  margin: 0;
+}
+
+.quote-author{
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 750;
+  color: var(--muted2);
+}
 
 .save-link{
   display: inline-flex;
@@ -380,30 +425,10 @@ body.night .link-btn{
 
 .save-link .heart{ font-size: 16px; }
 
-.quote-tile{ padding: 18px; }
-
-.quote-text{
-  font-size: 17px;
-  line-height: 1.55;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 0;
+/* Books tiles */
+.book-item{
+  padding: 16px 18px;
 }
-
-.quote-author{
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: 750;
-  color: var(--muted2);
-}
-
-.quote-actions{ margin-top: 14px; }
-
-/* =========================
-   BOOKS
-   ========================= */
-
-.book-item{ padding: 16px 18px; }
 
 .book-title{
   font-size: 17px;
@@ -459,57 +484,25 @@ body.night .link-btn{
 }
 
 /* =========================
-   CHIPS
+   BREATHE — fit screen, no overlap
    ========================= */
-
-.chip-row{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.chip{
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.chip.active{ background: var(--accentSoft); }
-
-/* =========================
-   BREATHE — VIEWPORT FIT
-   ========================= */
-
-.no-scroll{
-  height: 100vh;
+.breathe-page.no-scroll{
+  height: 100dvh;
   overflow: hidden;
 }
 
-.breathe-page .page{ margin-bottom: 0 !important; }
-
-.breathe-header-compact{ margin-bottom: 8px; }
+.breathe-page .page{
+  padding-bottom: var(--pagePadBottom);
+}
 
 .breathe-viewport{
-  height: calc(100vh - var(--navH) - var(--safeTop) - var(--safeBottom) - 120px);
   display: flex;
   flex-direction: column;
   gap: 14px;
-  margin-bottom: 0 !important;
 }
 
 .breathe-ready-card{ flex: 0 0 auto; }
-.breathe-session-card{ flex: 1 1 auto; }
-
-.breathe-session-scroll{
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 14px;
-}
+.breathe-session-card{ flex: 0 0 auto; }
 
 .breathe-ready-title{
   font-size: 22px;
@@ -523,71 +516,58 @@ body.night .link-btn{
   color: var(--muted);
 }
 
+.breathe-time-top{
+  text-align: center;
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--inkSoft);
+}
+
 .breathe-circle-wrap{
   display: grid;
   place-items: center;
-  padding: 10px 0 2px;
+  padding: 10px 0 8px;
 }
 
 .breath-circle{
-  width: 165px;
-  height: 165px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   background: #ffffff;
   box-shadow:
     0 14px 28px rgba(120,110,160,0.16),
     0 0 0 10px rgba(255,255,255,0.32);
-  transform: scale(0.90);
+  transform: scale(0.92);
 }
 
 .breath-circle.inhale{ animation: inhale 4s ease-in-out forwards; }
+.breath-circle.hold  { animation: hold 2s ease-in-out forwards; }
 .breath-circle.exhale{ animation: exhale 6s ease-in-out forwards; }
 
-@keyframes inhale{ from{ transform: scale(0.90);} to{ transform: scale(1.02);} }
-@keyframes exhale{ from{ transform: scale(1.02);} to{ transform: scale(0.90);} }
+@keyframes inhale{ from{ transform: scale(0.92);} to{ transform: scale(1.04);} }
+@keyframes hold  { from{ transform: scale(1.04);} to{ transform: scale(1.04);} }
+@keyframes exhale{ from{ transform: scale(1.04);} to{ transform: scale(0.92);} }
 
-/* ✅ HOLD phase support */
-.breath-circle.hold{
-  animation: hold 2s ease-in-out forwards;
+.session-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 12px;
 }
 
-@keyframes hold{
-  from{ transform: scale(1.02); }
-  to{ transform: scale(1.02); }
+.field{
+  display: grid;
+  gap: 8px;
 }
 
-.breathe-status{
-  text-align: center;
-  padding-top: 6px;
-}
-
-.breath-label{
-  font-size: 18px;
+.field .label{
+  font-size: 18px;     /* bigger titles */
   font-weight: 900;
   color: var(--ink);
 }
 
-.time-display{
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--muted);
-}
-
-.breathe-form{
-  display: grid;
-  gap: 14px;
-  margin-top: 10px;
-}
-
-.form-row{ display: grid; gap: 8px; }
-
-.form-label{
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--inkSoft);
-}
-
-.mini-hint{
+.field .hint{
   font-size: 13px;
   font-weight: 650;
   color: var(--muted);
@@ -595,213 +575,10 @@ body.night .link-btn{
 
 .breathe-controls{
   margin-top: 14px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
 }
 
-/* New session grid used by breathe.html */
-.session-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  align-items: start;
-}
-
-.session-grid .form-label{
-  font-size: 16px;
-  font-weight: 900;
-  color: var(--ink);
-}
-
-.breathe-select{
-  width: 100% !important;
-  min-width: 0;
-  padding: 16px 16px;
-  font-size: 17px;
-  font-weight: 850;
-  border-radius: 18px;
-}
-
-/* =========================
-   BREATHE — BALANCE TILES
-   (Ready bigger / Session smaller)
-   ========================= */
-
-.breathe-page .breathe-ready-card{
-  padding: 18px 18px 20px;
-}
-
-.breathe-page .breath-circle{
-  width: 170px;
-  height: 170px;
-}
-
-.breathe-page .breathe-ready-title{
-  font-size: 24px;
-}
-
-.breathe-page .breathe-ready-sub{
-  font-size: 16px;
-}
-
-.breathe-page .breathe-session-card{
-  padding: 12px 14px 14px;
-}
-
-.breathe-page .breathe-session-card .gentle-text{
-  font-size: 14px;
-}
-
-.breathe-page .session-grid{
-  margin-top: 10px;
-  gap: 10px;
-}
-
-.breathe-page .breathe-controls{
-  margin-top: 12px;
-}
-
-/* =========================
-   SMALL SCREENS
-   ========================= */
-
+/* small screens */
 @media (max-height: 760px){
   .breath-circle{ width: 150px; height: 150px; }
-  .page-header h1{ font-size: 32px; }
-
-  .breathe-page .breath-circle{ width: 155px; height: 155px; }
-  .breathe-page .breathe-ready-card{ padding: 16px; }
-  .breathe-page .breathe-session-card{ padding: 10px 12px; }
-}
-
-@media (max-width: 360px){
-  .session-grid{ grid-template-columns: 1fr; }
-}
-
-/* =========================
-   COMPATIBILITY HELPERS
-   ========================= */
-
-.row{
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.btn{
-  padding: 12px 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 15px;
-  font-weight: 850;
-  cursor: pointer;
-  color: var(--ink);
-}
-
-.btn.primary{ background: var(--accentSoft); }
-
-.btn.danger{
-  background: var(--dangerSoft);
-  color: #6a2f3a;
-}
-
-body.night .btn{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.92);
-}
-
-.list{ margin-top: 10px; }
-/* =========================
-   GLOBAL FIX — stop bottom nav overlapping content
-   ========================= */
-
-.page{
-  width: min(460px, 92vw);
-  margin-left: auto;
-  margin-right: auto;
-
-  /* ⬇️ THIS IS THE IMPORTANT PART */
-  padding-bottom: calc(var(--navH) + 24px);
-}
-/* Ensure fixed-height pages also respect nav */
-.breathe-page .breathe-viewport{
-  padding-bottom: calc(var(--navH) + 12px);
-}
-/* =========================
-   BREATHE — split controls into thirds
-   ========================= */
-
-/* Make the controls row a 3-column grid */
-.breathe-page .breathe-controls{
-  display: grid !important;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-/* Ensure each button fills its column */
-.breathe-page .breathe-controls .small-pill{
-  width: 100%;
-  justify-content: center;
-  text-align: center;
-  padding: 14px 0;        /* slightly taller = easier tap */
-  font-size: 15px;
-}
-
-/* Completed pill spans full width if shown */
-.breathe-page #completedPill{
-  grid-column: 1 / -1;
-}
-/* =========================
-   NIGHT MODE – BUTTON VISIBILITY FIX
-   ========================= */
-
-body.night .home-pill,
-body.night .small-pill,
-body.night .btn,
-body.night .chip,
-body.night .link-btn {
-  background: rgba(40, 38, 60, 0.95);   /* darker pill */
-  border: 1px solid rgba(255,255,255,0.14);
-  box-shadow:
-    0 10px 26px rgba(0,0,0,0.55),
-    inset 0 0 0 1px rgba(255,255,255,0.05);
-}
-
-/* Button text */
-body.night .pill-text,
-body.night .btn,
-body.night .chip,
-body.night .link-title {
-  color: rgba(255,255,255,0.96);
-}
-
-/* Subtext inside buttons */
-body.night .link-sub {
-  color: rgba(255,255,255,0.70);
-}
-
-/* Icons inside buttons */
-body.night .pill-ico,
-body.night .nav-ico {
-  opacity: 0.9;
-}
-
-/* Active / selected states */
-body.night .chip.active,
-body.night .btn.primary {
-  background: rgba(184,168,255,0.28);
-  border-color: rgba(184,168,255,0.45);
-  box-shadow:
-    0 0 0 1px rgba(184,168,255,0.35),
-    0 12px 30px rgba(0,0,0,0.55);
-}
-
-/* Press feedback */
-body.night .home-pill:active,
-body.night .btn:active,
-body.night .chip:active {
-  transform: scale(0.985);
+  .page-header h1{ font-size: 30px; }
 }
