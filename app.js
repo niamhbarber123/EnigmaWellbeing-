@@ -1,37 +1,44 @@
 (() => {
-  const KEY = "enigma_night_mode";
+  const THEME_KEY = "enigma_theme_v1";
 
-  function apply(isNight) {
+  function applyTheme(isNight) {
     document.body.classList.toggle("night", !!isNight);
     const btn = document.getElementById("themeFab");
     if (btn) btn.textContent = isNight ? "☀️" : "🌙";
   }
 
-  function load() {
+  function loadTheme() {
     try {
-      return localStorage.getItem(KEY) === "1";
+      return localStorage.getItem(THEME_KEY) === "night";
     } catch {
       return false;
     }
   }
 
-  function save(isNight) {
+  function saveTheme(isNight) {
     try {
-      localStorage.setItem(KEY, isNight ? "1" : "0");
+      localStorage.setItem(THEME_KEY, isNight ? "night" : "day");
     } catch {}
   }
 
-  // initial
-  const initial = load();
-  apply(initial);
+  // Theme init
+  applyTheme(loadTheme());
 
-  // hook button
-  const btn = document.getElementById("themeFab");
-  if (btn) {
-    btn.addEventListener("click", () => {
-      const next = !document.body.classList.contains("night");
-      apply(next);
-      save(next);
+  // Theme toggle
+  const themeBtn = document.getElementById("themeFab");
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      const nowNight = !document.body.classList.contains("night");
+      applyTheme(nowNight);
+      saveTheme(nowNight);
     });
   }
+
+  // Auto-active bottom nav
+  const path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  document.querySelectorAll(".bottom-nav a").forEach(a => {
+    const href = (a.getAttribute("href") || "").toLowerCase();
+    if (href === path) a.classList.add("active");
+    else a.classList.remove("active");
+  });
 })();
