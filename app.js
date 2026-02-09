@@ -1,14 +1,15 @@
 /* =========================================================
    Enigma Wellbeing • app.js (STABLE)
    - Back always goes Home
-   - Theme toggle (moon/sun)
-   - Word of the Day (home + word.html + modal)
-   - Distraction (separate page)
-   - Breathe (timer/stopwatch + vibration, inhale retracts, exhale expands)
-   - Quotes (bigger set + search + save)
-   - Yoga + Music (chips + links + session minutes)
-   - Books + Resources (genre filter + BPD)
-   - Progress (simple stats)
+   - Theme toggle
+   - Word of the Day
+   - Distraction
+   - Breathe
+   - Quotes (save)
+   - Yoga + Music
+   - Books + Resources (expanded)
+   - Journal (save/view/delete)
+   - Progress
 ========================================================= */
 
 (function () {
@@ -66,7 +67,7 @@
   }
 
   /* =========================
-     WORD OF THE DAY (FULL LIST)
+     WORD OF THE DAY
   ========================= */
   function mulberry32(seed) {
     return function () {
@@ -83,7 +84,6 @@
     return Number.isFinite(n) ? n : 20260101;
   }
 
-  // ✅ includes the words you listed (and a few extras for variety)
   const WOTD = [
     { w:"Forgiveness", d:"Releasing resentment so you can move forward lighter." },
     { w:"Honesty", d:"Choosing truth with kindness—to yourself and others." },
@@ -102,41 +102,9 @@
     { w:"Humility", d:"Staying grounded and open to learning." },
     { w:"Sensitivity", d:"Noticing feelings and needs—yours and others’." },
     { w:"Compassion", d:"Meeting struggle with warmth instead of judgement." },
-    { w:"Leadership", d:"Guiding with care, clarity, and example." },
     { w:"Integrity", d:"Aligning actions with values—even in small moments." },
-    { w:"Action", d:"One doable step—progress over perfection." },
-    { w:"Courage", d:"Feeling fear and still choosing what matters." },
-    { w:"Creativity", d:"Letting new ideas and possibilities appear." },
-    { w:"Gentleness", d:"Soft strength—especially with yourself." },
     { w:"Clarity", d:"Seeing what matters most, without the noise." },
-    { w:"Balance", d:"Making space for rest, effort, joy, and recovery." },
-    { w:"Fun", d:"Allowing lightness—your nervous system needs it." },
-    { w:"Commitment", d:"Staying with what you choose, one day at a time." },
-    { w:"Patience", d:"Letting growth take the time it takes." },
-    { w:"Freedom", d:"Creating room to breathe, choose, and be yourself." },
-    { w:"Reflection", d:"Looking back kindly to learn and reset." },
-    { w:"Giving", d:"Offering support without emptying yourself." },
-    { w:"Enthusiasm", d:"Inviting energy and interest into the day." },
-    { w:"Joy", d:"Noticing what feels bright—even briefly." },
-    { w:"Satisfaction", d:"Letting ‘enough’ be enough." },
-    { w:"Grace", d:"Moving with softness through imperfect moments." },
-    { w:"Simplicity", d:"Reducing the load—one less thing at a time." },
-    { w:"Communication", d:"Sharing clearly, listening carefully." },
-    { w:"Appropriateness", d:"Matching your response to the moment wisely." },
-    { w:"Strength", d:"Endurance, boundaries, and quiet resilience." },
-    { w:"Love", d:"Choosing care—for yourself and others." },
-    { w:"Tenderness", d:"Being gentle with what’s sensitive." },
-    { w:"Perseverance", d:"Keeping going, especially on the slow days." },
-    { w:"Reliability", d:"Being steady and consistent—small promises kept." },
-    { w:"Initiative", d:"Starting before you feel ready." },
-    { w:"Confidence", d:"Trusting your ability to figure things out." },
-    { w:"Authenticity", d:"Being real—no performance required." },
-    { w:"Harmony", d:"Finding calm alignment within and around you." },
-    { w:"Pleasure", d:"Letting good moments count." },
-    { w:"Risk", d:"Trying something new, gently and safely." },
-    { w:"Efficiency", d:"Using energy wisely—not doing everything." },
-    { w:"Spontaneity", d:"Letting life surprise you in kind ways." },
-    { w:"Fulfilment", d:"A sense of meaning—built over time." }
+    { w:"Balance", d:"Making space for rest, effort, joy, and recovery." }
   ];
 
   function pickWotd() {
@@ -145,71 +113,12 @@
     return WOTD[i] || WOTD[0];
   }
 
-  function showWotdModal(word, desc) {
-    const modal = $("wotdModal");
-    const backdrop = $("wotdBackdrop");
-    const closeBtn = $("wotdCloseBtn");
-    const mw = $("wotdModalWord");
-    const md = $("wotdModalDesc");
-    if (!modal || !mw || !md) return;
-
-    mw.textContent = word;
-    md.textContent = desc;
-
-    modal.classList.add("show");
-    modal.style.display = "block";
-    modal.setAttribute("aria-hidden", "false");
-
-    const close = () => {
-      modal.classList.remove("show");
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
-    };
-
-    if (backdrop) backdrop.addEventListener("click", close, { once: true });
-    if (closeBtn) closeBtn.addEventListener("click", close, { once: true });
-
-    window.addEventListener("keydown", function esc(e){
-      if (e.key === "Escape") close();
-      window.removeEventListener("keydown", esc);
-    }, { once:true });
-  }
-
-  function initWotdHome() {
-    const tile = $("wotdTile");
-    const wordEl = $("wotdWord");
-    const descEl = $("wotdDesc");
-    const infoBtn = $("wotdInfoBtn");
-
-    if (!tile || !wordEl || !descEl) return;
-
-    const { w, d } = pickWotd();
-    wordEl.textContent = w;
-    descEl.textContent = d;
-
-    tile.addEventListener("click", (e) => {
-      if (e.target && e.target.id === "wotdInfoBtn") return;
-      e.preventDefault();
-      showWotdModal(w, d);
-    });
-
-    if (infoBtn) {
-      infoBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        showWotdModal(w, d);
-      });
-    }
-  }
-
   function initWotdPage() {
     const page = $("wordPage");
     if (!page) return;
-
     const wBig = $("wotdWordBig");
     const dBig = $("wotdDescBig");
     if (!wBig || !dBig) return;
-
     const { w, d } = pickWotd();
     wBig.textContent = w;
     dBig.textContent = d;
@@ -223,7 +132,7 @@
   }
 
   /* =========================
-     BREATHE (timer/stopwatch)
+     BREATHE
   ========================= */
   function fmtTime(totalSec) {
     totalSec = Math.max(0, Math.floor(totalSec));
@@ -256,15 +165,13 @@
     let running = false;
     let rafId = null;
 
-    // cycle settings
-    const inhaleSec = 5;    // inhale (retract)
-    const exhaleSec = 6;    // exhale (expand)
+    const inhaleSec = 5;
+    const exhaleSec = 6;
     const holdSec = 1;
 
-    let phase = "ready"; // inhale|hold_after_inhale|exhale|hold_after_exhale
+    let phase = "ready";
     let phaseEndsAt = 0;
 
-    // timer/stopwatch
     let mode = (modeSelect && modeSelect.value) ? modeSelect.value : "timer";
     let endAt = 0;
     let startAt = 0;
@@ -275,8 +182,8 @@
 
     function setVisual(p) {
       circle.classList.remove("breath-inhale","breath-exhale");
-      if (p === "inhale") circle.classList.add("breath-inhale"); // retract
-      if (p === "exhale") circle.classList.add("breath-exhale"); // expand
+      if (p === "inhale") circle.classList.add("breath-inhale");
+      if (p === "exhale") circle.classList.add("breath-exhale");
     }
 
     function setPhase(p, label) {
@@ -285,7 +192,7 @@
       tipEl.textContent = label;
       if (p === "inhale") setVisual("inhale");
       if (p === "exhale") setVisual("exhale");
-      if (p.startsWith("hold")) setVisual(""); // stays as last
+      if (p.startsWith("hold")) setVisual("");
       if (wantsVibe()) vibrate(15);
     }
 
@@ -293,7 +200,6 @@
       if (!modeSelect || !durationSelect || !timerLabel || !stopwatchLabel) return;
       mode = modeSelect.value || "timer";
       const isTimer = mode === "timer";
-
       if (durationRow) durationRow.style.display = isTimer ? "" : "none";
       timerLabel.style.display = isTimer ? "" : "none";
       stopwatchLabel.style.display = isTimer ? "none" : "";
@@ -366,7 +272,6 @@
 
       const now = Date.now();
 
-      // timer/stopwatch labels
       if (mode === "timer" && timerLabel) {
         const remainingSec = Math.ceil((endAt - now) / 1000);
         timerLabel.textContent = `Time: ${fmtTime(remainingSec)}`;
@@ -377,7 +282,6 @@
         stopwatchLabel.textContent = `Stopwatch: ${fmtTime(elapsedSec)}`;
       }
 
-      // phase transitions
       if (now >= phaseEndsAt) {
         if (phase === "inhale") {
           setPhase("hold_after_inhale","Hold");
@@ -397,17 +301,12 @@
       rafId = requestAnimationFrame(tick);
     }
 
-    if (modeSelect) {
-      modeSelect.addEventListener("change", () => {
-        updateModeUI();
-      });
-    }
+    if (modeSelect) modeSelect.addEventListener("change", updateModeUI);
 
     startBtn.addEventListener("click", (e) => { e.preventDefault(); startSession(); });
     stopBtn.addEventListener("click", (e) => { e.preventDefault(); stopSession(); });
     completeBtn.addEventListener("click", (e) => { e.preventDefault(); completeSession(); });
 
-    // default
     stopBtn.disabled = true;
     updateModeUI();
     if (timerLabel) timerLabel.textContent = "Time: —";
@@ -423,27 +322,9 @@
     { t:"It always seems impossible until it’s done.", a:"Nelson Mandela" },
     { t:"Progress, not perfection.", a:"Unknown" },
     { t:"You have survived 100% of your hardest days.", a:"Unknown" },
-    { t:"Breathe. This is just a moment, not your whole life.", a:"Unknown" },
-    { t:"The only way out is through.", a:"Robert Frost" },
-    { t:"This too shall pass.", a:"Persian proverb" },
-    { t:"Nothing can dim the light that shines from within.", a:"Maya Angelou" },
-    { t:"Act as if what you do makes a difference. It does.", a:"William James" },
-    { t:"You are allowed to be both a masterpiece and a work in progress.", a:"Sophia Bush" },
     { t:"Gentle is still strong.", a:"Unknown" },
-    { t:"Slow progress is still progress.", a:"Unknown" },
-    { t:"Rest is productive.", a:"Unknown" },
-    { t:"Not everything you think is true.", a:"Unknown" },
     { t:"Make peace with your pace.", a:"Unknown" },
-    { t:"Do the next right thing.", a:"Unknown" },
-    { t:"When you can’t control what’s happening, control how you respond.", a:"Unknown" },
-    { t:"Be kind to yourself. You’re doing the best you can.", a:"Unknown" },
-    { t:"Courage starts with showing up and letting ourselves be seen.", a:"Brené Brown" },
-    { t:"Wherever you go, there you are.", a:"Jon Kabat-Zinn" },
-    { t:"Simplicity is the ultimate sophistication.", a:"Leonardo da Vinci" },
-    { t:"What you practice grows stronger.", a:"Unknown" },
-    { t:"One day at a time.", a:"Unknown" },
-    { t:"Your calm is a superpower.", a:"Unknown" },
-    { t:"You are not behind. You are on your path.", a:"Unknown" }
+    { t:"Do the next right thing.", a:"Unknown" }
   ];
 
   function getSavedQuotes() { return readJSON("enigmaSavedQuotes", []); }
@@ -517,12 +398,12 @@
       const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
       if (!q) {
         if (status) status.textContent = "Tip: type a word like “calm”, “hope”, “courage”…";
-        render(QUOTES.slice(0, 14));
+        render(QUOTES);
         return;
       }
       const hits = QUOTES.filter((x) => x.t.toLowerCase().includes(q) || x.a.toLowerCase().includes(q));
       if (status) status.textContent = hits.length ? `Showing ${hits.length} result(s).` : "No results — try another word.";
-      render(hits.slice(0, 40));
+      render(hits);
     }
 
     function random() {
@@ -541,7 +422,7 @@
       setSavedQuotes([]);
       updateSavedCount();
       if (status) status.textContent = "Saved quotes deleted.";
-      render(QUOTES.slice(0, 14));
+      render(QUOTES);
     }
 
     searchBtn && searchBtn.addEventListener("click", search);
@@ -550,7 +431,7 @@
     clearSavedBtn && clearSavedBtn.addEventListener("click", clearSaved);
 
     updateSavedCount();
-    render(QUOTES.slice(0, 14));
+    render(QUOTES);
   }
 
   /* =========================
@@ -561,7 +442,10 @@
     { mood:"Focus", label:"Lo-fi focus mix", url:"https://www.youtube.com/results?search_query=lofi+focus+music" },
     { mood:"Sleep", label:"Sleep music", url:"https://www.youtube.com/results?search_query=sleep+music+relaxing" },
     { mood:"Stressed", label:"Relaxing piano", url:"https://www.youtube.com/results?search_query=relaxing+piano" },
-    { mood:"Sleep", label:"Ocean waves", url:"https://www.youtube.com/results?search_query=ocean+waves+sleep" }
+    { mood:"Sleep", label:"Ocean waves", url:"https://www.youtube.com/results?search_query=ocean+waves+sleep" },
+    { mood:"Anxious", label:"432hz calm music", url:"https://www.youtube.com/results?search_query=432hz+calm+music" },
+    { mood:"Focus", label:"Brown noise for focus", url:"https://www.youtube.com/results?search_query=brown+noise+focus" },
+    { mood:"Sleep", label:"Rain sounds", url:"https://www.youtube.com/results?search_query=rain+sounds+sleep" }
   ];
 
   function initMusic() {
@@ -656,7 +540,9 @@
     { mood:"Sleep", label:"Yoga for Sleep (wind down)", url:"https://www.youtube.com/results?search_query=yoga+for+sleep+wind+down" },
     { mood:"Morning", label:"Morning Yoga (wake up)", url:"https://www.youtube.com/results?search_query=morning+yoga+wake+up" },
     { mood:"Stiff body", label:"Yoga for stiff back/hips", url:"https://www.youtube.com/results?search_query=yoga+for+stiff+back+hips" },
-    { mood:"All", label:"Gentle yoga (all levels)", url:"https://www.youtube.com/results?search_query=gentle+yoga+all+levels" }
+    { mood:"All", label:"Gentle yoga (all levels)", url:"https://www.youtube.com/results?search_query=gentle+yoga+all+levels" },
+    { mood:"Anxiety", label:"Somatic yoga for anxiety", url:"https://www.youtube.com/results?search_query=somatic+yoga+for+anxiety" },
+    { mood:"Sleep", label:"Bedtime stretches", url:"https://www.youtube.com/results?search_query=bedtime+stretches+sleep" }
   ];
 
   function initYoga(){
@@ -705,25 +591,70 @@
   }
 
   /* =========================
-     BOOKS + RESOURCES (genre filter)
+     BOOKS + RESOURCES (EXPANDED)
   ========================= */
   const BOOKS = [
-    { genre:"BPD", title:"I Hate You—Don’t Leave Me", meta:"Jerold J. Kreisman & Hal Straus", desc:"Understanding BPD patterns and relationships." },
-    { genre:"BPD", title:"The Borderline Personality Disorder Workbook", meta:"Daniel J. Fox", desc:"Skills and exercises for BPD recovery." },
-    { genre:"DBT", title:"DBT Skills Training Handouts & Worksheets", meta:"Marsha M. Linehan", desc:"Core DBT skills: mindfulness, distress tolerance, emotion regulation." },
-    { genre:"Trauma", title:"The Body Keeps the Score", meta:"Bessel van der Kolk", desc:"How trauma shows up in mind and body." },
+    // BPD / DBT
+    { genre:"BPD", title:"I Hate You—Don’t Leave Me", meta:"Kreisman & Straus", desc:"Understanding BPD patterns and relationships." },
+    { genre:"BPD", title:"The Borderline Personality Disorder Workbook", meta:"Daniel J. Fox", desc:"Skills + exercises for emotional stability." },
+    { genre:"BPD", title:"Stop Walking on Eggshells", meta:"Paul T. Mason & Randi Kreger", desc:"Boundaries and support in difficult relationships." },
+    { genre:"DBT", title:"DBT Skills Training Handouts & Worksheets", meta:"Marsha M. Linehan", desc:"Mindfulness, distress tolerance, emotion regulation." },
+    { genre:"DBT", title:"The Dialectical Behavior Therapy Skills Workbook", meta:"McKay, Wood & Brantley", desc:"Practical DBT skills for everyday life." },
+
+    // Trauma
+    { genre:"Trauma", title:"The Body Keeps the Score", meta:"Bessel van der Kolk", desc:"How trauma impacts mind and body." },
+    { genre:"Trauma", title:"Complex PTSD: From Surviving to Thriving", meta:"Pete Walker", desc:"Tools for healing complex trauma." },
+    { genre:"Trauma", title:"What Happened to You?", meta:"Bruce Perry & Oprah Winfrey", desc:"A compassionate lens on experiences and healing." },
+
+    // Anxiety / Panic
     { genre:"Anxiety", title:"DARE", meta:"Barry McDonagh", desc:"A practical approach to anxiety and panic." },
-    { genre:"Self-compassion", title:"Self-Compassion", meta:"Kristin Neff", desc:"Building kindness toward yourself." },
-    { genre:"Mindfulness", title:"Wherever You Go, There You Are", meta:"Jon Kabat-Zinn", desc:"Mindfulness in everyday life." }
+    { genre:"Anxiety", title:"Hope and Help for Your Nerves", meta:"Dr Claire Weekes", desc:"Classic reassurance for panic and anxiety." },
+
+    // Depression / Mood
+    { genre:"Depression", title:"Feeling Good", meta:"David D. Burns", desc:"CBT tools to challenge low mood thoughts." },
+    { genre:"Depression", title:"The Upward Spiral", meta:"Alex Korb", desc:"Small changes that lift mood over time." },
+
+    // ADHD / Focus
+    { genre:"ADHD", title:"Driven to Distraction", meta:"Hallowell & Ratey", desc:"Understanding ADHD and how to cope." },
+    { genre:"ADHD", title:"ADHD 2.0", meta:"Hallowell & Ratey", desc:"Modern tools for attention and wellbeing." },
+
+    // Sleep
+    { genre:"Sleep", title:"Why We Sleep", meta:"Matthew Walker", desc:"Sleep science and how to improve it." },
+    { genre:"Sleep", title:"Say Good Night to Insomnia", meta:"Gregg D. Jacobs", desc:"CBT-I methods for better sleep." },
+
+    // Self-compassion / Mindfulness
+    { genre:"Self-compassion", title:"Self-Compassion", meta:"Kristin Neff", desc:"Kindness toward yourself that actually helps." },
+    { genre:"Mindfulness", title:"Wherever You Go, There You Are", meta:"Jon Kabat-Zinn", desc:"Mindfulness in everyday life." },
+    { genre:"Mindfulness", title:"The Happiness Trap", meta:"Russ Harris", desc:"ACT tools for difficult thoughts and feelings." },
+
+    // Relationships
+    { genre:"Relationships", title:"Attached", meta:"Levine & Heller", desc:"Attachment styles and healthier love." },
+    { genre:"Relationships", title:"Nonviolent Communication", meta:"Marshall Rosenberg", desc:"Clear, kind communication skills." },
+
+    // Grief
+    { genre:"Grief", title:"It’s OK That You’re Not OK", meta:"Megan Devine", desc:"Grief support without toxic positivity." }
   ];
 
   const RESOURCES = [
-    { genre:"BPD", title:"NHS: Borderline Personality Disorder", desc:"Overview, symptoms and getting help.", url:"https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" },
-    { genre:"BPD", title:"Mind (BPD / EUPD)", desc:"Information and support options.", url:"https://www.mind.org.uk/" },
+    // NHS / UK
+    { genre:"BPD", title:"NHS: Borderline Personality Disorder", desc:"Symptoms and getting help.", url:"https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" },
+    { genre:"Anxiety", title:"NHS: Anxiety disorders", desc:"Overview and support routes.", url:"https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/" },
+    { genre:"Depression", title:"NHS: Clinical depression", desc:"Symptoms and treatments.", url:"https://www.nhs.uk/mental-health/conditions/clinical-depression/" },
+
+    // Crisis
+    { genre:"Crisis", title:"Samaritans (UK)", desc:"Call 116 123 • 24/7", url:"https://www.samaritans.org/" },
+    { genre:"Crisis", title:"Shout 85258 (UK)", desc:"Text SHOUT to 85258 • 24/7", url:"https://giveusashout.org/" },
+
+    // Charities
+    { genre:"BPD", title:"Mind (BPD / EUPD info)", desc:"Support and guidance.", url:"https://www.mind.org.uk/" },
+    { genre:"Anxiety", title:"Anxiety UK", desc:"Support, info and resources.", url:"https://www.anxietyuk.org.uk/" },
+    { genre:"Depression", title:"Mind: Depression", desc:"Depression information and help.", url:"https://www.mind.org.uk/information-support/types-of-mental-health-problems/depression/" },
+    { genre:"Trauma", title:"Mind: Trauma", desc:"Trauma information and support.", url:"https://www.mind.org.uk/information-support/types-of-mental-health-problems/trauma/" },
+
+    // Skills
     { genre:"DBT", title:"DBT Self-Help", desc:"Free DBT skills resources.", url:"https://dbtselfhelp.com/" },
-    { genre:"Crisis", title:"Samaritans (UK)", desc:"Call 116 123 • 24/7 support.", url:"https://www.samaritans.org/" },
-    { genre:"Crisis", title:"Shout 85258 (UK)", desc:"Text SHOUT to 85258 • 24/7.", url:"https://giveusashout.org/" },
-    { genre:"Anxiety", title:"Anxiety UK", desc:"Support, info and resources.", url:"https://www.anxietyuk.org.uk/" }
+    { genre:"Mindfulness", title:"NHS: Mindfulness", desc:"Intro + simple practices.", url:"https://www.nhs.uk/mental-health/self-help/tips-and-support/mindfulness/" },
+    { genre:"Sleep", title:"NHS: Sleep and tiredness", desc:"Tips for better sleep.", url:"https://www.nhs.uk/live-well/sleep-and-tiredness/" }
   ];
 
   function initGenreList(pageId, chipId, listId, items, renderer){
@@ -789,141 +720,137 @@
   }
 
   /* =========================
-     DISTRACTION PAGE
+     JOURNAL (SAVE / VIEW / DELETE)
   ========================= */
-  const DISTRACTION_QUESTIONS = [
-    "Name 5 things you can see right now.",
-    "Name 4 things you can feel (touch/texture).",
-    "Name 3 things you can hear.",
-    "Name 2 things you can smell.",
-    "Name 1 thing you can taste (or would like to taste).",
-    "What colour feels calming to you today?",
-    "What’s a tiny ‘safe’ plan for the next 10 minutes?",
-    "What’s one kind thing you’d say to a friend feeling this way?",
-    "What’s your favourite cosy drink?",
-    "What’s a small win you’ve had this week?",
-    "What’s something you’re looking forward to (even small)?",
-    "What is a ‘good enough’ goal for today?"
-  ];
-
-  function shuffle(arr){
-    const a = arr.slice();
-    for (let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i],a[j]]=[a[j],a[i]];
-    }
-    return a;
-  }
-
-  function initDistractionPage(){
-    const page = $("distractionPage");
+  function initJournal() {
+    const page = $("journalPage");
     if (!page) return;
 
-    const qEl = $("dQuestion");
-    const answeredEl = $("dAnswered");
-    const input = $("dInput");
-    const startBtn = $("dStart");
-    const nextBtn = $("dNext");
-    const skipBtn = $("dSkip");
-    const endBtn = $("dEnd");
+    const text = $("journalText");
+    const saveBtn = $("journalSaveBtn");
+    const viewBtn = $("journalViewBtn");
+    const delAllBtn = $("journalDeleteAllBtn");
+    const status = $("journalStatus");
 
-    if (!qEl || !answeredEl || !input || !startBtn || !nextBtn || !skipBtn || !endBtn) return;
+    const savedCard = $("journalSavedCard");
+    const savedList = $("journalSavedList");
 
-    const KEY = "enigmaDistractionSessionV3";
+    const KEY = "enigmaJournalEntries";
 
-    function setRunning(r){
-      startBtn.style.display = r ? "none" : "";
-      nextBtn.style.display = r ? "" : "none";
-      skipBtn.style.display = r ? "" : "none";
-      endBtn.style.display = r ? "" : "none";
-      input.style.display = r ? "" : "none";
-      if (!r) input.value = "";
+    function loadEntries() {
+      return readJSON(KEY, []);
     }
 
-    function load(){
-      const s = readJSON(KEY,null);
-      if (!s || s.day !== todayKey()) return null;
-      return s;
-    }
-    function save(s){ writeJSON(KEY,s); }
-    function clear(){ localStorage.removeItem(KEY); }
-
-    function currentQ(s){
-      const idx = s.order[s.i];
-      return DISTRACTION_QUESTIONS[idx] || "Take one slow breath in… and out.";
+    function saveEntries(entries) {
+      writeJSON(KEY, entries);
     }
 
-    function render(s){
-      qEl.textContent = currentQ(s);
-      answeredEl.textContent = String(s.answered);
-      input.value = "";
-      setRunning(true);
-      input.focus();
+    function setStatus(msg) {
+      if (status) status.textContent = msg;
     }
 
-    function startNew(){
-      const order = shuffle([...Array(DISTRACTION_QUESTIONS.length).keys()]);
-      const s = { day: todayKey(), order, i:0, answered:0 };
-      save(s); render(s);
-    }
+    function renderSaved() {
+      if (!savedCard || !savedList) return;
+      const entries = loadEntries();
 
-    function advance(s){
-      if (s.i >= s.order.length - 1){
-        qEl.textContent = "You’re done. Take a slow breath.";
-        answeredEl.textContent = String(s.answered);
-        setRunning(false);
-        clear();
-        return;
-      }
-      s.i += 1;
-      save(s); render(s);
-    }
-
-    startBtn.addEventListener("click",(e)=>{ e.preventDefault(); startNew(); });
-
-    nextBtn.addEventListener("click",(e)=>{
-      e.preventDefault();
-      const s = load() || (startNew(), load());
-      if (!s) return;
-
-      const text = (input.value||"").trim();
-      if (!text){
-        qEl.textContent = "Type any answer (even one word) — or tap Skip.";
-        input.focus();
-        setTimeout(()=>{
-          const s2 = load();
-          if (s2) qEl.textContent = currentQ(s2);
-        }, 900);
+      if (!entries.length) {
+        savedCard.style.display = "none";
         return;
       }
 
-      s.answered += 1;
-      save(s);
-      advance(s);
-    });
+      savedCard.style.display = "";
+      savedList.innerHTML = "";
 
-    skipBtn.addEventListener("click",(e)=>{
-      e.preventDefault();
-      const s = load() || (startNew(), load());
-      if (!s) return;
-      advance(s);
-    });
+      entries.forEach((e, idx) => {
+        const wrap = document.createElement("div");
+        wrap.className = "card";
+        wrap.style.margin = "12px 0";
+        wrap.style.padding = "14px";
 
-    endBtn.addEventListener("click",(e)=>{
-      e.preventDefault();
-      clear();
-      setRunning(false);
-      qEl.textContent = "Ended. You can start again any time.";
-      answeredEl.textContent = "0";
-    });
+        const top = document.createElement("div");
+        top.style.display = "flex";
+        top.style.justifyContent = "space-between";
+        top.style.alignItems = "center";
+        top.style.gap = "10px";
 
-    const existing = load();
-    if (existing){ render(existing); }
-    else{
-      setRunning(false);
-      qEl.textContent = "Tap Start to begin.";
-      answeredEl.textContent = "0";
+        const title = document.createElement("div");
+        title.className = "section-title";
+        title.style.fontSize = "15px";
+        title.style.margin = "0";
+        title.textContent = `${e.date} • Entry ${entries.length - idx}`;
+
+        const del = document.createElement("button");
+        del.className = "tool-btn danger";
+        del.type = "button";
+        del.style.minWidth = "120px";
+        del.style.padding = "10px 12px";
+        del.style.borderRadius = "14px";
+        del.textContent = "Delete";
+        del.addEventListener("click", () => {
+          const next = loadEntries().filter((_, i) => i !== idx);
+          saveEntries(next);
+          setStatus("Entry deleted.");
+          renderSaved();
+        });
+
+        top.appendChild(title);
+        top.appendChild(del);
+
+        const body = document.createElement("div");
+        body.className = "gentle-text";
+        body.style.marginTop = "10px";
+        body.style.whiteSpace = "pre-wrap";
+        body.style.display = "none";
+        body.textContent = e.text;
+
+        wrap.appendChild(top);
+        wrap.appendChild(body);
+
+        wrap.addEventListener("click", (ev) => {
+          // don’t toggle when clicking the delete button
+          if (ev.target === del) return;
+          body.style.display = body.style.display === "none" ? "" : "none";
+        });
+
+        savedList.appendChild(wrap);
+      });
     }
+
+    saveBtn && saveBtn.addEventListener("click", () => {
+      const value = (text ? text.value : "").trim();
+      if (!value) {
+        setStatus("Write something first, then tap Save.");
+        return;
+      }
+      const entries = loadEntries();
+      entries.unshift({ date: todayKey(), text: value });
+      saveEntries(entries);
+
+      if (text) text.value = "";
+      setStatus("Saved ✅");
+      renderSaved();
+    });
+
+    viewBtn && viewBtn.addEventListener("click", () => {
+      const entries = loadEntries();
+      if (!entries.length) {
+        setStatus("No saved entries yet.");
+        return;
+      }
+      setStatus("Showing saved entries below.");
+      renderSaved();
+      // scroll to saved card
+      if (savedCard) savedCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    delAllBtn && delAllBtn.addEventListener("click", () => {
+      if (!confirm("Delete all journal entries? This cannot be undone.")) return;
+      localStorage.removeItem(KEY);
+      setStatus("All entries deleted.");
+      if (savedCard) savedCard.style.display = "none";
+    });
+
+    renderSaved();
   }
 
   /* =========================
@@ -965,18 +892,14 @@
     applyTheme();
     initTheme();
 
-    // home + word
-    initWotdHome();
     initWotdPage();
-
-    // pages
     initBreathe();
     initQuotes();
     initMusic();
     initYoga();
     initBooks();
     initResources();
-    initDistractionPage();
+    initJournal();
     initProgress();
   });
 })();
