@@ -1,123 +1,188 @@
 (() => {
   const chipsEl = document.getElementById("musicChips");
-  const listEl = document.getElementById("musicList");
+  const listEl  = document.getElementById("musicList");
 
   const todayEl = document.getElementById("todayMin");
   const totalEl = document.getElementById("totalMin");
-  const stateEl = document.getElementById("sessionState");
-
   const startBtn = document.getElementById("startSession");
   const endBtn = document.getElementById("endSession");
+  const stateEl = document.getElementById("sessionState");
 
-  const KEY_TOTAL = "enigma_music_total_min";
-  const KEY_TODAY = "enigma_music_today_min";
-  const KEY_DAYSTAMP = "enigma_music_daystamp";
-  const KEY_SESSION_START = "enigma_music_session_start";
-
-  const TRACKS = [
-    { mood: "Calm", title: "Calm piano / ambient", url: "https://www.youtube.com/results?search_query=calm+piano+ambient+music" },
-    { mood: "Focus", title: "Lo-fi focus", url: "https://www.youtube.com/results?search_query=lofi+focus+study+music" },
-    { mood: "Sleep", title: "Sleep sounds / rain", url: "https://www.youtube.com/results?search_query=rain+sleep+sounds+8+hours" },
-    { mood: "Anxiety", title: "Anxiety relief music", url: "https://www.youtube.com/results?search_query=anxiety+relief+music" },
-    { mood: "Energy", title: "Gentle uplifting", url: "https://www.youtube.com/results?search_query=gentle+uplifting+music" },
+  // =========================
+  // Tracks by mood (edit/add)
+  // =========================
+  const MUSIC = [
+    {
+      mood: "Calm",
+      items: [
+        { title: "Peaceful piano", desc: "Soft focus + gentle calm.", url: "https://www.youtube.com/results?search_query=peaceful+piano+relaxing" },
+        { title: "Lo-fi for relaxation", desc: "Steady background comfort.", url: "https://www.youtube.com/results?search_query=lofi+relaxing+study" }
+      ]
+    },
+    {
+      mood: "Anxiety",
+      items: [
+        { title: "Anxiety calming music", desc: "Slow, settling ambience.", url: "https://www.youtube.com/results?search_query=calming+music+for+anxiety" },
+        { title: "432Hz calming", desc: "Soft tones for grounding.", url: "https://www.youtube.com/results?search_query=432hz+calming+music" }
+      ]
+    },
+    {
+      mood: "Sleep",
+      items: [
+        { title: "Deep sleep sounds", desc: "Gentle drift-off soundscape.", url: "https://www.youtube.com/results?search_query=deep+sleep+music" },
+        { title: "Rain sounds", desc: "Classic steady rain ambience.", url: "https://www.youtube.com/results?search_query=rain+sounds+for+sleep" }
+      ]
+    },
+    {
+      mood: "Focus",
+      items: [
+        { title: "Lo-fi focus", desc: "Light structure, low distraction.", url: "https://www.youtube.com/results?search_query=lofi+beats+focus" },
+        { title: "Instrumental focus", desc: "Calm productivity soundtrack.", url: "https://www.youtube.com/results?search_query=instrumental+music+for+focus" }
+      ]
+    }
   ];
 
-  const MOODS = ["All", "Calm", "Focus", "Sleep", "Anxiety", "Energy"];
-  let active = "All";
+  const MOODS = MUSIC.map(x => x.mood);
+  let active = MOODS[0] || "Calm";
 
-  function dayStamp() {
+  // =========================
+  // Minutes listened (simple)
+  // =========================
+  const SESS_KEY = "enigma_music_session_v1";
+  const MIN_KEY  = "enigma_music_minutes_v1";
+
+  function todayKey() {
     const d = new Date();
-    return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   }
 
-  function getNum(key) {
-    const v = Number(localStorage.getItem(key) || "0");
-    return Number.isFinite(v) ? v : 0;
-  }
-
-  function setNum(key, val) {
-    localStorage.setItem(key, String(Math.max(0, Math.round(val))));
-  }
-
-  function ensureTodayReset() {
-    const stamp = localStorage.getItem(KEY_DAYSTAMP);
-    const now = dayStamp();
-    if (stamp !== now) {
-      localStorage.setItem(KEY_DAYSTAMP, now);
-      setNum(KEY_TODAY, 0);
-      localStorage.removeItem(KEY_SESSION_START);
+  function loadMinutes() {
+    try {
+      return JSON.parse(localStorage.getItem(MIN_KEY)) || { total: 0, byDay: {} };
+    } catch {
+      return { total: 0, byDay: {} };
     }
   }
 
-  function renderTotals() {
-    ensureTodayReset();
-    todayEl.textContent = String(getNum(KEY_TODAY));
-    totalEl.textContent = String(getNum(KEY_TOTAL));
+  function saveMinutes(obj) {
+    localStorage.setItem(MIN_KEY, JSON.stringify(obj));
+  }
 
-    const start = Number(localStorage.getItem(KEY_SESSION_START) || "0");
-    if (start > 0) stateEl.textContent = "Session running…";
-    else stateEl.textContent = "No active session.";
+  function loadSession() {
+    try { return JSON.parse(localStorage.getItem(SESS_KEY)) || null; }
+    catch { return null; }
+  }
+
+  function saveSession(sess) {
+    if (!sess) localStorage.removeItem(SESS_KEY);
+    else localStorage.setItem(SESS_KEY, JSON.stringify(sess));
+  }
+
+  function updateMinutesUI() {
+    const mins = loadMinutes();
+    const tk = todayKey();
+    const today = mins.byDay[tk] || 0;
+
+    todayEl.textContent = String(today);
+    totalEl.textContent = String(mins.total);
+
+    const sess = loadSession();
+    if (sess && sess.startedAt) {
+      stateEl.textContent = "Session running…";
+    } else {
+      stateEl.textContent = "No active session.";
+    }
+  }
+
+  function startSession() {
+    const sess = loadSession();
+    if (sess && sess.startedAt) {
+      stateEl.textContent = "Session already running…";
+      return;
+    }
+    saveSession({ startedAt: Date.now() });
+    updateMinutesUI();
+  }
+
+  function endSession() {
+    const sess = loadSession();
+    if (!sess || !sess.startedAt) {
+      stateEl.textContent = "No active session.";
+      return;
+    }
+
+    const elapsedMs = Date.now() - sess.startedAt;
+    const minsToAdd = Math.max(0, Math.round(elapsedMs / 60000));
+
+    const store = loadMinutes();
+    const tk = todayKey();
+    store.byDay[tk] = (store.byDay[tk] || 0) + minsToAdd;
+    store.total = (store.total || 0) + minsToAdd;
+
+    saveMinutes(store);
+    saveSession(null);
+    updateMinutesUI();
+  }
+
+  // =========================
+  // UI rendering (Enigma tiles)
+  // =========================
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[s]));
   }
 
   function renderChips() {
     chipsEl.innerHTML = "";
     MOODS.forEach(m => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "chip" + (m === active ? " active" : "");
-      b.textContent = m;
-      b.addEventListener("click", () => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip" + (m === active ? " active" : "");
+      btn.textContent = m;
+      btn.addEventListener("click", () => {
         active = m;
         renderChips();
         renderList();
       });
-      chipsEl.appendChild(b);
+      chipsEl.appendChild(btn);
     });
   }
 
   function renderList() {
+    const group = MUSIC.find(x => x.mood === active);
+    const items = group ? group.items : [];
+
+    if (!items.length) {
+      listEl.innerHTML = `<div class="gentle-text" style="margin-top:12px;">No tracks for this mood yet.</div>`;
+      return;
+    }
+
     listEl.innerHTML = "";
-    const filtered = active === "All" ? TRACKS : TRACKS.filter(t => t.mood === active);
-    filtered.forEach(t => {
+    items.forEach(item => {
       const a = document.createElement("a");
-      a.className = "link-pill";
-      a.href = t.url;
+      a.className = "link-btn";
+      a.href = item.url;
       a.target = "_blank";
       a.rel = "noopener";
-      a.innerHTML = `🎧 ${t.title}`;
+
+      a.innerHTML = `
+        <div>
+          <div class="link-title">${escapeHtml(item.title)}</div>
+          <div class="link-sub">${escapeHtml(item.desc)}</div>
+        </div>
+        <div class="link-arrow">→</div>
+      `;
       listEl.appendChild(a);
     });
   }
 
-  function startSession() {
-    ensureTodayReset();
-    const existing = Number(localStorage.getItem(KEY_SESSION_START) || "0");
-    if (existing > 0) return; // already running
-    localStorage.setItem(KEY_SESSION_START, String(Date.now()));
-    renderTotals();
-  }
-
-  function endSession() {
-    ensureTodayReset();
-    const start = Number(localStorage.getItem(KEY_SESSION_START) || "0");
-    if (!start) return;
-
-    const minutes = Math.max(0, Math.round((Date.now() - start) / 60000));
-    localStorage.removeItem(KEY_SESSION_START);
-
-    const today = getNum(KEY_TODAY) + minutes;
-    const total = getNum(KEY_TOTAL) + minutes;
-
-    setNum(KEY_TODAY, today);
-    setNum(KEY_TOTAL, total);
-
-    renderTotals();
-  }
-
+  // Events
   startBtn.addEventListener("click", startSession);
   endBtn.addEventListener("click", endSession);
 
+  // Init
   renderChips();
   renderList();
-  renderTotals();
+  updateMinutesUI();
 })();
