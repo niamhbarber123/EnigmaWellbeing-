@@ -810,3 +810,35 @@ body.night textarea::placeholder,
 body.night input::placeholder{
   color: rgba(255,255,255,0.55) !important;
 }
+/* ==========================
+   FORCE TITLES TO MATCH HELP COLOUR
+========================== */
+
+/* Page titles (top of each page) */
+.page-header h1{
+  color: var(--accent) !important;
+}
+
+/* Section titles inside cards */
+.section-title{
+  color: var(--accent) !important;
+}
+
+/* Home screen button titles */
+.home-card-title,
+.home-pill,
+.home-help,
+.home-mini{
+  color: var(--accent) !important;
+}
+
+/* Word of the Day title */
+.wotd-title{
+  color: var(--accent) !important;
+}
+
+/* Books / resources titles */
+.book-title,
+.resource-title{
+  color: var(--accent) !important;
+}
