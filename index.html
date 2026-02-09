@@ -1,47 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="page-wrap">
+<body class="page-wrap home">
 
-<div class="watermark"></div>
+<button id="themeToggle" class="theme-btn" aria-label="Toggle night mode">🌙</button>
 
-<button id="themeFab" class="theme-toggle-top">🌙</button>
-
-<header class="page-header">
+<header class="home-header">
   <h1>Enigma Wellbeing</h1>
   <p>Your calm space</p>
 </header>
 
-<main class="page">
+<!-- Watermark -->
+<div class="home-watermark"></div>
+
+<main class="home-main">
+
   <div class="home-grid">
     <a class="home-btn" href="breathe.html">🌬️ Breathe</a>
     <a class="home-btn" href="journal.html">📖 Journal</a>
     <a class="home-btn" href="quotes.html">💬 Quotes</a>
     <a class="home-btn" href="yoga.html">🧘‍♀️ Yoga</a>
-    <a class="home-btn" href="music.html">🎵 Music</a>
+    <a class="home-btn" href="sounds.html">🎵 Music</a>
     <a class="home-btn" href="progress.html">📈 Progress</a>
-    <a class="home-btn" href="word.html">✨ Word of the day</a>
-    <a class="home-btn" href="distraction.html">🧩 Distraction</a>
-    <a class="home-btn" href="resources.html">🧠 Resources</a>
-    <a class="home-btn" href="books.html">📚 Books</a>
-    <a class="home-btn help-btn" href="help.html">🆘 Help</a>
+    <a class="home-btn" href="word.html">🪷 Word of the Day</a>
+    <a class="home-btn home-btn-help" href="help.html">🆘 Help</a>
   </div>
+
 </main>
 
 <nav class="bottom-nav">
-  <a class="active" href="index.html">Home</a>
-  <a href="breathe.html">Breathe</a>
-  <a href="journal.html">Journal</a>
-  <a href="quotes.html">Quotes</a>
-  <a href="yoga.html">Yoga</a>
-  <a href="music.html">Music</a>
-  <a href="progress.html">Progress</a>
+  <a class="active" href="index.html">🏠</a>
+  <a href="breathe.html">🌬️</a>
+  <a href="journal.html">📖</a>
+  <a href="quotes.html">💬</a>
+  <a href="yoga.html">🧘‍♀️</a>
+  <a href="sounds.html">🎵</a>
+  <a href="progress.html">📈</a>
 </nav>
 
 <script src="app.js"></script>
