@@ -7,31 +7,51 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210final" />
+
+  <!-- Use ./ to avoid path/case issues on GitHub Pages + cache bust -->
+  <link rel="stylesheet" href="./style.css?v=20260210p1" />
 </head>
 
 <body class="page-wrap">
+  <!-- ✅ Back ALWAYS works -->
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+
+  <!-- Night mode top-right -->
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Your progress</h1>
     <p>Quiet growth over time</p>
   </header>
 
-  <main class="page" id="progressPage">
-    <div class="card">
+  <main class="page">
+    <section class="card">
       <div class="section-title">Today</div>
-      <div class="gentle-text">🌬️ Breathed today: <b><span id="pBreathedToday">0</span></b> min</div>
-      <div class="gentle-text">🎵 Music today: <b><span id="pMusicToday">0</span></b> min</div>
-    </div>
 
-    <div class="card">
+      <div class="gentle-text" style="margin-top:10px;">
+        🌬️ Breathed today: <strong><span id="breatheToday">0</span></strong> min
+      </div>
+
+      <div class="gentle-text" style="margin-top:10px;">
+        🎵 Music today: <strong><span id="musicToday">0</span></strong> min
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:14px;">
       <div class="section-title">Totals</div>
-      <div class="gentle-text">🌬️ Breathe total: <b><span id="pBreatheTotal">0</span></b> min</div>
-      <div class="gentle-text">🎵 Music total: <b><span id="pMusicTotal">0</span></b> min</div>
-      <div class="gentle-text">💬 Saved quotes: <b><span id="pSavedQuotes">0</span></b></div>
-    </div>
+
+      <div class="gentle-text" style="margin-top:10px;">
+        🌬️ Breathe total: <strong><span id="breatheTotal">0</span></strong> min
+      </div>
+
+      <div class="gentle-text" style="margin-top:10px;">
+        🎵 Music total: <strong><span id="musicTotal">0</span></strong> min
+      </div>
+
+      <div class="gentle-text" style="margin-top:10px;">
+        💬 Saved quotes: <strong><span id="savedQuotes">0</span></strong>
+      </div>
+    </section>
   </main>
 
   <nav class="bottom-nav">
@@ -44,6 +64,7 @@
     <a class="active" href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100001" defer></script>
+  <script src="./app.js?v=20260210p1" defer></script>
+  <script src="./progress.js?v=20260210p1" defer></script>
 </body>
 </html>
