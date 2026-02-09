@@ -730,3 +730,36 @@ body.night .btn{
 .breathe-page .breathe-status{
   padding-top: 4px !important;
 }
+/* =========================
+   BREATHE — side-by-side dropdowns
+   ========================= */
+
+/* Wrap the two dropdown rows into a grid */
+.breathe-page .breathe-form{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 12px;
+}
+
+/* Each form row behaves nicely inside the grid */
+.breathe-page .breathe-form .form-row{
+  margin: 0;
+}
+
+/* Make Mode + Minutes align visually */
+.breathe-page .form-label{
+  text-align: left;
+}
+
+/* Keep vibration toggle full width */
+.breathe-page .vibration-row{
+  grid-column: 1 / -1;
+  margin-top: 6px;
+}
+
+/* Stack on very small screens */
+@media (max-width: 360px){
+  .breathe-page .breathe-form{
+    grid-template-columns: 1fr;
+  }
+}
