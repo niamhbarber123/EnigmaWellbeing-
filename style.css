@@ -220,3 +220,99 @@ input, textarea {
 .bottom-nav a.active {
   color: var(--accent);
 }
+/* =========================
+   🔒 HARD LOCK NAV BAR
+   (prevents icons disappearing)
+========================= */
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: rgba(255,255,255,0.95);
+  border-top: 1px solid rgba(0,0,0,0.08);
+  z-index: 999;
+}
+
+body.night .bottom-nav {
+  background: rgba(18,18,24,0.95);
+}
+
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b5b86;
+  text-decoration: none;
+}
+
+body.night .bottom-nav a {
+  color: rgba(255,255,255,0.8);
+}
+
+.bottom-nav a.active {
+  color: #6b5b86;
+  font-weight: 900;
+}
+
+.nav-ico {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* =========================
+   🔒 HOME GRID RESTORE
+========================= */
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  max-width: 420px;
+  margin: 24px auto 0;
+}
+
+.home-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 22px;
+  background: rgba(235,228,250,0.9);
+  border: 1px solid rgba(120,110,150,0.2);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+  font-weight: 800;
+  font-size: 16px;
+  color: #6b5b86;
+}
+
+.home-pill .pill-ico {
+  font-size: 20px;
+}
+
+.home-pill .pill-text {
+  font-size: 16px;
+}
+
+/* =========================
+   🔒 STOP UNWANTED SCROLL
+========================= */
+
+body.home {
+  overflow-x: hidden;
+}
+
+.page-wrap.home {
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
