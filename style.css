@@ -602,3 +602,44 @@ body.night .fav-btn{
 .fav-btn.active{
   background: var(--accent-soft);
 }
+/* ==========================
+   FIX: Night mode button contrast (Journal + all pages)
+   - Ensures text is readable on light buttons in night mode
+   - Makes primary/danger buttons consistent + clear
+========================== */
+
+/* Make ALL buttons readable in night mode */
+body.night .tool-btn,
+body.night .quote-save-btn,
+body.night .fav-btn{
+  background: rgba(255,255,255,0.10) !important;
+  color: rgba(255,255,255,0.92) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+/* “Primary” buttons in night mode = soft purple */
+body.night .tool-btn.primary{
+  background: rgba(203,188,255,0.18) !important;
+  color: rgba(255,255,255,0.95) !important;
+}
+
+/* “Danger” buttons in night mode = muted but readable */
+body.night .tool-btn.danger{
+  background: rgba(255,183,161,0.20) !important;
+  color: rgba(255,255,255,0.92) !important;
+}
+
+/* Inputs + textarea readability in night mode */
+body.night textarea,
+body.night input,
+body.night .input{
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.92) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+/* Placeholder text clearer */
+body.night textarea::placeholder,
+body.night input::placeholder{
+  color: rgba(255,255,255,0.55) !important;
+}
