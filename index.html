@@ -7,47 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100010" />
-
-  <style>
-    body.home .home-page{
-      position: relative;
-      min-height: calc(100vh - 170px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 18px;
-    }
-
-    /* ✅ Watermark perfectly centred behind grid */
-    body.home .home-page::before{
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: min(560px, 92vw);
-      height: min(560px, 92vw);
-      transform: translate(-50%, -50%);
-      background-image: url("icon.png");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-      opacity: 0.12;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    body.home .home-grid{
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 520px;
-    }
-
-    .home-pill.wide{
-      grid-column: 1 / -1;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css?v=100200" />
 </head>
 
 <body class="page-wrap home">
@@ -89,6 +49,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100010" defer></script>
+  <script src="app.js?v=100200" defer></script>
 </body>
 </html>
