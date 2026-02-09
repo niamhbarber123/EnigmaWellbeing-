@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100200" />
+  <link rel="stylesheet" href="style.css?v=100001" />
 </head>
 
 <body class="page-wrap">
@@ -16,19 +16,16 @@
   <header class="page-header">
     <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Books</h1>
-    <p>Recommendations by genre</p>
+    <p>Supportive reads (with BPD + DBT)</p>
   </header>
 
   <main class="page" id="booksPage">
     <div class="card">
       <div class="section-title">Genres</div>
-      <div id="bookGenreRow" class="chip-row" style="margin-top:12px;"></div>
+      <div id="booksGenres" class="chip-row"></div>
     </div>
 
-    <div class="card">
-      <div class="section-title">Recommendations</div>
-      <div id="bookList" style="margin-top:12px;"></div>
-    </div>
+    <div id="booksList"></div>
   </main>
 
   <nav class="bottom-nav">
@@ -41,6 +38,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100200" defer></script>
+  <script src="app.js?v=100001" defer></script>
 </body>
 </html>
