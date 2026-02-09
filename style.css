@@ -759,3 +759,53 @@ body.night .vibration-row{
 .time-display{
   font-size: 14px !important;
 }
+/* =========================
+   BREATHE: smaller animation area + keep status at bottom
+   Paste at END of style.css
+   ========================= */
+
+/* shrink the circle + reduce its visual "halo" */
+.breathe-circle-wrap{
+  padding: 2px 0 !important;     /* less vertical space */
+}
+
+.breath-circle{
+  width: 170px !important;        /* smaller */
+  height: 170px !important;
+  box-shadow:
+    0 14px 28px rgba(120,110,160,0.16),
+    0 0 0 10px rgba(255,255,255,0.32) !important;
+}
+
+/* keep Ready/Time at bottom of the top card */
+.breathe-ready-card{
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.breathe-circle-wrap{
+  flex: 1 1 auto !important;      /* circle takes middle space */
+  display: grid !important;
+  place-items: center !important;
+  min-height: 0 !important;
+}
+
+.breathe-status{
+  margin-top: auto !important;    /* forces Ready/Time to bottom */
+  padding-top: 6px !important;
+}
+
+/* slightly reduce the card padding so everything fits nicely */
+.breathe-ready-card{
+  padding-top: 16px !important;
+  padding-bottom: 14px !important;
+}
+
+/* optional: slightly smaller text so it stays balanced */
+.breath-label{
+  font-size: 18px !important;
+}
+
+.time-display{
+  font-size: 14px !important;
+}
