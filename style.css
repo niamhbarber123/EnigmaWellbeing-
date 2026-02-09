@@ -408,3 +408,11 @@ body.night .breath-label{
 .breathe-ready-sub{
   line-height: 1.35;
 }
+/* Breathe: make controls a bit clearer + tappable */
+.breathe-controls .small-pill{
+  min-width: 92px;
+}
+
+.breathe-ready-sub{
+  line-height: 1.35;
+}
