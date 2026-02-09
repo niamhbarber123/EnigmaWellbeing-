@@ -763,3 +763,25 @@ body.night .btn{
     grid-template-columns: 1fr;
   }
 }
+/* =========================
+   BREATHE — dropdowns side-by-side (guaranteed)
+   ========================= */
+
+.breathe-page .breathe-two-col{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* vibration row stays full width */
+.breathe-page .vibration-row{
+  margin-top: 10px;
+}
+
+/* stack on tiny screens */
+@media (max-width: 360px){
+  .breathe-page .breathe-two-col{
+    grid-template-columns: 1fr;
+  }
+}
