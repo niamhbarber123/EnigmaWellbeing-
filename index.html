@@ -1,98 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enigma Wellbeing</title>
 
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=99902" />
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
+  <!-- Night mode -->
+  <button id="themeFab" class="theme-toggle-top" aria-label="Toggle night mode">🌙</button>
+
+  <!-- Header -->
   <header class="page-header">
     <h1>Enigma Wellbeing</h1>
     <p>Your calm space</p>
   </header>
-<main class="page">
 
-<div class="home-grid">
+  <!-- MAIN -->
+  <main class="page">
 
-<a class="home-btn" href="breathe.html">🌬️ Breathe</a>
-<a class="home-btn" href="journal.html">📖 Journal</a>
+    <!-- 🔑 THIS GRID IS THE FIX -->
+    <div class="home-grid">
 
-<a class="home-btn" href="quotes.html">💬 Quotes</a>
-<a class="home-btn" href="yoga.html">🧘 Yoga</a>
+      <a class="home-pill" href="breathe.html">🌬️ Breathe</a>
+      <a class="home-pill" href="journal.html">📖 Journal</a>
 
-<a class="home-btn" href="music.html">🎵 Music</a>
-<a class="home-btn" href="progress.html">📈 Progress</a>
+      <a class="home-pill" href="quotes.html">💬 Quotes</a>
+      <a class="home-pill" href="yoga.html">🧘‍♀️ Yoga</a>
 
-<a class="home-btn" href="wotd.html">✨ Word of the day</a>
-<a class="home-btn" href="distraction.html">🧠 Distraction</a>
+      <a class="home-pill" href="music.html">🎵 Music</a>
+      <a class="home-pill" href="progress.html">📈 Progress</a>
 
-<a class="home-btn" href="resources.html">🧩 Resources</a>
-<a class="home-btn" href="books.html">📚 Books</a>
+      <a class="home-pill" href="words.html">✨ Word of the day</a>
+      <a class="home-pill" href="distraction.html">🧩 Distraction</a>
 
-<a class="home-btn large" href="help.html">🆘 Help</a>
+      <a class="home-pill" href="resources.html">🧠 Resources</a>
+      <a class="home-pill" href="books.html">📚 Books</a>
 
-</div>
+      <!-- BIG HELP BUTTON -->
+      <a class="home-pill full" href="help.html">🆘 Help</a>
 
-</main>
-/* ==========================
-   HOME WATERMARK
-========================== */
+    </div>
 
-.page.home{
-  position: relative;
-  overflow: hidden;
-}
-
-/* watermark image */
-.page.home::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    url("icon.png") center 55% / 380px 380px no-repeat;
-  opacity:0.08;
-  pointer-events:none;
-  z-index:0;
-}
-
-/* keep buttons above watermark */
-.home-grid{
-  position: relative;
-  z-index:1;
-}
-
-/* Night mode adjustment */
-body.night .page.home::before{
-  opacity:0.12;
-}
-    <!-- HELP stays full width -->
-    <a href="help.html" class="home-btn home-btn-wide">
-      <span>🆘</span>Help
-    </a>
-
-  </div>
-
-</main>
   </main>
 
-  <!-- Bottom navigation (unchanged) -->
+  <!-- Bottom nav -->
   <nav class="bottom-nav">
-    <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a class="active" href="index.html"><span>🏠</span>Home</a>
+    <a href="breathe.html"><span>🌬️</span>Breathe</a>
+    <a href="journal.html"><span>📖</span>Journal</a>
+    <a href="quotes.html"><span>💬</span>Quotes</a>
+    <a href="yoga.html"><span>🧘‍♀️</span>Yoga</a>
+    <a href="music.html"><span>🎵</span>Music</a>
+    <a href="progress.html"><span>📈</span>Progress</a>
   </nav>
 
-  <script src="app.js?v=99902" defer></script>
+  <script src="app.js"></script>
 </body>
 </html>
