@@ -1,65 +1,222 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Enigma Wellbeing</title>
+/* =========================
+   Enigma Wellbeing – Core
+========================= */
 
-  <link rel="icon" href="icon.png">
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="stylesheet" href="style.css">
-</head>
+:root {
+  --bg: #f7f5fb;
+  --card: #ffffff;
+  --accent: #6b5b95;
+  --text: #4a3f66;
+  --muted: #8a82a6;
+  --shadow: 0 14px 30px rgba(0,0,0,0.08);
+}
 
-<body class="page-wrap">
+/* ===== Base ===== */
 
-  <!-- Night mode -->
-  <button id="themeFab" class="theme-toggle-top" aria-label="Toggle night mode">🌙</button>
+* {
+  box-sizing: border-box;
+}
 
-  <!-- Header -->
-  <header class="page-header">
-    <h1>Enigma Wellbeing</h1>
-    <p>Your calm space</p>
-  </header>
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-  <!-- MAIN -->
-  <main class="page">
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
-    <!-- 🔑 THIS GRID IS THE FIX -->
-    <div class="home-grid">
+/* ===== Page Layout ===== */
 
-      <a class="home-pill" href="breathe.html">🌬️ Breathe</a>
-      <a class="home-pill" href="journal.html">📖 Journal</a>
+.page-wrap {
+  min-height: 100vh;
+  padding-bottom: 96px;
+}
 
-      <a class="home-pill" href="quotes.html">💬 Quotes</a>
-      <a class="home-pill" href="yoga.html">🧘‍♀️ Yoga</a>
+.page {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 16px;
+}
 
-      <a class="home-pill" href="music.html">🎵 Music</a>
-      <a class="home-pill" href="progress.html">📈 Progress</a>
+/* ===== Header ===== */
 
-      <a class="home-pill" href="words.html">✨ Word of the day</a>
-      <a class="home-pill" href="distraction.html">🧩 Distraction</a>
+.page-header {
+  text-align: center;
+  margin: 16px 0 8px;
+  position: relative;
+}
 
-      <a class="home-pill" href="resources.html">🧠 Resources</a>
-      <a class="home-pill" href="books.html">📚 Books</a>
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 8px 0 4px;
+}
 
-      <!-- BIG HELP BUTTON -->
-      <a class="home-pill full" href="help.html">🆘 Help</a>
+.page-header p {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0;
+}
 
-    </div>
+.back-btn {
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: none;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-size: 20px;
+}
 
-  </main>
+/* ===== Theme Toggle ===== */
 
-  <!-- Bottom nav -->
-  <nav class="bottom-nav">
-    <a class="active" href="index.html"><span>🏠</span>Home</a>
-    <a href="breathe.html"><span>🌬️</span>Breathe</a>
-    <a href="journal.html"><span>📖</span>Journal</a>
-    <a href="quotes.html"><span>💬</span>Quotes</a>
-    <a href="yoga.html"><span>🧘‍♀️</span>Yoga</a>
-    <a href="music.html"><span>🎵</span>Music</a>
-    <a href="progress.html"><span>📈</span>Progress</a>
-  </nav>
+.theme-toggle-top {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: none;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-size: 20px;
+  z-index: 20;
+}
 
-  <script src="app.js"></script>
-</body>
-</html>
+/* ===== Cards ===== */
+
+.card {
+  background: var(--card);
+  border-radius: 24px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: var(--accent);
+}
+
+/* ===== Buttons ===== */
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  font-weight: 600;
+  font-size: 15px;
+  background: #ece8f6;
+  color: var(--accent);
+}
+
+.btn-danger {
+  background: #f2c7c7;
+  color: #6a2b2b;
+}
+
+/* ===== Chips ===== */
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #eee;
+  font-size: 14px;
+}
+
+/* ===== Inputs ===== */
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  background: #f1eef8;
+  font-size: 14px;
+}
+
+/* ===== Home Buttons ===== */
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.home-btn {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--accent);
+  text-align: center;
+}
+
+/* ===== Large Help Button ===== */
+
+.help-btn {
+  grid-column: span 2;
+  background: #fff;
+  font-weight: 700;
+}
+
+/* ===== Watermark ===== */
+
+.watermark {
+  position: fixed;
+  inset: 0;
+  background: url("icon.png") center 55% / 320px no-repeat;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== Bottom Nav ===== */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255,255,255,0.9);
+  padding: 10px 0;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.bottom-nav a {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.bottom-nav a.active {
+  color: var(--accent);
+}
