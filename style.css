@@ -313,3 +313,93 @@ a{
 /* ===============================
    END
    =============================== */
+/* =========================
+   Mood page
+   ========================= */
+.mood-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mood-btn{
+  border: none;
+  border-radius: 18px;
+  padding: 14px 14px;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 6px 14px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.85);
+  color: #4b4761;
+  font-size: 15px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.mood-btn:active{
+  transform: scale(0.98);
+}
+
+.mood-btn.active{
+  background: rgba(231,225,251,0.95);
+}
+
+.mood-emoji{
+  font-size: 18px;
+}
+
+.mood-actions{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.saved-list{
+  display: grid;
+  gap: 12px;
+}
+
+.saved-item{
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 6px 14px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.85);
+}
+
+.saved-title{
+  font-size: 16px;
+  font-weight: 850;
+  color: #4b4761;
+}
+
+.saved-meta{
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #8f8faa;
+}
+
+.saved-notes{
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 650;
+  color: #5b5376;
+  line-height: 1.45;
+}
+
+/* Night mode */
+body.night .mood-btn,
+body.night .saved-item{
+  background: rgba(26,24,38,0.75);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+  color: rgba(255,255,255,0.95);
+}
+
+body.night .saved-meta{
+  color: rgba(255,255,255,0.7);
+}
+
+body.night .saved-notes{
+  color: rgba(255,255,255,0.85);
+}
