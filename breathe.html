@@ -1,98 +1,225 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Breathe • Enigma Wellbeing</title>
+(() => {
+  const circle = document.getElementById("breathCircle");
+  const breathLabel = document.getElementById("breathLabel");
+  const timeEl = document.getElementById("timeDisplay");
 
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210b3" />
-</head>
+  const topTitle = document.getElementById("topTitle");
+  const topHint = document.getElementById("topHint");
 
-<body class="page-wrap breathe-page no-scroll">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  const modeSelect = document.getElementById("modeSelect");
+  const minutesSelect = document.getElementById("minutesSelect");
+  const minutesField = document.getElementById("minutesField");
+  const vibrationToggle = document.getElementById("vibrationToggle");
 
-  <header class="page-header breathe-header-compact">
-    <h1>Breathe</h1>
-    <p>Follow the rhythm</p>
-  </header>
+  const startBtn = document.getElementById("startBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const completedPill = document.getElementById("completedPill");
 
-  <main class="page breathe-fit">
+  const INHALE_MS = 4000;
+  const EXHALE_MS = 6000;
 
-    <!-- READY CARD -->
-    <section class="card breathe-ready-card">
-      <div class="breathe-ready-top">
-        <div class="breathe-ready-title" id="topTitle">Ready</div>
-        <div class="breathe-ready-sub" id="topHint">Tap Start to begin.</div>
-      </div>
+  let running = false;
+  let paused = false;
 
-      <div class="breathe-circle-wrap">
-        <div id="breathCircle" class="breath-circle"></div>
-      </div>
+  let phaseTimer = null;
+  let tickTimer = null;
 
-      <div class="breathe-status">
-        <div id="breathLabel" class="breath-label">Ready</div>
-        <div id="timeDisplay" class="time-display">Time: —</div>
-      </div>
-    </section>
+  let mode = "timer";
+  let endTime = 0;         // timer target
+  let startTime = 0;       // stopwatch baseline
+  let pausedAt = 0;        // time when paused
+  let pausedAccum = 0;     // total pause duration for stopwatch/timer
 
-    <!-- SESSION CARD -->
-    <section class="card breathe-session-card">
-      <div class="section-title">Session</div>
-      <div class="gentle-text">Choose your mode, then press Start.</div>
+  function pad(n){ return String(n).padStart(2, "0"); }
 
-      <div class="breathe-form">
+  function fmt(ms){
+    const total = Math.max(0, Math.floor(ms / 1000));
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    return `${pad(m)}:${pad(s)}`;
+  }
 
-        <div class="form-row">
-          <div class="form-label">Mode</div>
-          <select id="modeSelect" class="select" aria-label="Mode">
-            <option value="timer" selected>Timer</option>
-            <option value="stopwatch">Stopwatch</option>
-          </select>
-          <div class="mini-hint">Timer counts down. Stopwatch counts up.</div>
-        </div>
+  function vibrate(pattern){
+    try{
+      if (!vibrationToggle?.checked) return;
+      if (navigator.vibrate) navigator.vibrate(pattern);
+    }catch{}
+  }
 
-        <div class="form-row" id="minutesField">
-          <div class="form-label">Timer length</div>
-          <select id="minutesSelect" class="select" aria-label="Timer length">
-            <option value="1" selected>1 minute</option>
-            <option value="2">2 minutes</option>
-            <option value="3">3 minutes</option>
-            <option value="5">5 minutes</option>
-            <option value="10">10 minutes</option>
-            <option value="15">15 minutes</option>
-          </select>
-        </div>
+  function clearTimers(){
+    if (phaseTimer) { clearTimeout(phaseTimer); phaseTimer = null; }
+    if (tickTimer) { clearInterval(tickTimer); tickTimer = null; }
+  }
 
-        <label class="vibration-row" for="vibrationToggle">
-          <input id="vibrationToggle" type="checkbox" />
-          <span>Vibration cues</span>
-        </label>
+  function setCompleted(on){
+    completedPill.style.display = on ? "inline-flex" : "none";
+  }
 
-      </div>
+  function setModeUI(){
+    mode = modeSelect.value;
+    minutesField.style.display = (mode === "timer") ? "grid" : "none";
 
-      <div class="breathe-controls">
-        <button id="startBtn" class="small-pill" type="button">Start</button>
-        <button id="pauseBtn" class="small-pill" type="button">Pause</button>
-        <button id="resetBtn" class="small-pill" type="button">Reset</button>
-        <div id="completedPill" class="small-pill completed-pill" style="display:none;">Completed ✅</div>
-      </div>
-    </section>
-  </main>
+    if (!running && !paused) {
+      setCompleted(false);
+      topTitle.textContent = "Ready";
+      topHint.textContent = "Tap Start to begin.";
+      breathLabel.textContent = "Ready";
 
-  <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a class="active" href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-  </nav>
+      if (mode === "timer") {
+        const mins = Number(minutesSelect.value || "1");
+        timeEl.textContent = `Time: ${fmt(mins * 60 * 1000)}`;
+      } else {
+        timeEl.textContent = "Time: 00:00";
+      }
+    }
+  }
 
-  <script src="app.js?v=20260210b3" defer></script>
-  <script src="breathe.js?v=20260210b3" defer></script>
-</body>
-</html>
+  function inhale(){
+    if (!running || paused) return;
+    topTitle.textContent = "Inhale";
+    breathLabel.textContent = "Inhale";
+    vibrate(15);
+
+    circle.classList.remove("exhale");
+    void circle.offsetWidth;
+    circle.classList.add("inhale");
+
+    phaseTimer = setTimeout(exhale, INHALE_MS);
+  }
+
+  function exhale(){
+    if (!running || paused) return;
+    topTitle.textContent = "Exhale";
+    breathLabel.textContent = "Exhale";
+    vibrate([10, 40, 10]);
+
+    circle.classList.remove("inhale");
+    void circle.offsetWidth;
+    circle.classList.add("exhale");
+
+    phaseTimer = setTimeout(inhale, EXHALE_MS);
+  }
+
+  function finish(){
+    running = false;
+    paused = false;
+    clearTimers();
+
+    circle.classList.remove("inhale", "exhale");
+    topTitle.textContent = "Completed";
+    topHint.textContent = "Nice work.";
+    breathLabel.textContent = "Ready";
+    timeEl.textContent = "Time: 00:00";
+    setCompleted(true);
+    vibrate([60, 80, 60]);
+  }
+
+  function startTicking(){
+    if (tickTimer) clearInterval(tickTimer);
+    tickTimer = setInterval(() => {
+      if (!running || paused) return;
+
+      if (mode === "stopwatch") {
+        const elapsed = Date.now() - startTime - pausedAccum;
+        timeEl.textContent = `Time: ${fmt(elapsed)}`;
+        return;
+      }
+
+      const remaining = endTime - Date.now() + pausedAccum;
+      timeEl.textContent = `Time: ${fmt(remaining)}`;
+      if (remaining <= 0) finish();
+    }, 250);
+  }
+
+  function start(){
+    if (running) return;
+
+    setCompleted(false);
+    paused = false;
+    pausedAccum = 0;
+
+    mode = modeSelect.value;
+    running = true;
+
+    circle.classList.remove("inhale", "exhale");
+
+    if (mode === "stopwatch") {
+      startTime = Date.now();
+      timeEl.textContent = "Time: 00:00";
+    } else {
+      const mins = Number(minutesSelect.value || "1");
+      const duration = mins * 60 * 1000;
+      endTime = Date.now() + duration;
+      timeEl.textContent = `Time: ${fmt(duration)}`;
+    }
+
+    topHint.textContent = "Breathe with the circle.";
+    inhale();
+    startTicking();
+  }
+
+  function pause(){
+    if (!running) return;
+
+    paused = !paused;
+
+    if (paused) {
+      pausedAt = Date.now();
+      clearTimers();
+      circle.classList.remove("inhale", "exhale");
+      topTitle.textContent = "Paused";
+      topHint.textContent = "Tap Pause again to continue.";
+      breathLabel.textContent = "Paused";
+      pauseBtn.textContent = "Resume";
+      return;
+    }
+
+    // resume
+    pausedAccum += (Date.now() - pausedAt);
+    pauseBtn.textContent = "Pause";
+    topHint.textContent = "Breathe with the circle.";
+    inhale();
+    startTicking();
+  }
+
+  function reset(){
+    running = false;
+    paused = false;
+    pauseBtn.textContent = "Pause";
+    setCompleted(false);
+    pausedAccum = 0;
+    clearTimers();
+
+    circle.classList.remove("inhale", "exhale");
+    topTitle.textContent = "Ready";
+    topHint.textContent = "Tap Start to begin.";
+    breathLabel.textContent = "Ready";
+
+    // reset time display
+    if (modeSelect.value === "timer") {
+      const mins = Number(minutesSelect.value || "1");
+      timeEl.textContent = `Time: ${fmt(mins * 60 * 1000)}`;
+    } else {
+      timeEl.textContent = "Time: 00:00";
+    }
+  }
+
+  // Events
+  modeSelect.addEventListener("change", () => {
+    if (running) return; // don’t change mid-session
+    setModeUI();
+  });
+
+  minutesSelect.addEventListener("change", () => {
+    if (running) return;
+    setModeUI();
+  });
+
+  startBtn.addEventListener("click", start);
+  pauseBtn.addEventListener("click", pause);
+  resetBtn.addEventListener("click", reset);
+
+  // Init
+  setModeUI();
+})();
