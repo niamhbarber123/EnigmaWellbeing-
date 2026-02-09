@@ -923,3 +923,46 @@ body.night .btn{
     grid-template-columns: 1fr;
   }
 }
+/* =========================
+   BREATHE — make Mode + Timer length equal halves + bigger selects
+   ========================= */
+
+.breathe-page .breathe-two-col-equal{
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* each gets half */
+  gap: 14px;
+  align-items: start;
+}
+
+.breathe-page .breathe-two-col-equal .form-row{
+  width: 100%;
+  min-width: 0;
+}
+
+/* Bigger, full-width dropdowns */
+.breathe-page .breathe-select{
+  width: 100% !important;
+  min-width: 0;
+  padding: 16px 16px;              /* larger tap area */
+  font-size: 17px;                 /* larger text */
+  font-weight: 850;
+  border-radius: 18px;
+}
+
+/* Make sure iOS doesn't shrink the select control */
+.breathe-page select.breathe-select{
+  -webkit-appearance: menulist;
+  appearance: menulist;
+}
+
+/* Keep labels aligned */
+.breathe-page .breathe-two-col-equal .form-label{
+  white-space: nowrap;
+}
+
+/* If the screen is tiny, stack */
+@media (max-width: 360px){
+  .breathe-page .breathe-two-col-equal{
+    grid-template-columns: 1fr;
+  }
+}
