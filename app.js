@@ -141,171 +141,243 @@
     return `${m}:${String(s).padStart(2,"0")}`;
   }
 
-  function initBreathe() {
-    const page = $("breathePage");
-    if (!page) return;
+function initBreathe() {
+  const page = $("breathePage");
+  if (!page) return;
 
-    const phaseEl = $("breathPhase");
-    const tipEl = $("breathTip");
-    const circle = $("breatheCircle");
+  const phaseEl = $("breathPhase");
+  const tipEl = $("breathTip");
+  const circle = $("breatheCircle");
 
-    const startBtn = $("breathStartBtn");
-    const stopBtn = $("breathStopBtn");
-    const completeBtn = $("breathCompleteBtn");
+  const startBtn = $("breathStartBtn");
+  const stopBtn = $("breathStopBtn");
+  const completeBtn = $("breathCompleteBtn");
 
-    const modeSelect = $("breathModeSelect");
-    const durationSelect = $("breathDurationSelect");
-    const durationRow = $("breathDurationRow");
-    const timerLabel = $("breathTimerLabel");
-    const stopwatchLabel = $("breathStopwatchLabel");
-    const vibrateToggle = $("breathVibrateToggle");
+  const modeSelect = $("breathModeSelect");         // timer / stopwatch
+  const durationSelect = $("breathDurationSelect"); // minutes
+  const durationRow = $("breathDurationRow");
 
-    if (!phaseEl || !tipEl || !circle || !startBtn || !stopBtn || !completeBtn) return;
+  const timerLabel = $("breathTimerLabel");
+  const stopwatchLabel = $("breathStopwatchLabel");
 
-    let running = false;
-    let rafId = null;
+  const vibrateToggle = $("breathVibrateToggle");
 
-    const inhaleSec = 5;
-    const exhaleSec = 6;
-    const holdSec = 1;
+  if (!phaseEl || !tipEl || !circle || !startBtn || !stopBtn || !completeBtn) return;
 
-    let phase = "ready";
-    let phaseEndsAt = 0;
+  // ---- timings (seconds) ----
+  const INHALE = 5;
+  const HOLD = 1;
+  const EXHALE = 6;
 
-    let mode = (modeSelect && modeSelect.value) ? modeSelect.value : "timer";
-    let endAt = 0;
-    let startAt = 0;
+  // ---- state ----
+  let running = false;
+  let tA = null;
+  let tB = null;
 
-    function wantsVibe() {
-      return !!(vibrateToggle && vibrateToggle.checked);
-    }
+  // timer/stopwatch
+  let mode = modeSelect ? (modeSelect.value || "timer") : "timer";
+  let timerEndAt = 0;
+  let stopwatchStartAt = 0;
+  let clockInt = null;
 
-    function setVisual(p) {
-      circle.classList.remove("breath-inhale","breath-exhale");
-      if (p === "inhale") circle.classList.add("breath-inhale");
-      if (p === "exhale") circle.classList.add("breath-exhale");
-    }
+  function vibrate(ms) {
+    try {
+      if (vibrateToggle && vibrateToggle.checked && navigator.vibrate) navigator.vibrate(ms);
+    } catch {}
+  }
 
-    function setPhase(p, label) {
-      phase = p;
-      phaseEl.textContent = label;
-      tipEl.textContent = label;
-      if (p === "inhale") setVisual("inhale");
-      if (p === "exhale") setVisual("exhale");
-      if (p.startsWith("hold")) setVisual("");
-      if (wantsVibe()) vibrate(15);
-    }
+  function fmtTime(totalSec) {
+    totalSec = Math.max(0, Math.floor(totalSec));
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    return `${m}:${String(s).padStart(2, "0")}`;
+  }
 
-    function updateModeUI() {
-      if (!modeSelect || !durationSelect || !timerLabel || !stopwatchLabel) return;
-      mode = modeSelect.value || "timer";
-      const isTimer = mode === "timer";
-      if (durationRow) durationRow.style.display = isTimer ? "" : "none";
-      timerLabel.style.display = isTimer ? "" : "none";
-      stopwatchLabel.style.display = isTimer ? "none" : "";
-    }
+  function clearTimers() {
+    if (tA) clearTimeout(tA);
+    if (tB) clearTimeout(tB);
+    tA = tB = null;
 
-    function startSession() {
-      if (running) return;
-      running = true;
+    if (clockInt) clearInterval(clockInt);
+    clockInt = null;
+  }
 
-      updateModeUI();
-      const now = Date.now();
+  function setVisual(state) {
+    // state: "inhale" | "hold" | "exhale"
+    circle.classList.remove("breath-inhale", "breath-exhale");
+    if (state === "inhale") circle.classList.add("breath-inhale"); // retract
+    if (state === "exhale") circle.classList.add("breath-exhale"); // expand
+  }
 
-      if (mode === "timer") {
-        const minutes = parseInt(durationSelect ? (durationSelect.value || "1") : "1", 10);
-        const totalSec = Math.max(1, minutes) * 60;
-        endAt = now + totalSec * 1000;
-        if (timerLabel) timerLabel.textContent = `Time: ${fmtTime(totalSec)}`;
-      } else {
-        startAt = now;
-        if (stopwatchLabel) stopwatchLabel.textContent = "Stopwatch: 0:00";
-      }
+  function setText(title, tip) {
+    phaseEl.textContent = title;
+    tipEl.textContent = tip || title;
+  }
 
-      setPhase("inhale","Breathe in");
-      phaseEndsAt = now + inhaleSec * 1000;
+  function updateModeUI() {
+    if (!modeSelect || !durationSelect || !timerLabel || !stopwatchLabel) return;
 
-      startBtn.disabled = true;
-      stopBtn.disabled = false;
+    mode = modeSelect.value || "timer";
+    const isTimer = mode === "timer";
 
-      tick();
-    }
+    if (durationRow) durationRow.style.display = isTimer ? "" : "none";
+    timerLabel.style.display = isTimer ? "" : "none";
+    stopwatchLabel.style.display = isTimer ? "none" : "";
 
-    function stopSession() {
-      running = false;
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = null;
+    // reset labels
+    timerLabel.textContent = "Time: —";
+    stopwatchLabel.textContent = "Stopwatch: 0:00";
+  }
 
-      circle.classList.remove("breath-inhale","breath-exhale");
-      phaseEl.textContent = "Ready";
-      tipEl.textContent = "Tap Start to begin.";
+  function startClock() {
+    if (!timerLabel || !stopwatchLabel) return;
 
-      startBtn.disabled = false;
-      stopBtn.disabled = true;
-    }
-
-    function logBreatheMinutes(mins) {
-      const log = readJSON("enigmaBreatheLog", { totalMin: 0, byDay: {} });
-      log.totalMin = Number(log.totalMin || 0) + mins;
-      log.byDay = log.byDay || {};
-      log.byDay[todayKey()] = Number(log.byDay[todayKey()] || 0) + mins;
-      writeJSON("enigmaBreatheLog", log);
-    }
-
-    function completeSession() {
-      let addMin = 1;
-      if (mode === "timer") {
-        addMin = parseInt(durationSelect ? (durationSelect.value || "1") : "1", 10);
-      } else {
-        const elapsedSec = (Date.now() - startAt) / 1000;
-        addMin = Math.max(1, Math.round(elapsedSec / 60));
-      }
-      logBreatheMinutes(addMin);
-      if (wantsVibe()) vibrate([20,50,20]);
-      stopSession();
-      phaseEl.textContent = "Saved ✅";
-      setTimeout(()=>{ phaseEl.textContent = "Ready"; }, 900);
-    }
-
-    function tick() {
+    clearInterval(clockInt);
+    clockInt = setInterval(() => {
       if (!running) return;
 
       const now = Date.now();
-
-      if (mode === "timer" && timerLabel) {
-        const remainingSec = Math.ceil((endAt - now) / 1000);
-        timerLabel.textContent = `Time: ${fmtTime(remainingSec)}`;
-        if (remainingSec <= 0) { completeSession(); return; }
-      }
-      if (mode === "stopwatch" && stopwatchLabel) {
-        const elapsedSec = Math.floor((now - startAt) / 1000);
-        stopwatchLabel.textContent = `Stopwatch: ${fmtTime(elapsedSec)}`;
-      }
-
-      if (now >= phaseEndsAt) {
-        if (phase === "inhale") {
-          setPhase("hold_after_inhale","Hold");
-          phaseEndsAt = now + holdSec * 1000;
-        } else if (phase === "hold_after_inhale") {
-          setPhase("exhale","Breathe out");
-          phaseEndsAt = now + exhaleSec * 1000;
-        } else if (phase === "exhale") {
-          setPhase("hold_after_exhale","Hold");
-          phaseEndsAt = now + holdSec * 1000;
-        } else if (phase === "hold_after_exhale") {
-          setPhase("inhale","Breathe in");
-          phaseEndsAt = now + inhaleSec * 1000;
+      if (mode === "timer") {
+        const remaining = Math.ceil((timerEndAt - now) / 1000);
+        timerLabel.textContent = `Time: ${fmtTime(remaining)}`;
+        if (remaining <= 0) {
+          completeSession();
         }
+      } else {
+        const elapsed = Math.floor((now - stopwatchStartAt) / 1000);
+        stopwatchLabel.textContent = `Stopwatch: ${fmtTime(elapsed)}`;
       }
+    }, 250);
+  }
 
-      rafId = requestAnimationFrame(tick);
+  function breatheLoop() {
+    if (!running) return;
+
+    // Inhale (retract)
+    setVisual("inhale");
+    setText("Breathe in", "Breathe in slowly…");
+    vibrate(15);
+
+    tA = setTimeout(() => {
+      if (!running) return;
+
+      // Hold
+      setVisual("hold");
+      setText("Hold", "Hold gently…");
+      vibrate(10);
+
+      tB = setTimeout(() => {
+        if (!running) return;
+
+        // Exhale (expand)
+        setVisual("exhale");
+        setText("Breathe out", "Breathe out gently…");
+        vibrate(15);
+
+        tA = setTimeout(() => {
+          if (!running) return;
+
+          // Hold (after exhale)
+          setVisual("hold");
+          setText("Hold", "Let your shoulders soften…");
+          vibrate(10);
+
+          tB = setTimeout(() => {
+            if (!running) return;
+            breatheLoop();
+          }, HOLD * 1000);
+
+        }, EXHALE * 1000);
+
+      }, HOLD * 1000);
+
+    }, INHALE * 1000);
+  }
+
+  function startSession() {
+    if (running) return;
+    running = true;
+
+    updateModeUI();
+
+    // init timer/stopwatch
+    const now = Date.now();
+    if (modeSelect && durationSelect && timerLabel && stopwatchLabel) {
+      mode = modeSelect.value || "timer";
+      if (mode === "timer") {
+        const mins = Math.max(1, parseInt(durationSelect.value || "1", 10));
+        timerEndAt = now + mins * 60 * 1000;
+        timerLabel.textContent = `Time: ${fmtTime(mins * 60)}`;
+      } else {
+        stopwatchStartAt = now;
+        stopwatchLabel.textContent = "Stopwatch: 0:00";
+      }
+      startClock();
     }
 
-    if (modeSelect) modeSelect.addEventListener("change", updateModeUI);
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
 
-    startBtn.addEventListener("click", (e) => { e.preventDefault(); startSession(); });
-    stopBtn.addEventListener("click", (e) => { e.preventDefault(); stopSession(); });
-    completeBtn.addEventListener("click", (e) => { e.preventDefault(); completeSession(); });
+    breatheLoop();
+  }
+
+  function stopSession() {
+    running = false;
+    clearTimers();
+    setVisual("hold");
+    setText("Ready", "Tap Start to begin.");
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+
+    if (timerLabel) timerLabel.textContent = "Time: —";
+    if (stopwatchLabel) stopwatchLabel.textContent = "Stopwatch: 0:00";
+  }
+
+  function completeSession() {
+    // save minutes to breathe log (so progress can use it)
+    const log = readJSON("enigmaBreatheLog", { totalMin: 0, byDay: {} });
+    let addMin = 1;
+
+    if (modeSelect && durationSelect) {
+      const m = modeSelect.value || "timer";
+      if (m === "timer") addMin = Math.max(1, parseInt(durationSelect.value || "1", 10));
+      else {
+        const elapsedSec = (Date.now() - stopwatchStartAt) / 1000;
+        addMin = Math.max(1, Math.round(elapsedSec / 60));
+      }
+    }
+
+    log.totalMin = (log.totalMin || 0) + addMin;
+    log.byDay = log.byDay || {};
+    log.byDay[todayKey()] = (log.byDay[todayKey()] || 0) + addMin;
+    writeJSON("enigmaBreatheLog", log);
+
+    vibrate([30, 60, 30]);
+
+    stopSession();
+    setText("Completed ✅", "Nice work. Tap Start any time.");
+  }
+
+  // Wire controls
+  startBtn.addEventListener("click", (e) => { e.preventDefault(); startSession(); });
+  stopBtn.addEventListener("click", (e) => { e.preventDefault(); stopSession(); });
+
+  completeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!running) {
+      // still let them log a quick completion
+      completeSession();
+      return;
+    }
+    completeSession();
+  });
+
+  if (modeSelect) modeSelect.addEventListener("change", updateModeUI);
+
+  // Init
+  stopSession();
+  updateModeUI();
+}
 
     stopBtn.disabled = true;
     updateModeUI();
