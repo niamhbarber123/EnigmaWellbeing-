@@ -1,100 +1,41 @@
-(() => {
-  const circle = document.getElementById("breatheCircle");
-  const phaseEl = document.getElementById("breathePhase");
-  const timerEl = document.getElementById("breatheTimer");
-  const timeReadout = document.getElementById("timeReadout");
+const circle = document.getElementById("breathCircle");
+const label = document.getElementById("breathLabel");
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+const completedPill = document.getElementById("completedPill");
 
-  const lengthSel = document.getElementById("lengthSel");
-  const vibrateChk = document.getElementById("vibrateChk");
+let running = false;
+let timer = null;
 
-  const startBtn = document.getElementById("startBtn");
-  const stopBtn = document.getElementById("stopBtn");
-  const completedPill = document.getElementById("completedPill");
+function inhale(){
+  if(!running) return;
+  label.textContent = "Inhale";
+  circle.classList.remove("exhale");
+  circle.classList.add("inhale");
 
-  let running = false;
-  let endAt = 0;
-  let raf = 0;
+  timer = setTimeout(exhale, 4000);
+}
 
-  // Gentle cycle: inhale 4s, hold 2s, exhale 6s
-  const phases = [
-    { name: "Inhale", ms: 4000, big: true, vibrate: 20 },
-    { name: "Hold",   ms: 2000, big: true,  vibrate: 0 },
-    { name: "Exhale", ms: 6000, big: false, vibrate: 20 },
-  ];
+function exhale(){
+  if(!running) return;
+  label.textContent = "Exhale";
+  circle.classList.remove("inhale");
+  circle.classList.add("exhale");
 
-  function formatMMSS(ms) {
-    const total = Math.max(0, Math.floor(ms / 1000));
-    const m = Math.floor(total / 60);
-    const s = total % 60;
-    return `${m}:${String(s).padStart(2, "0")}`;
-  }
+  timer = setTimeout(inhale, 6000);
+}
 
-  function setPhase(name, big, doVibrateMs) {
-    phaseEl.textContent = name;
-    circle.classList.toggle("is-big", !!big);
+startBtn.addEventListener("click", () => {
+  if(running) return;
+  running = true;
+  completedPill.style.display = "none";
+  inhale();
+});
 
-    if (vibrateChk.checked && navigator.vibrate && doVibrateMs > 0) {
-      navigator.vibrate(doVibrateMs);
-    }
-  }
-
-  function loop(now) {
-    if (!running) return;
-
-    const remaining = endAt - Date.now();
-    timerEl.textContent = `Time: ${formatMMSS(remaining)}`;
-    timeReadout.textContent = formatMMSS(remaining);
-
-    if (remaining <= 0) {
-      stop(true);
-      return;
-    }
-
-    // figure out where we are in the cycle
-    const cycleMs = phases.reduce((a, p) => a + p.ms, 0);
-    const t = (Date.now() % cycleMs);
-
-    let acc = 0;
-    for (const p of phases) {
-      acc += p.ms;
-      if (t <= acc) {
-        // set phase state
-        setPhase(p.name, p.big, p.vibrate);
-        break;
-      }
-    }
-
-    raf = requestAnimationFrame(loop);
-  }
-
-  function start() {
-    if (running) return;
-    completedPill.style.display = "none";
-
-    const mins = Number(lengthSel.value || "1");
-    endAt = Date.now() + mins * 60_000;
-    running = true;
-
-    setPhase("Inhale", true, 20);
-    raf = requestAnimationFrame(loop);
-  }
-
-  function stop(completed) {
-    running = false;
-    cancelAnimationFrame(raf);
-
-    setPhase("Ready", false, 0);
-    timerEl.textContent = "Time: —";
-    timeReadout.textContent = "—";
-
-    if (completed) {
-      completedPill.style.display = "inline-flex";
-    }
-  }
-
-  startBtn.addEventListener("click", start);
-  stopBtn.addEventListener("click", () => stop(false));
-
-  // initial
-  stop(false);
-})();
+stopBtn.addEventListener("click", () => {
+  running = false;
+  clearTimeout(timer);
+  circle.classList.remove("inhale", "exhale");
+  label.textContent = "Completed";
+  completedPill.style.display = "inline-flex";
+});
