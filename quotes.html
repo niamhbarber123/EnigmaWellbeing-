@@ -4,35 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Quotes • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=100001" />
 </head>
 
 <body class="page-wrap">
-<button id="themeToggle" class="theme-btn">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-<header class="home-header">
-  <h1>Quotes</h1>
-  <p>Words to steady you</p>
-</header>
+  <header class="page-header">
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
+    <h1>Quotes</h1>
+    <p>Search and save motivational quotes</p>
+  </header>
 
-<main class="home-main">
-  <div class="home-grid" style="grid-template-columns:1fr;">
-    <div class="home-btn">“You are doing the best you can.”</div>
-    <div class="home-btn">“This feeling will pass.”</div>
-    <div class="home-btn">“Progress, not perfection.”</div>
-  </div>
-</main>
+  <main class="page">
+    <div class="card">
+      <div class="section-title">Find a quote</div>
 
-<nav class="bottom-nav">
-  <a href="index.html">🏠</a>
-  <a href="breathe.html">🌬️</a>
-  <a href="journal.html">📖</a>
-  <a class="active" href="quotes.html">💬</a>
-  <a href="yoga.html">🧘‍♀️</a>
-  <a href="sounds.html">🎵</a>
-  <a href="progress.html">📈</a>
-</nav>
+      <input id="quoteSearch" class="input" type="search"
+             placeholder="Search quotes or authors… (e.g. calm, courage, Mandela)" />
 
-<script src="app.js"></script>
+      <div class="tool-row" style="margin-top:12px;">
+        <button id="quoteSearchBtn" class="tool-btn primary" type="button">Search</button>
+        <button id="quoteRandomBtn" class="tool-btn" type="button">Random</button>
+      </div>
+
+      <div class="tool-row">
+        <button id="viewSavedBtn" class="tool-btn" type="button">
+          💜 Saved (<span id="savedCount">0</span>)
+        </button>
+        <button id="clearSavedBtn" class="tool-btn danger" type="button">Delete saved</button>
+      </div>
+
+      <div class="gentle-text" id="quoteStatus">Tip: only the 💜 button saves.</div>
+    </div>
+
+    <div id="quoteGrid" class="quote-grid"></div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a class="active" href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=100001" defer></script>
 </body>
 </html>
