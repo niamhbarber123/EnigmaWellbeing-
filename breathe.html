@@ -26,14 +26,19 @@
       <div class="breathe-ready-title" id="topTitle">Ready</div>
       <div class="breathe-ready-sub" id="topHint">Choose settings, then tap Start.</div>
 
-      <div class="breathe-circle-wrap">
-        <div id="breathCircle" class="breath-circle" aria-hidden="true"></div>
-      </div>
+     <!-- Clock ABOVE the circle -->
+<div class="breathe-time-top">
+  <div id="timeDisplay" class="time-display">Time: 01:00</div>
+</div>
 
-      <div class="breathe-status">
-        <div id="breathLabel" class="breath-label">Ready</div>
-        <div id="timeDisplay" class="time-display">Time: 01:00</div>
-      </div>
+<div class="breathe-circle-wrap">
+  <div id="breathCircle" class="breath-circle" aria-hidden="true"></div>
+</div>
+
+<!-- Keep breathLabel in the DOM (so JS still works), but hidden -->
+<div class="breathe-status" aria-hidden="true">
+  <div id="breathLabel" class="breath-label">Ready</div>
+</div>
     </section>
 
     <section class="card breathe-session-card breathe-session-scroll">
