@@ -4,34 +4,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Music • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=100001" />
 </head>
 
 <body class="page-wrap">
-<button id="themeToggle" class="theme-btn">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-<header class="home-header">
-  <h1>Music</h1>
-  <p>Calming sounds</p>
-</header>
+  <header class="page-header">
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
+    <h1>Music</h1>
+    <p>Pick a mood and open calming tracks</p>
+  </header>
 
-<main class="home-main">
-  <div class="home-grid" style="grid-template-columns:1fr;">
-    <a class="home-btn" href="https://www.youtube.com/results?search_query=calming+music" target="_blank">Calm music</a>
-    <a class="home-btn" href="https://www.youtube.com/results?search_query=rain+sounds" target="_blank">Rain sounds</a>
-  </div>
-</main>
+  <main class="page" id="soundsPage">
+    <div class="card">
+      <div class="section-title">Mood</div>
+      <div id="musicMoodRow" class="chip-row" style="margin-top:12px;"></div>
+    </div>
 
-<nav class="bottom-nav">
-  <a href="index.html">🏠</a>
-  <a href="breathe.html">🌬️</a>
-  <a href="journal.html">📖</a>
-  <a href="quotes.html">💬</a>
-  <a href="yoga.html">🧘‍♀️</a>
-  <a class="active" href="sounds.html">🎵</a>
-  <a href="progress.html">📈</a>
-</nav>
+    <div class="card">
+      <div class="section-title">Tracks</div>
+      <div id="musicList" class="music-list" style="margin-top:10px;"></div>
+      <div class="gentle-text">Links open in a new tab.</div>
+    </div>
 
-<script src="app.js"></script>
+    <div class="card">
+      <div class="section-title">Minutes listened</div>
+      <div class="gentle-text">Today: <b><span id="musicTodayMin">0</span></b> min</div>
+      <div class="gentle-text">Total: <b><span id="musicTotalMin">0</span></b> min</div>
+
+      <div class="tool-row" style="margin-top:12px;">
+        <button class="tool-btn primary" id="musicStartBtn" type="button">Start session</button>
+        <button class="tool-btn danger" id="musicEndBtn" type="button">End session</button>
+      </div>
+
+      <div class="gentle-text" id="musicStatus" style="margin-top:10px;">No active session.</div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a class="active" href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=100001" defer></script>
 </body>
 </html>
