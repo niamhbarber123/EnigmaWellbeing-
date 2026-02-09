@@ -620,3 +620,74 @@ body.night .quote-save{
   background: rgba(24, 22, 34, 0.72) !important;
   color: rgba(255,255,255,0.92) !important;
 }
+/* =========================
+   Prevent scrolling (Breathe only)
+   ========================= */
+.no-scroll{
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =========================
+   Breathing animation layout
+   ========================= */
+.breathe-container{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.breathe-stage{
+  flex: 1;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+/* =========================
+   Breathing circle
+   ========================= */
+.breath-circle{
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #e8e3ff);
+  box-shadow:
+    0 20px 40px rgba(120,110,160,0.25),
+    inset 0 0 0 10px rgba(255,255,255,0.6);
+  transform: scale(0.8);
+}
+
+.breath-circle.inhale{
+  animation: inhale 4s ease-in-out forwards;
+}
+
+.breath-circle.exhale{
+  animation: exhale 6s ease-in-out forwards;
+}
+
+@keyframes inhale{
+  from{ transform: scale(0.8); }
+  to{ transform: scale(1); }
+}
+
+@keyframes exhale{
+  from{ transform: scale(1); }
+  to{ transform: scale(0.8); }
+}
+
+.breath-label{
+  margin-top: 18px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #5b5376;
+}
+
+/* =========================
+   Controls styling
+   ========================= */
+.breathe-controls{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
