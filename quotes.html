@@ -7,10 +7,11 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=202602010final" />
+  <link rel="stylesheet" href="./style.css?v=20260210fix3" />
 </head>
 
 <body class="page-wrap">
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
@@ -20,29 +21,23 @@
 
   <main class="page">
     <section class="card">
-      <h2 class="block-title">Find a quote</h2>
+      <div class="section-title">Find a quote</div>
+      <input id="quoteQuery" class="input" placeholder="Search quotes or authors…" />
 
-      <input
-        id="quoteQuery"
-        class="input"
-        type="text"
-        placeholder="Search quotes or authors…"
-      />
-
-      <div class="row">
-        <button id="searchBtn" class="btn primary">Search</button>
-        <button id="randomBtn" class="btn">Random</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <button id="searchBtn" class="small-pill" type="button">Search</button>
+        <button id="randomBtn" class="small-pill" type="button">Random</button>
       </div>
 
-      <div class="row">
-        <button class="btn">💜 Saved (<span id="savedCount">0</span>)</button>
-        <button id="deleteSavedBtn" class="btn danger">Delete saved</button>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <button id="savedBtn" class="small-pill" type="button">💜 Saved (<span id="savedCount">0</span>)</button>
+        <button id="deleteSavedBtn" class="small-pill" type="button" style="background:var(--dangerSoft);">Delete saved</button>
       </div>
-<div id="quotesList" class="quote-list"></div>
-      <p class="tip">Tip: only the 💜 button saves.</p>
+
+      <div class="gentle-text" style="margin-top:12px;">Tip: only the 💜 button saves.</div>
     </section>
 
-    <section id="quotesList" class="section"></section>
+    <section id="quotesList" style="margin-top:14px;display:grid;gap:14px;"></section>
   </main>
 
   <nav class="bottom-nav">
@@ -55,7 +50,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="quotes.js?v=20260210c" defer></script>
-  <script src="app.js?v=20260210c" defer></script>
+  <script src="./app.js?v=20260210fix3" defer></script>
+  <script src="./quotes.js?v=20260210fix3" defer></script>
 </body>
 </html>
