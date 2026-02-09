@@ -1,8 +1,5 @@
 /* =========================
    ENIGMA WELLBEING — style.css (FULL)
-   Includes: Enigma base, watermark, night mode, bottom nav,
-   page headers/back button, cards, buttons, inputs, chips,
-   quotes/book tiles, resources link buttons, + Breathe no-scroll fix
    ========================= */
 
 /* ---------- Theme tokens ---------- */
@@ -24,31 +21,29 @@
   --shadow: 0 12px 28px rgba(0,0,0,0.06);
   --radius: 20px;
 
-  /* layout helpers */
   --navH: 78px;
   --safeTop: env(safe-area-inset-top, 0px);
   --safeBottom: env(safe-area-inset-bottom, 0px);
 
-  /* watermark */
   --wm-size: 520px;
   --wm-opacity: 0.14;
 }
 
-/* Night mode tokens (applied via body.night) */
+/* ---------- Night mode ---------- */
 body.night{
   --bg1: #0f0f16;
   --bg2: #151423;
 
-  --card: rgba(28, 26, 42, 0.70);
+  --card: rgba(28,26,42,0.72);
   --card-border: rgba(255,255,255,0.10);
 
   --text: rgba(255,255,255,0.92);
   --muted: rgba(255,255,255,0.62);
-  --muted2: rgba(255,255,255,0.70);
+  --muted2: rgba(255,255,255,0.72);
 
   --accent: #b8a8ff;
-  --accentSoft: rgba(184,168,255,0.14);
-  --dangerSoft: rgba(255,120,140,0.16);
+  --accentSoft: rgba(184,168,255,0.16);
+  --dangerSoft: rgba(255,120,140,0.18);
 
   --shadow: 0 14px 34px rgba(0,0,0,0.50);
 
@@ -57,44 +52,42 @@ body.night{
 
 /* ---------- Reset ---------- */
 *{ box-sizing: border-box; }
-html, body { height: 100%; }
+html, body{ height: 100%; }
+
 body{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--text);
   background: linear-gradient(180deg, var(--bg1), var(--bg2));
 }
 
-/* Remove default link styling (blue + underline) globally */
 a, a:visited, a:hover, a:active{
   color: inherit;
   text-decoration: none;
 }
 
-/* ---------- Page wrapper + watermark ---------- */
+/* ---------- Page wrap + watermark ---------- */
 .page-wrap{
   min-height: 100vh;
   position: relative;
 }
 
-/* watermark behind everything */
 .page-wrap::before{
   content: "";
   position: fixed;
-  left: 50%;
-  top: 54%;
-  transform: translate(-50%, -50%);
-  width: var(--wm-size);
-  height: var(--wm-size);
-  background: url("icon.png") no-repeat center / contain;
+  inset: 0;
+  background: url("icon.png") no-repeat center 56% / var(--wm-size);
   opacity: var(--wm-opacity);
   pointer-events: none;
   z-index: 0;
-  filter: blur(0px);
 }
 
-/* content above watermark */
-.page-header, .page, .bottom-nav, .theme-toggle-top, .back-btn{
+.page-header,
+.page,
+.bottom-nav,
+.theme-toggle-top,
+.back-btn{
   position: relative;
   z-index: 1;
 }
@@ -112,11 +105,6 @@ a, a:visited, a:hover, a:active{
   font-size: 34px;
   font-weight: 850;
   letter-spacing: -0.4px;
-  color: rgba(70, 66, 90, 0.95);
-}
-
-body.night .page-header h1{
-  color: rgba(255,255,255,0.92);
 }
 
 .page-header p{
@@ -126,53 +114,35 @@ body.night .page-header h1{
   color: var(--muted);
 }
 
-/* calmer titles on inner pages (optional if you already use) */
-.page-wrap:not(.home) .page-header h1{
-  font-size: 32px;
-}
-
-/* ---------- Top right theme toggle ---------- */
-.theme-toggle-top{
+/* ---------- Top buttons ---------- */
+.theme-toggle-top,
+.back-btn{
   position: fixed;
-  right: calc(16px + env(safe-area-inset-right, 0px));
   top: calc(14px + var(--safeTop));
   width: 48px;
   height: 48px;
   border-radius: 999px;
   border: 1px solid rgba(120,110,160,0.14);
-  background: rgba(255,255,255,0.70);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.72);
+  box-shadow: var(--shadow);
   display: grid;
   place-items: center;
-  cursor: pointer;
   font-size: 20px;
 }
 
-body.night .theme-toggle-top{
-  background: rgba(28,26,42,0.72);
-  border-color: rgba(255,255,255,0.10);
-}
-
-/* ---------- Back button (top left) ---------- */
 .back-btn{
-  position: fixed;
   left: calc(16px + env(safe-area-inset-left, 0px));
-  top: calc(14px + var(--safeTop));
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.14);
-  background: rgba(255,255,255,0.70);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
-  display: grid;
-  place-items: center;
   font-size: 22px;
   font-weight: 900;
-  color: rgba(70,66,90,0.95);
 }
 
+.theme-toggle-top{
+  right: calc(16px + env(safe-area-inset-right, 0px));
+}
+
+body.night .theme-toggle-top,
 body.night .back-btn{
-  background: rgba(28,26,42,0.72);
+  background: rgba(26,24,38,0.72);
   border-color: rgba(255,255,255,0.10);
   color: rgba(255,255,255,0.92);
 }
@@ -180,8 +150,7 @@ body.night .back-btn{
 /* ---------- Page container ---------- */
 .page{
   width: min(460px, 92vw);
-  margin: 0 auto calc(var(--navH) + 18px);
-  padding-bottom: calc(10px + var(--safeBottom));
+  margin: 0 auto calc(var(--navH) + 16px);
 }
 
 /* ---------- Cards ---------- */
@@ -189,23 +158,15 @@ body.night .back-btn{
   background: var(--card);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  padding: 18px 18px;
+  padding: 18px;
   box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
 }
 
-.card + .card{
-  margin-top: 14px;
-}
+.card + .card{ margin-top: 14px; }
 
 .section-title{
   font-size: 20px;
   font-weight: 900;
-  color: rgba(70,66,90,0.95);
-}
-
-body.night .section-title{
-  color: rgba(255,255,255,0.92);
 }
 
 .gentle-text{
@@ -214,332 +175,71 @@ body.night .section-title{
   color: var(--muted);
 }
 
-/* ---------- Pills / Buttons ---------- */
+/* ---------- Buttons ---------- */
 .small-pill{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid rgba(120,110,160,0.16);
   background: rgba(255,255,255,0.74);
   font-size: 15px;
   font-weight: 850;
-  color: rgba(70,66,90,0.95);
   cursor: pointer;
 }
 
-body.night .small-pill{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.92);
-}
-
-.small-pill:active{
-  transform: scale(0.99);
-}
+.small-pill:active{ transform: scale(0.98); }
 
 .completed-pill{
-  background: rgba(231,225,251,0.95);
-}
-
-body.night .completed-pill{
-  background: rgba(184,168,255,0.16);
+  background: var(--accentSoft);
 }
 
 /* ---------- Inputs ---------- */
-.input, textarea{
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: 1px solid rgba(120,110,160,0.18);
-  background: rgba(255,255,255,0.80);
-  font-size: 16px;
-  font-weight: 650;
-  outline: none;
-  color: var(--text);
-}
-
-body.night .input, body.night textarea{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.95);
-}
-
-/* selects used across app */
+textarea,
 .select{
   width: 100%;
   padding: 14px 16px;
   border-radius: 18px;
   border: none;
   font-size: 16px;
-  font-weight: 750;
   background: rgba(255,255,255,0.92);
   color: var(--text);
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
 }
 
+body.night textarea,
 body.night .select{
   background: rgba(26,24,38,0.75);
   color: rgba(255,255,255,0.95);
 }
 
-/* ---------- Chips (Books genres etc.) ---------- */
-.chip-row{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.chip{
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.72);
-  color: rgba(70,66,90,0.95);
-  border-radius: 999px;
-  padding: 10px 14px;
-  font-size: 15px;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-.chip.active{
-  background: var(--accentSoft);
-  color: rgba(70,66,90,0.95);
-}
-
-body.night .chip{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.92);
-}
-
-body.night .chip.active{
-  background: rgba(184,168,255,0.16);
-}
-
-/* ---------- Link buttons (Resources page) ---------- */
-.link-btn{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  padding: 16px 18px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.74);
-  border: 1px solid rgba(120,110,160,0.16);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.05);
-  margin-top: 12px;
-}
-
-.link-btn .link-title{
-  font-size: 17px;
-  font-weight: 900;
-  color: rgba(70,66,90,0.95);
-}
-
-.link-btn .link-sub{
-  margin-top: 4px;
-  font-size: 14px;
-  font-weight: 650;
-  color: var(--muted);
-}
-
-.link-btn .link-arrow{
-  font-size: 18px;
-  font-weight: 900;
-  opacity: 0.65;
-}
-
-body.night .link-btn{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.45);
-}
-
-body.night .link-btn .link-title{ color: rgba(255,255,255,0.92); }
-body.night .link-btn .link-sub{ color: rgba(255,255,255,0.62); }
-
-/* ---------- Quotes tiles ---------- */
-.quote-tile{
-  margin-top: 14px;
-}
-
-.quote-text{
-  font-size: 18px;
-  line-height: 1.55;
-  font-weight: 650;
-  color: var(--text);
-  margin: 0;
-}
-
-.quote-author{
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: 850;
-  color: var(--muted2);
-}
-
-/* Quote save button (NOT blue) */
-.quote-save{
-  margin-top: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 15px;
-  font-weight: 900;
-  color: rgba(70,66,90,0.95);
-  cursor: pointer;
-}
-
-.quote-save .heart{
-  color: #7d65c7;
-}
-
-body.night .quote-save{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.92);
-}
-
-/* ---------- Books tiles ---------- */
-.book-item{
-  margin-top: 14px;
-  padding: 16px 16px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.74);
-  border: 1px solid rgba(120,110,160,0.16);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.05);
-}
-
-body.night .book-item{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.45);
-}
-
-.book-top{
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.book-title{
-  font-size: 17px;
-  font-weight: 900;
-  color: rgba(70,66,90,0.95);
-}
-
-body.night .book-title{ color: rgba(255,255,255,0.92); }
-
-.book-meta{
-  margin-top: 6px;
-  font-size: 14px;
-  font-weight: 750;
-  color: var(--muted2);
-}
-
-.book-desc{
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: 650;
-  color: rgba(85,85,110,0.95);
-  line-height: 1.5;
-}
-
-body.night .book-desc{ color: rgba(255,255,255,0.70); }
-
-.fav-btn{
-  height: 38px;
-  width: 38px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.70);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-  color: #6c63a0;
-  flex: 0 0 auto;
-}
-
-body.night .fav-btn{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
-  color: rgba(184,168,255,0.92);
-}
-
-.book-actions{
-  margin-top: 12px;
-}
-
-.book-link{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.70);
-  font-size: 15px;
-  font-weight: 900;
-  color: rgba(70,66,90,0.95);
-}
-
-body.night .book-link{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.92);
-}
-
 /* ---------- Bottom nav ---------- */
 .bottom-nav{
   position: fixed;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
   padding-bottom: calc(8px + var(--safeBottom));
-  background: rgba(255,255,255,0.70);
+  background: rgba(255,255,255,0.72);
   border-top: 1px solid rgba(120,110,160,0.14);
-  backdrop-filter: blur(12px);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   z-index: 10;
 }
 
-body.night .bottom-nav{
-  background: rgba(18,16,28,0.78);
-  border-top-color: rgba(255,255,255,0.10);
-}
-
-.bottom-nav{
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-}
-
 .bottom-nav a{
-  padding: 10px 6px 8px;
+  padding: 10px 6px;
   display: grid;
   place-items: center;
   gap: 4px;
-  color: rgba(70,66,90,0.70);
-  font-weight: 800;
   font-size: 13px;
-}
-
-.bottom-nav .nav-ico{
-  font-size: 22px;
-  line-height: 1;
-  opacity: 0.85;
+  font-weight: 800;
+  color: rgba(70,66,90,0.7);
 }
 
 .bottom-nav a.active{
   color: rgba(70,66,90,0.95);
+}
+
+body.night .bottom-nav{
+  background: rgba(18,16,28,0.78);
 }
 
 body.night .bottom-nav a{
@@ -550,41 +250,39 @@ body.night .bottom-nav a.active{
   color: rgba(255,255,255,0.92);
 }
 
-/* ---------- Breathe page: fixed fit + animation ---------- */
+.nav-ico{ font-size: 22px; }
+
+/* =========================
+   BREATHE PAGE
+   ========================= */
+
 .no-scroll{
   height: 100vh;
   overflow: hidden;
 }
 
-/* prevent extra bottom spacing on breathe */
 .breathe-page .page{
   margin-bottom: 0 !important;
 }
 
-/* tighter header for breathe */
 .breathe-header-compact{
-  margin-top: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
-/* Main breathe area fits above nav */
+/* main breathe layout */
 .breathe-fit{
   height: calc(100vh - var(--navH) - var(--safeTop) - var(--safeBottom) - 120px);
   display: grid;
   grid-template-rows: 1fr auto;
   gap: 14px;
-  padding-bottom: 0;
 }
 
-/* breathe cards */
+/* Ready card */
 .breathe-ready-card{
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-}
-
-.breathe-ready-top{
-  display: grid;
-  gap: 4px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 16px;
+  padding-bottom: 14px;
 }
 
 .breathe-ready-title{
@@ -598,56 +296,66 @@ body.night .bottom-nav a.active{
   color: var(--muted);
 }
 
+/* Circle area */
 .breathe-circle-wrap{
+  flex: 1 1 auto;
   display: grid;
   place-items: center;
-  padding: 6px 0;
+  padding: 2px 0;
 }
 
 .breath-circle{
-  width: 220px;
-  height: 220px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
   background: #ffffff;
   box-shadow:
-    0 18px 35px rgba(120,110,160,0.18),
-    0 0 0 14px rgba(255,255,255,0.35);
+    0 14px 28px rgba(120,110,160,0.16),
+    0 0 0 10px rgba(255,255,255,0.32);
   transform: scale(0.86);
 }
 
 .breath-circle.inhale{ animation: inhale 4s ease-in-out forwards; }
 .breath-circle.exhale{ animation: exhale 6s ease-in-out forwards; }
 
-@keyframes inhale{ from{ transform: scale(0.86); } to{ transform: scale(1.0); } }
-@keyframes exhale{ from{ transform: scale(1.0); } to{ transform: scale(0.86); } }
+@keyframes inhale{
+  from{ transform: scale(0.86); }
+  to{ transform: scale(1.0); }
+}
 
+@keyframes exhale{
+  from{ transform: scale(1.0); }
+  to{ transform: scale(0.86); }
+}
+
+/* Status locked to bottom */
 .breathe-status{
+  margin-top: auto;
   text-align: center;
-  padding-top: 2px;
+  padding-top: 6px;
 }
 
 .breath-label{
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 900;
-  color: #5b5376;
 }
 
 .time-display{
-  margin-top: 4px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 750;
   color: var(--muted);
 }
 
+/* Session card */
 .breathe-session-card{
   padding-top: 16px;
   padding-bottom: 14px;
 }
 
 .breathe-form{
-  margin-top: 10px;
   display: grid;
   gap: 14px;
+  margin-top: 10px;
 }
 
 .form-row{
@@ -665,7 +373,6 @@ body.night .bottom-nav a.active{
   font-size: 13px;
   font-weight: 650;
   color: var(--muted);
-  margin-top: -2px;
 }
 
 .vibration-row{
@@ -677,12 +384,6 @@ body.night .bottom-nav a.active{
   color: #6a6386;
 }
 
-.vibration-row input{
-  width: 22px;
-  height: 22px;
-  margin: 0;
-}
-
 .breathe-controls{
   margin-top: 14px;
   display: flex;
@@ -690,122 +391,12 @@ body.night .bottom-nav a.active{
   flex-wrap: wrap;
 }
 
+/* Night tweaks for breathe */
 body.night .breath-circle{
   background: rgba(255,255,255,0.14);
-  box-shadow: 0 20px 45px rgba(0,0,0,0.55);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
 }
 
 body.night .breath-label{
   color: rgba(255,255,255,0.88);
-}
-
-body.night .form-label,
-body.night .vibration-row{
-  color: rgba(255,255,255,0.72);
-}
-
-/* ---------- Responsive tweaks ---------- */
-@media (max-width: 390px){
-  .page-header h1{ font-size: 32px; }
-  .breath-circle{ width: 208px; height: 208px; }
-}
-/* =========================
-   BREATHE: smaller animation area + keep status at bottom
-   Paste at END of style.css
-   ========================= */
-
-/* shrink the circle + reduce its visual "halo" */
-.breathe-circle-wrap{
-  padding: 2px 0 !important;     /* less vertical space */
-}
-
-.breath-circle{
-  width: 170px !important;        /* smaller */
-  height: 170px !important;
-  box-shadow:
-    0 14px 28px rgba(120,110,160,0.16),
-    0 0 0 10px rgba(255,255,255,0.32) !important;
-}
-
-/* keep Ready/Time at bottom of the top card */
-.breathe-ready-card{
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.breathe-circle-wrap{
-  flex: 1 1 auto !important;      /* circle takes middle space */
-  display: grid !important;
-  place-items: center !important;
-  min-height: 0 !important;
-}
-
-.breathe-status{
-  margin-top: auto !important;    /* forces Ready/Time to bottom */
-  padding-top: 6px !important;
-}
-
-/* slightly reduce the card padding so everything fits nicely */
-.breathe-ready-card{
-  padding-top: 16px !important;
-  padding-bottom: 14px !important;
-}
-
-/* optional: slightly smaller text so it stays balanced */
-.breath-label{
-  font-size: 18px !important;
-}
-
-.time-display{
-  font-size: 14px !important;
-}
-/* =========================
-   BREATHE: smaller animation area + keep status at bottom
-   Paste at END of style.css
-   ========================= */
-
-/* shrink the circle + reduce its visual "halo" */
-.breathe-circle-wrap{
-  padding: 2px 0 !important;     /* less vertical space */
-}
-
-.breath-circle{
-  width: 170px !important;        /* smaller */
-  height: 170px !important;
-  box-shadow:
-    0 14px 28px rgba(120,110,160,0.16),
-    0 0 0 10px rgba(255,255,255,0.32) !important;
-}
-
-/* keep Ready/Time at bottom of the top card */
-.breathe-ready-card{
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.breathe-circle-wrap{
-  flex: 1 1 auto !important;      /* circle takes middle space */
-  display: grid !important;
-  place-items: center !important;
-  min-height: 0 !important;
-}
-
-.breathe-status{
-  margin-top: auto !important;    /* forces Ready/Time to bottom */
-  padding-top: 6px !important;
-}
-
-/* slightly reduce the card padding so everything fits nicely */
-.breathe-ready-card{
-  padding-top: 16px !important;
-  padding-bottom: 14px !important;
-}
-
-/* optional: slightly smaller text so it stays balanced */
-.breath-label{
-  font-size: 18px !important;
-}
-
-.time-display{
-  font-size: 14px !important;
 }
