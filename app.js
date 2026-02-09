@@ -1,5 +1,3 @@
-// app.js — Global Enigma behaviours (theme + back button)
-
 (function () {
   const THEME_KEY = "enigma_theme"; // "night" or "day"
 
@@ -13,14 +11,12 @@
       btn.setAttribute("aria-label", "Toggle night mode");
       document.body.prepend(btn);
     } else {
-      // Ensure correct class so CSS positions it
       btn.classList.add("theme-toggle-top");
     }
     return btn;
   }
 
   function ensureBackButton() {
-    // Don't add on home
     const isHome = document.body.classList.contains("home");
     let back = document.querySelector(".home-back");
 
@@ -42,11 +38,8 @@
   }
 
   function applyTheme(theme) {
-    if (theme === "night") {
-      document.body.classList.add("night");
-    } else {
-      document.body.classList.remove("night");
-    }
+    if (theme === "night") document.body.classList.add("night");
+    else document.body.classList.remove("night");
   }
 
   function getSavedTheme() {
@@ -63,16 +56,13 @@
     btn.textContent = isNight ? "☀️" : "🌙";
   }
 
-  // Init
   document.addEventListener("DOMContentLoaded", () => {
     const themeBtn = ensureThemeButton();
     ensureBackButton();
 
-    // Apply saved theme
     applyTheme(getSavedTheme());
     updateThemeIcon(themeBtn);
 
-    // Toggle theme
     themeBtn.addEventListener("click", () => {
       const isNight = document.body.classList.toggle("night");
       setSavedTheme(isNight ? "night" : "day");
