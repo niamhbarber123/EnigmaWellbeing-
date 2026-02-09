@@ -4,93 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Journal • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100200" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="page-wrap">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+<button id="themeToggle" class="theme-btn">🌙</button>
 
-  <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
-    <h1>Journal</h1>
-    <p>Write what’s on your mind</p>
-  </header>
+<header class="home-header">
+  <h1>Journal</h1>
+  <p>Write without judgement</p>
+</header>
 
-  <main class="page">
-    <div class="card">
-      <div class="section-title">New entry</div>
-      <textarea id="journalText" class="input" style="min-height:180px; resize:none;"></textarea>
+<main class="home-main">
+  <textarea
+    style="width:100%;max-width:420px;height:220px;border-radius:18px;border:1px solid var(--stroke);padding:14px;font-size:16px;">
+  </textarea>
+</main>
 
-      <div class="tool-row" style="margin-top:12px;">
-        <button class="tool-btn primary" id="journalSaveBtn" type="button">Save entry</button>
-        <button class="tool-btn" id="journalViewBtn" type="button">View saved entries</button>
-      </div>
+<nav class="bottom-nav">
+  <a href="index.html">🏠</a>
+  <a href="breathe.html">🌬️</a>
+  <a class="active" href="journal.html">📖</a>
+  <a href="quotes.html">💬</a>
+  <a href="yoga.html">🧘‍♀️</a>
+  <a href="sounds.html">🎵</a>
+  <a href="progress.html">📈</a>
+</nav>
 
-      <div class="tool-row" style="margin-top:10px;">
-        <button class="tool-btn danger" id="journalClearBtn" type="button">Delete all entries</button>
-      </div>
-
-      <div class="gentle-text" style="margin-top:10px;">Saved entries stay on this device.</div>
-    </div>
-
-    <div class="card" id="journalListCard" style="display:none;">
-      <div class="section-title">Saved entries</div>
-      <div id="journalList" class="gentle-text" style="margin-top:10px;"></div>
-    </div>
-  </main>
-
-  <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a class="active" href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-  </nav>
-
-  <script>
-    (function(){
-      const $ = (id)=>document.getElementById(id);
-      const KEY = "enigmaJournal";
-      const text = $("journalText");
-      const saveBtn = $("journalSaveBtn");
-      const viewBtn = $("journalViewBtn");
-      const clearBtn = $("journalClearBtn");
-      const listCard = $("journalListCard");
-      const list = $("journalList");
-
-      function read(){
-        try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); }catch{ return []; }
-      }
-      function write(v){ localStorage.setItem(KEY, JSON.stringify(v)); }
-
-      saveBtn.addEventListener("click", ()=>{
-        const v = (text.value||"").trim();
-        if(!v) return;
-        const items = read();
-        items.unshift({ t: new Date().toLocaleString(), v });
-        write(items);
-        text.value = "";
-      });
-
-      viewBtn.addEventListener("click", ()=>{
-        const items = read();
-        listCard.style.display = "";
-        list.innerHTML = items.length ? items.map(x=>`<div style="margin-bottom:12px;"><b>${x.t}</b><div>${x.v.replaceAll("\n","<br>")}</div></div>`).join("") : "No saved entries yet.";
-      });
-
-      clearBtn.addEventListener("click", ()=>{
-        write([]);
-        listCard.style.display = "none";
-        list.innerHTML = "";
-      });
-    })();
-  </script>
-
-  <script src="app.js?v=100200" defer></script>
+<script src="app.js"></script>
 </body>
 </html>
