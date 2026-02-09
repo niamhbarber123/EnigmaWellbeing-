@@ -7,30 +7,34 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100002" />
+  <link rel="stylesheet" href="style.css?v=100010" />
 
-  <!-- Home-only tweaks (watermark + centred grid + no scroll feel) -->
   <style>
     body.home .home-page{
       position: relative;
-      min-height: calc(100vh - 170px); /* header-ish */
+      min-height: calc(100vh - 170px);
       display: flex;
       align-items: center;
       justify-content: center;
       padding-bottom: 18px;
     }
 
+    /* ✅ Watermark perfectly centred behind grid */
     body.home .home-page::before{
       content: "";
       position: absolute;
-      inset: 0;
+      left: 50%;
+      top: 50%;
+      width: min(560px, 92vw);
+      height: min(560px, 92vw);
+      transform: translate(-50%, -50%);
       background-image: url("icon.png");
       background-repeat: no-repeat;
-      background-position: center 38%;
-      background-size: min(520px, 92vw);
-      opacity: 0.10;
-      filter: saturate(1.05) contrast(1.05);
+      background-position: center;
+      background-size: contain;
+      opacity: 0.12;
       pointer-events: none;
+      z-index: 0;
     }
 
     body.home .home-grid{
@@ -40,7 +44,6 @@
       max-width: 520px;
     }
 
-    /* Help wide tile */
     .home-pill.wide{
       grid-column: 1 / -1;
     }
@@ -86,6 +89,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100002" defer></script>
+  <script src="app.js?v=100010" defer></script>
 </body>
 </html>
