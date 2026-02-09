@@ -7,7 +7,7 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100001" />
+  <link rel="stylesheet" href="style.css?v=100002" />
 </head>
 
 <body class="page-wrap">
@@ -21,14 +21,17 @@
 
   <main class="page" id="resourcesPage">
     <div class="card">
-      <div class="section-title">Genres</div>
-      <div id="resourcesGenres" class="chip-row"></div>
+      <div class="section-title">Categories</div>
+      <div class="gentle-text" style="margin-top:6px;">Tap to filter. ♥ saves favourites.</div>
+      <!-- ✅ app.js expects this id -->
+      <div id="resourceChips" class="chip-row" style="margin-top:12px;"></div>
     </div>
 
     <div class="card">
       <div class="section-title">Links</div>
-      <div id="resourcesList" class="music-list"></div>
-      <div class="gentle-text">Links open in a new tab.</div>
+      <!-- ✅ app.js renders boxes into this -->
+      <div id="resourcesList" style="margin-top:12px;"></div>
+      <div class="gentle-text" style="margin-top:10px;">Links open in a new tab.</div>
     </div>
   </main>
 
@@ -42,6 +45,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100001" defer></script>
+  <script src="app.js?v=100002" defer></script>
 </body>
 </html>
