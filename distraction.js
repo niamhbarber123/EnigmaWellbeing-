@@ -1,99 +1,92 @@
 (() => {
   const startBtn = document.getElementById("startDistraction");
-  const answeredCountEl = document.getElementById("answeredCount");
+  const introCard = document.getElementById("introCard");
 
-  const questionCard = document.getElementById("questionCard");
-  const questionTitle = document.getElementById("questionTitle");
-  const questionText = document.getElementById("questionText");
-
+  const card = document.getElementById("questionCard");
+  const titleEl = document.getElementById("questionTitle");
+  const textEl = document.getElementById("questionText");
   const answerBox = document.getElementById("answerBox");
-  const submitAnswer = document.getElementById("submitAnswer");
-  const skipQuestion = document.getElementById("skipQuestion");
+
+  const nextBtn = document.getElementById("submitAnswer");
+  const skipBtn = document.getElementById("skipQuestion");
   const endBtn = document.getElementById("endDistraction");
 
-  // Simple set of gentle prompts (edit/add freely)
+  const count1 = document.getElementById("answeredCount");
+  const count2 = document.getElementById("answeredCount2");
+
+  if (!startBtn || !introCard || !card || !titleEl || !textEl || !answerBox || !nextBtn || !skipBtn || !endBtn) return;
+
+  const KEY = "enigma_distraction_answered_v1";
+
   const QUESTIONS = [
-    "What is the smallest next step you can take in the next 2 minutes?",
-    "What would you say to a friend who felt like this?",
-    "Name 3 things you can see right now.",
-    "What is one thing you can do to make your body a little more comfortable?",
-    "What’s one helpful thought that feels believable (not perfect — just kinder)?",
-    "What is one thing that can wait until tomorrow?",
-    "What is one thing you’ve already handled before that proves you can cope?",
-    "If this feeling had a colour or shape, what would it be?",
-    "What would “good enough” look like right now?"
+    { t: "Grounding", q: "Name 3 things you can see right now." },
+    { t: "Body", q: "Where do you feel tension? What could soften by 1%?" },
+    { t: "Breath", q: "Take one slow breath in… and out. What do you notice?" },
+    { t: "Reality check", q: "What’s a fact right now (not a fear)?" },
+    { t: "Kindness", q: "If a friend felt this way, what would you say to them?" },
+    { t: "Next step", q: "What is one tiny next step you can do in the next 5 minutes?" },
+    { t: "Permission", q: "What are you allowed to let go of for today?" },
+    { t: "Support", q: "Who could you message — even just to say “hi”?" },
+    { t: "Safety", q: "What helps you feel 1% safer or calmer?" },
+    { t: "Time", q: "Will this matter in a week? If not, what matters today?" }
   ];
 
   let idx = 0;
   let answered = 0;
 
-  function updateAnswered() {
-    answeredCountEl.textContent = String(answered);
+  function loadAnswered() {
+    try { return Number(localStorage.getItem(KEY) || "0"); }
+    catch { return 0; }
+  }
+  function saveAnswered(n) {
+    try { localStorage.setItem(KEY, String(n)); } catch {}
+  }
+
+  function setCounts() {
+    if (count1) count1.textContent = String(answered);
+    if (count2) count2.textContent = String(answered);
   }
 
   function showQuestion() {
-    questionCard.style.display = "";
-    questionTitle.textContent = `Question ${idx + 1}`;
-    questionText.textContent = QUESTIONS[idx];
+    const item = QUESTIONS[idx % QUESTIONS.length];
+    titleEl.textContent = item.t;
+    textEl.textContent = item.q;
     answerBox.value = "";
     answerBox.focus();
+    setCounts();
   }
 
-  function nextQuestion(countAnswer) {
-    if (countAnswer) answered += 1;
-    updateAnswered();
+  function start() {
+    introCard.style.display = "none";
+    card.style.display = "";
+    idx = 0;
+    answered = 0;
+    showQuestion();
+  }
 
-    idx += 1;
-    if (idx >= QUESTIONS.length) {
-      finish();
-      return;
+  function next(countIt) {
+    const txt = (answerBox.value || "").trim();
+    if (countIt && txt.length) {
+      answered += 1;
+      saveAnswered(loadAnswered() + 1);
     }
+    idx += 1;
     showQuestion();
   }
 
   function finish() {
-    questionTitle.textContent = "Done";
-    questionText.textContent = "Nice work. You showed up for yourself.";
-    answerBox.style.display = "none";
-    submitAnswer.style.display = "none";
-    skipQuestion.style.display = "none";
-    endBtn.textContent = "Close";
+    card.style.display = "none";
+    introCard.style.display = "";
+    // Keep answered count visible in intro card
+    if (count1) count1.textContent = String(answered);
   }
 
-  startBtn.addEventListener("click", () => {
-    idx = 0;
-    answered = 0;
-    updateAnswered();
+  startBtn.addEventListener("click", start);
+  nextBtn.addEventListener("click", () => next(true));
+  skipBtn.addEventListener("click", () => next(false));
+  endBtn.addEventListener("click", finish);
 
-    // reset UI
-    answerBox.style.display = "";
-    submitAnswer.style.display = "";
-    skipQuestion.style.display = "";
-    endBtn.textContent = "Finish";
-
-    showQuestion();
-  });
-
-  submitAnswer.addEventListener("click", () => {
-    const hasText = (answerBox.value || "").trim().length > 0;
-    if (!hasText) {
-      // If empty, treat as skip (matches your rule)
-      nextQuestion(false);
-      return;
-    }
-    nextQuestion(true);
-  });
-
-  skipQuestion.addEventListener("click", () => nextQuestion(false));
-
-  endBtn.addEventListener("click", () => {
-    // If already finished, just hide the card
-    if (questionTitle.textContent === "Done") {
-      questionCard.style.display = "none";
-      return;
-    }
-    finish();
-  });
-
-  updateAnswered();
+  // Init
+  answered = 0;
+  setCounts();
 })();
