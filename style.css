@@ -1064,3 +1064,62 @@ body.night .btn{
     padding: 10px 12px;
   }
 }
+/* =========================
+   BREATHE — balance tiles
+   ========================= */
+
+/* Make READY tile bigger */
+.breathe-page .breathe-ready-card{
+  padding: 18px 18px 20px;
+}
+
+/* Give the circle more presence */
+.breathe-page .breath-circle{
+  width: 170px;
+  height: 170px;
+}
+
+/* Slightly increase spacing inside Ready */
+.breathe-page .breathe-ready-title{
+  font-size: 24px;
+}
+
+.breathe-page .breathe-ready-sub{
+  font-size: 16px;
+}
+
+/* Make SESSION tile smaller + tighter */
+.breathe-page .breathe-session-card{
+  padding: 12px 14px 14px;
+}
+
+/* Reduce spacing inside session */
+.breathe-page .breathe-session-card .gentle-text{
+  font-size: 14px;
+}
+
+.breathe-page .session-grid{
+  margin-top: 10px;
+  gap: 10px;
+}
+
+/* Buttons a bit tighter */
+.breathe-page .breathe-controls{
+  margin-top: 12px;
+}
+
+/* On small screens, rebalance automatically */
+@media (max-height: 760px){
+  .breathe-page .breath-circle{
+    width: 155px;
+    height: 155px;
+  }
+
+  .breathe-page .breathe-ready-card{
+    padding: 16px;
+  }
+
+  .breathe-page .breathe-session-card{
+    padding: 10px 12px;
+  }
+}
