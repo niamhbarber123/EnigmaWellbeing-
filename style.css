@@ -319,3 +319,85 @@ a, a:visited, a:hover, a:active{
   font-size: 13px;
   color: var(--muted);
 }
+/* =========================
+   HOME SCREEN – MATCH APP MOCK
+   ========================= */
+
+.home-page {
+  padding-top: 10px;
+}
+
+/* Header */
+.home .page-header h1 {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #5a4f78;
+}
+
+.home .page-header p {
+  font-size: 15px;
+  color: #8f88a8;
+  margin-top: 6px;
+}
+
+/* Grid spacing */
+.home-grid {
+  gap: 18px;
+}
+
+/* Pills */
+.home-pill {
+  background: rgba(255,255,255,0.85);
+  border-radius: 999px;
+  padding: 18px 22px;
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  box-shadow:
+    0 12px 30px rgba(120,110,160,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+
+  border: none;
+}
+
+/* Wide SOS pill */
+.home-pill.wide {
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* Icons */
+.pill-ico {
+  font-size: 20px;
+  opacity: 0.75;
+}
+
+/* Text */
+.pill-text {
+  font-size: 17px;
+  font-weight: 600;
+  color: #5b5376;
+}
+
+/* Reduce tap harshness */
+.home-pill:active {
+  transform: scale(0.98);
+}
+
+/* Bottom nav softer */
+.bottom-nav {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+}
+
+.bottom-nav a {
+  color: #8f88a8;
+}
+
+.bottom-nav a.active {
+  color: #5b5376;
+}
