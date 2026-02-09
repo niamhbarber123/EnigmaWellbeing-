@@ -1,748 +1,315 @@
-/* =========================================================
-   ENIGMA GLOBAL THEME (MATCHES YOUR SCREENSHOT STYLE)
-   ========================================================= */
+/* ===============================
+   Enigma Wellbeing – Global Styles
+   =============================== */
 
 :root{
-  --bg1: #efeafd;
-  --bg2: #f6f1ff;
-
-  --text: #2f2f38;
-  --muted: #7f7b94;
-  --muted2: #8f8aa3;
-
-  --accent: #7b6fae;
-  --accentSoft: rgba(238,233,246,0.95);
-  --dangerSoft: rgba(244,215,221,0.80);
-
-  --shadowSoft: 0 14px 34px rgba(120,110,160,0.18);
-  --shadowInset: inset 0 1px 0 rgba(255,255,255,0.75);
+  --bg: #f3eefc;
+  --card: rgba(255,255,255,0.95);
+  --text: #4b4761;
+  --subtext: #8f8faa;
+  --accent: #c9bdf2;
+  --accent-soft: #e7e1fb;
+  --shadow: 0 10px 25px rgba(120,110,160,0.18);
 }
 
-*{ box-sizing: border-box; }
-html, body { height: 100%; }
+/* Night mode */
+body.night{
+  --bg: #161422;
+  --card: rgba(26,24,38,0.9);
+  --text: #f2f2f6;
+  --subtext: #b9b8c7;
+  --shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+/* Reset */
+*{
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
 
 body{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: linear-gradient(180deg, #efe9fb 0%, var(--bg) 100%);
   color: var(--text);
-  font-size: 16px;            /* ✅ BIGGER base text */
-  line-height: 1.45;
 }
 
-a, a:visited, a:hover, a:active{
-  color: inherit;
-  text-decoration: none;      /* ✅ remove blue underline everywhere */
-}
+/* ===============================
+   Page layout
+   =============================== */
 
-/* =========================================================
-   WRAP + BG + WATERMARK (BIGGER)
-   ========================================================= */
-body.page-wrap{
+.page-wrap{
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
-  padding-bottom: calc(140px + env(safe-area-inset-bottom));
-}
-
-body.page-wrap::before{
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  background-image: url("icon.png");
-  background-repeat: no-repeat;
-  background-position: center 56%;
-  background-size: min(92vw, 600px); /* ✅ bigger watermark */
-
-  opacity: 0.08;
-}
-
-body.page-wrap > *{
-  position: relative;
-  z-index: 1;
-}
-
-/* =========================================================
-   HEADER (CALM + READABLE)
-   ========================================================= */
-.page-header{
-  position: relative;
-  text-align: center;
-  padding: 18px 16px 10px;
-}
-
-.page-header h1{
-  margin: 10px 0 0;
-  font-size: 30px;            /* ✅ bigger heading */
-  line-height: 1.1;
-  font-weight: 750;
-  letter-spacing: -0.35px;
-  color: #5a4f78;
-}
-
-.page-header p{
-  margin: 10px 0 0;
-  font-size: 15px;            /* ✅ bigger subtitle */
-  font-weight: 650;
-  color: #8f88a8;
+  padding-bottom: 140px; /* space for bottom nav */
 }
 
 .page{
-  width: min(460px, 92vw);
+  max-width: 520px;
   margin: 0 auto;
-  padding: 12px 0 180px; /* ✅ ensures content never hides under nav */
+  padding: 18px;
 }
 
-/* =========================================================
-   TOP RIGHT THEME BUTTON
-   ========================================================= */
-#themeFab.theme-toggle-top{
-  position: fixed;
-  top: calc(env(safe-area-inset-top) + 14px);
-  right: 14px;
-  z-index: 1000;
+/* ===============================
+   Header
+   =============================== */
 
-  width: 46px;
-  height: 46px;
-  border-radius: 999px;
-  border: none;
-
-  background: rgba(255,255,255,0.70);
-  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
-  backdrop-filter: blur(10px);
-  cursor: pointer;
+.page-header{
+  text-align: center;
+  margin-bottom: 18px;
 }
 
-/* =========================================================
-   LEFT BACK BUTTON (ALWAYS WORKS)
-   ========================================================= */
+.page-header h1{
+  margin: 6px 0 4px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.page-header p{
+  margin: 0;
+  font-size: 15px;
+  color: var(--subtext);
+  font-weight: 600;
+}
+
+/* ===============================
+   Back + Theme buttons
+   =============================== */
+
 .back-btn{
   position: fixed;
-  top: calc(env(safe-area-inset-top) + 14px);
+  top: 14px;
   left: 14px;
-  z-index: 1000;
-
-  width: 46px;
-  height: 46px;
-  border-radius: 999px;
-  border: none;
-  display: grid;
-  place-items: center;
-
-  background: rgba(255,255,255,0.70);
-  box-shadow: 0 10px 26px rgba(120,110,160,0.22);
-  backdrop-filter: blur(10px);
-
-  color: #5b5376;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 20px;
-  font-weight: 900;
-  cursor: pointer;
   text-decoration: none;
+  color: var(--text);
+  z-index: 20;
 }
 
-/* =========================================================
-   CARDS / SOFT UI
-   ========================================================= */
-.card{
-  background: rgba(255,255,255,0.88);
+.theme-toggle-top{
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
   border: none;
-  border-radius: 22px;
-  padding: 16px 18px;
-  box-shadow: var(--shadowSoft), var(--shadowInset);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 20;
 }
 
-.card + .card{ margin-top: 14px; }
+/* ===============================
+   Cards
+   =============================== */
+
+.card{
+  background: var(--card);
+  border-radius: 26px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
 
 .section-title{
-  font-size: 18px;            /* ✅ bigger section headings */
-  font-weight: 850;
-  color: #4b4761;
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 6px;
 }
 
 .gentle-text{
-  font-size: 14px;            /* ✅ bigger body helper text */
-  color: var(--muted);
-  line-height: 1.45;
-}
-
-/* Buttons / chips */
-.btn, .pill, .chip, .link-pill, .small-pill{
-  border: none;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-weight: 750;
-  cursor: pointer;
-}
-
-.btn{
-  padding: 12px 14px;
   font-size: 15px;
-  color: #4b4761;
+  color: var(--subtext);
+  font-weight: 600;
 }
 
-.btn.primary{ background: var(--accentSoft); color: #5b5382; }
-.btn.danger{ background: var(--dangerSoft); color: #6a2f3a; }
+/* ===============================
+   Buttons
+   =============================== */
 
-.row{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.input, .select{
-  width: 100%;
-  padding: 14px 14px;
-  border: none;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.82);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.12), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-size: 15px;            /* ✅ bigger inputs */
-  outline: none;
-}
-
-.form-row{
-  display: grid;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.form-label{
-  font-size: 14px;            /* ✅ bigger labels */
-  font-weight: 800;
-  color: #6b6486;
-}
-
-.checkbox-row{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
-  color: #6b6486;
-  font-weight: 800;
-  font-size: 15px;
-}
-
-.checkbox-row input{
-  width: 20px;
-  height: 20px;
+button{
+  font-family: inherit;
 }
 
 .small-pill{
-  padding: 10px 14px;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
   font-size: 15px;
-  color: #4b4761;
-}
-
-.chip-row{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.chip{
-  padding: 10px 14px;
-  font-size: 14px;
-  color: #5b5376;
-}
-
-.chip.active{ background: var(--accentSoft); }
-
-.link-pill{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  font-size: 14px;
-  color: var(--accent);
-}
-
-.list{
-  display: grid;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-/* =========================================================
-   BOOK TILES (EACH BOOK IN ITS OWN CARD)
-   ========================================================= */
-.book-list{
-  display: grid;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.book-item{
-  background: rgba(255,255,255,0.88);
-  border-radius: 20px;
-  padding: 14px 14px;
-  box-shadow: 0 12px 26px rgba(120,110,160,0.16), inset 0 1px 0 rgba(255,255,255,0.75);
-}
-
-.book-top{
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.book-title{
-  font-size: 16px;
-  font-weight: 850;
-  color: #4b4761;
-  margin: 0;
-}
-
-.book-meta{
-  font-size: 14px;
   font-weight: 700;
-  color: var(--muted2);
-  margin-top: 6px;
+  background: var(--accent-soft);
+  color: var(--text);
 }
 
-.book-desc{
-  font-size: 15px;
-  color: #55556e;
-  margin-top: 8px;
-  line-height: 1.45;
-}
-
-.fav-btn{
-  width: 40px;
-  height: 40px;
+.big-btn{
+  width: 100%;
+  padding: 14px 18px;
   border-radius: 999px;
   border: none;
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-size: 18px;
-  cursor: pointer;
-  color: #6c63a0;
-}
-
-.fav-btn.fav{ color: #6b4fe0; }
-
-.book-actions{
-  margin-top: 12px;
-}
-
-.book-link{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
-  color: var(--accent);
-  text-decoration: none;
+  background: var(--accent);
+  color: #4b4761;
 }
 
-/* =========================================================
-   HOME GRID (UNCHANGED LOOK)
-   ========================================================= */
-.home-grid{
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 18px !important;
-  padding: 18px 16px 0 !important;
-}
+/* ===============================
+   Bottom navigation
+   =============================== */
 
-.home-pill{
-  background: rgba(255,255,255,0.90) !important;
-  border: none !important;
-  border-radius: 999px !important;
-
-  min-height: 66px !important;
-  padding: 18px 20px !important;
-
-  display: flex !important;
-  align-items: center !important;
-  gap: 14px !important;
-
-  box-shadow: 0 14px 34px rgba(120,110,160,0.20), inset 0 1px 0 rgba(255,255,255,0.75) !important;
-}
-
-.home-pill.wide{
-  grid-column: 1 / -1 !important;
-  justify-content: center !important;
-}
-
-.pill-ico{ font-size: 20px; opacity: 0.75; }
-.pill-text{ font-size: 17px; font-weight: 850; color: #5b5376; }
-.home-pill:active{ transform: scale(0.985); }
-
-/* =========================================================
-   BOTTOM NAV (ALWAYS HORIZONTAL)
-   ========================================================= */
 .bottom-nav{
-  position: fixed !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  z-index: 999 !important;
-
-  display: flex !important;
-  justify-content: space-around !important;
-  align-items: center !important;
-
-  background: rgba(255,255,255,0.88) !important;
-  backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(120,110,160,0.16);
-
-  padding: 10px 6px calc(10px + env(safe-area-inset-bottom)) !important;
-}
-
-.bottom-nav a{
-  flex: 1 1 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  gap: 6px;
-  padding: 6px 0;
-
-  font-size: 12px;
-  font-weight: 800;
-  color: #8f88a8 !important;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.bottom-nav .nav-ico{
-  font-size: 20px;
-  line-height: 1;
-  opacity: 0.85;
-}
-
-.bottom-nav a.active{ color: #5b5376 !important; }
-.bottom-nav a.active .nav-ico{ opacity: 1; }
-
-/* =========================================================
-   NIGHT MODE (SAME STYLE LANGUAGE)
-   ========================================================= */
-body.night.page-wrap{
-  background: linear-gradient(180deg, #151323 0%, #1c1930 100%);
-}
-
-body.night.page-wrap::before{ opacity: 0.06; }
-
-body.night .page-header h1{ color: rgba(255,255,255,0.92); }
-body.night .page-header p{ color: rgba(255,255,255,0.62); }
-
-body.night .card,
-body.night .home-pill,
-body.night .btn,
-body.night .pill,
-body.night .chip,
-body.night .link-pill,
-body.night .input,
-body.night .select,
-body.night .book-item{
-  background: rgba(24, 22, 34, 0.72) !important;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
-  color: rgba(255,255,255,0.92);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 6px env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  z-index: 15;
 }
 
 body.night .bottom-nav{
-  background: rgba(24, 22, 34, 0.78) !important;
-  border-top-color: rgba(255,255,255,0.10) !important;
+  background: rgba(24,22,34,0.9);
 }
 
-body.night .bottom-nav a{ color: rgba(255,255,255,0.60) !important; }
-body.night .bottom-nav a.active{ color: rgba(255,255,255,0.92) !important; }
-
-body.night #themeFab.theme-toggle-top,
-body.night .back-btn{
-  background: rgba(24, 22, 34, 0.72);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
-  color: rgba(255,255,255,0.92);
-}
-
-body.night .book-link{
-  background: rgba(24, 22, 34, 0.72);
-  color: rgba(255,255,255,0.92);
-}
-/* =========================
-   Bigger buttons for Journal + Distraction
-   ========================= */
-body.journal-page .btn,
-body.journal-page .small-pill,
-body.distraction-page .btn,
-body.distraction-page .small-pill{
-  padding: 14px 16px;
-  font-size: 16px;
-  font-weight: 850;
-}
-
-/* If your Journal/Distraction uses plain <button> without classes */
-body.journal-page button,
-body.distraction-page button{
-  border-radius: 999px;
-  padding: 14px 16px;
-  font-size: 16px;
-  font-weight: 850;
-}
-
-/* =========================
-   Quotes: make Save NOT blue + put quotes in their own tiles
-   ========================= */
-.quote-list{
-  display: grid;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-/* Each quote tile */
-.quote-item{
-  background: rgba(255,255,255,0.88);
-  border-radius: 22px;
-  padding: 16px 18px;
-  box-shadow: 0 12px 26px rgba(120,110,160,0.16), inset 0 1px 0 rgba(255,255,255,0.75);
-}
-
-/* Quote Save button colour fix (kills iOS “link blue”) */
-.quote-save,
-.quote-item a,
-.quote-item a:visited{
-  color: #5b5376 !important;
-  text-decoration: none !important;
-}
-
-/* Style the Save control like a pill */
-.quote-save{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-size: 15px;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-.quote-save .heart{
-  color: #7d65c7;
-}
-
-/* Night mode versions */
-body.night .quote-item{
-  background: rgba(24, 22, 34, 0.72) !important;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
-}
-
-body.night .quote-save{
-  background: rgba(24, 22, 34, 0.72) !important;
-  color: rgba(255,255,255,0.92) !important;
-}
-
-/* Books already have their own tiles via .book-item,
-   but keep this in case anything renders as plain text */
-.book-list{
-  display: grid;
-  gap: 12px;
-  margin-top: 12px;
-}
-/* =========================
-   Enigma button text colour (Journal + Distraction)
-   ========================= */
-body.journal-page button,
-body.distraction-page button,
-body.journal-page .btn,
-body.distraction-page .btn,
-body.journal-page .small-pill,
-body.distraction-page .small-pill{
-  color: #5b5376 !important;   /* Enigma purple-grey */
-}
-
-/* Make Distraction + Journal buttons a touch bigger */
-body.journal-page button,
-body.distraction-page button,
-body.journal-page .btn,
-body.distraction-page .btn,
-body.journal-page .small-pill,
-body.distraction-page .small-pill{
-  padding: 14px 16px !important;
-  font-size: 16px !important;
-  font-weight: 850 !important;
-}
-
-/* =========================
-   QUOTES: tiles/boxes + no blue links
-   ========================= */
-.quote-list{
-  display: grid;
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.quote-item{
-  background: rgba(255,255,255,0.88);
-  border-radius: 22px;
-  padding: 16px 18px;
-  box-shadow: 0 12px 26px rgba(120,110,160,0.16), inset 0 1px 0 rgba(255,255,255,0.75);
-}
-
-.quote-save{
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(255,255,255,0.78);
-  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
-  font-size: 15px;
-  font-weight: 850;
-  cursor: pointer;
-
-  color: #5b5376 !important;       /* ✅ kills iOS blue */
-  text-decoration: none !important; /* ✅ no underline */
-}
-
-.quote-save .heart{ color: #7d65c7; }
-
-/* Night mode */
-body.night .quote-item{
-  background: rgba(24, 22, 34, 0.72) !important;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
-}
-
-body.night .quote-save{
-  background: rgba(24, 22, 34, 0.72) !important;
-  color: rgba(255,255,255,0.92) !important;
-}
-/* =========================
-   Prevent scrolling (Breathe only)
-   ========================= */
-.no-scroll{
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* =========================
-   Breathing animation layout
-   ========================= */
-.breathe-container{
+.bottom-nav a{
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--subtext);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 4px;
 }
 
-.breathe-stage{
-  flex: 1;
-  display: grid;
-  place-items: center;
-  position: relative;
+.bottom-nav a.active{
+  color: var(--text);
 }
 
-/* =========================
-   Breathing circle
-   ========================= */
-.breath-circle{
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ffffff, #e8e3ff);
-  box-shadow:
-    0 20px 40px rgba(120,110,160,0.25),
-    inset 0 0 0 10px rgba(255,255,255,0.6);
-  transform: scale(0.8);
+.nav-ico{
+  font-size: 20px;
 }
 
-.breath-circle.inhale{
-  animation: inhale 4s ease-in-out forwards;
-}
+/* ===============================
+   Resources – Button style links
+   =============================== */
 
-.breath-circle.exhale{
-  animation: exhale 6s ease-in-out forwards;
-}
-
-@keyframes inhale{
-  from{ transform: scale(0.8); }
-  to{ transform: scale(1); }
-}
-
-@keyframes exhale{
-  from{ transform: scale(1); }
-  to{ transform: scale(0.8); }
-}
-
-.breath-label{
-  margin-top: 18px;
-  font-size: 18px;
-  font-weight: 700;
-  color: #5b5376;
-}
-
-/* =========================
-   Controls styling
-   ========================= */
-.breathe-controls{
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-/* =========================
-   Resources: stop “card inside card” weirdness + nicer spacing
-   ========================= */
-body.resources-page .page-header{
-  padding-top: calc(env(safe-area-inset-top) + 10px);
-}
-
-body.resources-page .card{
-  margin-bottom: 14px;
-}
-
-/* Link tiles inside sections */
 .tile-list{
   display: grid;
-  gap: 12px;
+  gap: 10px;
   margin-top: 12px;
 }
 
 .tile{
-  display: block;
-  padding: 16px 18px;
-  border-radius: 22px;
-  background: rgba(255,255,255,0.88);
-  box-shadow: 0 12px 26px rgba(120,110,160,0.16), inset 0 1px 0 rgba(255,255,255,0.75);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: var(--shadow);
   text-decoration: none;
   color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tile:active{
+  transform: scale(0.98);
 }
 
 .tile-title{
-  font-size: 18px;
-  font-weight: 850;
-  color: #4b4761;
-  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
 }
 
 .tile-sub{
+  font-size: 14px;
+  margin-top: 4px;
+  color: var(--subtext);
+}
+
+/* ===============================
+   Books & Quotes tiles
+   =============================== */
+
+.book-item,
+.quote-card{
+  background: var(--card);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+
+.book-title{
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.book-meta{
+  font-size: 14px;
+  color: var(--subtext);
+}
+
+.book-desc{
   margin-top: 6px;
   font-size: 15px;
-  color: #8f8faa;
-  font-weight: 650;
 }
 
-/* Night mode */
-body.night .tile{
-  background: rgba(24, 22, 34, 0.72);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+.quote-card{
+  font-size: 16px;
+  font-weight: 600;
 }
 
-body.night .tile-title{
-  color: rgba(255,255,255,0.92);
+/* ===============================
+   Breathe circle
+   =============================== */
+
+.breathe-circle{
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: white;
+  margin: 20px auto;
+  box-shadow: 0 0 40px rgba(200,190,240,0.6);
 }
 
-body.night .tile-sub{
-  color: rgba(255,255,255,0.70);
+/* ===============================
+   Forms
+   =============================== */
+
+input, textarea, select{
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: none;
+  font-size: 16px;
+  background: var(--card);
+  color: var(--text);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
 }
+
+/* ===============================
+   Safety
+   =============================== */
+
+a{
+  color: inherit;
+}
+
+/* ===============================
+   END
+   =============================== */
