@@ -7,11 +7,14 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260209-final" />
+  <link rel="stylesheet" href="style.css?v=20260210fixA" />
 </head>
 
 <body class="page-wrap breathe-page no-scroll">
+  <!-- Back ALWAYS goes home -->
   <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
+
+  <!-- Night mode -->
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
@@ -22,11 +25,12 @@
   <main class="page">
     <div class="breathe-viewport">
 
-      <!-- READY -->
+      <!-- READY CARD -->
       <section class="card breathe-ready-card">
         <div class="breathe-ready-title">Ready</div>
         <div class="breathe-ready-sub">Choose settings, then tap Start.</div>
 
+        <!-- Clock above circle -->
         <div class="breathe-time-top">
           Time: <span id="timeText">01:00</span>
         </div>
@@ -34,13 +38,18 @@
         <div class="breathe-circle-wrap">
           <div id="breathCircle" class="breath-circle" aria-hidden="true"></div>
         </div>
+
+        <div class="breathe-status">
+          <div id="phaseLabel" class="breath-label">Ready</div>
+        </div>
       </section>
 
-      <!-- SESSION -->
+      <!-- SESSION CARD -->
       <section class="card breathe-session-card">
         <div class="section-title">Session</div>
         <div class="gentle-text" style="margin-top:6px;">Timer counts down. Stopwatch counts up.</div>
 
+        <!-- Two dropdowns side-by-side -->
         <div class="session-grid">
           <div class="field">
             <div class="label">Mode</div>
@@ -48,7 +57,6 @@
               <option value="timer" selected>Timer</option>
               <option value="stopwatch">Stopwatch</option>
             </select>
-            <div class="hint">Choose timer or stopwatch.</div>
           </div>
 
           <div class="field" id="minutesField">
@@ -59,21 +67,20 @@
               <option value="3">3 minutes</option>
               <option value="5">5 minutes</option>
               <option value="10">10 minutes</option>
+              <option value="15">15 minutes</option>
             </select>
-            <div class="hint">Choose minutes.</div>
           </div>
         </div>
 
-        <div class="breathe-controls">
-          <div class="row three">
-            <button id="startBtn" class="btn primary" type="button">Start</button>
-            <button id="pauseBtn" class="btn" type="button">Pause</button>
-            <button id="resetBtn" class="btn" type="button">Reset</button>
-          </div>
+        <!-- Buttons split into thirds -->
+        <div class="row three" style="margin-top:14px;">
+          <button id="startBtn" class="btn primary" type="button">Start</button>
+          <button id="pauseBtn" class="btn" type="button">Pause</button>
+          <button id="resetBtn" class="btn" type="button">Reset</button>
+        </div>
 
-          <div id="completedPill" class="gentle-text" style="margin-top:10px; display:none; font-weight:900;">
-            Completed ✅
-          </div>
+        <div id="completedPill" class="gentle-text" style="margin-top:10px; display:none; font-weight:900;">
+          Completed ✅
         </div>
       </section>
 
@@ -90,7 +97,8 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260209-final" defer></script>
-  <script src="breathe.js?v=20260209-final" defer></script>
+  <!-- IMPORTANT: ensure these exact file names exist in your repo -->
+  <script src="app.js?v=20260210fixA" defer></script>
+  <script src="breathe.js?v=20260210fixA" defer></script>
 </body>
 </html>
