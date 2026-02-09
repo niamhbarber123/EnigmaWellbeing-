@@ -1,43 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>How are you feeling?</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Mood • Enigma Wellbeing</title>
+
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=20260210m1" />
 </head>
-<body>
 
-<div class="app">
+<body class="page-wrap mood-page">
 
-  <div class="header">
-    <h1>How are you feeling?</h1>
-  </div>
+  <!-- Back + Night mode -->
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <div class="content mood-buttons">
-    <button onclick="recommend('anxious')">😟 Anxious</button>
-    <button onclick="recommend('low')">😔 Low</button>
-    <button onclick="recommend('overwhelmed')">😵 Overwhelmed</button>
-    <button onclick="recommend('okay')">🙂 Okay</button>
-  </div>
+  <header class="page-header">
+    <h1>Mood</h1>
+    <p>Select how you feel and write it out</p>
+  </header>
 
-  <div class="recommendation" id="result"></div>
+  <main class="page">
 
-</div>
+    <section class="card">
+      <div class="section-title">How are you feeling?</div>
+      <div class="gentle-text">Tap a mood to select it.</div>
 
-<script>
-function recommend(mood) {
-  const result = document.getElementById("result");
+      <div class="mood-grid" id="moodGrid" style="margin-top:12px;"></div>
 
-  const suggestions = {
-    anxious: "Try Breathe & Reset 🌬️",
-    low: "Read gentle quotes 💬",
-    overwhelmed: "Tap to calm 🎨",
-    okay: "Try gentle yoga 🧘"
-  };
+      <div class="gentle-text" style="margin-top:12px;">
+        Selected: <strong id="selectedMood">None</strong>
+      </div>
+    </section>
 
-  result.innerText = suggestions[mood];
-}
-</script>
+    <section class="card">
+      <div class="section-title">Write about it</div>
+      <div class="gentle-text">No judgement — just words.</div>
 
+      <textarea id="moodNotes" rows="6" placeholder="What’s going on right now?"></textarea>
+
+      <div class="mood-actions" style="margin-top:12px;">
+        <button id="saveMood" class="small-pill" type="button">Save</button>
+        <button id="viewMoods" class="small-pill" type="button">View saved</button>
+        <button id="clearMoods" class="small-pill" type="button">Clear all</button>
+      </div>
+
+      <div class="gentle-text" style="margin-top:12px;">
+        Saved moods stay on this device.
+      </div>
+    </section>
+
+    <section class="card" id="savedWrap" style="display:none;">
+      <div class="section-title">Saved</div>
+      <div id="savedList" class="saved-list" style="margin-top:12px;"></div>
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=20260210m1" defer></script>
+  <script src="mood.js?v=20260210m1" defer></script>
 </body>
 </html>
