@@ -7,11 +7,10 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210b2" />
+  <link rel="stylesheet" href="style.css?v=20260210b3" />
 </head>
 
 <body class="page-wrap breathe-page no-scroll">
-  <!-- Back + Night mode -->
   <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
@@ -21,11 +20,12 @@
   </header>
 
   <main class="page breathe-fit">
-    <!-- READY CARD (matches screenshot) -->
+
+    <!-- READY CARD -->
     <section class="card breathe-ready-card">
       <div class="breathe-ready-top">
-        <div class="breathe-ready-title">Ready</div>
-        <div class="breathe-ready-sub">Tap Start to begin.</div>
+        <div class="breathe-ready-title" id="topTitle">Ready</div>
+        <div class="breathe-ready-sub" id="topHint">Tap Start to begin.</div>
       </div>
 
       <div class="breathe-circle-wrap">
@@ -38,40 +38,45 @@
       </div>
     </section>
 
-    <!-- SESSION CARD (matches screenshot) -->
+    <!-- SESSION CARD -->
     <section class="card breathe-session-card">
       <div class="section-title">Session</div>
+      <div class="gentle-text">Choose your mode, then press Start.</div>
 
       <div class="breathe-form">
+
         <div class="form-row">
           <div class="form-label">Mode</div>
-          <select id="modeSelect" class="select">
+          <select id="modeSelect" class="select" aria-label="Mode">
             <option value="timer" selected>Timer</option>
             <option value="stopwatch">Stopwatch</option>
           </select>
+          <div class="mini-hint">Timer counts down. Stopwatch counts up.</div>
         </div>
 
         <div class="form-row" id="minutesField">
           <div class="form-label">Timer length</div>
-          <select id="minutesSelect" class="select">
-            <option value="1" selected>1 min</option>
-            <option value="2">2 min</option>
-            <option value="3">3 min</option>
-            <option value="5">5 min</option>
-            <option value="10">10 min</option>
-            <option value="15">15 min</option>
+          <select id="minutesSelect" class="select" aria-label="Timer length">
+            <option value="1" selected>1 minute</option>
+            <option value="2">2 minutes</option>
+            <option value="3">3 minutes</option>
+            <option value="5">5 minutes</option>
+            <option value="10">10 minutes</option>
+            <option value="15">15 minutes</option>
           </select>
         </div>
 
-        <label class="vibration-row">
+        <label class="vibration-row" for="vibrationToggle">
           <input id="vibrationToggle" type="checkbox" />
-          <span>Vibration</span>
+          <span>Vibration cues</span>
         </label>
+
       </div>
 
       <div class="breathe-controls">
         <button id="startBtn" class="small-pill" type="button">Start</button>
-        <button id="stopBtn" class="small-pill" type="button">Stop</button>
+        <button id="pauseBtn" class="small-pill" type="button">Pause</button>
+        <button id="resetBtn" class="small-pill" type="button">Reset</button>
         <div id="completedPill" class="small-pill completed-pill" style="display:none;">Completed ✅</div>
       </div>
     </section>
@@ -87,7 +92,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260210b2" defer></script>
-  <script src="breathe.js?v=20260210b2" defer></script>
+  <script src="app.js?v=20260210b3" defer></script>
+  <script src="breathe.js?v=20260210b3" defer></script>
 </body>
 </html>
