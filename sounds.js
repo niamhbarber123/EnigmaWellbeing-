@@ -1,158 +1,123 @@
-/* =========================================================
-   Enigma • sounds.js
-   - Mood-based link suggestions
-   - Starts a "listening session" when user taps a link
-   - Tracks minutes from tap -> when user returns and ends session
-========================================================= */
+(() => {
+  const chipsEl = document.getElementById("musicChips");
+  const listEl = document.getElementById("musicList");
 
-const LINKS = [
-  // NOTE: you can swap these for your favourites
-  { title:"🌧 Rain ambience", mood:["anxious","stressed","sleep","all"], url:"https://www.youtube.com/watch?v=2OEL4P1Rz04" },
-  { title:"🌊 Ocean waves", mood:["anxious","sleep","all"], url:"https://www.youtube.com/watch?v=bn9F19Hi1Lk" },
-  { title:"🌿 Forest ambience", mood:["stressed","focus","all"], url:"https://www.youtube.com/watch?v=odJxJRAxdFU" },
-  { title:"🎹 Calm piano", mood:["low","anxious","all"], url:"https://www.youtube.com/watch?v=q76bMs-NwRk" },
-  { title:"🔔 Meditation bells", mood:["anxious","sleep","all"], url:"https://www.youtube.com/watch?v=nmFUDkj1Aq0" },
-  { title:"🧘 Breath-focused music", mood:["anxious","stressed","all"], url:"https://www.youtube.com/watch?v=MIr3RsUWrdo" },
-  { title:"📚 Focus lo-fi", mood:["focus","all"], url:"https://www.youtube.com/watch?v=jfKfPfyJRdk" },
-  { title:"🌙 Sleep soundscape", mood:["sleep","all"], url:"https://www.youtube.com/watch?v=1ZYbU82GVz4" }
-];
+  const todayEl = document.getElementById("todayMin");
+  const totalEl = document.getElementById("totalMin");
+  const stateEl = document.getElementById("sessionState");
 
-const KEY_SESSION = "enigmaListenSession";
-const KEY_TOTAL = "enigmaMinutesTotal";
-const KEY_TODAY = "enigmaMinutesByDay";
+  const startBtn = document.getElementById("startSession");
+  const endBtn = document.getElementById("endSession");
 
-function isoToday(){ return new Date().toISOString().split("T")[0]; }
-function getJSON(key, fallback){
-  try{ return JSON.parse(localStorage.getItem(key) || ""); } catch { return fallback; }
-}
-function setJSON(key, value){
-  localStorage.setItem(key, JSON.stringify(value));
-}
+  const KEY_TOTAL = "enigma_music_total_min";
+  const KEY_TODAY = "enigma_music_today_min";
+  const KEY_DAYSTAMP = "enigma_music_daystamp";
+  const KEY_SESSION_START = "enigma_music_session_start";
 
-function minutesBetween(msA, msB){
-  const diff = Math.max(0, msB - msA);
-  return Math.round(diff / 60000); // whole minutes
-}
+  const TRACKS = [
+    { mood: "Calm", title: "Calm piano / ambient", url: "https://www.youtube.com/results?search_query=calm+piano+ambient+music" },
+    { mood: "Focus", title: "Lo-fi focus", url: "https://www.youtube.com/results?search_query=lofi+focus+study+music" },
+    { mood: "Sleep", title: "Sleep sounds / rain", url: "https://www.youtube.com/results?search_query=rain+sleep+sounds+8+hours" },
+    { mood: "Anxiety", title: "Anxiety relief music", url: "https://www.youtube.com/results?search_query=anxiety+relief+music" },
+    { mood: "Energy", title: "Gentle uplifting", url: "https://www.youtube.com/results?search_query=gentle+uplifting+music" },
+  ];
 
-function renderStats(){
-  const today = isoToday();
-  const byDay = getJSON(KEY_TODAY, {});
-  const total = parseInt(localStorage.getItem(KEY_TOTAL) || "0", 10);
+  const MOODS = ["All", "Calm", "Focus", "Sleep", "Anxiety", "Energy"];
+  let active = "All";
 
-  const todayEl = document.getElementById("todayMinutes");
-  const totalEl = document.getElementById("totalMinutes");
-  if (todayEl) todayEl.textContent = String(byDay[today] || 0);
-  if (totalEl) totalEl.textContent = String(total || 0);
-}
-
-function setSessionStatus(text){
-  const el = document.getElementById("sessionStatus");
-  if (el) el.textContent = text;
-}
-
-function startSession(label){
-  const now = Date.now();
-  setJSON(KEY_SESSION, { start: now, label });
-  setSessionStatus(`Listening: ${label} (session running…)`);
-}
-
-function endSession(){
-  const session = getJSON(KEY_SESSION, null);
-  if (!session || !session.start){
-    setSessionStatus("No active session.");
-    return;
+  function dayStamp() {
+    const d = new Date();
+    return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
   }
 
-  const now = Date.now();
-  const mins = minutesBetween(session.start, now);
-  setJSON(KEY_SESSION, null);
-
-  const today = isoToday();
-  const byDay = getJSON(KEY_TODAY, {});
-  byDay[today] = (byDay[today] || 0) + mins;
-  setJSON(KEY_TODAY, byDay);
-
-  const total = parseInt(localStorage.getItem(KEY_TOTAL) || "0", 10) + mins;
-  localStorage.setItem(KEY_TOTAL, String(total));
-
-  renderStats();
-  setSessionStatus(mins > 0
-    ? `Session ended ✅ +${mins} min added.`
-    : `Session ended ✅ (0 min recorded).`
-  );
-}
-
-function renderLinks(activeMood){
-  const wrap = document.getElementById("soundLinks");
-  if (!wrap) return;
-
-  wrap.innerHTML = "";
-
-  const filtered = LINKS.filter(item => {
-    if (activeMood === "all") return true;
-    return item.mood.includes(activeMood) || item.mood.includes("all");
-  });
-
-  filtered.forEach(item => {
-    const a = document.createElement("a");
-    a.className = "sound-link";
-    a.href = item.url;
-    a.target = "_blank";
-    a.rel = "noopener";
-
-    a.textContent = item.title;
-
-    // highlight currently selected
-    a.addEventListener("click", () => {
-      document.querySelectorAll(".sound-link").forEach(x => x.classList.remove("active"));
-      a.classList.add("active");
-      startSession(item.title);
-    });
-
-    wrap.appendChild(a);
-  });
-}
-
-function initMoodChips(){
-  const chips = document.getElementById("moodChips");
-  const hint = document.getElementById("moodHint");
-  if (!chips) return;
-
-  let mood = "all";
-  renderLinks(mood);
-
-  chips.querySelectorAll(".chip").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      chips.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
-      btn.classList.add("active");
-
-      mood = btn.dataset.mood || "all";
-      if (hint) hint.textContent = `Showing: ${btn.textContent}`;
-      renderLinks(mood);
-    });
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderStats();
-  initMoodChips();
-
-  // restore session label if exists
-  const session = getJSON(KEY_SESSION, null);
-  if (session && session.label){
-    setSessionStatus(`Listening: ${session.label} (session running…)`);
-  } else {
-    setSessionStatus("No active session.");
+  function getNum(key) {
+    const v = Number(localStorage.getItem(key) || "0");
+    return Number.isFinite(v) ? v : 0;
   }
 
-  const endBtn = document.getElementById("endSessionBtn");
-  if (endBtn) endBtn.addEventListener("click", endSession);
+  function setNum(key, val) {
+    localStorage.setItem(key, String(Math.max(0, Math.round(val))));
+  }
 
-  // Helpful: if user returns to tab, keep status accurate
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden){
-      // no auto-end (user chooses), just refresh stats
-      renderStats();
+  function ensureTodayReset() {
+    const stamp = localStorage.getItem(KEY_DAYSTAMP);
+    const now = dayStamp();
+    if (stamp !== now) {
+      localStorage.setItem(KEY_DAYSTAMP, now);
+      setNum(KEY_TODAY, 0);
+      localStorage.removeItem(KEY_SESSION_START);
     }
-  });
-});
+  }
+
+  function renderTotals() {
+    ensureTodayReset();
+    todayEl.textContent = String(getNum(KEY_TODAY));
+    totalEl.textContent = String(getNum(KEY_TOTAL));
+
+    const start = Number(localStorage.getItem(KEY_SESSION_START) || "0");
+    if (start > 0) stateEl.textContent = "Session running…";
+    else stateEl.textContent = "No active session.";
+  }
+
+  function renderChips() {
+    chipsEl.innerHTML = "";
+    MOODS.forEach(m => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip" + (m === active ? " active" : "");
+      b.textContent = m;
+      b.addEventListener("click", () => {
+        active = m;
+        renderChips();
+        renderList();
+      });
+      chipsEl.appendChild(b);
+    });
+  }
+
+  function renderList() {
+    listEl.innerHTML = "";
+    const filtered = active === "All" ? TRACKS : TRACKS.filter(t => t.mood === active);
+    filtered.forEach(t => {
+      const a = document.createElement("a");
+      a.className = "link-pill";
+      a.href = t.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.innerHTML = `🎧 ${t.title}`;
+      listEl.appendChild(a);
+    });
+  }
+
+  function startSession() {
+    ensureTodayReset();
+    const existing = Number(localStorage.getItem(KEY_SESSION_START) || "0");
+    if (existing > 0) return; // already running
+    localStorage.setItem(KEY_SESSION_START, String(Date.now()));
+    renderTotals();
+  }
+
+  function endSession() {
+    ensureTodayReset();
+    const start = Number(localStorage.getItem(KEY_SESSION_START) || "0");
+    if (!start) return;
+
+    const minutes = Math.max(0, Math.round((Date.now() - start) / 60000));
+    localStorage.removeItem(KEY_SESSION_START);
+
+    const today = getNum(KEY_TODAY) + minutes;
+    const total = getNum(KEY_TOTAL) + minutes;
+
+    setNum(KEY_TODAY, today);
+    setNum(KEY_TOTAL, total);
+
+    renderTotals();
+  }
+
+  startBtn.addEventListener("click", startSession);
+  endBtn.addEventListener("click", endSession);
+
+  renderChips();
+  renderList();
+  renderTotals();
+})();
