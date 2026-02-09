@@ -21,24 +21,30 @@
     } catch {}
   }
 
-  // Theme init
-  applyTheme(loadTheme());
+  // Wait until DOM is ready (works even if defer fails somewhere)
+  function init() {
+    applyTheme(loadTheme());
 
-  // Theme toggle
-  const themeBtn = document.getElementById("themeFab");
-  if (themeBtn) {
-    themeBtn.addEventListener("click", () => {
-      const nowNight = !document.body.classList.contains("night");
-      applyTheme(nowNight);
-      saveTheme(nowNight);
+    const themeBtn = document.getElementById("themeFab");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const nowNight = !document.body.classList.contains("night");
+        applyTheme(nowNight);
+        saveTheme(nowNight);
+      });
+    }
+
+    // Auto-mark active bottom nav (safe if nav exists)
+    const path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+    document.querySelectorAll(".bottom-nav a").forEach(a => {
+      const href = (a.getAttribute("href") || "").toLowerCase();
+      a.classList.toggle("active", href === path);
     });
   }
 
-  // Auto-active bottom nav
-  const path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
-  document.querySelectorAll(".bottom-nav a").forEach(a => {
-    const href = (a.getAttribute("href") || "").toLowerCase();
-    if (href === path) a.classList.add("active");
-    else a.classList.remove("active");
-  });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
