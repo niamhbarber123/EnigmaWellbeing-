@@ -401,3 +401,86 @@ a, a:visited, a:hover, a:active{
 .bottom-nav a.active {
   color: #5b5376;
 }
+/* =========================
+   HOME SCREEN – MATCH YOUR MOCK
+   ========================= */
+
+body.page-wrap.home{
+  background: linear-gradient(180deg, #efeafd, #f6f1ff);
+}
+
+/* Header */
+body.page-wrap.home .page-header h1{
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: #5a4f78;
+  margin: 8px 0 0;
+}
+
+body.page-wrap.home .page-header p{
+  font-size: 15px;
+  color: #8f88a8;
+  margin: 6px 0 0;
+}
+
+/* Grid spacing */
+body.page-wrap.home .home-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 10px 16px 0;
+}
+
+/* Make the wide button span two columns */
+body.page-wrap.home .home-pill.wide{
+  grid-column: 1 / -1;
+}
+
+/* Pills */
+body.page-wrap.home .home-pill{
+  background: rgba(255,255,255,0.85);
+  border-radius: 999px;
+  padding: 18px 22px;
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  border: none;
+  box-shadow:
+    0 12px 30px rgba(120,110,160,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* Icon + text */
+body.page-wrap.home .pill-ico{
+  font-size: 20px;
+  opacity: 0.75;
+}
+
+body.page-wrap.home .pill-text{
+  font-size: 17px;
+  font-weight: 600;
+  color: #5b5376;
+}
+
+/* Press feedback */
+body.page-wrap.home .home-pill:active{
+  transform: scale(0.98);
+}
+
+/* Bottom nav softer */
+body.page-wrap.home .bottom-nav{
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+}
+
+body.page-wrap.home .bottom-nav a{
+  color: #8f88a8;
+}
+
+body.page-wrap.home .bottom-nav a.active{
+  color: #5b5376;
+}
