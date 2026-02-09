@@ -137,6 +137,7 @@ a, a:visited, a:hover, a:active{
   display: grid;
   place-items: center;
   font-size: 20px;
+  z-index: 20; /* ✅ always above cards + nav */
 }
 
 .back-btn{
@@ -215,12 +216,18 @@ textarea,
   outline: none;
 }
 
+.input::placeholder,
+textarea::placeholder{ color: rgba(140,140,165,0.65); }
+
 body.night textarea,
 body.night .select,
 body.night .input{
   background: rgba(26,24,38,0.75);
   color: rgba(255,255,255,0.95);
 }
+
+body.night .input::placeholder,
+body.night textarea::placeholder{ color: rgba(255,255,255,0.45); }
 
 /* Home pills */
 .home-grid{
@@ -286,7 +293,7 @@ body.night .bottom-nav a.active{
 
 .nav-ico{ font-size: 22px; }
 
-/* Link buttons (resources/help) */
+/* Link buttons (resources/help/yoga/music) */
 .link-btn{
   display: flex;
   align-items: center;
@@ -300,6 +307,8 @@ body.night .bottom-nav a.active{
   box-shadow: 0 10px 26px rgba(0,0,0,0.05);
   margin-top: 12px;
 }
+
+.link-btn:active{ transform: scale(0.99); }
 
 .link-btn .link-title{
   font-size: 17px;
@@ -571,3 +580,45 @@ body.night .link-btn{
   .breath-circle{ width: 150px; height: 150px; }
   .page-header h1{ font-size: 32px; }
 }
+
+/* =========================
+   COMPATIBILITY HELPERS
+   (keeps older pages working
+   without changing your design)
+   ========================= */
+
+/* old .row/.btn used in a few files */
+.row{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn{
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-size: 15px;
+  font-weight: 850;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.btn.primary{
+  background: var(--accentSoft);
+}
+
+.btn.danger{
+  background: var(--dangerSoft);
+  color: #6a2f3a;
+}
+
+body.night .btn{
+  background: rgba(26,24,38,0.72);
+  border-color: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.92);
+}
+
+/* if any page still uses .list */
+.list{ margin-top: 10px; }
