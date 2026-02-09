@@ -99,22 +99,17 @@ body.night .back-btn{
 /* =========================
    THEME BUTTON (smaller)
 ========================= */
+/* Smaller night mode button */
 .theme-toggle-top{
-  position: fixed;
-  right: 16px;
-  top: 16px;
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,.55);
-  box-shadow: var(--shadow);
-  cursor:pointer;
-  font-size: 22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index: 50;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 }
 body.night .theme-toggle-top{
   background: rgba(255,255,255,.08);
