@@ -7,72 +7,62 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=100001" />
+  <link rel="stylesheet" href="style.css?v=20260209z" />
 </head>
 
 <body class="page-wrap">
+  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
     <h1>Breathe</h1>
     <p>Follow the rhythm</p>
   </header>
 
-  <main class="page" id="breathePage">
+  <main class="page">
     <div class="card">
-      <div class="section-title" id="breathPhase">Ready</div>
+      <div class="section-title">Ready</div>
+      <div class="gentle-text" style="margin-top:6px;">Tap Start to begin.</div>
 
-      <div class="breathe-stage">
-        <div class="breathe-ring">
-          <div class="breathe-circle" id="breatheCircle"></div>
-        </div>
+      <div class="breathe-wrap">
+        <div id="breatheCircle" class="breathe-circle"></div>
+        <div id="breathePhase" class="breathe-status">Ready</div>
+        <div id="breatheTimer" class="breathe-sub">Time: —</div>
       </div>
 
-      <div class="gentle-text" id="breathTip">Tap Start to begin.</div>
-
-      <div class="card" style="margin-top:12px;">
+      <div class="card" style="margin-top:14px;">
         <div class="section-title">Session</div>
 
-        <div class="tool-row" style="margin-top:10px;">
-          <div style="flex:1; min-width:160px;">
-            <div class="gentle-text" style="margin-bottom:6px;">Mode</div>
-            <select id="breathModeSelect" class="input">
-              <option value="timer">Timer</option>
-              <option value="stopwatch">Stopwatch</option>
-            </select>
+        <div class="form-row">
+          <div class="form-label">Mode</div>
+          <select id="modeSel" class="select">
+            <option value="timer">Timer</option>
+          </select>
+
+          <div class="form-label">Timer length</div>
+          <select id="lengthSel" class="select">
+            <option value="1">1 min</option>
+            <option value="2">2 min</option>
+            <option value="3">3 min</option>
+            <option value="5">5 min</option>
+          </select>
+
+          <div class="checkbox-row">
+            <input id="vibrateChk" type="checkbox" />
+            <label for="vibrateChk">Vibration</label>
           </div>
 
-          <div id="breathDurationRow" style="flex:1; min-width:160px;">
-            <div class="gentle-text" style="margin-bottom:6px;">Timer length</div>
-            <select id="breathDurationSelect" class="input">
-              <option value="1">1 min</option>
-              <option value="2">2 min</option>
-              <option value="3">3 min</option>
-              <option value="5">5 min</option>
-              <option value="10">10 min</option>
-            </select>
-          </div>
+          <div class="gentle-text">Time: <span id="timeReadout">—</span></div>
         </div>
-
-        <div class="tool-row" style="margin-top:10px; align-items:center;">
-          <label class="gentle-text" style="display:flex; align-items:center; gap:10px; font-weight:800;">
-            <input id="breathVibrateToggle" type="checkbox" />
-            Vibration
-          </label>
-        </div>
-
-        <div class="gentle-text" id="breathTimerLabel" style="margin-top:8px;">Time: —</div>
-        <div class="gentle-text" id="breathStopwatchLabel" style="margin-top:6px; display:none;">Stopwatch: 0:00</div>
       </div>
 
-      <div class="tool-row" style="margin-top:14px;">
-        <button class="tool-btn primary" id="breathStartBtn" type="button">Start</button>
-        <button class="tool-btn danger" id="breathStopBtn" type="button">Stop</button>
+      <div class="row" style="margin-top:14px;">
+        <button id="startBtn" class="btn primary" type="button">Start</button>
+        <button id="stopBtn" class="btn" type="button">Stop</button>
       </div>
 
-      <div class="tool-row">
-        <button class="tool-btn" id="breathCompleteBtn" type="button">Completed ✅</button>
+      <div style="margin-top:12px;">
+        <span id="completedPill" class="mini-pill" style="display:none;">Completed ✅</span>
       </div>
     </div>
   </main>
@@ -87,6 +77,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=100001" defer></script>
+  <script src="app.js?v=20260209z" defer></script>
+  <script src="breathe.js?v=20260209z" defer></script>
 </body>
 </html>
