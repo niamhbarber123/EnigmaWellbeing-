@@ -7,7 +7,9 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="./style.css?v=20260210fix1" />
+
+  <!-- ✅ IMPORTANT: use ./ so GitHub Pages always finds it -->
+  <link rel="stylesheet" href="./style.css?v=20260210fix5" />
 </head>
 
 <body class="page-wrap breathe-page no-scroll">
@@ -19,15 +21,13 @@
     <p>Follow the rhythm</p>
   </header>
 
-  <main class="page breathe-fit">
+  <main class="page breathe-viewport">
     <section class="card breathe-ready-card">
-      <div class="breathe-ready-top">
-        <div class="breathe-ready-title" id="topTitle">Ready</div>
-        <div class="breathe-ready-sub" id="topHint">Tap Start to begin.</div>
-      </div>
+      <div class="breathe-ready-title" id="topTitle">Ready</div>
+      <div class="breathe-ready-sub" id="topHint">Choose settings, then tap Start.</div>
 
       <div class="breathe-circle-wrap">
-        <div id="breathCircle" class="breath-circle"></div>
+        <div id="breathCircle" class="breath-circle" aria-hidden="true"></div>
       </div>
 
       <div class="breathe-status">
@@ -36,7 +36,7 @@
       </div>
     </section>
 
-    <section class="card breathe-session-card">
+    <section class="card breathe-session-card breathe-session-scroll">
       <div class="section-title">Session</div>
       <div class="gentle-text">Timer or stopwatch — your choice.</div>
 
@@ -87,7 +87,8 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="./app.js?v=20260210fix1" defer></script>
-  <script src="./breathe.js?v=20260210fix1" defer></script>
+  <!-- ✅ IMPORTANT: use ./ so scripts load on GitHub Pages -->
+  <script src="./app.js?v=20260210fix5" defer></script>
+  <script src="./breathe.js?v=20260210fix5" defer></script>
 </body>
 </html>
