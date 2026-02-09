@@ -714,3 +714,19 @@ body.night .btn{
 }
 
 .list{ margin-top: 10px; }
+/* =========================
+   GLOBAL FIX — stop bottom nav overlapping content
+   ========================= */
+
+.page{
+  width: min(460px, 92vw);
+  margin-left: auto;
+  margin-right: auto;
+
+  /* ⬇️ THIS IS THE IMPORTANT PART */
+  padding-bottom: calc(var(--navH) + 24px);
+}
+/* Ensure fixed-height pages also respect nav */
+.breathe-page .breathe-viewport{
+  padding-bottom: calc(var(--navH) + 12px);
+}
