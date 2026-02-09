@@ -551,3 +551,72 @@ body.night .quote-save{
   gap: 12px;
   margin-top: 12px;
 }
+/* =========================
+   Enigma button text colour (Journal + Distraction)
+   ========================= */
+body.journal-page button,
+body.distraction-page button,
+body.journal-page .btn,
+body.distraction-page .btn,
+body.journal-page .small-pill,
+body.distraction-page .small-pill{
+  color: #5b5376 !important;   /* Enigma purple-grey */
+}
+
+/* Make Distraction + Journal buttons a touch bigger */
+body.journal-page button,
+body.distraction-page button,
+body.journal-page .btn,
+body.distraction-page .btn,
+body.journal-page .small-pill,
+body.distraction-page .small-pill{
+  padding: 14px 16px !important;
+  font-size: 16px !important;
+  font-weight: 850 !important;
+}
+
+/* =========================
+   QUOTES: tiles/boxes + no blue links
+   ========================= */
+.quote-list{
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.quote-item{
+  background: rgba(255,255,255,0.88);
+  border-radius: 22px;
+  padding: 16px 18px;
+  box-shadow: 0 12px 26px rgba(120,110,160,0.16), inset 0 1px 0 rgba(255,255,255,0.75);
+}
+
+.quote-save{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 10px 24px rgba(120,110,160,0.14), inset 0 1px 0 rgba(255,255,255,0.70);
+  font-size: 15px;
+  font-weight: 850;
+  cursor: pointer;
+
+  color: #5b5376 !important;       /* ✅ kills iOS blue */
+  text-decoration: none !important; /* ✅ no underline */
+}
+
+.quote-save .heart{ color: #7d65c7; }
+
+/* Night mode */
+body.night .quote-item{
+  background: rgba(24, 22, 34, 0.72) !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+}
+
+body.night .quote-save{
+  background: rgba(24, 22, 34, 0.72) !important;
+  color: rgba(255,255,255,0.92) !important;
+}
