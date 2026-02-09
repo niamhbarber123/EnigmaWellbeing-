@@ -36,7 +36,37 @@
 
     <a href="resources.html" class="home-btn"><span>🧠</span>Resources</a>
     <a href="books.html" class="home-btn"><span>📚</span>Books</a>
+/* ==========================
+   HOME WATERMARK
+========================== */
 
+.page.home{
+  position: relative;
+  overflow: hidden;
+}
+
+/* watermark image */
+.page.home::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    url("icon.png") center 55% / 380px 380px no-repeat;
+  opacity:0.08;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* keep buttons above watermark */
+.home-grid{
+  position: relative;
+  z-index:1;
+}
+
+/* Night mode adjustment */
+body.night .page.home::before{
+  opacity:0.12;
+}
     <!-- HELP stays full width -->
     <a href="help.html" class="home-btn home-btn-wide">
       <span>🆘</span>Help
