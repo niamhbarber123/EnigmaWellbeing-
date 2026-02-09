@@ -1,131 +1,88 @@
 (() => {
-  const KEY = "enigma_moods_v1";
-
-  const moodGrid = document.getElementById("moodGrid");
-  const selectedMoodEl = document.getElementById("selectedMood");
-  const notesEl = document.getElementById("moodNotes");
-
+  const KEY = "enigma_mood_entries_v1";
+  const chipsEl = document.getElementById("moodChips");
+  const textEl = document.getElementById("moodText");
   const saveBtn = document.getElementById("saveMood");
-  const viewBtn = document.getElementById("viewMoods");
-  const clearBtn = document.getElementById("clearMoods");
+  const clearBtn = document.getElementById("clearMood");
+  const listEl = document.getElementById("moodList");
 
-  const savedWrap = document.getElementById("savedWrap");
-  const savedList = document.getElementById("savedList");
+  if (!chipsEl || !textEl || !saveBtn || !clearBtn || !listEl) return;
 
-  const MOODS = [
-    { label: "Calm", emoji: "😌" },
-    { label: "Anxious", emoji: "😟" },
-    { label: "Low", emoji: "😔" },
-    { label: "Stressed", emoji: "😣" },
-    { label: "Overwhelmed", emoji: "😵‍💫" },
-    { label: "Angry", emoji: "😠" },
-    { label: "Tired", emoji: "😴" },
-    { label: "Good", emoji: "🙂" }
-  ];
+  const MOODS = ["Calm","Okay","Anxious","Low","Angry","Overwhelmed","Tired","Hopeful"];
 
-  let selectedMood = null;
+  let activeMood = "Okay";
 
-  function loadAll() {
+  function load(){
     try { return JSON.parse(localStorage.getItem(KEY)) || []; }
     catch { return []; }
   }
 
-  function saveAll(arr) {
-    localStorage.setItem(KEY, JSON.stringify(arr));
+  function save(arr){
+    try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch {}
   }
 
-  function fmtDate(iso) {
-    const dt = new Date(iso);
-    return dt.toLocaleString(undefined, {
-      day: "2-digit", month: "short", year: "numeric",
-      hour: "2-digit", minute: "2-digit"
-    });
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[c]));
   }
 
-  function renderMoodButtons() {
-    moodGrid.innerHTML = "";
+  function renderChips(){
+    chipsEl.innerHTML = "";
     MOODS.forEach(m => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "small-pill";
-      btn.style.justifyContent = "flex-start";
-      btn.style.gap = "10px";
-      btn.style.width = "100%";
-      btn.textContent = `${m.emoji} ${m.label}`;
-
-      btn.addEventListener("click", () => {
-        selectedMood = m;
-        selectedMoodEl.textContent = `${m.emoji} ${m.label}`;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip" + (m === activeMood ? " active" : "");
+      b.textContent = m;
+      b.addEventListener("click", () => {
+        activeMood = m;
+        renderChips();
       });
-
-      moodGrid.appendChild(btn);
+      chipsEl.appendChild(b);
     });
   }
 
-  function renderSaved() {
-    const items = loadAll();
-    if (!items.length) {
-      savedWrap.style.display = "none";
-      savedList.innerHTML = "";
+  function renderList(){
+    const arr = load().slice(-7).reverse();
+    if (!arr.length){
+      listEl.innerHTML = `<div class="gentle-text">No entries yet.</div>`;
       return;
     }
 
-    savedWrap.style.display = "block";
-    savedList.innerHTML = "";
-
-    items.slice().reverse().forEach(item => {
-      const row = document.createElement("div");
-      row.className = "card";
-      row.style.margin = "0";
-      row.style.padding = "14px 16px";
-
-      row.innerHTML = `
-        <div style="font-weight:900;font-size:16px;">${item.moodEmoji} ${item.moodLabel}</div>
-        <div style="margin-top:6px;font-weight:700;font-size:13px;color:var(--muted);">${fmtDate(item.createdAt)}</div>
-        ${item.notes ? `<div style="margin-top:10px;font-weight:650;font-size:15px;line-height:1.45;">${escapeHtml(item.notes)}</div>` : ""}
+    listEl.innerHTML = "";
+    arr.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.style.marginTop = "12px";
+      card.innerHTML = `
+        <div class="section-title">${esc(item.mood)} <span class="gentle-text" style="font-weight:800;">• ${esc(item.date)}</span></div>
+        <div class="gentle-text" style="margin-top:8px; white-space:pre-wrap;">${esc(item.text)}</div>
       `;
-
-      savedList.appendChild(row);
+      listEl.appendChild(card);
     });
   }
 
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, s => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-    }[s]));
+  function today(){
+    const d = new Date();
+    return `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`;
   }
 
   saveBtn.addEventListener("click", () => {
-    const notes = (notesEl.value || "").trim();
-    if (!selectedMood && !notes) return;
+    const txt = (textEl.value || "").trim();
+    if (!txt) return;
 
-    const entry = {
-      moodLabel: selectedMood ? selectedMood.label : "Unlabelled",
-      moodEmoji: selectedMood ? selectedMood.emoji : "📝",
-      notes,
-      createdAt: new Date().toISOString()
-    };
+    const arr = load();
+    arr.push({ mood: activeMood, text: txt, date: today(), ts: Date.now() });
+    save(arr);
 
-    const items = loadAll();
-    items.push(entry);
-    saveAll(items);
-
-    notesEl.value = "";
-    renderSaved();
-  });
-
-  viewBtn.addEventListener("click", () => {
-    renderSaved();
-    if (savedWrap.style.display !== "none") {
-      savedWrap.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    textEl.value = "";
+    renderList();
   });
 
   clearBtn.addEventListener("click", () => {
-    localStorage.removeItem(KEY);
-    renderSaved();
+    textEl.value = "";
   });
 
-  renderMoodButtons();
-  renderSaved();
+  renderChips();
+  renderList();
 })();
