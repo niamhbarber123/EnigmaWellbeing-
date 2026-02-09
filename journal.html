@@ -7,11 +7,12 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="./style.css?v=20260210fix3" />
+
+  <link rel="stylesheet" href="style.css?v=20260210-final" />
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
@@ -22,20 +23,26 @@
   <main class="page">
     <section class="card">
       <div class="section-title">New entry</div>
-      <div class="gentle-text">What’s on your mind right now? No judgement — just words.</div>
+      <div class="gentle-text" style="margin-top:6px;">
+        What’s on your mind right now? No judgement — just words.
+      </div>
 
-      <textarea id="entryText" rows="7" placeholder="Write here…"></textarea>
+      <textarea id="entryText" rows="7" placeholder="Write here…" style="margin-top:12px;"></textarea>
 
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-        <button id="saveEntry" class="small-pill" type="button">Save entry</button>
-        <button id="viewEntries" class="small-pill" type="button">View saved entries</button>
-        <button id="deleteEntries" class="small-pill" type="button" style="background:var(--dangerSoft);">Delete all entries</button>
+      <div class="row" style="margin-top:12px;">
+        <button id="saveEntry" class="btn primary" type="button">Save entry</button>
+        <button id="viewEntries" class="btn" type="button">View saved</button>
+      </div>
+
+      <div class="row" style="margin-top:12px;">
+        <button id="deleteEntries" class="btn danger" type="button">Delete all</button>
+        <button id="closeEntries" class="btn" type="button">Hide list</button>
       </div>
 
       <div class="gentle-text" style="margin-top:12px;">Saved entries stay on this device.</div>
     </section>
 
-    <section class="card" id="entriesWrap" style="display:none;">
+    <section class="card" id="entriesWrap" style="display:none; margin-top:14px;">
       <div class="section-title">Saved entries</div>
       <div id="entriesList" style="display:grid;gap:12px;margin-top:12px;"></div>
     </section>
@@ -44,14 +51,14 @@
   <nav class="bottom-nav">
     <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a class="active" href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
     <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="./app.js?v=20260210fix3" defer></script>
-  <script src="./journal.js?v=20260210fix3" defer></script>
+  <script src="app.js?v=20260210-final" defer></script>
+  <script src="journal.js?v=20260210-final" defer></script>
 </body>
 </html>
