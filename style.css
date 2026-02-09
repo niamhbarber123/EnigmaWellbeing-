@@ -1,255 +1,217 @@
-/* ---------- ROOT COLOURS ---------- */
+/* ===============================
+   ENIGMA WELLBEING — GLOBAL FIX
+   Applies to ALL pages
+================================ */
 
+/* --------- VARIABLES --------- */
 :root{
-  --primary:#6f6287;
-  --primary-soft:#8a7fa0;
-  --bg:#efedf3;
-  --card:#f6f5f9;
-  --text:#4d435e;
-  --shadow:0 8px 18px rgba(0,0,0,0.08);
+  --bg:#f6f3fb;
+  --card:#ffffffcc;
+  --border:rgba(120,110,150,.15);
+  --text:#2f2a3a;
+  --muted:#7a728a;
+  --accent:#6b5b86;
+  --accent-soft:rgba(107,91,134,.15);
+  --shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-
-/* ---------- BASE ---------- */
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+body.night{
+  --bg:#0f0f14;
+  --card:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.15);
+  --text:#ffffff;
+  --muted:rgba(255,255,255,.65);
+  --accent:#cbbcff;
+  --accent-soft:rgba(203,188,255,.18);
+  --shadow:0 20px 45px rgba(0,0,0,.45);
 }
 
-body{
+/* --------- RESET --------- */
+*{ box-sizing:border-box; }
+html,body{
   margin:0;
-  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+  padding:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
+a{ text-decoration:none; color:inherit; }
 
-
-/* ---------- PAGE WRAP + WATERMARK ---------- */
-
+/* --------- PAGE WRAP --------- */
 .page-wrap{
   min-height:100vh;
-  padding:20px 18px 110px;
+  padding:18px 18px 90px;
   position:relative;
   overflow-x:hidden;
 }
 
-/* Watermark */
-
+/* WATERMARK */
 .page-wrap::before{
   content:"";
-  position:fixed;
+  position:absolute;
   inset:0;
-  background:url("icon.png") center 55% no-repeat;
-  background-size:420px;
-  opacity:0.07;
+  background:url("icon.png") center 58% no-repeat;
+  background-size:600px;
+  opacity:.08;
   pointer-events:none;
-  z-index:0;
 }
 
-
-/* ---------- HEADERS ---------- */
-
+/* --------- HEADER --------- */
 .page-header{
   text-align:center;
-  margin-top:20px;
-  margin-bottom:25px;
-  position:relative;
-  z-index:2;
+  margin:10px 0 20px;
 }
-
 .page-header h1{
-  font-size:30px;
   margin:0;
-  color:var(--primary);
+  font-size:38px;
+  font-weight:900;
+  color:var(--accent);
 }
-
 .page-header p{
   margin-top:6px;
   font-size:15px;
-  opacity:.7;
+  font-weight:700;
+  color:var(--muted);
 }
 
-
-/* ---------- NIGHT MODE BUTTON ---------- */
-
+/* NIGHT BUTTON */
 .theme-toggle-top{
   position:fixed;
-  right:20px;
-  top:24px;
-  width:48px;
-  height:48px;
+  right:16px;
+  top:16px;
+  width:42px;
+  height:42px;
   border-radius:50%;
-  border:none;
-  background:white;
-  font-size:20px;
-  box-shadow:var(--shadow);
-  z-index:10;
-}
-
-
-/* ---------- CONTENT PAGE ---------- */
-
-.page{
-  max-width:420px;
-  margin:auto;
-  position:relative;
-  z-index:2;
-}
-
-
-/* ---------- CARD SECTIONS ---------- */
-
-.card{
+  border:1px solid var(--border);
   background:var(--card);
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:20px;
   box-shadow:var(--shadow);
+  font-size:18px;
+  z-index:99;
 }
 
-.section-title{
-  font-weight:700;
-  font-size:20px;
-  color:var(--primary);
-  margin-bottom:10px;
-}
-
-.gentle-text{
-  opacity:.7;
-  font-size:14px;
-}
-
-
-/* ---------- HOME BUTTON GRID ---------- */
-
-.home-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
-}
-
-
-/* ---------- HOME BUTTON ---------- */
-
-.home-btn{
-  background:white;
-  border-radius:26px;
-  padding:18px 10px;
-  text-decoration:none;
-  color:var(--text);
-  font-weight:600;
-  font-size:16px;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-
-  box-shadow:var(--shadow);
-  transition:.2s;
-}
-
-.home-btn:active{
-  transform:scale(.96);
-}
-
-
-/* ---------- LARGE HELP BUTTON ---------- */
-
-.home-btn.large{
-  grid-column:span 2;
-  justify-content:center;
-}
-
-
-/* ---------- BACK BUTTON ---------- */
-
+/* BACK BUTTON */
 .back-btn{
   position:absolute;
   left:0;
-  top:0;
-  border:none;
-  background:white;
-  width:44px;
-  height:44px;
+  top:4px;
+  width:42px;
+  height:42px;
   border-radius:50%;
-  font-size:18px;
+  border:1px solid var(--border);
+  background:var(--card);
+  box-shadow:var(--shadow);
+  font-size:20px;
+}
+
+/* --------- PAGE CONTAINER --------- */
+.page{
+  max-width:520px;
+  margin:0 auto;
+}
+
+/* --------- CARDS --------- */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:26px;
+  padding:18px;
+  margin-bottom:16px;
   box-shadow:var(--shadow);
 }
 
+/* --------- HOME GRID (FIXED) --------- */
+.home-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
 
-/* ---------- FILTER CHIPS ---------- */
-
-.chips{
+/* HOME BUTTONS */
+.home-pill{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:26px;
+  padding:16px;
   display:flex;
-  gap:8px;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  font-size:18px;
+  font-weight:900;
+  color:var(--accent);
+  box-shadow:var(--shadow);
+}
+
+/* FULL WIDTH BUTTON (HELP) */
+.home-pill.full{
+  grid-column:1 / -1;
+}
+
+/* --------- CHIPS --------- */
+.chip-row{
+  display:flex;
   flex-wrap:wrap;
+  gap:10px;
 }
-
 .chip{
-  padding:6px 12px;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:#fff;
+  font-weight:800;
+  color:var(--accent);
+}
+.chip.active{
+  background:var(--accent-soft);
+}
+
+/* --------- BUTTONS --------- */
+.btn-row{
+  display:flex;
+  gap:12px;
+}
+.btn{
+  flex:1;
+  padding:14px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:var(--accent-soft);
+  font-weight:900;
+  color:var(--accent);
+  box-shadow:var(--shadow);
+}
+
+/* --------- LIST ITEMS --------- */
+.list-item{
+  background:#fff;
+  border:1px solid var(--border);
   border-radius:20px;
-  background:#e7e4ee;
-  font-size:13px;
-}
-
-
-/* ---------- BUTTONS ---------- */
-
-button{
-  font-family:inherit;
-  cursor:pointer;
-}
-
-.primary-btn{
-  background:#d9d3e5;
-  border:none;
-  border-radius:18px;
   padding:14px;
-  font-weight:600;
+  margin-bottom:10px;
   box-shadow:var(--shadow);
 }
 
-.danger-btn{
-  background:#e7b1a1;
-  border:none;
-  border-radius:18px;
-  padding:14px;
-  font-weight:600;
-  box-shadow:var(--shadow);
-}
-
-
-/* ---------- NAV BAR ---------- */
-
+/* --------- BOTTOM NAV --------- */
 .bottom-nav{
   position:fixed;
-  bottom:0;
   left:0;
   right:0;
-  height:70px;
-  background:white;
+  bottom:0;
+  height:68px;
+  background:#fff;
   display:flex;
   justify-content:space-around;
   align-items:center;
-  box-shadow:0 -5px 15px rgba(0,0,0,.08);
-  z-index:20;
+  border-top:1px solid var(--border);
 }
-
 .bottom-nav a{
-  text-decoration:none;
   font-size:12px;
-  color:var(--text);
+  font-weight:800;
+  color:var(--muted);
   display:flex;
   flex-direction:column;
   align-items:center;
 }
-
-.bottom-nav .nav-ico{
-  font-size:20px;
-}
-
 .bottom-nav a.active{
-  color:var(--primary);
+  color:var(--accent);
 }
