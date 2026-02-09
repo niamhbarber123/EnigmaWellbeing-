@@ -15,7 +15,9 @@
   const resetBtn = document.getElementById("resetBtn");
   const completedPill = document.getElementById("completedPill");
 
-  if (!circle || !breathLabel || !timeEl || !modeSelect || !minutesSelect) return;
+  // If any core elements are missing, do nothing (prevents silent crashes)
+  const required = [circle, breathLabel, timeEl, topTitle, topHint, modeSelect, minutesSelect, startBtn, pauseBtn, resetBtn];
+  if (required.some(x => !x)) return;
 
   const INHALE_MS = 4000;
   const EXHALE_MS = 6000;
@@ -80,7 +82,7 @@
   }
 
   function startTicking(){
-    if (tickTimer) clearInterval(tickTimer);
+    clearInterval(tickTimer);
     tickTimer = setInterval(() => {
       if (!running || paused) return;
 
@@ -115,9 +117,9 @@
     mode = modeSelect.value;
     minutesField.style.display = (mode === "timer") ? "grid" : "none";
 
-    if (!running && !paused) {
+    if (!running) {
       topTitle.textContent = "Ready";
-      topHint.textContent = "Tap Start to begin.";
+      topHint.textContent = "Choose settings, then tap Start.";
       breathLabel.textContent = "Ready";
       setCompleted(false);
 
@@ -152,11 +154,12 @@
     }
 
     topHint.textContent = "Breathe with the circle.";
+    pauseBtn.textContent = "Pause";
     inhale();
     startTicking();
   }
 
-  function pause(){
+  function togglePause(){
     if (!running) return;
 
     paused = !paused;
@@ -185,11 +188,12 @@
     pausedAccum = 0;
     clearTimers();
     circle.classList.remove("inhale", "exhale");
+
     pauseBtn.textContent = "Pause";
     setCompleted(false);
 
     topTitle.textContent = "Ready";
-    topHint.textContent = "Tap Start to begin.";
+    topHint.textContent = "Choose settings, then tap Start.";
     breathLabel.textContent = "Ready";
 
     if (modeSelect.value === "timer") {
@@ -200,12 +204,15 @@
     }
   }
 
+  // Hook up buttons
+  startBtn.addEventListener("click", start);
+  pauseBtn.addEventListener("click", togglePause);
+  resetBtn.addEventListener("click", reset);
+
+  // Mode changes
   modeSelect.addEventListener("change", () => { if (!running) setModeUI(); });
   minutesSelect.addEventListener("change", () => { if (!running) setModeUI(); });
 
-  startBtn.addEventListener("click", start);
-  pauseBtn.addEventListener("click", pause);
-  resetBtn.addEventListener("click", reset);
-
+  // Initial UI
   setModeUI();
 })();
