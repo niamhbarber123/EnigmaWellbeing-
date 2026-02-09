@@ -47,13 +47,15 @@
     MOODS.forEach(m => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "mood-btn" + (selectedMood?.label === m.label ? " active" : "");
-      btn.innerHTML = `<span class="mood-emoji">${m.emoji}</span><span>${m.label}</span>`;
+      btn.className = "small-pill";
+      btn.style.justifyContent = "flex-start";
+      btn.style.gap = "10px";
+      btn.style.width = "100%";
+      btn.textContent = `${m.emoji} ${m.label}`;
 
       btn.addEventListener("click", () => {
         selectedMood = m;
         selectedMoodEl.textContent = `${m.emoji} ${m.label}`;
-        renderMoodButtons();
       });
 
       moodGrid.appendChild(btn);
@@ -73,28 +75,24 @@
 
     items.slice().reverse().forEach(item => {
       const row = document.createElement("div");
-      row.className = "saved-item";
+      row.className = "card";
+      row.style.margin = "0";
+      row.style.padding = "14px 16px";
 
-      const title = document.createElement("div");
-      title.className = "saved-title";
-      title.textContent = `${item.moodEmoji} ${item.moodLabel}`;
-
-      const meta = document.createElement("div");
-      meta.className = "saved-meta";
-      meta.textContent = fmtDate(item.createdAt);
-
-      row.appendChild(title);
-      row.appendChild(meta);
-
-      if (item.notes) {
-        const notes = document.createElement("div");
-        notes.className = "saved-notes";
-        notes.textContent = item.notes;
-        row.appendChild(notes);
-      }
+      row.innerHTML = `
+        <div style="font-weight:900;font-size:16px;">${item.moodEmoji} ${item.moodLabel}</div>
+        <div style="margin-top:6px;font-weight:700;font-size:13px;color:var(--muted);">${fmtDate(item.createdAt)}</div>
+        ${item.notes ? `<div style="margin-top:10px;font-weight:650;font-size:15px;line-height:1.45;">${escapeHtml(item.notes)}</div>` : ""}
+      `;
 
       savedList.appendChild(row);
     });
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[s]));
   }
 
   saveBtn.addEventListener("click", () => {
@@ -118,8 +116,9 @@
 
   viewBtn.addEventListener("click", () => {
     renderSaved();
-    if (savedWrap.style.display === "none") return;
-    savedWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (savedWrap.style.display !== "none") {
+      savedWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   });
 
   clearBtn.addEventListener("click", () => {
