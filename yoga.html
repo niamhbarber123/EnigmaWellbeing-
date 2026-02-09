@@ -4,34 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Yoga • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=100001" />
 </head>
 
 <body class="page-wrap">
-<button id="themeToggle" class="theme-btn">🌙</button>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-<header class="home-header">
-  <h1>Yoga</h1>
-  <p>Move gently</p>
-</header>
+  <header class="page-header">
+    <button class="back-btn" type="button" onclick="enigmaHome()">←</button>
+    <h1>Yoga</h1>
+    <p>Pick a mood and open a gentle flow</p>
+  </header>
 
-<main class="home-main">
-  <div class="home-grid" style="grid-template-columns:1fr;">
-    <a class="home-btn" href="https://www.youtube.com/results?search_query=gentle+yoga" target="_blank">Gentle yoga</a>
-    <a class="home-btn" href="https://www.youtube.com/results?search_query=yoga+for+anxiety" target="_blank">Yoga for anxiety</a>
-  </div>
-</main>
+  <main class="page">
+    <div class="card">
+      <div class="section-title">Mood</div>
+      <div id="yogaMoodRow" class="chip-row" style="margin-top:12px;"></div>
+    </div>
 
-<nav class="bottom-nav">
-  <a href="index.html">🏠</a>
-  <a href="breathe.html">🌬️</a>
-  <a href="journal.html">📖</a>
-  <a href="quotes.html">💬</a>
-  <a class="active" href="yoga.html">🧘‍♀️</a>
-  <a href="sounds.html">🎵</a>
-  <a href="progress.html">📈</a>
-</nav>
+    <div class="card">
+      <div class="section-title">Videos</div>
+      <div id="yogaList" class="music-list" style="margin-top:10px;"></div>
+      <div class="gentle-text">Links open in a new tab.</div>
+    </div>
+  </main>
 
-<script src="app.js"></script>
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a class="active" href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=100001" defer></script>
 </body>
 </html>
