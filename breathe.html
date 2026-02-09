@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="icon.png" />
 
   <!-- ✅ IMPORTANT: use ./ so GitHub Pages always finds it -->
-  <link rel="stylesheet" href="./style.css?v=20260210fix5" />
+  <link rel="stylesheet" href="./style.css?v=20260210fix6" />
 </head>
 
 <body class="page-wrap breathe-page no-scroll">
@@ -41,25 +41,29 @@
       <div class="gentle-text">Timer or stopwatch — your choice.</div>
 
       <div class="breathe-form">
-        <div class="form-row">
-          <div class="form-label">Mode</div>
-          <select id="modeSelect" class="select">
-            <option value="timer" selected>Timer</option>
-            <option value="stopwatch">Stopwatch</option>
-          </select>
-          <div class="mini-hint">Timer counts down. Stopwatch counts up.</div>
-        </div>
+        <!-- ✅ NEW: wrapper guarantees side-by-side -->
+        <div class="breathe-two-col">
+          <div class="form-row">
+            <div class="form-label">Mode</div>
+            <select id="modeSelect" class="select">
+              <option value="timer" selected>Timer</option>
+              <option value="stopwatch">Stopwatch</option>
+            </select>
+            <div class="mini-hint">Timer counts down.</div>
+          </div>
 
-        <div class="form-row" id="minutesField">
-          <div class="form-label">Timer length</div>
-          <select id="minutesSelect" class="select">
-            <option value="1" selected>1 minute</option>
-            <option value="2">2 minutes</option>
-            <option value="3">3 minutes</option>
-            <option value="5">5 minutes</option>
-            <option value="10">10 minutes</option>
-            <option value="15">15 minutes</option>
-          </select>
+          <div class="form-row" id="minutesField">
+            <div class="form-label">Timer length</div>
+            <select id="minutesSelect" class="select">
+              <option value="1" selected>1 minute</option>
+              <option value="2">2 minutes</option>
+              <option value="3">3 minutes</option>
+              <option value="5">5 minutes</option>
+              <option value="10">10 minutes</option>
+              <option value="15">15 minutes</option>
+            </select>
+            <div class="mini-hint">Choose minutes.</div>
+          </div>
         </div>
 
         <label class="vibration-row" for="vibrationToggle">
@@ -88,7 +92,7 @@
   </nav>
 
   <!-- ✅ IMPORTANT: use ./ so scripts load on GitHub Pages -->
-  <script src="./app.js?v=20260210fix5" defer></script>
-  <script src="./breathe.js?v=20260210fix5" defer></script>
+  <script src="./app.js?v=20260210fix6" defer></script>
+  <script src="./breathe.js?v=20260210fix6" defer></script>
 </body>
 </html>
