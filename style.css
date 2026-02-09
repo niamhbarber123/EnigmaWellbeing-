@@ -785,3 +785,52 @@ body.night .btn{
     grid-template-columns: 1fr;
   }
 }
+/* =========================
+   BREATHE — make the 2 dropdowns equal + nicer
+   ========================= */
+
+/* Two equal columns, tidy spacing */
+.breathe-page .breathe-two-col{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+/* Make each row behave as a clean vertical stack */
+.breathe-page .breathe-two-col .form-row{
+  display: grid;
+  gap: 8px;
+}
+
+/* Force selects to fill the full column width */
+.breathe-page .breathe-two-col .select{
+  width: 100% !important;
+  min-width: 0;                 /* stops weird overflow on iOS */
+}
+
+/* Keep labels neat and consistent */
+.breathe-page .breathe-two-col .form-label{
+  min-height: 18px;             /* keeps rows aligned */
+}
+
+/* Make the hint text sit nicely and not push layout around */
+.breathe-page .breathe-two-col .mini-hint{
+  margin-top: 2px;
+  line-height: 1.25;
+  word-break: normal;
+}
+
+/* If you want the "Timer length" label to NOT wrap, enable this: */
+/*
+.breathe-page .breathe-two-col .form-label{
+  white-space: nowrap;
+}
+*/
+
+/* Stack on very small screens */
+@media (max-width: 360px){
+  .breathe-page .breathe-two-col{
+    grid-template-columns: 1fr;
+  }
+}
