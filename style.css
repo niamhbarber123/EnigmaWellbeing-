@@ -602,6 +602,80 @@ body.night .fav-btn{
 .fav-btn.active{
   background: var(--accent-soft);
 }
+/* Books cards */
+.book-list{ margin-top: 10px; }
+
+.book-item{
+  display:block;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.65);
+  box-shadow: var(--shadow);
+  margin-bottom: 10px;
+}
+body.night .book-item{ background: rgba(255,255,255,0.08); }
+
+.book-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+}
+
+.book-title{
+  font-weight: 950;
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.book-meta{
+  color: var(--muted);
+  font-weight: 800;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.book-desc{
+  color: var(--muted);
+  font-weight: 700;
+  margin-top: 8px;
+  line-height: 1.35;
+}
+
+.book-actions{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  margin-top: 12px;
+}
+
+.book-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.70);
+  font-weight: 900;
+  color: var(--accent);
+}
+body.night .book-link{ background: rgba(255,255,255,0.10); }
+
+.fav-btn{
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.70);
+  box-shadow: var(--shadow);
+  font-size: 18px;
+  cursor: pointer;
+}
+body.night .fav-btn{ background: rgba(255,255,255,0.10); }
+.fav-btn.fav{ background: var(--accent-soft); }
 /* ==========================
    FIX: Night mode button contrast (Journal + all pages)
    - Ensures text is readable on light buttons in night mode
