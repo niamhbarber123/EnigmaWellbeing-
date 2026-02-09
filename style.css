@@ -119,28 +119,52 @@ a{
 }
 
 /* ---------- HOME BUTTONS (UNIFIED STYLE) ---------- */
+/* ==========================
+   HOME GRID — FIXED
+========================== */
+
+.home-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:16px;
+  max-width:520px;
+  margin:40px auto 0;
+  padding-bottom:120px;
+}
+
 .home-btn{
   display:flex;
   align-items:center;
   justify-content:center;
   gap:10px;
 
-  padding:16px 18px;
+  padding:16px 14px;
   border-radius:26px;
 
   background:var(--card-solid);
   border:1px solid var(--stroke);
   box-shadow:var(--shadow);
 
-  font-size:17px;
+  font-size:16px;
   font-weight:800;
+  color:var(--accent);
 
-  color:var(--accent); /* SAME AS HELP */
-  text-align:center;
+  text-decoration:none;
 }
 
 .home-btn span{
   font-size:20px;
+}
+
+/* Full-width HELP button */
+.home-btn-wide{
+  grid-column: span 2;
+  font-weight:900;
+}
+
+/* Tap feedback */
+.home-btn:active{
+  transform:scale(0.97);
 }
 
 /* ---------- WIDE BUTTON (HELP) ---------- */
