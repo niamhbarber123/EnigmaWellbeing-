@@ -1,7 +1,5 @@
 /* =========================
    ENIGMA WELLBEING — style.css (FULL)
-   Stable “base style” + watermark + nav + night mode
-   + Breathe (no-scroll, circle smaller, Ready at bottom)
    ========================= */
 
 :root{
@@ -28,6 +26,12 @@
 
   --wm-size: 520px;
   --wm-opacity: 0.14;
+
+  /* New: link/save/back colours */
+  --ink: #5b5376;         /* main Enigma heading ink */
+  --inkSoft: #6a6386;     /* subtle label ink */
+  --save: #7b6fae;        /* Enigma purple-grey */
+  --backInk: #5f5a78;     /* calmer back arrow */
 }
 
 body.night{
@@ -48,9 +52,13 @@ body.night{
   --shadow: 0 14px 34px rgba(0,0,0,0.50);
 
   --wm-opacity: 0.10;
+
+  --ink: rgba(255,255,255,0.92);
+  --inkSoft: rgba(255,255,255,0.72);
+  --save: #b8a8ff;
+  --backInk: rgba(255,255,255,0.88);
 }
 
-/* Reset */
 *{ box-sizing: border-box; }
 html, body{ height: 100%; }
 
@@ -105,6 +113,7 @@ a, a:visited, a:hover, a:active{
   font-size: 34px;
   font-weight: 850;
   letter-spacing: -0.4px;
+  color: var(--ink);
 }
 
 .page-header p{
@@ -134,6 +143,7 @@ a, a:visited, a:hover, a:active{
   left: calc(16px + env(safe-area-inset-left, 0px));
   font-size: 22px;
   font-weight: 900;
+  color: var(--backInk);
 }
 
 .theme-toggle-top{
@@ -144,7 +154,6 @@ body.night .theme-toggle-top,
 body.night .back-btn{
   background: rgba(26,24,38,0.72);
   border-color: rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.92);
 }
 
 /* Page container */
@@ -167,6 +176,7 @@ body.night .back-btn{
 .section-title{
   font-size: 20px;
   font-weight: 900;
+  color: var(--ink);
 }
 
 .gentle-text{
@@ -177,13 +187,14 @@ body.night .back-btn{
 
 /* Buttons */
 .small-pill{
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 999px;
   border: 1px solid rgba(120,110,160,0.16);
   background: rgba(255,255,255,0.74);
   font-size: 15px;
   font-weight: 850;
   cursor: pointer;
+  color: var(--ink);
 }
 
 .small-pill:active{ transform: scale(0.98); }
@@ -192,7 +203,8 @@ body.night .back-btn{
 
 /* Inputs/selects */
 textarea,
-.select{
+.select,
+.input{
   width: 100%;
   padding: 14px 16px;
   border-radius: 18px;
@@ -200,10 +212,12 @@ textarea,
   font-size: 16px;
   background: rgba(255,255,255,0.92);
   color: var(--text);
+  outline: none;
 }
 
 body.night textarea,
-body.night .select{
+body.night .select,
+body.night .input{
   background: rgba(26,24,38,0.75);
   color: rgba(255,255,255,0.95);
 }
@@ -230,7 +244,7 @@ body.night .select{
 .home-pill:active{ transform: scale(0.985); }
 
 .pill-ico{ font-size: 20px; opacity: 0.75; }
-.pill-text{ font-size: 17px; font-weight: 850; color: #5b5376; }
+.pill-text{ font-size: 17px; font-weight: 850; color: var(--ink); }
 
 /* Bottom nav */
 .bottom-nav{
@@ -272,7 +286,7 @@ body.night .bottom-nav a.active{
 
 .nav-ico{ font-size: 22px; }
 
-/* ---------- Resources link buttons ---------- */
+/* Link buttons (resources/help) */
 .link-btn{
   display: flex;
   align-items: center;
@@ -290,6 +304,7 @@ body.night .bottom-nav a.active{
 .link-btn .link-title{
   font-size: 17px;
   font-weight: 900;
+  color: var(--ink);
 }
 
 .link-btn .link-sub{
@@ -310,8 +325,127 @@ body.night .link-btn{
   border-color: rgba(255,255,255,0.12);
 }
 
+/* Quotes save (NOT blue, no underline) */
+.save-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  font-size: 15px;
+  color: var(--save);
+  cursor: pointer;
+}
+
+.save-link .heart{
+  font-size: 16px;
+}
+
+/* Quote tiles */
+.quote-tile{
+  padding: 18px;
+}
+
+.quote-text{
+  font-size: 17px;
+  line-height: 1.55;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.quote-author{
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 750;
+  color: var(--muted2);
+}
+
+.quote-actions{
+  margin-top: 14px;
+}
+
+/* Books tiles */
+.book-item{
+  padding: 16px 18px;
+}
+
+.book-title{
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.book-meta{
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted2);
+}
+
+.book-desc{
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.book-actions{
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.book-open{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.fav-btn{
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-size: 18px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--save);
+}
+
+/* Chips */
+.chip-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip{
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.chip.active{
+  background: var(--accentSoft);
+}
+
 /* =========================
-   BREATHE (NO-SCROLL + smaller circle + Ready at bottom)
+   BREATHE — viewport fit
    ========================= */
 
 .no-scroll{
@@ -327,57 +461,59 @@ body.night .link-btn{
   margin-bottom: 8px;
 }
 
-.breathe-fit{
+.breathe-viewport{
   height: calc(100vh - var(--navH) - var(--safeTop) - var(--safeBottom) - 120px);
-  display: grid;
-  grid-template-rows: 1fr auto;
-  gap: 14px;
-}
-
-.breathe-ready-card{
   display: flex;
   flex-direction: column;
-  padding-top: 16px;
+  gap: 14px;
+  margin-bottom: 0 !important;
+}
+
+.breathe-ready-card{ flex: 0 0 auto; }
+.breathe-session-card{ flex: 1 1 auto; }
+
+.breathe-session-scroll{
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   padding-bottom: 14px;
 }
 
 .breathe-ready-title{
   font-size: 22px;
   font-weight: 900;
+  color: var(--ink);
 }
 
 .breathe-ready-sub{
   font-size: 15px;
-  font-weight: 650;
+  font-weight: 750;
   color: var(--muted);
 }
 
 .breathe-circle-wrap{
-  flex: 1 1 auto;
   display: grid;
   place-items: center;
-  padding: 2px 0;
+  padding: 10px 0 2px;
 }
 
 .breath-circle{
-  width: 170px;
-  height: 170px;
+  width: 165px;
+  height: 165px;
   border-radius: 50%;
   background: #ffffff;
   box-shadow:
     0 14px 28px rgba(120,110,160,0.16),
     0 0 0 10px rgba(255,255,255,0.32);
-  transform: scale(0.86);
+  transform: scale(0.90);
 }
 
 .breath-circle.inhale{ animation: inhale 4s ease-in-out forwards; }
 .breath-circle.exhale{ animation: exhale 6s ease-in-out forwards; }
 
-@keyframes inhale{ from{ transform: scale(0.86);} to{ transform: scale(1.0);} }
-@keyframes exhale{ from{ transform: scale(1.0);} to{ transform: scale(0.86);} }
+@keyframes inhale{ from{ transform: scale(0.90);} to{ transform: scale(1.02);} }
+@keyframes exhale{ from{ transform: scale(1.02);} to{ transform: scale(0.90);} }
 
 .breathe-status{
-  margin-top: auto;
   text-align: center;
   padding-top: 6px;
 }
@@ -385,17 +521,13 @@ body.night .link-btn{
 .breath-label{
   font-size: 18px;
   font-weight: 900;
+  color: var(--ink);
 }
 
 .time-display{
   font-size: 14px;
-  font-weight: 750;
+  font-weight: 800;
   color: var(--muted);
-}
-
-.breathe-session-card{
-  padding-top: 16px;
-  padding-bottom: 14px;
 }
 
 .breathe-form{
@@ -404,15 +536,12 @@ body.night .link-btn{
   margin-top: 10px;
 }
 
-.form-row{
-  display: grid;
-  gap: 8px;
-}
+.form-row{ display: grid; gap: 8px; }
 
 .form-label{
   font-size: 14px;
-  font-weight: 850;
-  color: #6a6386;
+  font-weight: 900;
+  color: var(--inkSoft);
 }
 
 .mini-hint{
@@ -427,7 +556,7 @@ body.night .link-btn{
   gap: 12px;
   font-size: 16px;
   font-weight: 850;
-  color: #6a6386;
+  color: var(--inkSoft);
 }
 
 .breathe-controls{
@@ -437,49 +566,8 @@ body.night .link-btn{
   flex-wrap: wrap;
 }
 
-body.night .breath-circle{
-  background: rgba(255,255,255,0.14);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
-}
-
-body.night .breath-label{
-  color: rgba(255,255,255,0.88);
-}
-/* =========================
-   BREATHE — viewport fit fix
-   ========================= */
-
-/* This ensures the Breathe content area fits above the fixed nav */
-.breathe-viewport{
-  height: calc(100vh - var(--navH) - var(--safeTop) - var(--safeBottom) - 120px);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 0 !important;
-}
-
-/* Ready card stays compact */
-.breathe-ready-card{
-  flex: 0 0 auto;
-}
-
-/* Session card takes remaining height */
-.breathe-session-card{
-  flex: 1 1 auto;
-}
-
-/* Allow session to scroll INSIDE itself if content overflows */
-.breathe-session-scroll{
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 14px;
-}
-
-/* Slightly reduce circle if needed on smaller screens */
+/* Small screens */
 @media (max-height: 760px){
-  .breath-circle{
-    width: 155px;
-    height: 155px;
-  }
+  .breath-circle{ width: 150px; height: 150px; }
   .page-header h1{ font-size: 32px; }
 }
