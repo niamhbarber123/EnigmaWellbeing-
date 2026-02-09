@@ -1,7 +1,3 @@
-// =========================
-// Quotes demo logic (replace fetch/search with your own)
-// =========================
-
 const quotesList = document.getElementById("quotesList");
 const savedCountEl = document.getElementById("savedCount");
 const queryEl = document.getElementById("quoteQuery");
@@ -10,15 +6,11 @@ const searchBtn = document.getElementById("searchBtn");
 const randomBtn = document.getElementById("randomBtn");
 const deleteSavedBtn = document.getElementById("deleteSavedBtn");
 
-// Simple localStorage saved quotes
 const SAVED_KEY = "enigma_saved_quotes";
 
 function getSavedQuotes() {
-  try {
-    return JSON.parse(localStorage.getItem(SAVED_KEY)) || [];
-  } catch {
-    return [];
-  }
+  try { return JSON.parse(localStorage.getItem(SAVED_KEY)) || []; }
+  catch { return []; }
 }
 
 function setSavedQuotes(arr) {
@@ -32,7 +24,6 @@ function updateSavedCount() {
 
 updateSavedCount();
 
-// Demo quotes (swap to your real data)
 const DEMO_QUOTES = [
   { text: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe" },
   { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
@@ -64,8 +55,6 @@ function renderQuotes(quotes) {
 
     saveBtn.addEventListener("click", () => {
       const saved = getSavedQuotes();
-
-      // avoid duplicates
       const exists = saved.some(x => x.text === q.text && x.author === q.author);
       if (!exists) {
         saved.push(q);
@@ -82,29 +71,22 @@ function renderQuotes(quotes) {
   });
 }
 
-// Search: demo filtering
 searchBtn.addEventListener("click", () => {
   const q = (queryEl.value || "").trim().toLowerCase();
-  if (!q) {
-    renderQuotes(DEMO_QUOTES);
-    return;
-  }
+  if (!q) { renderQuotes(DEMO_QUOTES); return; }
   const filtered = DEMO_QUOTES.filter(item =>
     item.text.toLowerCase().includes(q) || item.author.toLowerCase().includes(q)
   );
   renderQuotes(filtered);
 });
 
-// Random: demo random pick
 randomBtn.addEventListener("click", () => {
   const random = DEMO_QUOTES[Math.floor(Math.random() * DEMO_QUOTES.length)];
   renderQuotes([random]);
 });
 
-// Delete saved
 deleteSavedBtn.addEventListener("click", () => {
   setSavedQuotes([]);
 });
 
-// initial render
 renderQuotes(DEMO_QUOTES);
