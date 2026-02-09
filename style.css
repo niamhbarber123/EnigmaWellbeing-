@@ -730,3 +730,27 @@ body.night .btn{
 .breathe-page .breathe-viewport{
   padding-bottom: calc(var(--navH) + 12px);
 }
+/* =========================
+   BREATHE — split controls into thirds
+   ========================= */
+
+/* Make the controls row a 3-column grid */
+.breathe-page .breathe-controls{
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* Ensure each button fills its column */
+.breathe-page .breathe-controls .small-pill{
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding: 14px 0;        /* slightly taller = easier tap */
+  font-size: 15px;
+}
+
+/* Completed pill spans full width if shown */
+.breathe-page #completedPill{
+  grid-column: 1 / -1;
+}
