@@ -36,7 +36,24 @@
     });
     if (paceMsg) paceMsg.textContent = paceLabel(pace);
   }
+const pills = document.querySelectorAll(".pill");
+const KEY = "enigma_breath_pace";
 
+const saved = localStorage.getItem(KEY) || "standard";
+setActive(saved);
+
+pills.forEach(pill => {
+  pill.addEventListener("click", () => {
+    localStorage.setItem(KEY, pill.dataset.pace);
+    setActive(pill.dataset.pace);
+  });
+});
+
+function setActive(pace) {
+  pills.forEach(p =>
+    p.classList.toggle("active", p.dataset.pace === pace)
+  );
+}
   paceButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const p = btn.getAttribute("data-pace") || "standard";
