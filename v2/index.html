@@ -7,19 +7,22 @@
 
   <style>
     :root{
-      --bg1:#f7f3ff;
-      --bg2:#efe9ff;
-      --card:#ffffffcc;
-      --card2:#ffffffd9;
-      --text:#3a3552;
-      --muted:#7a7390;
-      --shadow: 0 14px 40px rgba(58,53,82,.10);
-      --shadow2: 0 10px 22px rgba(58,53,82,.08);
-      --stroke: rgba(58,53,82,.08);
-      --lav:#cbb9ff;
-      --lav2:#b9a3ff;
-      --warm1:#ffe7dc;
-      --warm2:#ffd1bf;
+      --bgTop:#f7f5fb;
+      --bgMid:#f1eef9;
+      --bgBot:#fbfaff;
+
+      --card: rgba(255,255,255,.65);
+      --cardSoft: rgba(255,255,255,.55);
+
+      --text:#3b3750;
+      --muted:#827c96;
+
+      --stroke: rgba(59,55,80,.06);
+      --shadow: 0 8px 20px rgba(40,30,80,.05);
+
+      --lav: rgba(198,186,255,.45);
+      --warm: rgba(255,220,210,.45);
+
       --radius: 22px;
     }
 
@@ -29,17 +32,15 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
       background:
-        radial-gradient(1200px 800px at 30% 10%, #ffffff 0%, rgba(255,255,255,0) 55%),
-        radial-gradient(900px 700px at 80% 30%, #ffffff 0%, rgba(255,255,255,0) 60%),
-        linear-gradient(180deg, var(--bg2), var(--bg1));
+        radial-gradient(900px 700px at 20% 10%, rgba(255,255,255,.45), transparent 60%),
+        linear-gradient(180deg, var(--bgTop), var(--bgMid) 55%, var(--bgBot));
       min-height:100vh;
     }
 
-    /* page wrapper */
     .wrap{
-      max-width: 430px; /* iPhone-ish */
+      max-width: 430px;
       margin: 0 auto;
-      padding: 18px 16px 96px; /* bottom padding for nav */
+      padding: 18px 16px 96px;
     }
 
     /* header */
@@ -47,459 +48,261 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
-      margin-top: 6px;
-      margin-bottom: 6px;
     }
     .brand{
       text-align:center;
       flex:1;
     }
     .brand h1{
-      font-size: 34px;
-      line-height: 1.05;
-      letter-spacing: .2px;
-      margin: 10px 0 6px;
-      font-weight: 800;
+      font-size: 26px;
+      margin: 12px 0 6px;
+      font-weight: 650;
+      letter-spacing:.3px;
     }
     .brand p{
       margin:0;
-      color: var(--muted);
-      font-weight: 600;
+      font-size:14px;
+      color:var(--muted);
     }
 
     .moon-btn{
-      width:46px;
-      height:46px;
-      border-radius: 999px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.70);
-      box-shadow: var(--shadow2);
+      width:42px;height:42px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:var(--cardSoft);
+      box-shadow:var(--shadow);
       display:grid;
       place-items:center;
-      cursor:pointer;
-      user-select:none;
-    }
-    .moon{
-      font-size: 20px;
-      transform: translateY(-1px);
+      font-size:17px;
+      opacity:.8;
     }
 
     /* sections */
-    .section{
-      margin-top: 18px;
-    }
+    .section{ margin-top: 20px; }
     .section h2{
       margin: 0 0 10px;
-      font-size: 22px;
-      letter-spacing:.2px;
-      font-weight: 850;
+      font-size: 17px;
+      font-weight: 600;
+      color: rgba(59,55,80,.85);
     }
 
-    /* container card behind right now (like mock) */
     .panel{
       border-radius: var(--radius);
-      background: rgba(255,255,255,.55);
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow2);
-      padding: 14px;
+      background: var(--cardSoft);
+      border:1px solid var(--stroke);
+      padding:12px;
+      box-shadow:var(--shadow);
     }
 
-    /* big primary cards */
-    .big-card{
+    /* big calm cards */
+    .big{
       display:flex;
+      gap:14px;
       align-items:center;
-      justify-content:space-between;
-      gap: 14px;
-      width:100%;
-      border: 1px solid var(--stroke);
-      border-radius: 20px;
-      padding: 18px 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.70));
-      box-shadow: var(--shadow2);
+      padding:16px;
+      border-radius:20px;
+      background:var(--card);
+      border:1px solid var(--stroke);
       text-decoration:none;
       color:inherit;
-      transition: transform .08s ease, box-shadow .08s ease;
     }
-    .big-card:active{ transform: scale(.99); }
-    .big-card + .big-card{ margin-top: 12px; }
+    .big + .big{ margin-top:10px; }
 
     .big-icon{
-      width:54px;
-      height:54px;
-      border-radius: 18px;
+      width:44px;height:44px;
+      border-radius:16px;
       display:grid;
       place-items:center;
-      flex: 0 0 auto;
-      border: 1px solid rgba(255,255,255,.65);
-      box-shadow: 0 10px 20px rgba(0,0,0,.06);
-      overflow:hidden;
+      font-size:20px;
+      opacity:.85;
     }
-    .big-icon span{ font-size: 26px; }
+    .breathe .big-icon{ background:var(--lav); }
+    .calm .big-icon{ background:var(--warm); }
 
-    .big-text{
-      flex:1;
-      min-width:0;
+    .big h3{
+      margin:0 0 4px;
+      font-size:18px;
+      font-weight:600;
     }
-    .big-title{
-      font-weight: 900;
-      font-size: 26px;
-      line-height: 1.1;
-      margin:0 0 6px;
-      letter-spacing: .2px;
-    }
-    .big-sub{
+    .big p{
       margin:0;
-      color: var(--muted);
-      font-weight: 650;
-    }
-    .chev{
-      font-size: 22px;
-      color: rgba(58,53,82,.55);
-      padding-left: 6px;
+      font-size:14px;
+      color:var(--muted);
     }
 
-    /* specific styling for the two big cards */
-    .breathe .big-icon{
-      background: radial-gradient(circle at 30% 30%, #efe9ff, #d8ccff);
-    }
-    .calm{
-      background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,240,233,.74));
-      border-color: rgba(58,53,82,.06);
-    }
-    .calm .big-icon{
-      background: radial-gradient(circle at 30% 30%, var(--warm1), var(--warm2));
-    }
-
-    /* grid cards (Today / Explore) */
+    /* grids */
     .grid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
     }
 
     .mini{
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.70));
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow2);
-      padding: 14px 14px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:14px;
+      border-radius:18px;
+      background:var(--card);
+      border:1px solid var(--stroke);
       text-decoration:none;
       color:inherit;
-      min-height: 74px;
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      transition: transform .08s ease;
+      box-shadow:var(--shadow);
     }
-    .mini:active{ transform: scale(.99); }
 
-    .mini .ico{
-      width:42px;
-      height:42px;
-      border-radius: 14px;
-      display:grid;
-      place-items:center;
-      background: rgba(245,243,255,.85);
-      border: 1px solid rgba(58,53,82,.06);
-      flex: 0 0 auto;
+    .mini span{
+      font-size:18px;
+      opacity:.8;
     }
-    .mini .ico span{ font-size: 20px; }
 
-    .mini .txt{
-      min-width:0;
-    }
-    .mini .t{
+    .mini h4{
       margin:0;
-      font-weight: 850;
-      font-size: 18px;
-      line-height:1.1;
+      font-size:15px;
+      font-weight:600;
     }
-    .mini .s{
-      margin:6px 0 0;
-      color: var(--muted);
-      font-weight: 650;
-      font-size: 13px;
-      line-height:1.2;
+    .mini p{
+      margin:4px 0 0;
+      font-size:12px;
+      color:var(--muted);
     }
 
-    /* Your space panel */
-    .space{
-      margin-top: 14px;
-    }
-    .space-panel{
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.55);
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow2);
-      padding: 14px;
-    }
-    .space-row{
+    /* your space */
+    .row{
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      background: rgba(255,255,255,.65);
-      border: 1px solid var(--stroke);
-      border-radius: 18px;
-      padding: 10px 12px;
-      box-shadow: 0 8px 18px rgba(58,53,82,.06);
+      gap:8px;
+      padding:10px;
+      background:var(--cardSoft);
+      border-radius:18px;
+      border:1px solid var(--stroke);
     }
     .pill{
       flex:1;
+      text-align:center;
+      padding:10px 8px;
+      border-radius:14px;
       text-decoration:none;
-      color:inherit;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 10px;
-      border-radius: 14px;
-      transition: background .1s ease;
-      justify-content:center;
-      font-weight: 800;
-      color: rgba(58,53,82,.75);
+      color:var(--text);
+      font-size:14px;
+      font-weight:600;
     }
-    .pill:active{ background: rgba(245,243,255,.8); }
-    .pill span{ opacity:.9 }
 
-    /* SOS bar */
-    .sos{
-      margin-top: 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: linear-gradient(90deg, rgba(205,185,255,.75), rgba(185,163,255,.75));
-      border: 1px solid rgba(58,53,82,.08);
-      box-shadow: var(--shadow);
+    /* support bar */
+    .support{
+      margin-top:10px;
+      padding:12px;
+      border-radius:18px;
+      background:rgba(198,186,255,.35);
+      border:1px solid var(--stroke);
+      text-align:center;
       text-decoration:none;
-      color: #ffffff;
-      font-weight: 900;
-      letter-spacing:.2px;
-    }
-    .sos .badge{
-      background: rgba(255,74,74,.90);
-      color:#fff;
-      font-weight: 950;
-      border-radius: 12px;
-      padding: 6px 10px;
-      font-size: 13px;
-      box-shadow: 0 10px 20px rgba(0,0,0,.16);
-    }
-    .sos .arrow{
-      opacity:.95;
-      font-size: 20px;
+      color:var(--text);
+      font-weight:600;
+      box-shadow:var(--shadow);
     }
 
     /* bottom nav */
     .nav{
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(255,255,255,.82);
-      border-top: 1px solid var(--stroke);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 10px 10px 12px;
-      display:flex;
-      justify-content:center;
+      position:fixed;
+      bottom:0;left:0;right:0;
+      background:rgba(255,255,255,.8);
+      border-top:1px solid var(--stroke);
+      backdrop-filter:blur(10px);
+      padding:10px;
     }
-    .nav .inner{
-      width: min(430px, 100%);
+    .nav-inner{
+      max-width:430px;
+      margin:0 auto;
       display:flex;
       justify-content:space-between;
-      gap: 6px;
-      padding: 0 10px;
     }
     .nav a{
       flex:1;
+      text-align:center;
       text-decoration:none;
-      color: rgba(58,53,82,.72);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap: 4px;
-      padding: 8px 6px;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 12px;
+      color:rgba(59,55,80,.65);
+      font-size:11px;
+      font-weight:600;
     }
-    .nav a .n-ico{ font-size: 18px; }
     .nav a.active{
-      color: var(--text);
-      background: rgba(245,243,255,.9);
-      border: 1px solid rgba(58,53,82,.06);
-    }
-
-    /* small screens: keep comfortable */
-    @media (max-width: 360px){
-      .brand h1{ font-size: 30px; }
-      .big-title{ font-size: 24px; }
-      .grid{ gap: 10px; }
+      color:var(--text);
     }
   </style>
 </head>
 
 <body>
-  <main class="wrap">
+<main class="wrap">
 
-    <!-- Header -->
-    <div class="top">
-      <div style="width:46px;height:46px;"></div><!-- spacer to center title -->
-      <div class="brand">
-        <h1>Enigma Wellbeing</h1>
-        <p>Your calm space</p>
-      </div>
-      <button class="moon-btn" id="themeToggle" aria-label="Toggle theme">
-        <span class="moon">🌙</span>
-      </button>
+  <div class="top">
+    <div style="width:42px"></div>
+    <div class="brand">
+      <h1>Enigma Wellbeing</h1>
+      <p>Your calm space</p>
     </div>
+    <button class="moon-btn">🌙</button>
+  </div>
 
-    <!-- Right now -->
-    <section class="section">
-      <h2>Right now</h2>
-
-      <div class="panel">
-        <a class="big-card breathe" href="breathe.html">
-          <div class="big-icon"><span>🌬️</span></div>
-          <div class="big-text">
-            <p class="big-title">Breathe now</p>
-            <p class="big-sub">60 seconds to reset</p>
-          </div>
-          <div class="chev">›</div>
-        </a>
-
-        <a class="big-card calm" href="overwhelmed.html">
-          <div class="big-icon"><span>🤍</span></div>
-          <div class="big-text">
-            <p class="big-title">I need calm</p>
-            <p class="big-sub">Quick steps to feel safer</p>
-          </div>
-          <div class="chev">›</div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Today -->
-    <section class="section">
-      <h2>Today</h2>
-
-      <div class="grid">
-        <a class="mini" href="checkin.html">
-          <div class="ico"><span>🗒️</span></div>
-          <div class="txt">
-            <p class="t">Check in</p>
-            <p class="s">How are you, really?</p>
-          </div>
-        </a>
-
-        <a class="mini" href="journal.html">
-          <div class="ico"><span>📖</span></div>
-          <div class="txt">
-            <p class="t">Journal</p>
-            <p class="s">Write it out</p>
-          </div>
-        </a>
-
-        <a class="mini" href="word.html">
-          <div class="ico"><span>✨</span></div>
-          <div class="txt">
-            <p class="t">Daily word</p>
-            <p class="s">Learn more</p>
-          </div>
-        </a>
-
-        <a class="mini" href="quotes.html">
-          <div class="ico"><span>💬</span></div>
-          <div class="txt">
-            <p class="t">Kind words</p>
-            <p class="s">Gentle reminders</p>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Explore -->
-    <section class="section">
-      <h2>Explore</h2>
-
-      <div class="grid">
-        <a class="mini" href="yoga.html">
-          <div class="ico"><span>🧘</span></div>
-          <div class="txt">
-            <p class="t">Move gently</p>
-            <p class="s">Stretch & unwind</p>
-          </div>
-        </a>
-
-        <a class="mini" href="music.html">
-          <div class="ico"><span>🎵</span></div>
-          <div class="txt">
-            <p class="t">Listen</p>
-            <p class="s">Calming sounds</p>
-          </div>
-        </a>
-
-        <a class="mini" href="books.html">
-          <div class="ico"><span>📚</span></div>
-          <div class="txt">
-            <p class="t">Read</p>
-            <p class="s">Helpful ideas</p>
-          </div>
-        </a>
-
-        <a class="mini" href="distraction.html">
-          <div class="ico"><span>🧩</span></div>
-          <div class="txt">
-            <p class="t">Take a break</p>
-            <p class="s">Short resets</p>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Your space -->
-    <section class="section space">
-      <h2>Your space</h2>
-
-      <div class="space-panel">
-        <div class="space-row">
-          <a class="pill" href="progress.html"><span>📊</span> Progress</a>
-          <a class="pill" href="resources.html"><span>🧠</span> Support</a>
-          <a class="pill" href="settings.html"><span>⚙️</span> Settings</a>
+  <section class="section">
+    <h2>In this moment</h2>
+    <div class="panel">
+      <a class="big breathe" href="breathe.html">
+        <div class="big-icon">🌬️</div>
+        <div>
+          <h3>Breathe now</h3>
+          <p>One minute to settle</p>
         </div>
+      </a>
 
-        <a class="sos" href="help.html">
-          <span class="badge">SOS</span>
-          <span style="flex:1; text-align:center;">Get support now</span>
-          <span class="arrow">›</span>
-        </a>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Bottom nav -->
-  <nav class="nav" aria-label="Bottom navigation">
-    <div class="inner">
-      <a class="active" href="index.html"><span class="n-ico">🏠</span><span>Home</span></a>
-      <a href="breathe.html"><span class="n-ico">🌬️</span><span>Breathe</span></a>
-      <a href="checkin.html"><span class="n-ico">🗒️</span><span>Check-in</span></a>
-      <a href="progress.html"><span class="n-ico">📊</span><span>Progress</span></a>
-      <a href="settings.html"><span class="n-ico">⚙️</span><span>Settings</span></a>
+      <a class="big calm" href="overwhelmed.html">
+        <div class="big-icon">🤍</div>
+        <div>
+          <h3>I need calm</h3>
+          <p>Small steps, gently</p>
+        </div>
+      </a>
     </div>
-  </nav>
+  </section>
 
-  <script>
-    // Simple theme toggle (optional). Keeps your existing look unless you expand it.
-    const btn = document.getElementById('themeToggle');
-    btn?.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      // (If you later add a dark theme, you can store state in localStorage here.)
-    });
-  </script>
+  <section class="section">
+    <h2>Today</h2>
+    <div class="grid">
+      <a class="mini" href="checkin.html"><span>🗒️</span><div><h4>Check in</h4><p>How are you, really?</p></div></a>
+      <a class="mini" href="journal.html"><span>📖</span><div><h4>Journal</h4><p>Write freely</p></div></a>
+      <a class="mini" href="word.html"><span>✨</span><div><h4>Daily word</h4><p>A gentle focus</p></div></a>
+      <a class="mini" href="quotes.html"><span>💬</span><div><h4>Kind words</h4><p>Quiet encouragement</p></div></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Explore</h2>
+    <div class="grid">
+      <a class="mini" href="yoga.html"><span>🧘</span><div><h4>Move gently</h4><p>Stretch & unwind</p></div></a>
+      <a class="mini" href="music.html"><span>🎵</span><div><h4>Listen</h4><p>Calming sounds</p></div></a>
+      <a class="mini" href="books.html"><span>📚</span><div><h4>Read</h4><p>Helpful ideas</p></div></a>
+      <a class="mini" href="distraction.html"><span>🧩</span><div><h4>Take a break</h4><p>Gentle resets</p></div></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Your space</h2>
+    <div class="row">
+      <a class="pill" href="progress.html">Progress</a>
+      <a class="pill" href="resources.html">Support</a>
+      <a class="pill" href="settings.html">Settings</a>
+    </div>
+    <a class="support" href="help.html">Support now</a>
+  </section>
+
+</main>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="active" href="index.html">Home</a>
+    <a href="breathe.html">Breathe</a>
+    <a href="checkin.html">Check-in</a>
+    <a href="progress.html">Progress</a>
+    <a href="settings.html">Settings</a>
+  </div>
+</nav>
+
 </body>
 </html>
