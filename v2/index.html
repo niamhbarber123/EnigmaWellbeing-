@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Enigma Wellbeing</title>
+  <title>Enigma Wellbeing • Home</title>
 
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210-v2-homefix" />
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=2.0.0-homefix" />
 </head>
 
 <body class="page-wrap home-page">
-  <!-- Night mode (top-right) -->
+  <!-- Night mode -->
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="home-header">
@@ -19,133 +19,129 @@
     <p>Your calm space</p>
   </header>
 
-  <main class="home-main">
-    <!-- Right now -->
+  <main class="home">
+    <!-- RIGHT NOW -->
     <section class="home-section">
       <div class="home-section-title">Right now</div>
 
-      <a class="hero-tile hero-breathe" href="breathe.html" aria-label="Breathe now">
-        <div class="hero-left">
-          <div class="hero-ico">🌬️</div>
-        </div>
-        <div class="hero-mid">
+      <a class="home-hero" href="breathe.html" aria-label="Breathe now">
+        <div class="hero-ico">🌬️</div>
+        <div class="hero-text">
           <div class="hero-title">Breathe now</div>
-          <div class="hero-sub">60 seconds to reset</div>
         </div>
-        <div class="hero-right">›</div>
+        <div class="hero-arrow">›</div>
       </a>
 
-      <a class="hero-tile hero-calm" href="overwhelmed.html" aria-label="I need calm">
-        <div class="hero-left">
-          <div class="hero-ico">🫶</div>
-        </div>
-        <div class="hero-mid">
+      <a class="home-hero warm" href="overwhelmed.html" aria-label="I need calm">
+        <div class="hero-ico">🫶</div>
+        <div class="hero-text">
           <div class="hero-title">I need calm</div>
-          <div class="hero-sub">Quick steps to feel safer</div>
         </div>
-        <div class="hero-right">›</div>
+        <div class="hero-arrow">›</div>
       </a>
     </section>
 
-    <!-- Today -->
+    <!-- TODAY -->
     <section class="home-section">
       <div class="home-section-title">Today</div>
 
-      <div class="tile-grid">
-        <a class="tile" href="checkin.html">
+      <div class="home-grid">
+        <a class="home-tile" href="checkin.html" aria-label="Check in">
           <div class="tile-ico">📝</div>
-          <div class="tile-text">
-            <div class="tile-title">Check in</div>
-            <div class="tile-sub">How are you, really?</div>
-          </div>
+          <div class="tile-title">Check in</div>
+          <div class="tile-arrow">›</div>
         </a>
 
-        <a class="tile" href="journal.html">
+        <a class="home-tile" href="journal.html" aria-label="Journal">
           <div class="tile-ico">📖</div>
-          <div class="tile-text">
-            <div class="tile-title">Journal</div>
-            <div class="tile-sub">A quiet space to write</div>
-          </div>
+          <div class="tile-title">Journal</div>
+          <div class="tile-arrow">›</div>
         </a>
 
-        <a class="tile" href="word.html">
+        <a class="home-tile" href="word.html" aria-label="Daily word">
           <div class="tile-ico">✨</div>
-          <div class="tile-text">
-            <div class="tile-title">Daily word</div>
-            <div class="tile-sub">Learn more</div>
-          </div>
+          <div class="tile-title">Daily word</div>
+          <div class="tile-arrow">›</div>
         </a>
 
-        <a class="tile" href="quotes.html">
+        <a class="home-tile" href="quotes.html" aria-label="Kind words">
           <div class="tile-ico">💬</div>
-          <div class="tile-text">
-            <div class="tile-title">Kind words</div>
-            <div class="tile-sub">Share your emotion</div>
-          </div>
+          <div class="tile-title">Kind words</div>
+          <div class="tile-arrow">›</div>
         </a>
       </div>
     </section>
 
-    <!-- Explore -->
+    <!-- EXPLORE -->
     <section class="home-section">
       <div class="home-section-title">Explore</div>
 
-      <div class="tile-grid">
-        <a class="tile" href="yoga.html">
+      <div class="home-grid">
+        <a class="home-tile" href="yoga.html" aria-label="Move gently">
           <div class="tile-ico">🧘‍♀️</div>
-          <div class="tile-text">
-            <div class="tile-title">Move gently</div>
-            <div class="tile-sub">Soft movement</div>
-          </div>
+          <div class="tile-title">Move gently</div>
+          <div class="tile-arrow">›</div>
         </a>
 
-        <a class="tile" href="sounds.html">
+        <a class="home-tile" href="sounds.html" aria-label="Listen">
           <div class="tile-ico">🎵</div>
-          <div class="tile-text">
-            <div class="tile-title">Listen</div>
-            <div class="tile-sub">Calming tracks</div>
-          </div>
+          <div class="tile-title">Listen</div>
+          <div class="tile-arrow">›</div>
         </a>
 
-        <a class="tile" href="books.html">
+        <a class="home-tile" href="books.html" aria-label="Read">
           <div class="tile-ico">📚</div>
-          <div class="tile-text">
-            <div class="tile-title">Read</div>
-            <div class="tile-sub">Recommendations</div>
-          </div>
+          <div class="tile-title">Read</div>
+          <div class="tile-arrow">›</div>
         </a>
 
-        <a class="tile" href="distraction.html">
+        <a class="home-tile" href="distraction.html" aria-label="Take a break">
           <div class="tile-ico">🧩</div>
-          <div class="tile-text">
-            <div class="tile-title">Take a break</div>
-            <div class="tile-sub">Interrupt a spiral</div>
-          </div>
+          <div class="tile-title">Take a break</div>
+          <div class="tile-arrow">›</div>
         </a>
       </div>
     </section>
 
-    <!-- Your space -->
-    <section class="home-section your-space">
-      <div class="home-section-title">Your space</div>
+    <!-- YOUR SPACE -->
+    <section class="home-section">
+      <div class="home-space card">
+        <div class="home-space-title">Your space</div>
 
-      <!-- These MUST be equal thirds -->
-      <div class="mini-tabs">
-        <a class="mini-tab" href="progress.html">📊&nbsp; Progress</a>
-        <a class="mini-tab" href="resources.html">🧠&nbsp; Support &amp; resources</a>
-        <a class="mini-tab" href="settings.html">⚙️&nbsp; Settings</a>
+        <div class="space-row">
+          <a class="space-btn" href="progress.html" aria-label="Progress">📊 <span>Progress</span></a>
+          <a class="space-btn" href="resources.html" aria-label="Resources">🧠 <span>Resources</span></a>
+          <a class="space-btn" href="settings.html" aria-label="Settings">⚙️ <span>Settings</span></a>
+        </div>
+
+        <a class="help-bar" href="help.html" aria-label="Get help now">
+          <span class="help-badge">HELP</span>
+          <span class="help-text">Get support now</span>
+          <span class="help-arrow">›</span>
+        </a>
       </div>
-
-      <a class="sos-btn" href="help.html" aria-label="Get support now">
-        <span class="sos-pill">SOS</span>
-        <span class="sos-text">Get support now</span>
-        <span class="sos-arrow">›</span>
-      </a>
     </section>
   </main>
 
-  <script src="app.js?v=20260210-v2-homefix" defer></script>
+  <!-- Bottom nav (equal sized) -->
+  <nav class="tabbar" aria-label="Primary">
+    <a class="tab active" href="index.html" aria-label="Home">
+      <div class="tab-ico">🏠</div><div class="tab-txt">Home</div>
+    </a>
+    <a class="tab" href="breathe.html" aria-label="Breathe">
+      <div class="tab-ico">🌬️</div><div class="tab-txt">Breathe</div>
+    </a>
+    <a class="tab" href="checkin.html" aria-label="Check in">
+      <div class="tab-ico">📝</div><div class="tab-txt">Check in</div>
+    </a>
+    <a class="tab" href="progress.html" aria-label="Progress">
+      <div class="tab-ico">📈</div><div class="tab-txt">Progress</div>
+    </a>
+    <a class="tab" href="settings.html" aria-label="Settings">
+      <div class="tab-ico">⚙️</div><div class="tab-txt">Settings</div>
+    </a>
+  </nav>
 
-  <!-- IMPORTANT: nav removed on purpose -->
+  <script src="app.js?v=2.0.0-homefix" defer></script>
 </body>
 </html>
