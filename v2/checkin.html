@@ -3,69 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily Check-in</title>
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/Enigma-/apple-touch-icon.png">
-  <link rel="apple-touch-icon-precomposed" href="/Enigma-/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/Enigma-/icon.png">
-  <link rel="manifest" href="/Enigma-/manifest.json">
-  <meta name="apple-mobile-web-app-title" content="Enigma">
-  <meta name="application-name" content="Enigma">
-  <meta name="theme-color" content="#b8a6d9">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <link rel="stylesheet" href="/Enigma-/style.css?v=200">
-  <style>
-    .mood-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
-    .mood-btn{
-      padding:16px;
-      border:none;
-      border-radius:20px;
-      background: rgba(239,233,248,0.92);
-      box-shadow: var(--shadow);
-      font-weight:800;
-      color:#5a4b7a;
-      font-size:16px;
-    }
-    .mood-btn.active{ outline:3px solid rgba(184,166,217,0.7); }
-  </style>
+  <title>Check in • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="page-wrap">
+  <a class="back-btn" href="index.html">←</a>
+  <button class="theme-toggle-top" id="themeFab">🌙</button>
 
   <header class="page-header">
-    <h1>Daily check-in</h1>
-    <p>How are you feeling?</p>
+    <h1>Check in</h1>
+    <p>How are you feeling right now?</p>
   </header>
 
-  <main class="page">
+  <main>
     <div class="card">
-      <div class="mood-grid">
-        <button class="mood-btn" onclick="pickMood(this,'calm')">😌 Calm</button>
-        <button class="mood-btn" onclick="pickMood(this,'okay')">🙂 Okay</button>
-        <button class="mood-btn" onclick="pickMood(this,'low')">😔 Low</button>
-        <button class="mood-btn" onclick="pickMood(this,'anxious')">😟 Anxious</button>
+      <div style="display:grid;gap:12px;">
+        <button class="pill">😆 Excited</button>
+        <button class="pill">😁 Happy</button>
+        <button class="pill">😊 Okay</button>
+        <button class="pill">😔 Low</button>
+        <button class="pill">😰 Anxious</button>
+        <button class="pill">🤯 Overwhelmed</button>
+        <button class="pill">😡 Angry</button>
       </div>
-    </div>
 
-    <div class="card">
-      <textarea id="checkinNote" placeholder="Anything you'd like to note? (optional)"></textarea>
-      <button class="primary" onclick="saveCheckin()">Save check-in</button>
-      <div class="gentle-text" id="checkinSavedMsg"></div>
+      <textarea
+        placeholder="Anything you want to note?"
+        rows="4"
+        style="margin-top:16px;"
+      ></textarea>
+
+      <button class="pill" style="margin-top:16px;">
+        Save check-in
+      </button>
     </div>
   </main>
 
-  <nav class="bottom-nav">
-    <a href="/Enigma-/index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="/Enigma-/breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="/Enigma-/journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a class="active" href="/Enigma-/checkin.html"><div class="nav-ico">🌿</div><span>Check-in</span></a>
-    <a href="/Enigma-/progress.html"><div class="nav-ico">📊</div><span>Progress</span></a>
-    <a href="/Enigma-/help.html"><div class="nav-ico">🆘</div><span>Help</span></a>
-
-    <button id="themeFab" class="theme-fab" onclick="toggleTheme()" aria-label="Toggle night mode">🌙</button>
-  </nav>
-
-  <script src="/Enigma-/app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
