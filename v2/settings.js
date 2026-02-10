@@ -1,55 +1,56 @@
 (() => {
-  const KEY = "enigma_settings_v1";
-  const paceRow = document.getElementById("paceRow");
-  const paceStatus = document.getElementById("paceStatus");
+  const paceButtons = Array.from(document.querySelectorAll("[data-pace]"));
+  const paceMsg = document.getElementById("paceMsg");
   const reduceMotionEl = document.getElementById("reduceMotion");
-  if (!paceRow || !paceStatus || !reduceMotionEl) return;
 
-  function load() {
-    try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
-    catch { return {}; }
+  const PACE_KEY = "enigma_breathe_pace_v2";          // slow | standard | fast
+  const MOTION_KEY = "enigma_reduce_motion_v2";       // "1" or "0"
+
+  function getPace(){
+    try { return localStorage.getItem(PACE_KEY) || "standard"; }
+    catch { return "standard"; }
   }
-  function save(obj) {
-    localStorage.setItem(KEY, JSON.stringify(obj));
+  function setPace(v){
+    try { localStorage.setItem(PACE_KEY, v); } catch {}
   }
 
-  const options = [
-    { id: "slow", label: "🐢 Slow" },
-    { id: "standard", label: "😌 Standard" },
-    { id: "fast", label: "⚡ Fast" }
-  ];
+  function getReduce(){
+    try { return (localStorage.getItem(MOTION_KEY) || "0") === "1"; }
+    catch { return false; }
+  }
+  function setReduce(on){
+    try { localStorage.setItem(MOTION_KEY, on ? "1" : "0"); } catch {}
+  }
 
-  let s = load();
-  let current = s.breathePace || "standard";
+  function paceLabel(p){
+    if (p === "slow") return "Slow pace selected.";
+    if (p === "fast") return "Fast pace selected.";
+    return "Standard pace selected.";
+  }
 
-  function render() {
-    paceRow.innerHTML = "";
-    options.forEach(o => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "chip" + (o.id === current ? " active" : "");
-      b.textContent = o.label;
-      b.addEventListener("click", () => {
-        current = o.id;
-        s.breathePace = current;
-        save(s);
-        render();
-      });
-      paceRow.appendChild(b);
+  function renderPace(){
+    const pace = getPace();
+    paceButtons.forEach(b => {
+      const isActive = b.getAttribute("data-pace") === pace;
+      b.classList.toggle("active", isActive);
     });
-
-    paceStatus.textContent =
-      current === "slow" ? "Slow pace selected." :
-      current === "fast" ? "Fast pace selected." :
-      "Standard pace selected.";
-
-    reduceMotionEl.checked = !!s.reduceMotion;
+    if (paceMsg) paceMsg.textContent = paceLabel(pace);
   }
 
-  reduceMotionEl.addEventListener("change", () => {
-    s.reduceMotion = !!reduceMotionEl.checked;
-    save(s);
+  paceButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const p = btn.getAttribute("data-pace") || "standard";
+      setPace(p);
+      renderPace();
+    });
   });
 
-  render();
+  if (reduceMotionEl){
+    reduceMotionEl.checked = getReduce();
+    reduceMotionEl.addEventListener("change", () => {
+      setReduce(reduceMotionEl.checked);
+    });
+  }
+
+  renderPace();
 })();
