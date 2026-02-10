@@ -1,46 +1,82 @@
 const circle = document.getElementById("circle");
-const text = document.getElementById("breatheText");
+const phaseText = document.getElementById("phase");
+const clock = document.getElementById("clock");
 
-const startBtn = document.getElementById("startBtn");
-const pauseBtn = document.getElementById("pauseBtn");
-const resetBtn = document.getElementById("resetBtn");
+const modeSelect = document.getElementById("mode");
+const lengthSelect = document.getElementById("length");
 
-let interval;
-let phase = 0;
+const startBtn = document.getElementById("start");
+const pauseBtn = document.getElementById("pause");
+const resetBtn = document.getElementById("reset");
+
+let timer;
 let running = false;
+let timeLeft = 60;
+let elapsed = 0;
 
-const phases = [
-  { label: "Inhale", scale: 1.2, duration: 4000 },
-  { label: "Hold", scale: 1.2, duration: 2000 },
-  { label: "Exhale", scale: 1.0, duration: 4000 }
-];
+const pace = localStorage.getItem("enigma_breath_pace") || "standard";
 
-function runCycle() {
-  const current = phases[phase];
-  text.textContent = current.label;
-  circle.style.transform = `scale(${current.scale})`;
+const timings = {
+  slow: [5, 3, 5],
+  standard: [4, 2, 4],
+  fast: [3, 1, 3]
+};
 
-  phase = (phase + 1) % phases.length;
+let [inhale, hold, exhale] = timings[pace];
 
-  interval = setTimeout(runCycle, current.duration);
+function updateClock() {
+  const t =
+    modeSelect.value === "timer" ? timeLeft : elapsed;
+  const m = Math.floor(t / 60);
+  const s = String(t % 60).padStart(2, "0");
+  clock.textContent = `${m}:${s}`;
 }
 
-startBtn.addEventListener("click", () => {
+function cycleBreath() {
+  phaseText.textContent = "Inhale";
+  circle.classList.add("expand");
+
+  setTimeout(() => {
+    phaseText.textContent = "Hold";
+  }, inhale * 1000);
+
+  setTimeout(() => {
+    phaseText.textContent = "Exhale";
+    circle.classList.remove("expand");
+  }, (inhale + hold) * 1000);
+}
+
+startBtn.onclick = () => {
   if (running) return;
   running = true;
-  phase = 0;
-  runCycle();
-});
 
-pauseBtn.addEventListener("click", () => {
-  running = false;
-  clearTimeout(interval);
-  text.textContent = "Paused";
-});
+  timeLeft = Number(lengthSelect.value);
+  elapsed = 0;
+  updateClock();
 
-resetBtn.addEventListener("click", () => {
+  cycleBreath();
+  setInterval(cycleBreath, (inhale + hold + exhale) * 1000);
+
+  timer = setInterval(() => {
+    if (modeSelect.value === "timer") {
+      timeLeft--;
+      if (timeLeft <= 0) resetBtn.click();
+    } else {
+      elapsed++;
+    }
+    updateClock();
+  }, 1000);
+};
+
+pauseBtn.onclick = () => {
+  clearInterval(timer);
   running = false;
-  clearTimeout(interval);
-  text.textContent = "Ready";
-  circle.style.transform = "scale(1)";
-});
+};
+
+resetBtn.onclick = () => {
+  clearInterval(timer);
+  running = false;
+  phaseText.textContent = "Ready";
+  circle.classList.remove("expand");
+  updateClock();
+};
