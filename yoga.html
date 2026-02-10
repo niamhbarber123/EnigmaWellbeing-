@@ -7,11 +7,11 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="./style.css?v=20260210fix3" />
+  <link rel="stylesheet" href="style.css?v=20260210fixY" />
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
@@ -22,15 +22,13 @@
   <main class="page">
     <section class="card">
       <div class="section-title">Mood</div>
-      <div class="chip-row" id="yogaChips" style="margin-top:12px;"></div>
+      <div class="chip-row" id="yogaChips"></div>
     </section>
 
     <section class="card" style="margin-top:14px;">
       <div class="section-title">Videos</div>
       <div class="gentle-text" style="margin-top:6px;">Links open in a new tab.</div>
-
-      <!-- ✅ each link becomes its own Enigma button tile -->
-      <div id="yogaList"></div>
+      <div class="list" id="yogaList"></div>
     </section>
   </main>
 
@@ -39,12 +37,12 @@
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a class="active" href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
     <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="./app.js?v=20260210fix3" defer></script>
-  <script src="./yoga.js?v=20260210fix3" defer></script>
+  <script src="app.js?v=20260210fixY" defer></script>
+  <script src="yoga.js?v=20260210fixY" defer></script>
 </body>
 </html>
