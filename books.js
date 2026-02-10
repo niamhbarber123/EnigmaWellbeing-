@@ -2,6 +2,7 @@
   const FAV_KEY = "enigma_book_favs_v1";
   const chipsEl = document.getElementById("genreChips");
   const listEl  = document.getElementById("booksList");
+  if (!chipsEl || !listEl) return;
 
   const BOOKS = [
     { id:"dare", title:"DARE", author:"Barry McDonagh", genre:"Anxiety", desc:"Practical method for panic and anxious spirals.", url:"https://www.goodreads.com/book/show/22425641-dare" },
@@ -21,7 +22,6 @@
 
     { id:"dbtskills", title:"The Dialectical Behavior Therapy Skills Workbook", author:"McKay, Wood & Brantley", genre:"BPD", desc:"DBT skills: mindfulness, distress tolerance, emotion regulation, relationships.", url:"https://www.goodreads.com/book/show/369266.The_Dialectical_Behavior_Therapy_Skills_Workbook" },
     { id:"ihy-dlm", title:"I Hate You—Don’t Leave Me", author:"Kreisman & Straus", genre:"BPD", desc:"Understanding BPD patterns with compassionate explanations.", url:"https://www.goodreads.com/book/show/145391.I_Hate_You_Don_t_Leave_Me" },
-    { id:"buddha-borderline", title:"The Buddha and the Borderline", author:"Kiera Van Gelder", genre:"BPD", desc:"Memoir with recovery themes (relatable + hopeful).", url:"https://www.goodreads.com/book/show/18693766-the-buddha-and-the-borderline" },
     { id:"linehan-handouts", title:"DBT Skills Training Handouts and Worksheets", author:"Marsha M. Linehan", genre:"BPD", desc:"Core DBT handouts/worksheets used widely in services.", url:"https://www.goodreads.com/book/show/121091.DBT_Skills_Training_Handouts_and_Worksheets" },
 
     { id:"atomic", title:"Atomic Habits", author:"James Clear", genre:"Wellbeing", desc:"Small habits that compound into big change (easy + motivating).", url:"https://www.goodreads.com/book/show/40121378-atomic-habits" },
@@ -30,19 +30,18 @@
 
   const ALL_GENRES = Array.from(new Set(BOOKS.map(b => b.genre))).sort((a,b)=>a.localeCompare(b));
   const GENRES = ["All", "★ Favourites", ...ALL_GENRES];
-
-  function loadFavs() {
-    try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }
-    catch { return []; }
-  }
-
-  function saveFavs(ids) {
-    localStorage.setItem(FAV_KEY, JSON.stringify(ids));
-  }
-
   let activeGenre = "All";
 
-  function renderChips() {
+  function loadFavs(){ try { return JSON.parse(localStorage.getItem(FAV_KEY)) || []; } catch { return []; } }
+  function saveFavs(ids){ try { localStorage.setItem(FAV_KEY, JSON.stringify(ids)); } catch {} }
+
+  function esc(str){
+    return String(str).replace(/[&<>"']/g, s => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[s]));
+  }
+
+  function renderChips(){
     chipsEl.innerHTML = "";
     GENRES.forEach(g => {
       const btn = document.createElement("button");
@@ -58,28 +57,22 @@
     });
   }
 
-  function matches(book, favIds) {
+  function matches(book, favIds){
     if (activeGenre === "All") return true;
     if (activeGenre === "★ Favourites") return favIds.includes(book.id);
     return book.genre === activeGenre;
   }
 
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, s => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-    }[s]));
-  }
-
-  function renderList() {
+  function renderList(){
     const favIds = loadFavs();
     const filtered = BOOKS.filter(b => matches(b, favIds));
+    listEl.innerHTML = "";
 
-    if (!filtered.length) {
-      listEl.innerHTML = `<div class="gentle-text" style="margin-top:12px;">No books found for this filter.</div>`;
+    if (!filtered.length){
+      listEl.innerHTML = `<div class="gentle-text">No books found for this filter.</div>`;
       return;
     }
 
-    listEl.innerHTML = "";
     filtered.forEach(book => {
       const isFav = favIds.includes(book.id);
 
@@ -89,27 +82,25 @@
       card.innerHTML = `
         <div class="book-top">
           <div>
-            <div class="book-title">${escapeHtml(book.title)}</div>
-            <div class="book-meta">${escapeHtml(book.author)} • ${escapeHtml(book.genre)}</div>
-            <div class="book-desc">${escapeHtml(book.desc)}</div>
+            <div class="book-title">${esc(book.title)}</div>
+            <div class="book-meta">${esc(book.author)} • ${esc(book.genre)}</div>
+            <div class="book-desc">${esc(book.desc)}</div>
           </div>
-
-          <button class="fav-btn ${isFav ? "fav" : ""}" type="button" aria-label="${isFav ? "Remove from favourites" : "Add to favourites"}">
+          <button class="fav-btn" type="button" aria-label="${isFav ? "Remove from favourites" : "Add to favourites"}">
             ${isFav ? "★" : "☆"}
           </button>
         </div>
-
         <div class="book-actions">
           <a class="book-link" href="${book.url}" target="_blank" rel="noopener">Open</a>
         </div>
       `;
 
       card.querySelector(".fav-btn").addEventListener("click", () => {
-        const current = loadFavs();
-        const idx = current.indexOf(book.id);
-        if (idx >= 0) current.splice(idx, 1);
-        else current.push(book.id);
-        saveFavs(current);
+        const cur = loadFavs();
+        const idx = cur.indexOf(book.id);
+        if (idx >= 0) cur.splice(idx, 1);
+        else cur.push(book.id);
+        saveFavs(cur);
         renderChips();
         renderList();
       });
