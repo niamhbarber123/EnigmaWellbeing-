@@ -1,36 +1,20 @@
 (() => {
-  const THEME_KEY = "enigma_theme_v1";
+  const btn = document.getElementById("themeFab");
+  const KEY = "enigma_theme";
 
-  function applyTheme(isNight) {
-    document.body.classList.toggle("night", isNight);
-    const btn = document.getElementById("themeFab");
-    if (btn) btn.textContent = isNight ? "☀️" : "🌙";
+  function apply(theme){
+    document.body.classList.toggle("night", theme === "night");
+    if(btn) btn.textContent = theme === "night" ? "☀️" : "🌙";
   }
 
-  function readTheme() {
-    try {
-      return localStorage.getItem(THEME_KEY) === "night";
-    } catch {
-      return false;
-    }
-  }
+  const saved = localStorage.getItem(KEY) || "day";
+  apply(saved);
 
-  function writeTheme(isNight) {
-    try {
-      localStorage.setItem(THEME_KEY, isNight ? "night" : "day");
-    } catch {}
-  }
-
-  // Apply on load
-  applyTheme(readTheme());
-
-  // Toggle button
-  const fab = document.getElementById("themeFab");
-  if (fab) {
-    fab.addEventListener("click", () => {
-      const next = !document.body.classList.contains("night");
-      applyTheme(next);
-      writeTheme(next);
-    });
+  if(btn){
+    btn.onclick = () => {
+      const next = document.body.classList.contains("night") ? "day" : "night";
+      localStorage.setItem(KEY, next);
+      apply(next);
+    };
   }
 })();
