@@ -1,43 +1,37 @@
 (() => {
-  const steps = document.querySelectorAll(".step");
-  let current = 0;
-  let chosenFeeling = "";
+  const stepEl = document.getElementById("calmStep");
+  const hintEl = document.getElementById("calmHint");
+  const nextBtn = document.getElementById("nextStep");
+  const restartBtn = document.getElementById("restartSteps");
+  if (!stepEl || !hintEl || !nextBtn || !restartBtn) return;
 
-  const validations = {
-    "😰 Anxious": "Feeling anxious can be really frightening. You’re not weak for feeling this way.",
-    "😵 Overstimulated": "Too much at once can overwhelm anyone. It makes sense that you feel like this.",
-    "💥 Panicky": "Panic can feel intense and sudden. You’re not in danger right now.",
-    "😶 Numb": "Feeling numb is often a sign you’ve been carrying too much.",
-    "😢 Tearful": "Tears are a release. It’s okay to let them come.",
-    "😡 Angry": "Anger often shows that something important matters to you."
-  };
+  const STEPS = [
+    { step: "Put both feet on the floor. Press your toes down gently.", hint: "Notice one thing you can see." },
+    { step: "Place one hand on your chest, one on your belly.", hint: "Feel the rise and fall for 3 breaths." },
+    { step: "Name 5 things you can see.", hint: "Take your time. Slow your eyes down." },
+    { step: "Name 4 things you can touch.", hint: "Texture, temperature, pressure." },
+    { step: "Name 3 things you can hear.", hint: "Near sounds first, then far." },
+    { step: "Name 2 things you can smell.", hint: "Or 2 things you like the smell of." },
+    { step: "Name 1 thing you can taste.", hint: "Or a taste you’d like right now." },
+    { step: "Say to yourself: “This is a moment. It will pass.”", hint: "Speak gently — like you would to a friend." }
+  ];
 
-  function showStep(i) {
-    steps.forEach(s => s.classList.remove("active"));
-    steps[i].classList.add("active");
-    current = i;
+  let i = 0;
+  function render(){
+    const item = STEPS[i];
+    stepEl.textContent = item.step;
+    hintEl.textContent = item.hint;
   }
 
-  // Continue buttons
-  document.querySelectorAll("[data-next]").forEach(btn => {
-    btn.addEventListener("click", () => showStep(current + 1));
+  nextBtn.addEventListener("click", () => {
+    i = (i + 1) % STEPS.length;
+    render();
   });
 
-  // Feeling selection
-  document.querySelectorAll(".chip").forEach(btn => {
-    btn.addEventListener("click", () => {
-      chosenFeeling = btn.textContent.trim();
-      document.getElementById("validationText").textContent =
-        validations[chosenFeeling] || "That makes sense. You’re not alone in this.";
-      showStep(2);
-    });
+  restartBtn.addEventListener("click", () => {
+    i = 0;
+    render();
   });
 
-  // Grounding buttons
-  document.querySelectorAll(".ground-btn").forEach(btn => {
-    btn.addEventListener("click", () => showStep(4));
-  });
-
-  // Init
-  showStep(0);
+  render();
 })();
