@@ -390,3 +390,101 @@ body.night .tab.active{
   .tile-title{ font-size: 15px; }
   .help-text{ font-size: 15px; }
 }
+/* =========================
+   v2 — Fit to screen better (iPhone safe)
+   Paste at END of style.css
+   ========================= */
+
+/* Prevent sneaky sideways scroll */
+html, body{
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Safe-area helpers */
+:root{
+  --safeTop: env(safe-area-inset-top, 0px);
+  --safeBottom: env(safe-area-inset-bottom, 0px);
+  --pageMax: 460px;             /* matches your original nice width */
+  --pagePad: 16px;
+}
+
+/* Make the main layout consistently centered and padded */
+.page,
+.home,
+main{
+  width: 100%;
+  max-width: var(--pageMax);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: calc(var(--pagePad) + env(safe-area-inset-left, 0px));
+  padding-right: calc(var(--pagePad) + env(safe-area-inset-right, 0px));
+}
+
+/* Give the bottom breathing room (since tabbar is removed) */
+.page,
+.home,
+main{
+  padding-bottom: calc(22px + var(--safeBottom));
+}
+
+/* Tighter top spacing so headings fit nicer on smaller phones */
+.page-header{
+  margin: 14px auto 10px !important;
+  padding-top: calc(6px + var(--safeTop)) !important;
+}
+
+.page-header h1{
+  font-size: 34px !important;   /* still big, but fits */
+  line-height: 1.05 !important;
+}
+
+.page-header p{
+  font-size: 15px !important;
+  margin-top: 8px !important;
+}
+
+/* Cards slightly tighter so more fits without feeling cramped */
+.card{
+  padding: 16px !important;
+  border-radius: 22px !important;
+}
+
+.card + .card{ margin-top: 12px !important; }
+
+/* Buttons and pills: prevent wrapping / overflow */
+button, a, .pill, .space-btn, .home-btn, .link-btn{
+  max-width: 100%;
+}
+
+/* Your top-left back + top-right moon: keep inside safe area */
+.back-btn,
+.theme-toggle-top{
+  top: calc(12px + var(--safeTop)) !important;
+}
+
+/* Smaller screens: reduce text + spacing slightly */
+@media (max-width: 380px){
+  .page-header h1{ font-size: 30px !important; }
+  .card{ padding: 14px !important; }
+}
+/* v2 home: slightly tighter tiles so everything fits */
+.section-title{
+  font-size: 22px !important;
+  font-weight: 850 !important;
+  margin: 14px 0 10px !important;
+}
+
+.tile{
+  padding: 14px 14px !important;
+  border-radius: 22px !important;
+}
+
+.tile-title{
+  font-size: 18px !important;
+}
+
+.tile-ico{
+  width: 44px !important;
+  height: 44px !important;
+}
