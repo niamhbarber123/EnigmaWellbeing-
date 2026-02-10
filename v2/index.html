@@ -1,409 +1,153 @@
-/* =========================
-   ENIGMA WELLBEING — v2 style.css (FULL)
-   Home layout to match reference image
-   ========================= */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Enigma Wellbeing • Home</title>
 
-:root{
-  --bg1:#efeafd;
-  --bg2:#f6f1ff;
+  <link rel="icon" href="../icon.png" />
+  <link rel="apple-touch-icon" href="../icon.png" />
+  <link rel="stylesheet" href="./style.css?v=20260210-v2home" />
+</head>
 
-  --card: rgba(255,255,255,0.78);
-  --card2: rgba(255,255,255,0.86);
-  --border: rgba(120,110,160,0.16);
+<body class="page-wrap v2-home">
+  <!-- Night mode -->
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  --text:#2f2f38;
-  --muted:#8f8faa;
-  --muted2:#9b9bb4;
+  <header class="home-header">
+    <h1>Enigma Wellbeing</h1>
+    <p>Your calm space</p>
+  </header>
 
-  --ink:#5b5376;
-  --inkSoft:#6a6386;
+  <main class="home-page">
+    <!-- Right now -->
+    <section class="home-section">
+      <h2 class="home-h2">Right now</h2>
 
-  --shadow: 0 12px 28px rgba(0,0,0,0.06);
-  --radius: 24px;
+      <div class="hero-stack">
+        <a class="hero-tile hero-breathe" href="./breathe.html" aria-label="Breathe now">
+          <div class="hero-ico" aria-hidden="true">🌬️</div>
+          <div class="hero-text">
+            <div class="hero-title">Breathe now</div>
+            <div class="hero-sub">60 seconds to reset</div>
+          </div>
+          <div class="hero-arrow" aria-hidden="true">›</div>
+        </a>
 
-  --safeTop: env(safe-area-inset-top, 0px);
-  --safeBottom: env(safe-area-inset-bottom, 0px);
+        <a class="hero-tile hero-calm" href="./overwhelmed.html" aria-label="I need calm">
+          <div class="hero-ico" aria-hidden="true">🤍</div>
+          <div class="hero-text">
+            <div class="hero-title">I need calm</div>
+            <div class="hero-sub">Quick steps to feel safer</div>
+          </div>
+          <div class="hero-arrow" aria-hidden="true">›</div>
+        </a>
+      </div>
+    </section>
 
-  --tabH: 76px;
+    <!-- Today -->
+    <section class="home-section">
+      <h2 class="home-h2">Today</h2>
 
-  /* hero gradients */
-  --heroLav1: rgba(210,196,255,0.52);
-  --heroLav2: rgba(255,255,255,0.70);
+      <div class="tile-grid">
+        <a class="tile" href="./checkin.html" aria-label="Check in">
+          <div class="tile-ico">📝</div>
+          <div class="tile-title">Check in</div>
+          <div class="tile-sub">How are you, really?</div>
+        </a>
 
-  --heroPeach1: rgba(255,210,200,0.55);
-  --heroPeach2: rgba(255,255,255,0.70);
+        <a class="tile" href="./journal.html" aria-label="Journal">
+          <div class="tile-ico">📖</div>
+          <div class="tile-title">Journal</div>
+          <div class="tile-sub">A quiet space</div>
+        </a>
 
-  /* button */
-  --sos1: rgba(187,161,233,0.90);
-  --sos2: rgba(214,195,244,0.90);
-}
+        <a class="tile" href="./word.html" aria-label="Daily word">
+          <div class="tile-ico">✨</div>
+          <div class="tile-title">Daily word</div>
+          <div class="tile-sub">Learn more</div>
+        </a>
 
-body.night{
-  --bg1:#0f0f16;
-  --bg2:#151423;
+        <a class="tile" href="./quotes.html" aria-label="Kind words">
+          <div class="tile-ico">💬</div>
+          <div class="tile-title">Kind words</div>
+          <div class="tile-sub">Share your emotion</div>
+        </a>
+      </div>
+    </section>
 
-  --card: rgba(28,26,42,0.72);
-  --card2: rgba(28,26,42,0.78);
-  --border: rgba(255,255,255,0.10);
+    <!-- Explore -->
+    <section class="home-section">
+      <h2 class="home-h2">Explore</h2>
 
-  --text: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.62);
-  --muted2: rgba(255,255,255,0.72);
+      <div class="tile-grid">
+        <a class="tile" href="./yoga.html" aria-label="Move gently">
+          <div class="tile-ico">🧘‍♀️</div>
+          <div class="tile-title">Move gently</div>
+          <div class="tile-sub">Soft reset</div>
+        </a>
 
-  --ink: rgba(255,255,255,0.92);
-  --inkSoft: rgba(255,255,255,0.76);
+        <a class="tile" href="./sounds.html" aria-label="Listen">
+          <div class="tile-ico">🎵</div>
+          <div class="tile-title">Listen</div>
+          <div class="tile-sub">Calming tracks</div>
+        </a>
 
-  --shadow: 0 14px 34px rgba(0,0,0,0.50);
+        <a class="tile" href="./books.html" aria-label="Read">
+          <div class="tile-ico">📚</div>
+          <div class="tile-title">Read</div>
+          <div class="tile-sub">Helpful picks</div>
+        </a>
 
-  --heroLav1: rgba(170,140,255,0.20);
-  --heroLav2: rgba(28,26,42,0.65);
+        <a class="tile" href="./distraction.html" aria-label="Take a break">
+          <div class="tile-ico">🧩</div>
+          <div class="tile-title">Take a break</div>
+          <div class="tile-sub">Gentle distraction</div>
+        </a>
+      </div>
+    </section>
 
-  --heroPeach1: rgba(255,170,150,0.18);
-  --heroPeach2: rgba(28,26,42,0.65);
+    <!-- Your space -->
+    <section class="home-section">
+      <div class="card your-space">
+        <div class="your-space-title">Your space</div>
 
-  --sos1: rgba(184,168,255,0.35);
-  --sos2: rgba(184,168,255,0.20);
-}
+        <div class="mini-tabs" role="navigation" aria-label="Your space shortcuts">
+          <a class="mini-tab" href="./progress.html"><span class="mini-ico">📊</span>Progress</a>
+          <a class="mini-tab" href="./resources.html"><span class="mini-ico">🧠</span>Support &amp; resources</a>
+          <a class="mini-tab" href="./settings.html"><span class="mini-ico">⚙️</span>Settings</a>
+        </div>
 
-*{ box-sizing:border-box; }
-html, body{ height:100%; }
+        <a class="sos-btn" href="./help.html" aria-label="Get support now">
+          <span class="sos-badge" aria-hidden="true">SOS</span>
+          <span class="sos-text">Get support now</span>
+          <span class="sos-arrow" aria-hidden="true">›</span>
+        </a>
+      </div>
+    </section>
 
-body{
-  margin:0;
-  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text",
-              "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color:var(--text);
-  background: linear-gradient(180deg, var(--bg1), var(--bg2));
-}
+    <div class="bottom-spacer" aria-hidden="true"></div>
+  </main>
 
-a{ color:inherit; text-decoration:none; }
+  <!-- Bottom tabs -->
+  <nav class="tabbar" aria-label="Primary">
+    <a class="tab active" href="./index.html" aria-current="page">
+      <div class="tab-ico">🏠</div><div class="tab-lbl">Home</div>
+    </a>
+    <a class="tab" href="./breathe.html">
+      <div class="tab-ico">🌬️</div><div class="tab-lbl">Breathe</div>
+    </a>
+    <a class="tab" href="./checkin.html">
+      <div class="tab-ico">📝</div><div class="tab-lbl">Check in</div>
+    </a>
+    <a class="tab" href="./progress.html">
+      <div class="tab-ico">📈</div><div class="tab-lbl">Progress</div>
+    </a>
+    <a class="tab" href="./settings.html">
+      <div class="tab-ico">⚙️</div><div class="tab-lbl">Settings</div>
+    </a>
+  </nav>
 
-.page-wrap{
-  min-height:100vh;
-  position:relative;
-}
-
-/* watermark (optional: uses your icon.png one level up) */
-.page-wrap::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background: url("../icon.png") no-repeat center 55% / 520px;
-  opacity: 0.12;
-  pointer-events:none;
-  z-index:0;
-}
-
-.home-header,
-.home-page,
-.tabbar,
-.theme-toggle-top{
-  position:relative;
-  z-index:1;
-}
-
-/* top moon */
-.theme-toggle-top{
-  position: fixed;
-  top: calc(14px + var(--safeTop));
-  right: calc(16px + env(safe-area-inset-right, 0px));
-  width: 52px;
-  height: 52px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.72);
-  box-shadow: var(--shadow);
-  display:grid;
-  place-items:center;
-  font-size:22px;
-}
-body.night .theme-toggle-top{
-  background: rgba(26,24,38,0.72);
-}
-
-/* header */
-.home-header{
-  width: min(520px, 92vw);
-  margin: 20px auto 10px;
-  padding-top: calc(8px + var(--safeTop));
-  text-align:center;
-}
-.home-header h1{
-  margin:0;
-  font-size: 40px;
-  font-weight: 900;
-  letter-spacing: -0.6px;
-  color: var(--ink);
-}
-.home-header p{
-  margin: 8px 0 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--muted);
-}
-
-/* page body */
-.home-page{
-  width: min(520px, 92vw);
-  margin: 0 auto;
-  padding-bottom: calc(var(--tabH) + 18px);
-}
-
-.home-section{ margin-top: 18px; }
-
-.home-h2{
-  margin: 0 0 10px;
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--ink);
-  padding-left: 6px;
-}
-
-/* cards */
-.card{
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px;
-}
-
-/* hero tiles stack inside a soft container feel */
-.hero-stack{
-  display:grid;
-  gap: 12px;
-}
-
-.hero-tile{
-  background: var(--card2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px 16px;
-  display:grid;
-  grid-template-columns: 64px 1fr 18px;
-  align-items:center;
-  gap: 14px;
-  min-height: 84px;
-}
-
-.hero-breathe{
-  background: linear-gradient(90deg, var(--heroLav1), var(--heroLav2));
-}
-.hero-calm{
-  background: linear-gradient(90deg, var(--heroPeach1), var(--heroPeach2));
-}
-
-.hero-ico{
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  display:grid;
-  place-items:center;
-  font-size: 30px;
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(255,255,255,0.55);
-}
-body.night .hero-ico{
-  background: rgba(26,24,38,0.40);
-  border-color: rgba(255,255,255,0.10);
-}
-
-.hero-title{
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--ink);
-}
-.hero-sub{
-  margin-top: 4px;
-  font-size: 15px;
-  font-weight: 750;
-  color: var(--muted);
-}
-.hero-arrow{
-  font-size: 26px;
-  font-weight: 900;
-  opacity: 0.55;
-  justify-self:end;
-}
-
-/* tile grid (Today/Explore) */
-.tile-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-.tile{
-  background: var(--card2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 14px 14px;
-  min-height: 86px;
-  display:grid;
-  grid-template-columns: 50px 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 12px;
-  align-content:center;
-}
-.tile-ico{
-  grid-row: 1 / span 2;
-  width: 50px;
-  height: 50px;
-  border-radius: 16px;
-  display:grid;
-  place-items:center;
-  font-size: 26px;
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(255,255,255,0.55);
-}
-body.night .tile-ico{
-  background: rgba(26,24,38,0.40);
-  border-color: rgba(255,255,255,0.10);
-}
-
-.tile-title{
-  font-size: 18px;
-  font-weight: 900;
-  color: var(--ink);
-  align-self:end;
-}
-.tile-sub{
-  margin-top: 4px;
-  font-size: 14px;
-  font-weight: 750;
-  color: var(--muted);
-  align-self:start;
-}
-
-/* Your space */
-.your-space{
-  padding: 14px;
-}
-.your-space-title{
-  font-size: 18px;
-  font-weight: 900;
-  color: var(--ink);
-  margin-bottom: 10px;
-  padding-left: 4px;
-}
-
-.mini-tabs{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  background: rgba(255,255,255,0.50);
-  border: 1px solid rgba(120,110,160,0.12);
-  border-radius: 999px;
-  padding: 10px;
-}
-body.night .mini-tabs{
-  background: rgba(26,24,38,0.35);
-  border-color: rgba(255,255,255,0.10);
-}
-
-.mini-tab{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap: 8px;
-  padding: 10px 10px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--inkSoft);
-  background: rgba(255,255,255,0.35);
-  border: 1px solid rgba(120,110,160,0.10);
-  white-space: nowrap;
-}
-body.night .mini-tab{
-  background: rgba(26,24,38,0.35);
-  border-color: rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.78);
-}
-.mini-ico{ opacity: 0.8; }
-
-.sos-btn{
-  margin-top: 12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: linear-gradient(90deg, var(--sos1), var(--sos2));
-  box-shadow: var(--shadow);
-}
-.sos-badge{
-  width: 38px;
-  height: 30px;
-  border-radius: 10px;
-  background: rgba(255,90,90,0.85);
-  color: white;
-  font-weight: 900;
-  display:grid;
-  place-items:center;
-  font-size: 14px;
-}
-.sos-text{
-  font-size: 17px;
-  font-weight: 900;
-  color: var(--ink);
-  flex: 1 1 auto;
-}
-body.night .sos-text{
-  color: rgba(255,255,255,0.92);
-}
-.sos-arrow{
-  font-size: 24px;
-  font-weight: 900;
-  opacity: 0.65;
-}
-
-/* bottom tab bar */
-.tabbar{
-  position: fixed;
-  left:0; right:0; bottom:0;
-  padding-bottom: calc(8px + var(--safeBottom));
-  background: rgba(255,255,255,0.74);
-  border-top: 1px solid var(--border);
-  display:grid;
-  grid-template-columns: repeat(5, 1fr);
-  z-index: 10;
-}
-body.night .tabbar{
-  background: rgba(18,16,28,0.80);
-  border-top-color: rgba(255,255,255,0.10);
-}
-.tab{
-  padding: 10px 6px;
-  display:grid;
-  place-items:center;
-  gap: 4px;
-  color: rgba(70,66,90,0.72);
-  font-weight: 900;
-}
-body.night .tab{
-  color: rgba(255,255,255,0.62);
-}
-.tab.active{
-  color: rgba(70,66,90,0.95);
-}
-body.night .tab.active{
-  color: rgba(255,255,255,0.92);
-}
-.tab-ico{ font-size: 22px; }
-.tab-lbl{ font-size: 12px; }
-
-/* spacing helper */
-.bottom-spacer{ height: 18px; }
-
-/* small screens */
-@media (max-width: 380px){
-  .home-header h1{ font-size: 34px; }
-  .hero-title{ font-size: 20px; }
-  .tile-title{ font-size: 17px; }
-  .mini-tabs{ grid-template-columns: 1fr; border-radius: 22px; }
-  .mini-tab{ justify-content:flex-start; padding-left: 14px; }
-}
+  <script src="./app.js?v=20260210-v2home" defer></script>
+</body>
+</html>
