@@ -1,63 +1,505 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Enigma Wellbeing (v2)</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enigma Wellbeing</title>
 
-  <!-- icon is in ROOT, so from /v2 we use ../ -->
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
+  <style>
+    :root{
+      --bg1:#f7f3ff;
+      --bg2:#efe9ff;
+      --card:#ffffffcc;
+      --card2:#ffffffd9;
+      --text:#3a3552;
+      --muted:#7a7390;
+      --shadow: 0 14px 40px rgba(58,53,82,.10);
+      --shadow2: 0 10px 22px rgba(58,53,82,.08);
+      --stroke: rgba(58,53,82,.08);
+      --lav:#cbb9ff;
+      --lav2:#b9a3ff;
+      --warm1:#ffe7dc;
+      --warm2:#ffd1bf;
+      --radius: 22px;
+    }
 
-  <link rel="stylesheet" href="style.css?v=20260212v2fix1" />
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 30% 10%, #ffffff 0%, rgba(255,255,255,0) 55%),
+        radial-gradient(900px 700px at 80% 30%, #ffffff 0%, rgba(255,255,255,0) 60%),
+        linear-gradient(180deg, var(--bg2), var(--bg1));
+      min-height:100vh;
+    }
+
+    /* page wrapper */
+    .wrap{
+      max-width: 430px; /* iPhone-ish */
+      margin: 0 auto;
+      padding: 18px 16px 96px; /* bottom padding for nav */
+    }
+
+    /* header */
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+    .brand{
+      text-align:center;
+      flex:1;
+    }
+    .brand h1{
+      font-size: 34px;
+      line-height: 1.05;
+      letter-spacing: .2px;
+      margin: 10px 0 6px;
+      font-weight: 800;
+    }
+    .brand p{
+      margin:0;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .moon-btn{
+      width:46px;
+      height:46px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.70);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      user-select:none;
+    }
+    .moon{
+      font-size: 20px;
+      transform: translateY(-1px);
+    }
+
+    /* sections */
+    .section{
+      margin-top: 18px;
+    }
+    .section h2{
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing:.2px;
+      font-weight: 850;
+    }
+
+    /* container card behind right now (like mock) */
+    .panel{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.55);
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+    }
+
+    /* big primary cards */
+    .big-card{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      width:100%;
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 18px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.70));
+      box-shadow: var(--shadow2);
+      text-decoration:none;
+      color:inherit;
+      transition: transform .08s ease, box-shadow .08s ease;
+    }
+    .big-card:active{ transform: scale(.99); }
+    .big-card + .big-card{ margin-top: 12px; }
+
+    .big-icon{
+      width:54px;
+      height:54px;
+      border-radius: 18px;
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,.65);
+      box-shadow: 0 10px 20px rgba(0,0,0,.06);
+      overflow:hidden;
+    }
+    .big-icon span{ font-size: 26px; }
+
+    .big-text{
+      flex:1;
+      min-width:0;
+    }
+    .big-title{
+      font-weight: 900;
+      font-size: 26px;
+      line-height: 1.1;
+      margin:0 0 6px;
+      letter-spacing: .2px;
+    }
+    .big-sub{
+      margin:0;
+      color: var(--muted);
+      font-weight: 650;
+    }
+    .chev{
+      font-size: 22px;
+      color: rgba(58,53,82,.55);
+      padding-left: 6px;
+    }
+
+    /* specific styling for the two big cards */
+    .breathe .big-icon{
+      background: radial-gradient(circle at 30% 30%, #efe9ff, #d8ccff);
+    }
+    .calm{
+      background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,240,233,.74));
+      border-color: rgba(58,53,82,.06);
+    }
+    .calm .big-icon{
+      background: radial-gradient(circle at 30% 30%, var(--warm1), var(--warm2));
+    }
+
+    /* grid cards (Today / Explore) */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .mini{
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.70));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow2);
+      padding: 14px 14px;
+      text-decoration:none;
+      color:inherit;
+      min-height: 74px;
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      transition: transform .08s ease;
+    }
+    .mini:active{ transform: scale(.99); }
+
+    .mini .ico{
+      width:42px;
+      height:42px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      background: rgba(245,243,255,.85);
+      border: 1px solid rgba(58,53,82,.06);
+      flex: 0 0 auto;
+    }
+    .mini .ico span{ font-size: 20px; }
+
+    .mini .txt{
+      min-width:0;
+    }
+    .mini .t{
+      margin:0;
+      font-weight: 850;
+      font-size: 18px;
+      line-height:1.1;
+    }
+    .mini .s{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 13px;
+      line-height:1.2;
+    }
+
+    /* Your space panel */
+    .space{
+      margin-top: 14px;
+    }
+    .space-panel{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.55);
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+    }
+    .space-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      background: rgba(255,255,255,.65);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+      padding: 10px 12px;
+      box-shadow: 0 8px 18px rgba(58,53,82,.06);
+    }
+    .pill{
+      flex:1;
+      text-decoration:none;
+      color:inherit;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      transition: background .1s ease;
+      justify-content:center;
+      font-weight: 800;
+      color: rgba(58,53,82,.75);
+    }
+    .pill:active{ background: rgba(245,243,255,.8); }
+    .pill span{ opacity:.9 }
+
+    /* SOS bar */
+    .sos{
+      margin-top: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(90deg, rgba(205,185,255,.75), rgba(185,163,255,.75));
+      border: 1px solid rgba(58,53,82,.08);
+      box-shadow: var(--shadow);
+      text-decoration:none;
+      color: #ffffff;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .sos .badge{
+      background: rgba(255,74,74,.90);
+      color:#fff;
+      font-weight: 950;
+      border-radius: 12px;
+      padding: 6px 10px;
+      font-size: 13px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.16);
+    }
+    .sos .arrow{
+      opacity:.95;
+      font-size: 20px;
+    }
+
+    /* bottom nav */
+    .nav{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,.82);
+      border-top: 1px solid var(--stroke);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 10px 10px 12px;
+      display:flex;
+      justify-content:center;
+    }
+    .nav .inner{
+      width: min(430px, 100%);
+      display:flex;
+      justify-content:space-between;
+      gap: 6px;
+      padding: 0 10px;
+    }
+    .nav a{
+      flex:1;
+      text-decoration:none;
+      color: rgba(58,53,82,.72);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: 4px;
+      padding: 8px 6px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .nav a .n-ico{ font-size: 18px; }
+    .nav a.active{
+      color: var(--text);
+      background: rgba(245,243,255,.9);
+      border: 1px solid rgba(58,53,82,.06);
+    }
+
+    /* small screens: keep comfortable */
+    @media (max-width: 360px){
+      .brand h1{ font-size: 30px; }
+      .big-title{ font-size: 24px; }
+      .grid{ gap: 10px; }
+    }
+  </style>
 </head>
 
-<body class="page-wrap home">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+<body>
+  <main class="wrap">
 
-  <header class="page-header">
-    <h1>Enigma Wellbeing</h1>
-    <p>Your calm space</p>
-  </header>
-
-  <main class="page home-page">
-    <div class="home-grid">
-      <a class="home-pill" href="breathe.html"><span class="pill-ico">🌬️</span><span class="pill-text">Breathe</span></a>
-      <a class="home-pill" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
-
-      <a class="home-pill" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
-      <a class="home-pill" href="yoga.html"><span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span></a>
-
-      <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
-      <a class="home-pill" href="word.html"><span class="pill-ico">✨</span><span class="pill-text">Word of the day</span></a>
-
-      <a class="home-pill" href="distraction.html"><span class="pill-ico">🧩</span><span class="pill-text">Distraction</span></a>
-      <a class="home-pill" href="books.html"><span class="pill-ico">📚</span><span class="pill-text">Books</span></a>
-
-      <!-- ✅ V2 buttons (these “disappeared” because index.html got overwritten) -->
-      <a class="home-pill" href="checkin.html"><span class="pill-ico">🫶</span><span class="pill-text">Check-in</span></a>
-      <a class="home-pill" href="overwhelmed.html"><span class="pill-ico">🧯</span><span class="pill-text">I’m overwhelmed</span></a>
-
-      <a class="home-pill" href="resources.html"><span class="pill-ico">🧠</span><span class="pill-text">Resources</span></a>
-      <a class="home-pill" href="progress.html"><span class="pill-ico">📈</span><span class="pill-text">Progress</span></a>
-
-      <!-- ✅ Settings -->
-      <a class="home-pill wide" href="settings.html"><span class="pill-ico">⚙️</span><span class="pill-text">Settings</span></a>
-
-      <a class="home-pill wide" href="help.html"><span class="pill-ico">🆘</span><span class="pill-text">Need help right now?</span></a>
+    <!-- Header -->
+    <div class="top">
+      <div style="width:46px;height:46px;"></div><!-- spacer to center title -->
+      <div class="brand">
+        <h1>Enigma Wellbeing</h1>
+        <p>Your calm space</p>
+      </div>
+      <button class="moon-btn" id="themeToggle" aria-label="Toggle theme">
+        <span class="moon">🌙</span>
+      </button>
     </div>
+
+    <!-- Right now -->
+    <section class="section">
+      <h2>Right now</h2>
+
+      <div class="panel">
+        <a class="big-card breathe" href="breathe.html">
+          <div class="big-icon"><span>🌬️</span></div>
+          <div class="big-text">
+            <p class="big-title">Breathe now</p>
+            <p class="big-sub">60 seconds to reset</p>
+          </div>
+          <div class="chev">›</div>
+        </a>
+
+        <a class="big-card calm" href="overwhelmed.html">
+          <div class="big-icon"><span>🤍</span></div>
+          <div class="big-text">
+            <p class="big-title">I need calm</p>
+            <p class="big-sub">Quick steps to feel safer</p>
+          </div>
+          <div class="chev">›</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Today -->
+    <section class="section">
+      <h2>Today</h2>
+
+      <div class="grid">
+        <a class="mini" href="checkin.html">
+          <div class="ico"><span>🗒️</span></div>
+          <div class="txt">
+            <p class="t">Check in</p>
+            <p class="s">How are you, really?</p>
+          </div>
+        </a>
+
+        <a class="mini" href="journal.html">
+          <div class="ico"><span>📖</span></div>
+          <div class="txt">
+            <p class="t">Journal</p>
+            <p class="s">Write it out</p>
+          </div>
+        </a>
+
+        <a class="mini" href="word.html">
+          <div class="ico"><span>✨</span></div>
+          <div class="txt">
+            <p class="t">Daily word</p>
+            <p class="s">Learn more</p>
+          </div>
+        </a>
+
+        <a class="mini" href="quotes.html">
+          <div class="ico"><span>💬</span></div>
+          <div class="txt">
+            <p class="t">Kind words</p>
+            <p class="s">Gentle reminders</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Explore -->
+    <section class="section">
+      <h2>Explore</h2>
+
+      <div class="grid">
+        <a class="mini" href="yoga.html">
+          <div class="ico"><span>🧘</span></div>
+          <div class="txt">
+            <p class="t">Move gently</p>
+            <p class="s">Stretch & unwind</p>
+          </div>
+        </a>
+
+        <a class="mini" href="music.html">
+          <div class="ico"><span>🎵</span></div>
+          <div class="txt">
+            <p class="t">Listen</p>
+            <p class="s">Calming sounds</p>
+          </div>
+        </a>
+
+        <a class="mini" href="books.html">
+          <div class="ico"><span>📚</span></div>
+          <div class="txt">
+            <p class="t">Read</p>
+            <p class="s">Helpful ideas</p>
+          </div>
+        </a>
+
+        <a class="mini" href="distraction.html">
+          <div class="ico"><span>🧩</span></div>
+          <div class="txt">
+            <p class="t">Take a break</p>
+            <p class="s">Short resets</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Your space -->
+    <section class="section space">
+      <h2>Your space</h2>
+
+      <div class="space-panel">
+        <div class="space-row">
+          <a class="pill" href="progress.html"><span>📊</span> Progress</a>
+          <a class="pill" href="resources.html"><span>🧠</span> Support</a>
+          <a class="pill" href="settings.html"><span>⚙️</span> Settings</a>
+        </div>
+
+        <a class="sos" href="help.html">
+          <span class="badge">SOS</span>
+          <span style="flex:1; text-align:center;">Get support now</span>
+          <span class="arrow">›</span>
+        </a>
+      </div>
+    </section>
+
   </main>
 
-  <nav class="bottom-nav">
-    <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  <!-- Bottom nav -->
+  <nav class="nav" aria-label="Bottom navigation">
+    <div class="inner">
+      <a class="active" href="index.html"><span class="n-ico">🏠</span><span>Home</span></a>
+      <a href="breathe.html"><span class="n-ico">🌬️</span><span>Breathe</span></a>
+      <a href="checkin.html"><span class="n-ico">🗒️</span><span>Check-in</span></a>
+      <a href="progress.html"><span class="n-ico">📊</span><span>Progress</span></a>
+      <a href="settings.html"><span class="n-ico">⚙️</span><span>Settings</span></a>
+    </div>
   </nav>
 
-  <script src="app.js?v=20260212v2fix1" defer></script>
+  <script>
+    // Simple theme toggle (optional). Keeps your existing look unless you expand it.
+    const btn = document.getElementById('themeToggle');
+    btn?.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      // (If you later add a dark theme, you can store state in localStorage here.)
+    });
+  </script>
 </body>
 </html>
