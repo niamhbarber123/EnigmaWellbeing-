@@ -1,47 +1,18 @@
 (() => {
-  const KEY = "enigma_theme_v2"; // "night" | "day"
+  const toggle = document.querySelector(".theme-toggle");
+  const saved = localStorage.getItem("enigma_theme");
 
-  function applyTheme(isNight) {
-    document.body.classList.toggle("night", isNight);
-
-    // Optional: swap icon to show current state
-    const btn = document.getElementById("themeFab");
-    if (btn) btn.textContent = isNight ? "☀️" : "🌙";
+  if (saved === "night") {
+    document.body.classList.add("night");
   }
 
-  function loadTheme() {
-    try {
-      return localStorage.getItem(KEY) === "night";
-    } catch {
-      return false;
-    }
-  }
-
-  function saveTheme(isNight) {
-    try {
-      localStorage.setItem(KEY, isNight ? "night" : "day");
-    } catch {}
-  }
-
-  function init() {
-    // Apply saved theme first
-    applyTheme(loadTheme());
-
-    // Wire up button (if it exists on this page)
-    const btn = document.getElementById("themeFab");
-    if (!btn) return;
-
-    btn.addEventListener("click", () => {
-      const isNight = !document.body.classList.contains("night");
-      applyTheme(isNight);
-      saveTheme(isNight);
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("night");
+      localStorage.setItem(
+        "enigma_theme",
+        document.body.classList.contains("night") ? "night" : "light"
+      );
     });
-  }
-
-  // Ensure DOM is ready (works with/without defer)
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
   }
 })();
