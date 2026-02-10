@@ -8,9 +8,29 @@
 
   if (!circle || !phaseText || !timeText || !startBtn || !pauseBtn || !resetBtn) return;
 
-  const INHALE = 4;
-  const HOLD = 2;
-  const EXHALE = 6;
+    const pace = (() => {
+    try { return localStorage.getItem("enigma_breathe_pace_v2") || "standard"; }
+    catch { return "standard"; }
+  })();
+
+  const reduceMotion = (() => {
+    try { return (localStorage.getItem("enigma_reduce_motion_v2") || "0") === "1"; }
+    catch { return false; }
+  })();
+
+  // Slow / Standard / Fast profiles
+  const profiles = {
+    slow:     { inhale: 5, hold: 2, exhale: 7 },
+    standard: { inhale: 4, hold: 2, exhale: 6 },
+    fast:     { inhale: 3, hold: 1, exhale: 4 }
+  };
+
+  const INHALE = profiles[pace].inhale;
+  const HOLD   = profiles[pace].hold;
+  const EXHALE = profiles[pace].exhale;
+
+  // If reduced motion, don’t animate scale
+  if (reduceMotion) circle.classList.remove("inhale","hold","exhale");
 
   let running = false;
   let paused = false;
