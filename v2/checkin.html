@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Check-in • Enigma Wellbeing</title>
+
+  <link rel="icon" href="../icon.png" />
+  <link rel="apple-touch-icon" href="../icon.png" />
+  <link rel="stylesheet" href="style.css?v=20260212v2" />
+</head>
+
+<body class="page-wrap">
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+
+  <header class="page-header">
+    <h1>Check-in</h1>
+    <p>A small moment for you</p>
+  </header>
+
+  <main class="page">
+    <section class="card">
+      <div class="section-title">One gentle question</div>
+      <div class="gentle-text" style="margin-top:6px;">You can skip or keep it short.</div>
+
+      <div class="checkin-q" id="checkinQuestion" style="margin-top:14px;"></div>
+
+      <textarea id="checkinNote" rows="6" placeholder="A few words… (optional)" style="margin-top:12px;"></textarea>
+
+      <div class="row" style="margin-top:12px;">
+        <button id="saveCheckin" class="btn primary" type="button">Save</button>
+        <button id="newQuestion" class="btn" type="button">New question</button>
+      </div>
+
+      <div class="gentle-text" style="margin-top:10px;" id="checkinStatus"></div>
+      <div class="safe-note" style="margin-top:10px;">You can stop at any time.</div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">Why this helps</div>
+
+      <details class="info-accordion" style="margin-top:12px;">
+        <summary>Making thoughts smaller</summary>
+        <div class="info-body">Writing even one sentence can reduce mental load because the thought is no longer “floating” in your head.</div>
+      </details>
+
+      <details class="info-accordion">
+        <summary>If emotions feel too big</summary>
+        <div class="info-body">Try naming one feeling (“anxious”, “low”, “overwhelmed”). Naming can calm the brain’s threat response.</div>
+      </details>
+
+      <details class="info-accordion">
+        <summary>If you feel stuck</summary>
+        <div class="info-body">Pick one tiny action: drink water, open a window, text someone, or do one 60-second breathe cycle.</div>
+      </details>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=20260212v2" defer></script>
+  <script src="checkin.js?v=20260212v2" defer></script>
+</body>
+</html>
