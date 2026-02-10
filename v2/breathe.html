@@ -2,47 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Breathe • Enigma Wellbeing</title>
-
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210-v2-allfix" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="breathe.css" />
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <header class="app-header">
+    <button class="theme-toggle">🌙</button>
+    <h1>Breathe</h1>
+    <p>Follow the rhythm</p>
+  </header>
 
-  <div class="page-shell">
-    <header class="page-header">
-      <h1>Breathe</h1>
-      <p>60 seconds to reset</p>
-    </header>
-
-    <section class="section">
-      <div class="section-title">Right now</div>
-
-      <div class="card">
-        <div class="gentle">Follow the rhythm. Tap Start.</div>
-
-        <div class="breath-wrap">
-          <div id="breathCircle" class="breath-circle">
-            <div id="phaseText" class="breath-phase">Ready</div>
-            <div id="timeText" class="breath-time">01:00</div>
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:14px;">
-          <button id="startBtn" class="pill" type="button" style="flex:1;">Start</button>
-          <button id="pauseBtn" class="pill" type="button" style="flex:1;">Pause</button>
-          <button id="resetBtn" class="pill" type="button" style="flex:1;">Reset</button>
-        </div>
+  <main>
+    <!-- Breathing card -->
+    <section class="card breathe-card">
+      <div class="breathe-circle" id="circle">
+        <span id="breatheText">Ready</span>
       </div>
     </section>
-  </div>
 
-  <script src="app.js?v=20260210-v2-allfix" defer></script>
-  <script src="breathe.js?v=20260210-v2-allfix" defer></script>
+    <!-- Session settings -->
+    <section class="card">
+      <div class="section-title">Session</div>
+      <p class="muted-text">
+        Timer counts down. Stopwatch counts up.
+      </p>
+
+      <div class="dropdown-row">
+        <div class="dropdown">
+          <label>Mode</label>
+          <select id="modeSelect">
+            <option value="timer">Timer</option>
+            <option value="stopwatch">Stopwatch</option>
+          </select>
+        </div>
+
+        <div class="dropdown">
+          <label>Length</label>
+          <select id="lengthSelect">
+            <option value="60">1 minute</option>
+            <option value="120">2 minutes</option>
+            <option value="300">5 minutes</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn" class="soft-btn primary">Start</button>
+        <button id="pauseBtn" class="soft-btn">Pause</button>
+        <button id="resetBtn" class="soft-btn">Reset</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="breathe.js"></script>
 </body>
 </html>
