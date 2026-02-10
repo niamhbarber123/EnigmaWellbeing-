@@ -1,50 +1,35 @@
+// app.js (FULL) — Enigma Wellbeing
 (() => {
-  const THEME_KEY = "enigma_theme_v1";
+  const THEME_KEY = "enigma_theme_v1"; // "night" | "day"
 
-  function applyTheme(isNight) {
-    document.body.classList.toggle("night", !!isNight);
-    const btn = document.getElementById("themeFab");
-    if (btn) btn.textContent = isNight ? "☀️" : "🌙";
+  function applyTheme(mode) {
+    const night = mode === "night";
+    document.body.classList.toggle("night", night);
+
+    const fab = document.getElementById("themeFab");
+    if (fab) fab.textContent = night ? "☀️" : "🌙";
   }
 
   function loadTheme() {
-    try {
-      return localStorage.getItem(THEME_KEY) === "night";
-    } catch {
-      return false;
-    }
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved === "night" || saved === "day") return saved;
+
+    // default to system preference if nothing saved
+    const prefersNight = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return prefersNight ? "night" : "day";
   }
 
-  function saveTheme(isNight) {
-    try {
-      localStorage.setItem(THEME_KEY, isNight ? "night" : "day");
-    } catch {}
+  function toggleTheme() {
+    const isNight = document.body.classList.contains("night");
+    const next = isNight ? "day" : "night";
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
   }
 
-  // Wait until DOM is ready (works even if defer fails somewhere)
-  function init() {
+  document.addEventListener("DOMContentLoaded", () => {
     applyTheme(loadTheme());
 
-    const themeBtn = document.getElementById("themeFab");
-    if (themeBtn) {
-      themeBtn.addEventListener("click", () => {
-        const nowNight = !document.body.classList.contains("night");
-        applyTheme(nowNight);
-        saveTheme(nowNight);
-      });
-    }
-
-    // Auto-mark active bottom nav (safe if nav exists)
-    const path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
-    document.querySelectorAll(".bottom-nav a").forEach(a => {
-      const href = (a.getAttribute("href") || "").toLowerCase();
-      a.classList.toggle("active", href === path);
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+    const fab = document.getElementById("themeFab");
+    if (fab) fab.addEventListener("click", toggleTheme);
+  });
 })();
