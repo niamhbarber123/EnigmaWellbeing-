@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Settings • Enigma Wellbeing</title>
+
+  <link rel="icon" href="../icon.png" />
+  <link rel="apple-touch-icon" href="../icon.png" />
+  <link rel="stylesheet" href="style.css?v=20260212v2" />
+</head>
+
+<body class="page-wrap">
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+
+  <header class="page-header">
+    <h1>Settings</h1>
+    <p>Make Enigma feel right for you</p>
+  </header>
+
+  <main class="page">
+    <section class="card">
+      <div class="section-title">Breathing pace</div>
+      <div class="gentle-text" style="margin-top:6px;">Choose what feels comfortable.</div>
+
+      <div class="chip-row" style="margin-top:12px;" id="paceRow"></div>
+      <div class="gentle-text" style="margin-top:10px;" id="paceStatus"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">Reduce motion</div>
+      <div class="gentle-text" style="margin-top:6px;">If animations feel too much.</div>
+
+      <label class="toggle-row" style="margin-top:12px;">
+        <input id="reduceMotion" type="checkbox" />
+        <span>Reduce animation</span>
+      </label>
+
+      <div class="gentle-text" style="margin-top:10px;">This affects Overwhelmed mode.</div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a href="checkin.html"><div class="nav-ico">🫶</div><span>Check-in</span></a>
+    <a href="overwhelmed.html"><div class="nav-ico">🧯</div><span>Overwhelmed</span></a>
+    <a href="resources.html"><div class="nav-ico">🧠</div><span>Resources</span></a>
+    <a class="active" href="settings.html"><div class="nav-ico">⚙️</div><span>Settings</span></a>
+  </nav>
+
+  <script src="app.js?v=20260212v2" defer></script>
+  <script src="settings.js?v=20260212v2" defer></script>
+</body>
+</html>
