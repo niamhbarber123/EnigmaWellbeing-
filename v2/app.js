@@ -1,18 +1,20 @@
-(() => {
-  const toggle = document.querySelector(".theme-toggle");
-  const saved = localStorage.getItem("enigma_theme");
+// 🌙 Night mode
+const themeBtn = document.querySelector(".theme-toggle");
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("night");
+    localStorage.setItem(
+      "enigma_night",
+      document.body.classList.contains("night")
+    );
+  });
+}
 
-  if (saved === "night") {
-    document.body.classList.add("night");
-  }
+if (localStorage.getItem("enigma_night") === "true") {
+  document.body.classList.add("night");
+}
 
-  if (toggle) {
-    toggle.addEventListener("click", () => {
-      document.body.classList.toggle("night");
-      localStorage.setItem(
-        "enigma_theme",
-        document.body.classList.contains("night") ? "night" : "light"
-      );
-    });
-  }
-})();
+// 🔙 Back button
+document.querySelectorAll(".back-btn").forEach(btn => {
+  btn.addEventListener("click", () => history.back());
+});
