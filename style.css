@@ -407,3 +407,126 @@ body.night .link-btn{
 @keyframes inhale{ from{ transform: scale(0.92);} to{ transform: scale(1.04);} }
 @keyframes hold  { from{ transform: scale(1.04);} to{ transform: scale(1.04);} }
 @keyframes exhale{ from{ transform: scale(1.04);} to{ transform: scale(0.92);} }
+/* =========================
+   FIX PACK — nav overlap + buttons (paste at end of style.css)
+   ========================= */
+
+/* 1) NAV NEVER OVERLAPS CONTENT */
+:root{
+  --navH: 78px; /* keep consistent */
+  --safeBottom: env(safe-area-inset-bottom, 0px);
+}
+.page{
+  padding-bottom: calc(var(--navH) + var(--safeBottom) + 24px) !important;
+}
+
+/* 2) BUTTONS / CHIPS — readable in night mode */
+body.night .btn,
+body.night .small-pill,
+body.night .chip,
+body.night select{
+  background: rgba(255,255,255,0.12) !important;
+  border-color: rgba(255,255,255,0.18) !important;
+  color: rgba(255,255,255,0.94) !important;
+}
+
+body.night .btn.primary,
+body.night .completed-pill,
+body.night .chip.active{
+  background: rgba(184,168,255,0.22) !important;
+  border-color: rgba(184,168,255,0.28) !important;
+}
+
+/* 3) MAKE CHIP ROWS / LISTS FEEL LIKE THE OTHER PAGES */
+.chip-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+
+.chip{
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--ink, #5b5376);
+  cursor: pointer;
+}
+
+/* 4) LIST TILE BUTTONS (Yoga/Music links) */
+.list{ display: grid; gap: 12px; margin-top: 12px; }
+
+.link-btn{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+  padding:16px 18px;
+  border-radius:20px;
+  background: rgba(255,255,255,0.74);
+  border: 1px solid rgba(120,110,160,0.16);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.05);
+}
+
+.link-title{ font-size: 17px; font-weight: 900; color: var(--ink, #5b5376); }
+.link-sub{ margin-top: 4px; font-size: 14px; font-weight: 650; color: var(--muted, #8f8faa); }
+.link-arrow{ font-size: 18px; font-weight: 900; opacity: 0.65; }
+
+body.night .link-btn{
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.14);
+}
+
+/* 5) BOOK TILES (back to “like before”) */
+.book-list{ display: grid; gap: 12px; margin-top: 12px; }
+.book-item{
+  background: var(--card, rgba(255,255,255,0.78));
+  border: 1px solid var(--card-border, rgba(120,110,160,0.16));
+  border-radius: 20px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow, 0 12px 28px rgba(0,0,0,0.06));
+}
+
+.book-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.book-title{ font-size: 17px; font-weight: 900; color: var(--ink, #5b5376); }
+.book-meta{ margin-top: 6px; font-size: 14px; font-weight: 700; color: var(--muted2, #9b9bb4); }
+.book-desc{ margin-top: 10px; font-size: 15px; font-weight: 650; line-height: 1.5; color: var(--text, #2f2f38); }
+
+.book-actions{ margin-top: 12px; display:flex; gap: 10px; flex-wrap: wrap; }
+.book-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  border:1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-weight: 900;
+  color: var(--ink, #5b5376);
+}
+
+.fav-btn{
+  width:40px;
+  height:40px;
+  border-radius:999px;
+  border:1px solid rgba(120,110,160,0.16);
+  background: rgba(255,255,255,0.74);
+  font-size:18px;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  color: var(--save, #7b6fae);
+}
+body.night .book-item{ background: rgba(28,26,42,0.72); border-color: rgba(255,255,255,0.10); }
+body.night .book-link{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.92); }
+body.night .fav-btn{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.14); }
