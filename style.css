@@ -530,3 +530,50 @@ body.night .link-btn{
 body.night .book-item{ background: rgba(28,26,42,0.72); border-color: rgba(255,255,255,0.10); }
 body.night .book-link{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.92); }
 body.night .fav-btn{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.14); }
+/* ==== FIX: top buttons always clickable ==== */
+.theme-toggle-top, .back-btn { z-index: 50 !important; }
+
+/* ==== FIX: nav never overlaps page content ==== */
+.page{
+  padding-bottom: calc(var(--navH) + var(--safeBottom) + 18px);
+  margin-bottom: 0 !important;
+}
+
+/* ==== BREATHE: 2 equal columns + bigger labels/selects ==== */
+.breathe-two-cols{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.breathe-big-label{
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.breathe-select{
+  width: 100%;
+  min-height: 52px;
+  font-size: 16px;
+  font-weight: 800;
+  border-radius: 18px;
+}
+
+/* 3 equal buttons */
+.breathe-controls-3{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+  align-items: center;
+}
+
+.breathe-ctl{
+  width: 100%;
+  text-align: center;
+}
+
+/* Completed pill spans full width underneath when shown */
+#completedPill{ grid-column: 1 / -1; justify-content: center; }
