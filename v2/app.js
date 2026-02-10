@@ -1,38 +1,32 @@
 (() => {
-  const THEME_KEY = "enigma_theme_v2";
+  const KEY = "enigma_theme_v2";
+  const btn = document.getElementById("themeFab");
 
-  function applyTheme(isNight) {
-    document.body.classList.toggle("night", isNight);
-    try { localStorage.setItem(THEME_KEY, isNight ? "night" : "day"); } catch {}
-    const fab = document.getElementById("themeFab");
-    if (fab) fab.textContent = isNight ? "☀️" : "🌙";
+  function applyTheme(mode){
+    document.body.classList.toggle("night", mode === "night");
+    if (btn) btn.textContent = (mode === "night") ? "☀️" : "🌙";
   }
 
-  function getSavedTheme() {
-    try {
-      const v = localStorage.getItem(THEME_KEY);
-      return v === "night";
-    } catch {
-      return false;
-    }
+  function getSaved(){
+    try { return localStorage.getItem(KEY) || "day"; }
+    catch { return "day"; }
   }
 
-  function initTheme() {
-    applyTheme(getSavedTheme());
-
-    const fab = document.getElementById("themeFab");
-    if (fab) {
-      fab.addEventListener("click", () => {
-        const isNight = !document.body.classList.contains("night");
-        applyTheme(isNight);
-      });
-    }
+  function setSaved(mode){
+    try { localStorage.setItem(KEY, mode); } catch {}
   }
 
-  // Run after DOM is ready
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initTheme);
-  } else {
-    initTheme();
+  // init
+  const saved = getSaved();
+  applyTheme(saved);
+
+  // click
+  if (btn){
+    btn.addEventListener("click", () => {
+      const nowNight = !document.body.classList.contains("night");
+      const mode = nowNight ? "night" : "day";
+      applyTheme(mode);
+      setSaved(mode);
+    });
   }
 })();
