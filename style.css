@@ -647,3 +647,64 @@ body.night .home-pill:active{
   background: rgba(34,32,48,0.95);
   transform: scale(0.985);
 }
+/* ===== BREATHE FIXES ===== */
+.breathe-clock-top{
+  text-align:center;
+  font-weight: 900;
+  color: var(--ink);
+}
+.breathe-clock-top .time-label{ color: var(--muted); font-weight: 800; margin-right: 6px; }
+.breathe-clock-top .time-value{ font-size: 18px; }
+
+.breath-phase{
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+/* Hold phase (subtle “still” effect) */
+.breath-circle.hold{
+  animation: hold 2s ease-in-out infinite;
+}
+@keyframes hold{
+  0%,100%{ transform: scale(1.02); }
+  50%{ transform: scale(1.00); }
+}
+
+/* Two equal columns for dropdowns */
+.breathe-two-col{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.big-label{
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.big-select{
+  width: 100%;
+  min-height: 52px;
+  font-size: 16px;
+  font-weight: 850;
+}
+
+/* Buttons in thirds */
+.breathe-btn-3{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.breathe-btn-3 .small-pill{
+  width: 100%;
+  justify-content: center;
+}
+
+/* If very narrow, stack */
+@media (max-width: 360px){
+  .breathe-two-col{ grid-template-columns: 1fr; }
+  .breathe-btn-3{ grid-template-columns: 1fr; }
+}
