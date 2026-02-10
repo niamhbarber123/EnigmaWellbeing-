@@ -9,22 +9,23 @@
   if (!chipsEl || !textEl || !saveBtn || !clearBtn || !listEl) return;
 
   const MOODS = ["Calm","Okay","Anxious","Low","Angry","Overwhelmed","Tired","Hopeful"];
-
   let activeMood = "Okay";
 
   function load(){
     try { return JSON.parse(localStorage.getItem(KEY)) || []; }
     catch { return []; }
   }
-
   function save(arr){
     try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch {}
   }
-
   function esc(s){
     return String(s).replace(/[&<>"']/g, c => ({
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
     }[c]));
+  }
+  function today(){
+    const d = new Date();
+    return `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`;
   }
 
   function renderChips(){
@@ -62,11 +63,6 @@
     });
   }
 
-  function today(){
-    const d = new Date();
-    return `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`;
-  }
-
   saveBtn.addEventListener("click", () => {
     const txt = (textEl.value || "").trim();
     if (!txt) return;
@@ -79,9 +75,7 @@
     renderList();
   });
 
-  clearBtn.addEventListener("click", () => {
-    textEl.value = "";
-  });
+  clearBtn.addEventListener("click", () => { textEl.value = ""; });
 
   renderChips();
   renderList();
