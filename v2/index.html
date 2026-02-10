@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Enigma Wellbeing</title>
+  <title>Enigma Wellbeing (v2)</title>
 
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260209-final" />
+  <!-- icon is in ROOT, so from /v2 we use ../ -->
+  <link rel="icon" href="../icon.png" />
+  <link rel="apple-touch-icon" href="../icon.png" />
+
+  <link rel="stylesheet" href="style.css?v=20260212v2fix1" />
 </head>
 
 <body class="page-wrap home">
@@ -32,16 +34,22 @@
       <a class="home-pill" href="distraction.html"><span class="pill-ico">🧩</span><span class="pill-text">Distraction</span></a>
       <a class="home-pill" href="books.html"><span class="pill-ico">📚</span><span class="pill-text">Books</span></a>
 
-      <a class="home-pill" href="mood.html"><span class="pill-ico">🙂</span><span class="pill-text">Mood</span></a>
-      <a class="home-pill" href="resources.html"><span class="pill-ico">🧠</span><span class="pill-text">Resources</span></a>
+      <!-- ✅ V2 buttons (these “disappeared” because index.html got overwritten) -->
+      <a class="home-pill" href="checkin.html"><span class="pill-ico">🫶</span><span class="pill-text">Check-in</span></a>
+      <a class="home-pill" href="overwhelmed.html"><span class="pill-ico">🧯</span><span class="pill-text">I’m overwhelmed</span></a>
 
+      <a class="home-pill" href="resources.html"><span class="pill-ico">🧠</span><span class="pill-text">Resources</span></a>
       <a class="home-pill" href="progress.html"><span class="pill-ico">📈</span><span class="pill-text">Progress</span></a>
-      <a class="home-pill" href="help.html"><span class="pill-ico">🆘</span><span class="pill-text">Help</span></a>
+
+      <!-- ✅ Settings -->
+      <a class="home-pill wide" href="settings.html"><span class="pill-ico">⚙️</span><span class="pill-text">Settings</span></a>
+
+      <a class="home-pill wide" href="help.html"><span class="pill-ico">🆘</span><span class="pill-text">Need help right now?</span></a>
     </div>
   </main>
 
   <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a class="active" href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
@@ -50,6 +58,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260209-final" defer></script>
+  <script src="app.js?v=20260212v2fix1" defer></script>
 </body>
 </html>
