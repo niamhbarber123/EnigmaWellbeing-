@@ -6,102 +6,84 @@
   <title>Enigma Wellbeing</title>
 
   <link rel="icon" href="../icon.png" />
-  <link rel="stylesheet" href="style.css?v=2.0.0" />
+  <link rel="apple-touch-icon" href="../icon.png" />
+  <link rel="stylesheet" href="style.css?v=2.0.1" />
 </head>
 
 <body class="page-wrap">
 
-  <!-- Header -->
-  <header class="home-header">
+  <header class="page-header">
     <h1>Enigma Wellbeing</h1>
     <p>Your calm space</p>
-    <button id="themeFab" class="theme-toggle" aria-label="Toggle night mode">🌙</button>
   </header>
 
-  <main class="home">
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+
+  <main class="page home">
 
     <!-- RIGHT NOW -->
-    <section>
-      <h2 class="section-label">Right now</h2>
+    <section class="home-section">
+      <div class="home-section-title">Right now</div>
 
-      <a href="breathe.html" class="card card-soft">
-        <div class="card-title">🌬️ Breathe now</div>
-        <div class="card-sub">60 seconds to reset</div>
+      <a class="hero-btn" href="breathe.html">
+        <div class="icon">🌬️</div>
+        <div class="text">
+          <div class="title">Breathe now</div>
+          <div class="subtitle">60 seconds to reset</div>
+        </div>
       </a>
 
-      <a href="overwhelmed.html" class="card card-warm">
-        <div class="card-title">🤍 I need calm</div>
-        <div class="card-sub">Quick steps to feel safer</div>
+      <a class="hero-btn" href="overwhelmed.html">
+        <div class="icon">🤍</div>
+        <div class="text">
+          <div class="title">I need calm</div>
+          <div class="subtitle">Small steps to feel safer</div>
+        </div>
       </a>
     </section>
 
     <!-- TODAY -->
-    <section>
-      <h2 class="section-label">Today</h2>
+    <section class="home-section">
+      <div class="home-section-title">Today</div>
 
-      <div class="grid-2">
-        <a href="checkin.html" class="card">
-          <div class="card-title">☑️ Check in</div>
-          <div class="card-sub">How are you, really?</div>
-        </a>
-
-        <a href="journal.html" class="card">
-          <div class="card-title">📖 Journal</div>
-          <div class="card-sub">Write it out</div>
-        </a>
-
-        <a href="word.html" class="card">
-          <div class="card-title">✨ Daily word</div>
-          <div class="card-sub">Learn more</div>
-        </a>
-
-        <a href="kind.html" class="card">
-          <div class="card-title">💬 Kind words</div>
-          <div class="card-sub">Share your emotion</div>
-        </a>
+      <div class="home-grid">
+        <a class="home-btn" href="checkin.html"><span class="icon">☑️</span><span class="label">Check in</span></a>
+        <a class="home-btn" href="journal.html"><span class="icon">📖</span><span class="label">Journal</span></a>
+        <a class="home-btn" href="quotes.html"><span class="icon">💬</span><span class="label">Quotes</span></a>
+        <a class="home-btn" href="word.html"><span class="icon">✨</span><span class="label">Word</span></a>
       </div>
     </section>
 
     <!-- EXPLORE -->
-    <section>
-      <h2 class="section-label">Explore</h2>
+    <section class="home-section">
+      <div class="home-section-title">Explore</div>
 
-      <div class="grid-2">
-        <a href="yoga.html" class="card">
-          <div class="card-title">🧘 Move gently</div>
-        </a>
-
-        <a href="sounds.html" class="card">
-          <div class="card-title">🎵 Listen</div>
-        </a>
-
-        <a href="books.html" class="card">
-          <div class="card-title">📚 Read</div>
-        </a>
-
-        <a href="distraction.html" class="card">
-          <div class="card-title">🧩 Take a break</div>
-        </a>
+      <div class="home-grid">
+        <a class="home-btn" href="yoga.html"><span class="icon">🧘‍♀️</span><span class="label">Yoga</span></a>
+        <a class="home-btn" href="sounds.html"><span class="icon">🎵</span><span class="label">Music</span></a>
+        <a class="home-btn" href="books.html"><span class="icon">📚</span><span class="label">Books</span></a>
+        <a class="home-btn" href="distraction.html"><span class="icon">🧩</span><span class="label">Distraction</span></a>
       </div>
     </section>
 
-    <!-- YOUR SPACE -->
-    <section>
-      <h2 class="section-label">Your space</h2>
+    <!-- BOTTOM (UNIFORM) -->
+    <section class="home-section">
+      <div class="home-section-title">Your space</div>
 
-      <div class="pill-row">
-        <a href="progress.html" class="pill">📊 Progress</a>
-        <a href="resources.html" class="pill">🧠 Resources</a>
-        <a href="settings.html" class="pill">⚙️ Settings</a>
+      <div class="bottom-actions">
+        <a class="bottom-btn" href="progress.html"><span class="icon">📊</span>Progress</a>
+        <a class="bottom-btn" href="resources.html"><span class="icon">🧠</span>Resources</a>
+        <a class="bottom-btn" href="settings.html"><span class="icon">⚙️</span>Settings</a>
       </div>
 
-      <a href="help.html" class="support-now">
-        🆘 Get support now →
+      <a class="support-now" href="help.html">
+        🆘 Get support now
       </a>
     </section>
 
   </main>
 
-  <script src="../app.js?v=2.0.0"></script>
+  <!-- IMPORTANT: v2 should load app.js from v2 -->
+  <script src="app.js?v=2.0.1" defer></script>
 </body>
 </html>
