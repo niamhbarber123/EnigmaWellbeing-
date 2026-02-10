@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>I’m overwhelmed • Enigma Wellbeing</title>
+  <title>I’m overwhelmed • Enigma Wellbeing (v2)</title>
 
   <link rel="icon" href="../icon.png" />
   <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260212v2" />
+  <link rel="stylesheet" href="style.css?v=20260212v2fix1" />
 </head>
 
-<body class="page-wrap no-scroll">
+<body class="page-wrap">
   <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
@@ -26,48 +26,45 @@
       </div>
 
       <div class="breathe-clock-top" style="margin-top:12px;">
-        <span id="ovTime" class="time-value">00:60</span>
+        <span class="time-label">Time:</span>
+        <span id="ovTime" class="time-value">01:00</span>
       </div>
 
       <div class="breathe-circle-wrap">
-        <div id="ovCircle" class="breath-circle">
+        <div id="ovCircle" class="breath-circle" aria-label="Breathing circle">
           <div id="ovPhase" class="breath-text">Ready</div>
         </div>
       </div>
 
-      <div class="row" style="margin-top:12px;">
-        <button id="ovStart" class="btn primary" type="button">Start 60s</button>
-        <button id="ovStop" class="btn" type="button">Stop</button>
+      <div class="breathe-btn-3" style="margin-top:12px;">
+        <button id="ovStart" class="small-pill" type="button">Start</button>
+        <button id="ovStop" class="small-pill" type="button">Stop</button>
+        <a class="small-pill completed-pill" href="help.html" style="display:flex;align-items:center;justify-content:center;">
+          Help
+        </a>
       </div>
 
       <details class="info-accordion" style="margin-top:12px;">
-        <summary>One grounding question</summary>
+        <summary>One grounding prompt</summary>
         <div class="info-body" id="ovPrompt"></div>
       </details>
 
       <div class="safe-note" style="margin-top:12px;">You can stop at any time.</div>
-
-      <a class="link-btn" href="help.html" style="margin-top:12px;">
-        <div>
-          <div class="link-title">Need help right now?</div>
-          <div class="link-sub">UK support and urgent options.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
     </section>
   </main>
 
   <nav class="bottom-nav">
     <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
     <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-    <a href="help.html"><div class="nav-ico">🆘</div><span>Help</span></a>
-    <a href="resources.html"><div class="nav-ico">🧠</div><span>Resources</span></a>
     <a href="checkin.html"><div class="nav-ico">🫶</div><span>Check-in</span></a>
+    <a class="active" href="overwhelmed.html"><div class="nav-ico">🧯</div><span>Overwhelmed</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a href="resources.html"><div class="nav-ico">🧠</div><span>Resources</span></a>
     <a href="settings.html"><div class="nav-ico">⚙️</div><span>Settings</span></a>
   </nav>
 
-  <script src="app.js?v=20260212v2" defer></script>
-  <script src="overwhelmed.js?v=20260212v2" defer></script>
+  <!-- IMPORTANT: these must be in /v2/ -->
+  <script src="app.js?v=20260212v2fix1" defer></script>
+  <script src="overwhelmed.js?v=20260212v2fix1" defer></script>
 </body>
 </html>
