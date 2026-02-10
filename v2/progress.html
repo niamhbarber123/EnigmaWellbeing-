@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Progress • Enigma Wellbeing</title>
+
+  <link rel="icon" href="../icon.png" />
+  <link rel="apple-touch-icon" href="../icon.png" />
+  <link rel="stylesheet" href="style.css?v=20260212v2" />
+</head>
+
+<body class="page-wrap">
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+
+  <header class="page-header">
+    <h1>Progress</h1>
+    <p>Kind, not pressured</p>
+  </header>
+
+  <main class="page">
+    <section class="card">
+      <div class="section-title">You showed up</div>
+      <div class="gentle-text" style="margin-top:6px;">No streaks. No guilt. Just moments.</div>
+
+      <div class="stat-grid" style="margin-top:14px;">
+        <div class="stat-tile">
+          <div class="stat-num" id="daysUsed">0</div>
+          <div class="stat-label">Days used</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num" id="checkins">0</div>
+          <div class="stat-label">Check-ins saved</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-num" id="overwhelmed">0</div>
+          <div class="stat-label">Overwhelmed sessions</div>
+        </div>
+      </div>
+
+      <div class="safe-note" style="margin-top:14px;">
+        Even one small moment counts.
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-title">Gentle reflections</div>
+      <div class="gentle-text" style="margin-top:6px;" id="reflectionText"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a class="active" href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=20260212v2" defer></script>
+  <script src="progress.js?v=20260212v2" defer></script>
+</body>
+</html>
