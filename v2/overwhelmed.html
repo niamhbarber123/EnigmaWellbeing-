@@ -2,69 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>I’m overwhelmed • Enigma Wellbeing (v2)</title>
-
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260212v2fix1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I’m overwhelmed • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+  <a class="back-btn" href="index.html">←</a>
+  <button class="theme-toggle-top" id="themeFab">🌙</button>
 
   <header class="page-header">
     <h1>I’m overwhelmed</h1>
-    <p>Let’s make this smaller</p>
+    <p>You’re not broken. Let’s slow this down.</p>
   </header>
 
-  <main class="page">
-    <section class="card">
-      <div class="gentle-text" style="line-height:1.5;">
-        You don’t have to solve everything. Just do the next small step.
+  <main>
+    <div class="card">
+      <p style="font-size:16px;line-height:1.6;">
+        When everything feels too much, the goal isn’t to fix it —
+        it’s to make this moment safer.
+      </p>
+
+      <div style="display:grid;gap:14px;margin-top:18px;">
+        <div class="pill">🪑 Sit and feel your feet on the floor</div>
+        <div class="pill">👀 Name 3 things you can see</div>
+        <div class="pill">🖐️ Press your hands together for 10 seconds</div>
+        <div class="pill">💧 Take a sip of water</div>
       </div>
 
-      <div class="breathe-clock-top" style="margin-top:12px;">
-        <span class="time-label">Time:</span>
-        <span id="ovTime" class="time-value">01:00</span>
-      </div>
-
-      <div class="breathe-circle-wrap">
-        <div id="ovCircle" class="breath-circle" aria-label="Breathing circle">
-          <div id="ovPhase" class="breath-text">Ready</div>
-        </div>
-      </div>
-
-      <div class="breathe-btn-3" style="margin-top:12px;">
-        <button id="ovStart" class="small-pill" type="button">Start</button>
-        <button id="ovStop" class="small-pill" type="button">Stop</button>
-        <a class="small-pill completed-pill" href="help.html" style="display:flex;align-items:center;justify-content:center;">
-          Help
-        </a>
-      </div>
-
-      <details class="info-accordion" style="margin-top:12px;">
-        <summary>One grounding prompt</summary>
-        <div class="info-body" id="ovPrompt"></div>
-      </details>
-
-      <div class="safe-note" style="margin-top:12px;">You can stop at any time.</div>
-    </section>
+      <a
+        href="help.html"
+        class="pill"
+        style="margin-top:20px;background:#f4d7dd;"
+      >
+        🆘 I need support now
+      </a>
+    </div>
   </main>
 
-  <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="checkin.html"><div class="nav-ico">🫶</div><span>Check-in</span></a>
-    <a class="active" href="overwhelmed.html"><div class="nav-ico">🧯</div><span>Overwhelmed</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-    <a href="resources.html"><div class="nav-ico">🧠</div><span>Resources</span></a>
-    <a href="settings.html"><div class="nav-ico">⚙️</div><span>Settings</span></a>
-  </nav>
-
-  <!-- IMPORTANT: these must be in /v2/ -->
-  <script src="app.js?v=20260212v2fix1" defer></script>
-  <script src="overwhelmed.js?v=20260212v2fix1" defer></script>
+  <script src="app.js"></script>
 </body>
 </html>
