@@ -1,710 +1,394 @@
-/* =========================
-   ENIGMA WELLBEING — style.css (FULL)
-   ========================= */
-
-/* ---------- ROOT ---------- */
-:root{
-  --bg1: #efeafd;
-  --bg2: #f6f1ff;
-
-  --card: rgba(255,255,255,0.78);
-  --card-border: rgba(120,110,160,0.16);
-
-  --text: #2f2f38;
-  --muted: #8f8faa;
-  --muted2: #9b9bb4;
-
-  --accent: #7b6fae;
-  --accentSoft: #eee9f6;
-  --dangerSoft: #f4d7dd;
-
-  --shadow: 0 12px 28px rgba(0,0,0,0.06);
-  --radius: 20px;
-
-  --navH: 78px;
-  --safeTop: env(safe-area-inset-top, 0px);
-  --safeBottom: env(safe-area-inset-bottom, 0px);
-
-  --wm-size: 520px;
-  --wm-opacity: 0.14;
-
-  --ink: #5b5376;
-  --inkSoft: #6a6386;
-  --save: #7b6fae;
-  --backInk: #5f5a78;
-}
-
-/* ---------- NIGHT MODE ---------- */
-body.night{
-  --bg1: #0f0f16;
-  --bg2: #151423;
-
-  --card: rgba(28,26,42,0.72);
-  --card-border: rgba(255,255,255,0.10);
-
-  --text: rgba(255,255,255,0.92);
-  --muted: rgba(255,255,255,0.62);
-  --muted2: rgba(255,255,255,0.72);
-
-  --accent: #b8a8ff;
-  --accentSoft: rgba(184,168,255,0.16);
-  --dangerSoft: rgba(255,120,140,0.18);
-
-  --shadow: 0 14px 34px rgba(0,0,0,0.50);
-  --wm-opacity: 0.10;
-
-  --ink: rgba(255,255,255,0.92);
-  --inkSoft: rgba(255,255,255,0.72);
-  --save: #b8a8ff;
-  --backInk: rgba(255,255,255,0.88);
-}
-
-/* ---------- BASE ---------- */
-*{ box-sizing: border-box; }
-html, body{ height: 100%; }
-
-body{
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
-               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: var(--text);
-  background: linear-gradient(180deg, var(--bg1), var(--bg2));
-}
-
-a{ color: inherit; text-decoration: none; }
-
-/* ---------- PAGE + WATERMARK ---------- */
-.page-wrap{
-  min-height: 100vh;
-  position: relative;
-}
-
-.page-wrap::before{
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("icon.png") no-repeat center 56% / var(--wm-size);
-  opacity: var(--wm-opacity);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.page-header,
-.page,
-.bottom-nav,
-.theme-toggle-top,
-.back-btn{
-  position: relative;
-  z-index: 1;
-}
-
-/* ---------- HEADER ---------- */
-.page-header{
-  width: min(460px, 92vw);
-  margin: 18px auto 12px;
-  text-align: center;
-  padding-top: calc(4px + var(--safeTop));
-}
-
-.page-header h1{
-  margin: 0;
-  font-size: 34px;
-  font-weight: 850;
-  letter-spacing: -0.4px;
-  color: var(--ink);
-}
-
-.page-header p{
-  margin: 8px 0 0;
-  font-size: 16px;
-  font-weight: 650;
-  color: var(--muted);
-}
-
-/* ---------- TOP BUTTONS ---------- */
-.theme-toggle-top,
-.back-btn{
-  position: fixed;
-  top: calc(14px + var(--safeTop));
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.14);
-  background: rgba(255,255,255,0.72);
-  box-shadow: var(--shadow);
-  display: grid;
-  place-items: center;
-  font-size: 20px;
-}
-
-.back-btn{
-  left: 16px;
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--backInk);
-}
-
-.theme-toggle-top{
-  right: 16px;
-}
-
-body.night .theme-toggle-top,
-body.night .back-btn{
-  background: rgba(26,24,38,0.72);
-  border-color: rgba(255,255,255,0.10);
-}
-
-/* ---------- PAGE CONTENT ---------- */
-.page{
-  width: min(460px, 92vw);
-  margin: 0 auto;
-  padding-bottom: calc(var(--navH) + 24px); /* prevents nav overlap */
-}
-
-/* ---------- CARDS ---------- */
-.card{
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 18px;
-  box-shadow: var(--shadow);
-}
-
-.card + .card{ margin-top: 14px; }
-
-.section-title{
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--ink);
-}
-
-.gentle-text{
-  font-size: 15px;
-  font-weight: 650;
-  color: var(--muted);
-}
-
-/* ---------- INPUTS ---------- */
-textarea,
-.input,
-select{
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 18px;
-  border: none;
-  font-size: 16px;
-  background: rgba(255,255,255,0.92);
-  color: var(--text);
-  outline: none;
-}
-
-body.night textarea,
-body.night .input,
-body.night select{
-  background: rgba(26,24,38,0.75);
-  color: rgba(255,255,255,0.95);
-}
-
-/* ---------- BUTTONS (NEW SYSTEM) ---------- */
-.btn{
-  border-radius: 999px;
-  padding: 14px 16px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 15px;
-  font-weight: 850;
-  cursor: pointer;
-  color: var(--ink);
-}
-
-.btn.primary{
-  background: var(--accentSoft);
-}
-
-.btn.danger{
-  background: var(--dangerSoft);
-}
-
-.btn:active{ transform: scale(0.985); }
-
-/* ---------- OLD BUTTON COMPATIBILITY ---------- */
-.small-pill{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 15px;
-  font-weight: 850;
-  cursor: pointer;
-  color: var(--ink);
-}
-
-.small-pill:active{ transform: scale(0.985); }
-
-.completed-pill{
-  background: var(--accentSoft);
-}
-
-body.night .small-pill{
-  background: rgba(40,38,60,0.95);
-  border-color: rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.96);
-}
-
-body.night .completed-pill{
-  background: rgba(184,168,255,0.28);
-}
-
-/* ---------- ROW HELPERS ---------- */
-.row{
-  display: grid;
-  gap: 10px;
-}
-
-.row.three{
-  grid-template-columns: repeat(3, 1fr);
-}
-
-/* ---------- HOME ---------- */
-.home-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.home-pill{
-  background: rgba(255,255,255,0.9);
-  border-radius: 999px;
-  min-height: 66px;
-  padding: 18px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  box-shadow: var(--shadow);
-}
-
-.pill-text{
-  font-size: 17px;
-  font-weight: 850;
-  color: var(--ink);
-}
-
-/* ---------- BOTTOM NAV ---------- */
-.bottom-nav{
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding-bottom: calc(8px + var(--safeBottom));
-  background: rgba(255,255,255,0.72);
-  border-top: 1px solid rgba(120,110,160,0.14);
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  z-index: 10;
-}
-
-.bottom-nav a{
-  padding: 10px 6px;
-  display: grid;
-  place-items: center;
-  gap: 4px;
-  font-size: 13px;
-  font-weight: 800;
-  color: rgba(70,66,90,0.7);
-}
-
-.bottom-nav a.active{
-  color: rgba(70,66,90,0.95);
-}
-
-body.night .bottom-nav{
-  background: rgba(18,16,28,0.78);
-}
-
-body.night .bottom-nav a{
-  color: rgba(255,255,255,0.62);
-}
-
-body.night .bottom-nav a.active{
-  color: rgba(255,255,255,0.92);
-}
-
-.nav-ico{ font-size: 22px; }
-
-/* ---------- LINKS / RESOURCES ---------- */
-.link-btn{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.74);
-  border: 1px solid rgba(120,110,160,0.16);
-  margin-top: 12px;
-}
-
-.link-title{
-  font-size: 17px;
-  font-weight: 900;
-  color: var(--ink);
-}
-
-.link-sub{
-  font-size: 14px;
-  font-weight: 650;
-  color: var(--muted);
-}
-
-body.night .link-btn{
-  background: rgba(40,38,60,0.95);
-}
-
-/* ---------- QUOTES ---------- */
-.save-link{
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 900;
-  font-size: 15px;
-  color: var(--save);
-}
-
-.quote-text{
-  font-size: 17px;
-  line-height: 1.55;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.quote-author{
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: 750;
-  color: var(--muted2);
-}
-/* BREATHE — animation */
-.breathe-circle-wrap{ display:grid; place-items:center; padding: 10px 0 8px; }
-
-.breath-circle{
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow:
-    0 14px 28px rgba(120,110,160,0.16),
-    0 0 0 10px rgba(255,255,255,0.32);
-  transform: scale(0.92);
-}
-
-.breath-circle.inhale{ animation: inhale 4s ease-in-out forwards; }
-.breath-circle.hold  { animation: hold 2s ease-in-out forwards; }
-.breath-circle.exhale{ animation: exhale 6s ease-in-out forwards; }
-
-@keyframes inhale{ from{ transform: scale(0.92);} to{ transform: scale(1.04);} }
-@keyframes hold  { from{ transform: scale(1.04);} to{ transform: scale(1.04);} }
-@keyframes exhale{ from{ transform: scale(1.04);} to{ transform: scale(0.92);} }
-/* =========================
-   FIX PACK — nav overlap + buttons (paste at end of style.css)
-   ========================= */
-
-/* 1) NAV NEVER OVERLAPS CONTENT */
-:root{
-  --navH: 78px; /* keep consistent */
-  --safeBottom: env(safe-area-inset-bottom, 0px);
-}
-.page{
-  padding-bottom: calc(var(--navH) + var(--safeBottom) + 24px) !important;
-}
-
-/* 2) BUTTONS / CHIPS — readable in night mode */
-body.night .btn,
-body.night .small-pill,
-body.night .chip,
-body.night select{
-  background: rgba(255,255,255,0.12) !important;
-  border-color: rgba(255,255,255,0.18) !important;
-  color: rgba(255,255,255,0.94) !important;
-}
-
-body.night .btn.primary,
-body.night .completed-pill,
-body.night .chip.active{
-  background: rgba(184,168,255,0.22) !important;
-  border-color: rgba(184,168,255,0.28) !important;
-}
-
-/* 3) MAKE CHIP ROWS / LISTS FEEL LIKE THE OTHER PAGES */
-.chip-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:12px;
-}
-
-.chip{
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size: 14px;
-  font-weight: 900;
-  color: var(--ink, #5b5376);
-  cursor: pointer;
-}
-
-/* 4) LIST TILE BUTTONS (Yoga/Music links) */
-.list{ display: grid; gap: 12px; margin-top: 12px; }
-
-.link-btn{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  width:100%;
-  padding:16px 18px;
-  border-radius:20px;
-  background: rgba(255,255,255,0.74);
-  border: 1px solid rgba(120,110,160,0.16);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.05);
-}
-
-.link-title{ font-size: 17px; font-weight: 900; color: var(--ink, #5b5376); }
-.link-sub{ margin-top: 4px; font-size: 14px; font-weight: 650; color: var(--muted, #8f8faa); }
-.link-arrow{ font-size: 18px; font-weight: 900; opacity: 0.65; }
-
-body.night .link-btn{
-  background: rgba(255,255,255,0.09);
-  border-color: rgba(255,255,255,0.14);
-}
-
-/* 5) BOOK TILES (back to “like before”) */
-.book-list{ display: grid; gap: 12px; margin-top: 12px; }
-.book-item{
-  background: var(--card, rgba(255,255,255,0.78));
-  border: 1px solid var(--card-border, rgba(120,110,160,0.16));
-  border-radius: 20px;
-  padding: 16px 18px;
-  box-shadow: var(--shadow, 0 12px 28px rgba(0,0,0,0.06));
-}
-
-.book-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:12px;
-}
-
-.book-title{ font-size: 17px; font-weight: 900; color: var(--ink, #5b5376); }
-.book-meta{ margin-top: 6px; font-size: 14px; font-weight: 700; color: var(--muted2, #9b9bb4); }
-.book-desc{ margin-top: 10px; font-size: 15px; font-weight: 650; line-height: 1.5; color: var(--text, #2f2f38); }
-
-.book-actions{ margin-top: 12px; display:flex; gap: 10px; flex-wrap: wrap; }
-.book-link{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:10px 14px;
-  border-radius:999px;
-  border:1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-weight: 900;
-  color: var(--ink, #5b5376);
-}
-
-.fav-btn{
-  width:40px;
-  height:40px;
-  border-radius:999px;
-  border:1px solid rgba(120,110,160,0.16);
-  background: rgba(255,255,255,0.74);
-  font-size:18px;
-  cursor:pointer;
-  display:grid;
-  place-items:center;
-  color: var(--save, #7b6fae);
-}
-body.night .book-item{ background: rgba(28,26,42,0.72); border-color: rgba(255,255,255,0.10); }
-body.night .book-link{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.92); }
-body.night .fav-btn{ background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.14); }
-/* ==== FIX: top buttons always clickable ==== */
-.theme-toggle-top, .back-btn { z-index: 50 !important; }
-
-/* ==== FIX: nav never overlaps page content ==== */
-.page{
-  padding-bottom: calc(var(--navH) + var(--safeBottom) + 18px);
-  margin-bottom: 0 !important;
-}
-
-/* ==== BREATHE: 2 equal columns + bigger labels/selects ==== */
-.breathe-two-cols{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  align-items: start;
-}
-
-.breathe-big-label{
-  font-size: 16px;
-  font-weight: 900;
-  margin-bottom: 8px;
-}
-
-.breathe-select{
-  width: 100%;
-  min-height: 52px;
-  font-size: 16px;
-  font-weight: 800;
-  border-radius: 18px;
-}
-
-/* 3 equal buttons */
-.breathe-controls-3{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 14px;
-  align-items: center;
-}
-
-.breathe-ctl{
-  width: 100%;
-  text-align: center;
-}
-
-/* Completed pill spans full width underneath when shown */
-#completedPill{ grid-column: 1 / -1; justify-content: center; }
-/* =========================
-   HOME — Night mode contrast boost
-   ========================= */
-body.night .home-pill{
-  background: rgba(255,255,255,0.12);          /* darker pill */
-  border: 1px solid rgba(255,255,255,0.18);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.55);
-}
-
-body.night .pill-text{
-  color: rgba(255,255,255,0.95);              /* brighter text */
-}
-
-body.night .pill-ico{
-  opacity: 0.95;                               /* icons clearer */
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
-}
-
-/* Optional: make pressed state still visible */
-body.night .home-pill:active{
-  transform: scale(0.985);
-  background: rgba(255,255,255,0.16);
-}
-/* =========================
-   FIX: Bottom nav overlapping content
-   ========================= */
-
-/* Nav always stays fixed */
-.bottom-nav{
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-}
-
-/* Page content must leave space for nav */
-.page{
-  padding-bottom: calc(var(--navH) + var(--safeBottom) + 20px);
-}
-
-/* Extra safety for long pages (Quotes, Resources, Books) */
-.page-wrap{
-  padding-bottom: calc(var(--navH) + var(--safeBottom) + 20px);
-}
-/* =========================
-   NIGHT MODE — Home screen DARK pills (match cards)
-   ========================= */
-
-body.night .home-pill{
-  background: rgba(26,24,38,0.88);          /* same family as cards */
-  border: 1px solid rgba(255,255,255,0.14);
-  box-shadow: 0 18px 36px rgba(0,0,0,0.65);
-}
-
-body.night .pill-text{
-  color: rgba(255,255,255,0.96);            /* strong contrast */
-  font-weight: 900;
-}
-
-body.night .pill-ico{
-  opacity: 1;
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
-}
-
-/* Active / pressed state */
-body.night .home-pill:active{
-  background: rgba(34,32,48,0.95);
-  transform: scale(0.985);
-}
-/* ===== BREATHE FIXES ===== */
-.breathe-clock-top{
-  text-align:center;
-  font-weight: 900;
-  color: var(--ink);
-}
-.breathe-clock-top .time-label{ color: var(--muted); font-weight: 800; margin-right: 6px; }
-.breathe-clock-top .time-value{ font-size: 18px; }
-
-.breath-phase{
-  font-size: 18px;
-  font-weight: 900;
-  color: var(--ink);
-}
-
-/* Hold phase (subtle “still” effect) */
-.breath-circle.hold{
-  animation: hold 2s ease-in-out infinite;
-}
-@keyframes hold{
-  0%,100%{ transform: scale(1.02); }
-  50%{ transform: scale(1.00); }
-}
-
-/* Two equal columns for dropdowns */
-.breathe-two-col{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  align-items: start;
-}
-
-.big-label{
-  font-size: 16px;
-  font-weight: 900;
-  color: var(--ink);
-}
-
-.big-select{
-  width: 100%;
-  min-height: 52px;
-  font-size: 16px;
-  font-weight: 850;
-}
-
-/* Buttons in thirds */
-.breathe-btn-3{
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-}
-.breathe-btn-3 .small-pill{
-  width: 100%;
-  justify-content: center;
-}
-
-/* If very narrow, stack */
-@media (max-width: 360px){
-  .breathe-two-col{ grid-template-columns: 1fr; }
-  .breathe-btn-3{ grid-template-columns: 1fr; }
-}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enigma Wellbeing</title>
+
+  <style>
+    :root{
+      /* Calm palette */
+      --bgTop:#f7f5fb;
+      --bgMid:#f1eef9;
+      --bgBot:#fbfaff;
+
+      --card: rgba(255,255,255,.66);
+      --panel: rgba(255,255,255,.52);
+
+      --text:#3b3750;
+      --muted:#827c96;
+
+      --stroke: rgba(59,55,80,.06);
+      --shadow: 0 10px 28px rgba(35, 25, 75, .06);
+
+      --lav: rgba(198,186,255,.48);
+      --warm: rgba(255,220,210,.48);
+
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(950px 750px at 20% 10%, rgba(255,255,255,.45), transparent 62%),
+        radial-gradient(950px 750px at 85% 25%, rgba(255,255,255,.28), transparent 65%),
+        linear-gradient(180deg, var(--bgTop), var(--bgMid) 55%, var(--bgBot));
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 18px 16px 96px; /* space for bottom nav */
+    }
+
+    /* Header */
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-top: 6px;
+    }
+    .brand{ flex:1; text-align:center; }
+    .brand h1{
+      margin: 12px 0 6px;
+      font-size: 26px;
+      font-weight: 650;
+      letter-spacing:.3px;
+    }
+    .brand p{
+      margin:0;
+      font-size:14px;
+      color:var(--muted);
+      font-weight: 500;
+    }
+    .moon-btn{
+      width:42px;height:42px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      user-select:none;
+      font-size:17px;
+      opacity:.85;
+    }
+
+    /* Sections */
+    .section{ margin-top: 20px; }
+    .section h2{
+      margin: 0 0 10px;
+      font-size: 17px;
+      font-weight: 600;
+      color: rgba(59,55,80,.85);
+    }
+
+    .panel{
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      padding: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    /* Big “Right now” cards */
+    .big{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      padding:16px;
+      border-radius:20px;
+      background: var(--card);
+      border:1px solid var(--stroke);
+      text-decoration:none;
+      color:inherit;
+      transition: transform .08s ease;
+    }
+    .big:active{ transform: scale(.99); }
+    .big + .big{ margin-top:10px; }
+
+    .big-icon{
+      width:44px;height:44px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      font-size:20px;
+      opacity:.85;
+      border: 1px solid rgba(59,55,80,.05);
+    }
+    .breathe .big-icon{ background: var(--lav); }
+    .calm .big-icon{ background: var(--warm); }
+
+    .big h3{
+      margin:0 0 4px;
+      font-size:18px;
+      font-weight:600;
+    }
+    .big p{
+      margin:0;
+      font-size:14px;
+      color:var(--muted);
+      font-weight: 500;
+    }
+
+    /* Grids */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .mini{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:14px;
+      border-radius:18px;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      text-decoration:none;
+      color:inherit;
+      transition: transform .08s ease;
+      min-height: 74px;
+    }
+    .mini:active{ transform: scale(.99); }
+    .mini .ico{
+      width:38px;height:38px;
+      border-radius:14px;
+      background: rgba(245,243,255,.55);
+      border: 1px solid rgba(59,55,80,.05);
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      opacity:.82;
+      flex:0 0 auto;
+    }
+    .mini h4{
+      margin:0;
+      font-size:15px;
+      font-weight:600;
+    }
+    .mini p{
+      margin:4px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      font-weight: 500;
+    }
+
+    /* Your space row */
+    .row{
+      display:flex;
+      gap:8px;
+      padding:10px;
+      background: var(--panel);
+      border-radius:18px;
+      border:1px solid var(--stroke);
+      box-shadow: var(--shadow);
+    }
+    .pill{
+      flex:1;
+      text-align:center;
+      padding:10px 8px;
+      border-radius:14px;
+      text-decoration:none;
+      color: rgba(59,55,80,.85);
+      font-size:14px;
+      font-weight:600;
+      background: rgba(255,255,255,.35);
+      border: 1px solid rgba(59,55,80,.04);
+      transition: transform .08s ease, background .12s ease;
+    }
+    .pill:active{
+      transform: scale(.99);
+      background: rgba(245,243,255,.6);
+    }
+
+    /* Support banner (fixed + more tappable) */
+    .support{
+      margin-top:12px;
+      padding:14px 16px;
+      border-radius:18px;
+      background: linear-gradient(
+        180deg,
+        rgba(198,186,255,.35),
+        rgba(198,186,255,.22)
+      );
+      border:1px solid rgba(59,55,80,.06);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color: rgba(59,55,80,.9);
+      font-weight:600;
+      box-shadow: var(--shadow);
+      transition: transform .08s ease;
+    }
+    .support:active{ transform: scale(.99); }
+
+    .support-emoji{
+      font-size:18px;
+      opacity:.85;
+      flex: 0 0 auto;
+    }
+    .support-text{
+      flex:1;
+      font-size:14px;
+      text-align:center;
+    }
+    .support-arrow{
+      font-size:18px;
+      opacity:.5;
+      flex: 0 0 auto;
+    }
+
+    /* Bottom nav */
+    .nav{
+      position:fixed;
+      bottom:0;left:0;right:0;
+      background: rgba(255,255,255,.80);
+      border-top:1px solid var(--stroke);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 10px 10px 12px;
+    }
+    .nav-inner{
+      max-width:430px;
+      margin:0 auto;
+      display:flex;
+      justify-content:space-between;
+      gap: 6px;
+      padding: 0 6px;
+    }
+    .nav a{
+      flex:1;
+      text-align:center;
+      text-decoration:none;
+      color: rgba(59,55,80,.62);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 4px;
+      border-radius: 14px;
+    }
+    .nav a.active{
+      color: rgba(59,55,80,.88);
+      background: rgba(245,243,255,.55);
+      border: 1px solid rgba(59,55,80,.04);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <div class="top">
+      <div style="width:42px;height:42px;"></div>
+      <div class="brand">
+        <h1>Enigma Wellbeing</h1>
+        <p>Your calm space</p>
+      </div>
+      <button class="moon-btn" aria-label="Theme">🌙</button>
+    </div>
+
+    <section class="section">
+      <h2>In this moment</h2>
+      <div class="panel">
+        <a class="big breathe" href="breathe.html">
+          <div class="big-icon">🌬️</div>
+          <div>
+            <h3>Breathe now</h3>
+            <p>One minute to settle</p>
+          </div>
+        </a>
+
+        <a class="big calm" href="overwhelmed.html">
+          <div class="big-icon">🤍</div>
+          <div>
+            <h3>I need calm</h3>
+            <p>Small steps, gently</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Today</h2>
+      <div class="grid">
+        <a class="mini" href="checkin.html">
+          <div class="ico">🗒️</div>
+          <div><h4>Check in</h4><p>How are you, really?</p></div>
+        </a>
+
+        <a class="mini" href="journal.html">
+          <div class="ico">📖</div>
+          <div><h4>Journal</h4><p>Write freely</p></div>
+        </a>
+
+        <a class="mini" href="word.html">
+          <div class="ico">✨</div>
+          <div><h4>Daily word</h4><p>A gentle focus</p></div>
+        </a>
+
+        <a class="mini" href="quotes.html">
+          <div class="ico">💬</div>
+          <div><h4>Kind words</h4><p>Quiet encouragement</p></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Explore</h2>
+      <div class="grid">
+        <a class="mini" href="yoga.html">
+          <div class="ico">🧘</div>
+          <div><h4>Move gently</h4><p>Stretch & unwind</p></div>
+        </a>
+
+        <a class="mini" href="music.html">
+          <div class="ico">🎵</div>
+          <div><h4>Listen</h4><p>Calming sounds</p></div>
+        </a>
+
+        <a class="mini" href="books.html">
+          <div class="ico">📚</div>
+          <div><h4>Read</h4><p>Helpful ideas</p></div>
+        </a>
+
+        <a class="mini" href="distraction.html">
+          <div class="ico">🧩</div>
+          <div><h4>Take a break</h4><p>Gentle resets</p></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Your space</h2>
+      <div class="row">
+        <a class="pill" href="progress.html">📊 Progress</a>
+        <a class="pill" href="resources.html">🧠 Support</a>
+        <a class="pill" href="settings.html">⚙️ Settings</a>
+      </div>
+
+      <a class="support" href="help.html">
+        <span class="support-emoji">🤍</span>
+        <span class="support-text">Get support now</span>
+        <span class="support-arrow">›</span>
+      </a>
+    </section>
+  </main>
+
+  <nav class="nav" aria-label="Bottom navigation">
+    <div class="nav-inner">
+      <a class="active" href="index.html">Home</a>
+      <a href="breathe.html">Breathe</a>
+      <a href="checkin.html">Check-in</a>
+      <a href="progress.html">Progress</a>
+      <a href="settings.html">Settings</a>
+    </div>
+  </nav>
+</body>
+</html>
