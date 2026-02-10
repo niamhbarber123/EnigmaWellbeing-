@@ -622,3 +622,28 @@ body.night .home-pill:active{
 .page-wrap{
   padding-bottom: calc(var(--navH) + var(--safeBottom) + 20px);
 }
+/* =========================
+   NIGHT MODE — Home screen DARK pills (match cards)
+   ========================= */
+
+body.night .home-pill{
+  background: rgba(26,24,38,0.88);          /* same family as cards */
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.65);
+}
+
+body.night .pill-text{
+  color: rgba(255,255,255,0.96);            /* strong contrast */
+  font-weight: 900;
+}
+
+body.night .pill-ico{
+  opacity: 1;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));
+}
+
+/* Active / pressed state */
+body.night .home-pill:active{
+  background: rgba(34,32,48,0.95);
+  transform: scale(0.985);
+}
