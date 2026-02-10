@@ -7,11 +7,11 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210fixM" />
+  <link rel="stylesheet" href="style.css?v=20260211fix1" />
 </head>
 
 <body class="page-wrap">
-  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
@@ -22,25 +22,30 @@
   <main class="page">
     <section class="card">
       <div class="section-title">How are you feeling?</div>
-      <div class="chip-row" id="moodChips"></div>
-    </section>
-
-    <section class="card" style="margin-top:14px;">
-      <div class="section-title">Write</div>
-      <div class="gentle-text" style="margin-top:6px;">A few lines is enough.</div>
-
-      <textarea id="moodText" rows="6" style="margin-top:12px;" placeholder="What’s going on for you right now?"></textarea>
-
-      <div class="row" style="margin-top:12px;">
-        <button id="saveMood" class="btn primary" type="button">Save</button>
-        <button id="clearMood" class="btn" type="button">Clear</button>
+      <div class="chip-row" style="margin-top:12px;">
+        <button class="chip" type="button" data-mood="Calm">😌 Calm</button>
+        <button class="chip" type="button" data-mood="Okay">🙂 Okay</button>
+        <button class="chip" type="button" data-mood="Anxious">😟 Anxious</button>
+        <button class="chip" type="button" data-mood="Low">😔 Low</button>
+        <button class="chip" type="button" data-mood="Angry">😡 Angry</button>
+        <button class="chip" type="button" data-mood="Overwhelmed">😵‍💫 Overwhelmed</button>
+        <button class="chip" type="button" data-mood="Tired">😴 Tired</button>
+        <button class="chip" type="button" data-mood="Hopeful">🌤️ Hopeful</button>
       </div>
     </section>
 
-    <section class="card" style="margin-top:14px;">
-      <div class="section-title">Recent</div>
-      <div class="gentle-text" style="margin-top:6px;">Last 7 entries.</div>
-      <div id="moodList" style="margin-top:12px;"></div>
+    <section class="card">
+      <div class="section-title">Write</div>
+      <div class="gentle-text" style="margin-top:6px;">A few lines is enough.</div>
+
+      <textarea id="moodNote" rows="6" placeholder="What’s going on for you right now?" style="margin-top:12px;"></textarea>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+        <button id="saveMood" class="small-pill" type="button">Save</button>
+        <button id="clearMood" class="small-pill" type="button">Clear</button>
+      </div>
+
+      <div class="gentle-text" style="margin-top:10px;" id="moodStatus"></div>
     </section>
   </main>
 
@@ -54,7 +59,38 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260210fixM" defer></script>
-  <script src="mood.js?v=20260210fixM" defer></script>
+  <script src="app.js?v=20260211fix1" defer></script>
+  <script>
+    (function(){
+      const chips = Array.from(document.querySelectorAll("[data-mood]"));
+      const note = document.getElementById("moodNote");
+      const save = document.getElementById("saveMood");
+      const clear = document.getElementById("clearMood");
+      const status = document.getElementById("moodStatus");
+
+      let selected = "";
+
+      chips.forEach(btn => {
+        btn.addEventListener("click", () => {
+          selected = btn.getAttribute("data-mood") || "";
+          chips.forEach(b => b.classList.toggle("active", b === btn));
+          status.textContent = selected ? `Selected: ${selected}` : "";
+        });
+      });
+
+      save.addEventListener("click", () => {
+        const payload = { mood: selected, note: note.value || "", at: Date.now() };
+        localStorage.setItem("enigma_mood_last_v1", JSON.stringify(payload));
+        status.textContent = "Saved ✅";
+      });
+
+      clear.addEventListener("click", () => {
+        selected = "";
+        chips.forEach(b => b.classList.remove("active"));
+        note.value = "";
+        status.textContent = "";
+      });
+    })();
+  </script>
 </body>
 </html>
