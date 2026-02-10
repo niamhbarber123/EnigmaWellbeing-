@@ -3,56 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Breathe • Enigma Wellbeing</title>
+  <title>Breathe • Enigma</title>
+
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="breathe.css" />
 </head>
 
 <body class="page-wrap">
   <header class="app-header">
+    <button class="back-btn">←</button>
     <button class="theme-toggle">🌙</button>
     <h1>Breathe</h1>
     <p>Follow the rhythm</p>
   </header>
 
   <main>
-    <!-- Breathing card -->
     <section class="card breathe-card">
-      <div class="breathe-circle" id="circle">
-        <span id="breatheText">Ready</span>
+      <div id="circle">
+        <span id="phase">Ready</span>
       </div>
+
+      <div id="clock">01:00</div>
     </section>
 
-    <!-- Session settings -->
     <section class="card">
-      <div class="section-title">Session</div>
-      <p class="muted-text">
-        Timer counts down. Stopwatch counts up.
-      </p>
+      <div class="row two-cols">
+        <select id="mode">
+          <option value="timer">Timer</option>
+          <option value="stopwatch">Stopwatch</option>
+        </select>
 
-      <div class="dropdown-row">
-        <div class="dropdown">
-          <label>Mode</label>
-          <select id="modeSelect">
-            <option value="timer">Timer</option>
-            <option value="stopwatch">Stopwatch</option>
-          </select>
-        </div>
-
-        <div class="dropdown">
-          <label>Length</label>
-          <select id="lengthSelect">
-            <option value="60">1 minute</option>
-            <option value="120">2 minutes</option>
-            <option value="300">5 minutes</option>
-          </select>
-        </div>
+        <select id="length">
+          <option value="60">1 minute</option>
+          <option value="120">2 minutes</option>
+          <option value="300">5 minutes</option>
+        </select>
       </div>
 
       <div class="controls">
-        <button id="startBtn" class="soft-btn primary">Start</button>
-        <button id="pauseBtn" class="soft-btn">Pause</button>
-        <button id="resetBtn" class="soft-btn">Reset</button>
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
       </div>
     </section>
   </main>
