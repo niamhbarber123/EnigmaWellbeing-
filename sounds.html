@@ -7,11 +7,11 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="./style.css?v=20260210fix3" />
+  <link rel="stylesheet" href="style.css?v=20260210fixS" />
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
@@ -22,28 +22,25 @@
   <main class="page">
     <section class="card">
       <div class="section-title">Mood</div>
-      <div class="chip-row" id="musicChips" style="margin-top:12px;"></div>
+      <div class="chip-row" id="musicChips"></div>
     </section>
 
     <section class="card" style="margin-top:14px;">
       <div class="section-title">Tracks</div>
       <div class="gentle-text" style="margin-top:6px;">Links open in a new tab.</div>
-
-      <!-- ✅ each track becomes its own Enigma tile button -->
-      <div id="musicList"></div>
+      <div class="list" id="musicList"></div>
     </section>
 
     <section class="card" style="margin-top:14px;">
       <div class="section-title">Minutes listened</div>
-
       <div class="gentle-text" style="margin-top:6px;">
         Today: <strong><span id="todayMin">0</span></strong> min<br/>
         Total: <strong><span id="totalMin">0</span></strong> min
       </div>
 
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-        <button id="startSession" class="small-pill" type="button">Start session</button>
-        <button id="endSession" class="small-pill" type="button">End session</button>
+      <div class="row" style="margin-top:12px;">
+        <button id="startSession" class="btn primary" type="button">Start session</button>
+        <button id="endSession" class="btn" type="button">End session</button>
       </div>
 
       <div class="gentle-text" style="margin-top:10px;" id="sessionState">No active session.</div>
@@ -56,11 +53,11 @@
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a class="active" href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="./app.js?v=20260210fix3" defer></script>
-  <script src="./sounds.js?v=20260210fix3" defer></script>
+  <script src="app.js?v=20260210fixS" defer></script>
+  <script src="sounds.js?v=20260210fixS" defer></script>
 </body>
 </html>
