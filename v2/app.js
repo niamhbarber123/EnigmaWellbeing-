@@ -1,33 +1,47 @@
 (() => {
-  const KEY = "enigma_v2_night";
+  const KEY = "enigma_theme_v2"; // "night" | "day"
 
-  function apply(isNight) {
-    document.body.classList.toggle("night", !!isNight);
+  function applyTheme(isNight) {
+    document.body.classList.toggle("night", isNight);
+
+    // Optional: swap icon to show current state
     const btn = document.getElementById("themeFab");
     if (btn) btn.textContent = isNight ? "☀️" : "🌙";
   }
 
-  function readPref() {
-    try { return localStorage.getItem(KEY) === "1"; }
-    catch { return false; }
+  function loadTheme() {
+    try {
+      return localStorage.getItem(KEY) === "night";
+    } catch {
+      return false;
+    }
   }
 
-  function writePref(isNight) {
-    try { localStorage.setItem(KEY, isNight ? "1" : "0"); }
-    catch {}
+  function saveTheme(isNight) {
+    try {
+      localStorage.setItem(KEY, isNight ? "night" : "day");
+    } catch {}
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    // apply saved preference on every page
-    apply(readPref());
+  function init() {
+    // Apply saved theme first
+    applyTheme(loadTheme());
 
+    // Wire up button (if it exists on this page)
     const btn = document.getElementById("themeFab");
     if (!btn) return;
 
     btn.addEventListener("click", () => {
-      const next = !document.body.classList.contains("night");
-      writePref(next);
-      apply(next);
+      const isNight = !document.body.classList.contains("night");
+      applyTheme(isNight);
+      saveTheme(isNight);
     });
-  });
+  }
+
+  // Ensure DOM is ready (works with/without defer)
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
