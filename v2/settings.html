@@ -4,47 +4,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Settings • Enigma Wellbeing</title>
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260211v2a" />
+
+  <link rel="icon" href="../icon.png" />
+  <link rel="apple-touch-icon" href="../icon.png" />
+  <link rel="stylesheet" href="style.css?v=20260210-v2-allfix" />
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <a class="back-btn" href="index.html" aria-label="Back">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <header class="page-header">
-    <h1>Settings</h1>
-    <p>Make Enigma feel right for you</p>
-  </header>
+  <div class="page-shell">
+    <header class="page-header">
+      <h1>Settings</h1>
+      <p>Make Enigma feel right for you</p>
+    </header>
 
-  <main class="page">
-    <section class="card">
+    <section class="section">
       <div class="section-title">Breathing pace</div>
-      <div class="gentle-text" style="margin-top:6px;">Choose what feels comfortable.</div>
 
-      <div class="row" style="margin-top:12px;">
-        <button class="btn primary" type="button">🐢 Slow</button>
-        <button class="btn primary" type="button">😌 Standard</button>
-        <button class="btn primary" type="button">⚡ Fast</button>
+      <div class="card">
+        <div class="gentle">Choose what feels comfortable.</div>
+
+        <div class="chips" style="margin-top:12px;">
+          <button class="chip" type="button" data-pace="slow">🐢 Slow</button>
+          <button class="chip" type="button" data-pace="standard">😌 Standard</button>
+          <button class="chip" type="button" data-pace="fast">⚡ Fast</button>
+        </div>
+
+        <div class="gentle" id="paceMsg" style="margin-top:10px;">Standard pace selected.</div>
       </div>
-
-      <div class="gentle-text" style="margin-top:10px;">Standard pace selected.</div>
     </section>
 
-    <section class="card">
+    <section class="section">
       <div class="section-title">Reduce motion</div>
-      <div class="gentle-text" style="margin-top:6px;">If animations feel too much.</div>
 
-      <label class="gentle-text" style="display:flex; gap:10px; align-items:center; margin-top:12px; font-weight:800;">
-        <input type="checkbox" />
-        Reduce animation
-      </label>
+      <div class="card">
+        <div class="gentle">If animations feel too much.</div>
 
-      <div class="gentle-text" style="margin-top:10px;">This affects Overwhelmed mode.</div>
+        <label style="display:flex; gap:10px; align-items:center; margin-top:12px; font-weight:850;">
+          <input id="reduceMotion" type="checkbox" style="width:22px; height:22px;" />
+          Reduce animation
+        </label>
+
+        <div class="gentle" style="margin-top:10px;">This affects Breathe and I need calm mode.</div>
+      </div>
     </section>
-  </main>
+  </div>
 
-  <script src="app.js?v=20260211v2a" defer></script>
+  <script src="app.js?v=20260210-v2-allfix" defer></script>
+  <script src="settings.js?v=20260210-v2-allfix" defer></script>
 </body>
 </html>
