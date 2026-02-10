@@ -1,30 +1,53 @@
-(() => {
-  const btn = document.getElementById("themeFab");
-  const KEY = "enigma_theme_v2";
+/* =========================
+   Enigma Wellbeing v2 — app.js
+   Theme + tiny helpers
+   ========================= */
 
-  function applyTheme(theme) {
-    document.body.classList.toggle("night", theme === "night");
-    if (btn) btn.textContent = (theme === "night") ? "☀️" : "🌙";
+(() => {
+  const THEME_KEY = "enigma_theme_v2"; // "night" | "day"
+
+  function applyTheme(mode) {
+    const isNight = mode === "night";
+    document.body.classList.toggle("night", isNight);
+
+    const fab = document.getElementById("themeFab");
+    if (fab) fab.textContent = isNight ? "☀️" : "🌙";
   }
 
   function loadTheme() {
-    try { return localStorage.getItem(KEY) || "day"; }
-    catch { return "day"; }
+    try {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === "night" || saved === "day") return saved;
+    } catch {}
+    // default = day
+    return "day";
   }
 
-  function saveTheme(theme) {
-    try { localStorage.setItem(KEY, theme); } catch {}
+  function saveTheme(mode) {
+    try { localStorage.setItem(THEME_KEY, mode); } catch {}
   }
 
-  // init
-  const current = loadTheme();
-  applyTheme(current);
-
-  if (btn) {
-    btn.addEventListener("click", () => {
-      const next = document.body.classList.contains("night") ? "day" : "night";
-      saveTheme(next);
-      applyTheme(next);
-    });
+  function toggleTheme() {
+    const nowNight = !document.body.classList.contains("night");
+    const next = nowNight ? "night" : "day";
+    applyTheme(next);
+    saveTheme(next);
   }
+
+  // Init when DOM ready
+  document.addEventListener("DOMContentLoaded", () => {
+    applyTheme(loadTheme());
+
+    const fab = document.getElementById("themeFab");
+    if (fab) fab.addEventListener("click", toggleTheme);
+
+    // Optional: if you ever use a back button as <button data-back>
+    const back = document.querySelector("[data-back]");
+    if (back) {
+      back.addEventListener("click", () => {
+        if (history.length > 1) history.back();
+        else location.href = "index.html";
+      });
+    }
+  });
 })();
