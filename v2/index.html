@@ -2,143 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Enigma Wellbeing • Home</title>
-
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
-
-  <!-- v2 shared styles -->
-  <link rel="stylesheet" href="./style.css?v=20260210v2-homefix1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class="page-wrap home-page">
-  <!-- Night mode -->
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
-
-  <header class="home-header">
+<body class="page-wrap">
+  <header class="app-header">
+    <button class="theme-toggle">🌙</button>
     <h1>Enigma Wellbeing</h1>
     <p>Your calm space</p>
   </header>
 
-  <main class="home">
-    <!-- RIGHT NOW -->
-    <section class="home-section">
-      <div class="home-section-title">Right now</div>
+  <div class="section-title">Right now</div>
 
-      <a class="big-tile big-tile--lav" href="./breathe.html">
-        <div class="tile-ico">🌬️</div>
-        <div class="tile-txt">
-          <div class="tile-title">Breathe now</div>
-        </div>
-        <div class="tile-arrow">›</div>
-      </a>
+  <a href="breathe.html" class="card action-card">
+    <div class="icon">🌬️</div>
+    <div class="label">Breathe now</div>
+    <div class="chevron">›</div>
+  </a>
 
-      <a class="big-tile big-tile--peach" href="./overwhelmed.html">
-        <div class="tile-ico">🫶</div>
-        <div class="tile-txt">
-          <div class="tile-title">I need calm</div>
-        </div>
-        <div class="tile-arrow">›</div>
-      </a>
-    </section>
+  <a href="overwhelmed.html" class="card action-card">
+    <div class="icon">🤲</div>
+    <div class="label">I need calm</div>
+    <div class="chevron">›</div>
+  </a>
 
-    <!-- TODAY -->
-    <section class="home-section">
-      <div class="home-section-title">Today</div>
+  <div class="section-title">Today</div>
 
-      <div class="tile-grid">
-        <a class="small-tile" href="./checkin.html">
-          <div class="tile-ico">📝</div>
-          <div class="tile-txt">
-            <div class="tile-title">Check in</div>
-          </div>
-          <div class="tile-arrow">›</div>
-        </a>
+  <div class="grid">
+    <a href="checkin.html" class="grid-btn">
+      <div class="icon">📝</div><span>Check in</span>
+    </a>
+    <a href="journal.html" class="grid-btn">
+      <div class="icon">📖</div><span>Journal</span>
+    </a>
+    <a href="word.html" class="grid-btn">
+      <div class="icon">✨</div><span>Daily word</span>
+    </a>
+    <a href="quotes.html" class="grid-btn">
+      <div class="icon">💬</div><span>Kind words</span>
+    </a>
+  </div>
 
-        <a class="small-tile" href="./journal.html">
-          <div class="tile-ico">📖</div>
-          <div class="tile-txt">
-            <div class="tile-title">Journal</div>
-          </div>
-          <div class="tile-arrow">›</div>
-        </a>
+  <div class="section-title">Explore</div>
 
-        <a class="small-tile" href="./word.html">
-          <div class="tile-ico">✨</div>
-          <div class="tile-txt">
-            <div class="tile-title">Daily word</div>
-          </div>
-          <div class="tile-arrow">›</div>
-        </a>
+  <div class="grid">
+    <a href="yoga.html" class="grid-btn">
+      <div class="icon">🧘‍♀️</div><span>Move gently</span>
+    </a>
+    <a href="sounds.html" class="grid-btn">
+      <div class="icon">🎵</div><span>Listen</span>
+    </a>
+    <a href="books.html" class="grid-btn">
+      <div class="icon">📚</div><span>Read</span>
+    </a>
+    <a href="distraction.html" class="grid-btn">
+      <div class="icon">🧩</div><span>Take a break</span>
+    </a>
+  </div>
 
-        <a class="small-tile" href="./quotes.html">
-          <div class="tile-ico">💬</div>
-          <div class="tile-txt">
-            <div class="tile-title">Kind words</div>
-          </div>
-          <div class="tile-arrow">›</div>
-        </a>
-      </div>
-    </section>
+  <div class="section-title">Your space</div>
 
-    <!-- EXPLORE -->
-    <section class="home-section">
-      <div class="home-section-title">Explore</div>
+  <div class="space-row">
+    <a href="progress.html" class="space-btn">📊 Progress</a>
+    <a href="resources.html" class="space-btn">🧠 Resources</a>
+    <a href="settings.html" class="space-btn">⚙️ Settings</a>
+  </div>
 
-      <div class="tile-grid">
-        <a class="small-tile" href="./yoga.html">
-          <div class="tile-ico">🧘‍♀️</div>
-          <div class="tile-txt">
-            <div class="tile-title">Move gently</div>
-          </div>
-          <div class="tile-arrow">›</div>
-        </a>
+  <a href="help.html" class="help-btn">
+    🆘 Get help now
+  </a>
 
-        <a class="small-tile" href="./sounds.html">
-          <div class="tile-ico">🎵</div>
-          <div class="tile-txt">
-            <div class="tile-title">Listen</div>
-          </div>
-          <div class="tile-arrow">›</div>
-        </a>
-
-        <a class="small-tile" href="./books.html">
-          <div class="tile-ico">📚</div>
-          <div class="tile-txt">
-            <div class="tile-title">Read</div>
-          </div>
-          <div class="tile-arrow">›</div>
-        </a>
-
-        <a class="small-tile" href="./distraction.html">
-          <div class="tile-ico">🧩</div>
-          <div class="tile-txt">
-            <div class="tile-title">Take a break</div>
-          </div>
-          <div class="tile-arrow">›</div>
-        </a>
-      </div>
-    </section>
-
-    <!-- YOUR SPACE -->
-    <section class="home-section">
-      <div class="home-section-title">Your space</div>
-
-      <div class="bottom-pills">
-        <a class="bottom-pill" href="./progress.html"><span class="bp-ico">📊</span><span class="bp-txt">Progress</span></a>
-        <a class="bottom-pill" href="./resources.html"><span class="bp-ico">🧠</span><span class="bp-txt">Resources</span></a>
-        <a class="bottom-pill" href="./settings.html"><span class="bp-ico">⚙️</span><span class="bp-txt">Settings</span></a>
-      </div>
-
-      <a class="support-now" href="./help.html">
-        <span class="support-badge">HELP</span>
-        <span class="support-text">Get support now</span>
-        <span class="support-arrow">›</span>
-      </a>
-    </section>
-  </main>
-
-  <script src="./app.js?v=20260210v2-homefix1" defer></script>
+  <script src="app.js"></script>
 </body>
 </html>
