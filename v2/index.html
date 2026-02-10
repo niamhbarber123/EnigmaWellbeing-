@@ -2,33 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="icon" href="../icon.png" />
+  <link rel="stylesheet" href="style.css?v=2.0.0" />
 </head>
 
 <body class="page-wrap">
-  <button class="theme-toggle-top" id="themeFab">🌙</button>
 
-  <header class="page-header">
+  <!-- Header -->
+  <header class="home-header">
     <h1>Enigma Wellbeing</h1>
     <p>Your calm space</p>
+    <button id="themeFab" class="theme-toggle" aria-label="Toggle night mode">🌙</button>
   </header>
 
-  <main class="home-grid">
-    <a class="pill" href="breathe.html">🌬️ Breathe</a>
-    <a class="pill" href="checkin.html">📝 Check in</a>
-    <a class="pill" href="journal.html">📖 Journal</a>
-    <a class="pill" href="overwhelmed.html">🫂 I’m overwhelmed</a>
-    <a class="pill" href="quotes.html">💬 Quotes</a>
-    <a class="pill" href="resources.html">🧠 Resources</a>
+  <main class="home">
 
-    <!-- FIXED SUPPORT BUTTON -->
-    <a class="pill" href="help.html" style="background:#f4d7dd;">
-      🆘 Support now
-    </a>
+    <!-- RIGHT NOW -->
+    <section>
+      <h2 class="section-label">Right now</h2>
+
+      <a href="breathe.html" class="card card-soft">
+        <div class="card-title">🌬️ Breathe now</div>
+        <div class="card-sub">60 seconds to reset</div>
+      </a>
+
+      <a href="overwhelmed.html" class="card card-warm">
+        <div class="card-title">🤍 I need calm</div>
+        <div class="card-sub">Quick steps to feel safer</div>
+      </a>
+    </section>
+
+    <!-- TODAY -->
+    <section>
+      <h2 class="section-label">Today</h2>
+
+      <div class="grid-2">
+        <a href="checkin.html" class="card">
+          <div class="card-title">☑️ Check in</div>
+          <div class="card-sub">How are you, really?</div>
+        </a>
+
+        <a href="journal.html" class="card">
+          <div class="card-title">📖 Journal</div>
+          <div class="card-sub">Write it out</div>
+        </a>
+
+        <a href="word.html" class="card">
+          <div class="card-title">✨ Daily word</div>
+          <div class="card-sub">Learn more</div>
+        </a>
+
+        <a href="kind.html" class="card">
+          <div class="card-title">💬 Kind words</div>
+          <div class="card-sub">Share your emotion</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- EXPLORE -->
+    <section>
+      <h2 class="section-label">Explore</h2>
+
+      <div class="grid-2">
+        <a href="yoga.html" class="card">
+          <div class="card-title">🧘 Move gently</div>
+        </a>
+
+        <a href="sounds.html" class="card">
+          <div class="card-title">🎵 Listen</div>
+        </a>
+
+        <a href="books.html" class="card">
+          <div class="card-title">📚 Read</div>
+        </a>
+
+        <a href="distraction.html" class="card">
+          <div class="card-title">🧩 Take a break</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- YOUR SPACE -->
+    <section>
+      <h2 class="section-label">Your space</h2>
+
+      <div class="pill-row">
+        <a href="progress.html" class="pill">📊 Progress</a>
+        <a href="resources.html" class="pill">🧠 Support & resources</a>
+        <a href="settings.html" class="pill">⚙️ Settings</a>
+      </div>
+
+      <a href="help.html" class="support-now">
+        🆘 Get support now →
+      </a>
+    </section>
+
   </main>
 
-  <script src="app.js"></script>
+  <script src="../app.js?v=2.0.0"></script>
 </body>
 </html>
