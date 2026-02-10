@@ -3,92 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>I Need Calm • Enigma Wellbeing</title>
+  <title>I need calm • Enigma Wellbeing</title>
 
   <link rel="icon" href="../icon.png" />
   <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="style.css?v=20260210-v2-allfix" />
 </head>
 
 <body class="page-wrap">
-
-  <!-- Back -->
   <a class="back-btn" href="index.html" aria-label="Back">←</a>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <!-- Night mode -->
-  <button id="themeFab" class="theme-toggle-top" aria-label="Toggle night mode">🌙</button>
+  <div class="page-shell">
+    <header class="page-header">
+      <h1>I need calm</h1>
+      <p>Quick steps to feel safer</p>
+    </header>
 
-  <header class="page-header">
-    <h1>I need calm</h1>
-    <p>Let’s slow this moment down</p>
-  </header>
+    <section class="section">
+      <div class="section-title">Try this now</div>
 
-  <main class="page">
+      <div class="card">
+        <div class="gentle">Tap through. You only need to do one step.</div>
 
-    <!-- STEP 1 -->
-    <section class="card step active" data-step="1">
-      <div class="section-title">Pause</div>
-      <p class="gentle-text" style="margin-top:8px;">
-        You don’t need to fix anything right now.
-      </p>
+        <div id="calmStep" style="margin-top:12px; font-size:17px; font-weight:900; color:var(--ink); line-height:1.35;">
+          Put both feet on the floor. Press your toes down gently.
+        </div>
 
-      <button class="primary-btn" data-next>
-        Continue
-      </button>
-    </section>
+        <div class="gentle" id="calmHint" style="margin-top:10px;">
+          Notice one thing you can see.
+        </div>
 
-    <!-- STEP 2 -->
-    <section class="card step" data-step="2">
-      <div class="section-title">What feels strongest?</div>
-
-      <div class="chip-grid">
-        <button class="chip">😰 Anxious</button>
-        <button class="chip">😵 Overstimulated</button>
-        <button class="chip">💥 Panicky</button>
-        <button class="chip">😶 Numb</button>
-        <button class="chip">😢 Tearful</button>
-        <button class="chip">😡 Angry</button>
+        <div class="row" style="margin-top:14px;">
+          <button id="nextStep" class="pill" type="button" style="flex:1;">Next</button>
+          <button id="restartSteps" class="pill" type="button" style="flex:1;">Restart</button>
+        </div>
       </div>
     </section>
 
-    <!-- STEP 3 -->
-    <section class="card step" data-step="3">
-      <div class="section-title">That makes sense</div>
-      <p class="gentle-text" id="validationText" style="margin-top:10px;"></p>
+    <section class="section">
+      <div class="section-title">If you feel unsafe</div>
+      <div class="card">
+        <div class="gentle">
+          If you’re in immediate danger call <strong>999</strong>.<br/>
+          For urgent advice (UK) use <strong>NHS 111</strong> or see Help.
+        </div>
 
-      <button class="primary-btn" data-next>
-        Continue
-      </button>
-    </section>
-
-    <!-- STEP 4 -->
-    <section class="card step" data-step="4">
-      <div class="section-title">One small grounding step</div>
-
-      <div class="list">
-        <button class="ground-btn">👀 Name 3 things you can see</button>
-        <button class="ground-btn">👣 Feel your feet on the floor</button>
-        <button class="ground-btn">💜 Place a hand on your chest</button>
-        <button class="ground-btn skip">Skip this</button>
+        <div class="row" style="margin-top:14px;">
+          <a class="pill" href="help.html" style="flex:1; text-align:center;">Open Help</a>
+          <a class="pill" href="resources.html" style="flex:1; text-align:center;">Resources</a>
+        </div>
       </div>
     </section>
+  </div>
 
-    <!-- STEP 5 -->
-    <section class="card step" data-step="5">
-      <div class="section-title">How are you now?</div>
-
-      <button class="primary-btn" onclick="location.href='index.html'">
-        I feel a little steadier
-      </button>
-
-      <button class="secondary-btn" onclick="location.href='help.html'">
-        I still need support
-      </button>
-    </section>
-
-  </main>
-
-  <script src="../app.js"></script>
-  <script src="overwhelmed.js"></script>
+  <script src="app.js?v=20260210-v2-allfix" defer></script>
+  <script src="overwhelmed.js?v=20260210-v2-allfix" defer></script>
 </body>
 </html>
