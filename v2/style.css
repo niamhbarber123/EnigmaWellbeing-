@@ -295,3 +295,113 @@ body.night .support-now{
   .small-tile .tile-title{ font-size: 17px; }
   .bp-txt{ font-size: 14px; }
 }
+/* =========================
+   SOFTEN VISUAL TONE (CALMER UI)
+   ========================= */
+
+/* App title */
+.home-header h1 {
+  font-weight: 700;               /* was very bold */
+  color: rgba(70, 65, 95, 0.9);   /* softer ink */
+  letter-spacing: -0.3px;
+}
+
+body.night .home-header h1 {
+  color: rgba(255,255,255,0.85);
+}
+
+/* Subtitle */
+.home-header p {
+  font-weight: 500;
+  color: rgba(120,115,150,0.85);
+}
+
+body.night .home-header p {
+  color: rgba(255,255,255,0.6);
+}
+
+/* Section titles (Right now / Today / Explore / Your space) */
+.home-section-title {
+  font-size: 18px;
+  font-weight: 600;               /* calmer */
+  color: rgba(95, 90, 125, 0.85);
+  letter-spacing: 0.1px;
+}
+
+body.night .home-section-title {
+  color: rgba(255,255,255,0.65);
+}
+
+/* Tile titles */
+.tile-title {
+  font-weight: 600;               /* less heavy */
+  color: rgba(80,75,110,0.95);
+}
+
+body.night .tile-title {
+  color: rgba(255,255,255,0.82);
+}
+
+/* Arrows less prominent */
+.tile-arrow {
+  opacity: 0.35;
+  font-weight: 600;
+}
+
+/* Icons slightly softer */
+.tile-ico {
+  background: rgba(255,255,255,0.55);
+}
+
+body.night .tile-ico {
+  background: rgba(30,28,46,0.5);
+}
+
+/* Big tiles: reduce contrast */
+.big-tile--lav {
+  background: linear-gradient(
+    90deg,
+    rgba(200,190,245,0.22),
+    rgba(255,255,255,0.65)
+  );
+}
+
+.big-tile--peach {
+  background: linear-gradient(
+    90deg,
+    rgba(245,200,200,0.22),
+    rgba(255,255,255,0.65)
+  );
+}
+
+body.night .big-tile--lav,
+body.night .big-tile--peach {
+  background: rgba(28,26,42,0.55);
+}
+
+/* Bottom pills calmer */
+.bottom-pill {
+  font-weight: 600;
+  color: rgba(85,80,115,0.9);
+}
+
+body.night .bottom-pill {
+  color: rgba(255,255,255,0.75);
+}
+
+/* Support button softened */
+.support-now {
+  background: linear-gradient(
+    90deg,
+    rgba(235,190,210,0.18),
+    rgba(205,190,245,0.18)
+  );
+}
+
+.support-text {
+  font-weight: 600;
+}
+
+.support-badge {
+  font-weight: 600;
+}
