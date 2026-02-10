@@ -7,11 +7,14 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260209-final" />
+
+  <!-- v2 shared styles -->
+  <link rel="stylesheet" href="style.css?v=20260211v2a" />
 </head>
 
 <body class="page-wrap">
-  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
+  <!-- Back + Night mode (consistent on all v2 pages) -->
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
@@ -23,12 +26,21 @@
     <section class="card">
       <div class="section-title">Daily quote</div>
       <div class="gentle-text" style="margin-top:6px;">A gentle one for today.</div>
-      <div id="dailyQuote" style="margin-top:12px;"></div>
+
+      <!-- quotes.js fills this -->
+      <div id="dailyQuote" class="inner-box" style="margin-top:12px;"></div>
     </section>
 
-    <section class="card" style="margin-top:14px;">
+    <section class="card">
       <div class="section-title">Find a quote</div>
-      <input id="quoteQuery" class="input" style="margin-top:12px;" placeholder="Search quotes or authors..." />
+
+      <input
+        id="quoteQuery"
+        class="input"
+        style="margin-top:12px;"
+        placeholder="Search quotes or authors..."
+        autocomplete="off"
+      />
 
       <div class="row" style="margin-top:12px;">
         <button id="searchBtn" class="btn primary" type="button">Search</button>
@@ -36,27 +48,23 @@
       </div>
 
       <div class="row" style="margin-top:12px;">
-        <button id="showSavedBtn" class="btn primary" type="button">💜 Saved (<span id="savedCount">0</span>)</button>
+        <button id="showSavedBtn" class="btn primary" type="button">
+          💜 Saved (<span id="savedCount">0</span>)
+        </button>
         <button id="deleteSavedBtn" class="btn danger" type="button">Delete saved</button>
       </div>
 
       <div class="gentle-text" style="margin-top:10px;">Tip: only the 💜 button saves.</div>
     </section>
 
+    <!-- quotes.js fills this -->
     <div id="quotesList" style="margin-top:14px;"></div>
   </main>
 
-  <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-  </nav>
+  <!-- v2 shared theme script -->
+  <script src="app.js?v=20260211v2a" defer></script>
 
-  <script src="app.js?v=20260209-final" defer></script>
-  <script src="quotes.js?v=20260209-final" defer></script>
+  <!-- your quotes logic -->
+  <script src="quotes.js?v=20260211v2a" defer></script>
 </body>
 </html>
