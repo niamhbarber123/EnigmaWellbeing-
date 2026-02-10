@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Progress • Enigma Wellbeing</title>
+  <title>Quotes • Enigma Wellbeing</title>
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
@@ -15,22 +15,35 @@
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <h1>Progress</h1>
-    <p>A gentle overview</p>
+    <h1>Quotes</h1>
+    <p>Search and save words that ground you</p>
   </header>
 
   <main class="page">
     <section class="card">
-      <div class="section-title">Today</div>
-      <div class="gentle-text" style="margin-top:6px;">Small wins count.</div>
-
-      <div id="todayStats" style="margin-top:12px;"></div>
+      <div class="section-title">Daily quote</div>
+      <div class="gentle-text" style="margin-top:6px;">A gentle one for today.</div>
+      <div id="dailyQuote" style="margin-top:12px;"></div>
     </section>
 
     <section class="card" style="margin-top:14px;">
-      <div class="section-title">Totals</div>
-      <div id="totalStats" style="margin-top:12px;"></div>
+      <div class="section-title">Find a quote</div>
+      <input id="quoteQuery" class="input" style="margin-top:12px;" placeholder="Search quotes or authors..." />
+
+      <div class="row" style="margin-top:12px;">
+        <button id="searchBtn" class="btn primary" type="button">Search</button>
+        <button id="randomBtn" class="btn" type="button">Random</button>
+      </div>
+
+      <div class="row" style="margin-top:12px;">
+        <button id="showSavedBtn" class="btn primary" type="button">💜 Saved (<span id="savedCount">0</span>)</button>
+        <button id="deleteSavedBtn" class="btn danger" type="button">Delete saved</button>
+      </div>
+
+      <div class="gentle-text" style="margin-top:10px;">Tip: only the 💜 button saves.</div>
     </section>
+
+    <div id="quotesList" style="margin-top:14px;"></div>
   </main>
 
   <nav class="bottom-nav">
@@ -44,6 +57,6 @@
   </nav>
 
   <script src="app.js?v=20260209-final" defer></script>
-  <script src="progress.js?v=20260209-final" defer></script>
+  <script src="quotes.js?v=20260209-final" defer></script>
 </body>
 </html>

@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Progress • Enigma Wellbeing</title>
+  <title>Books • Enigma Wellbeing</title>
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260209-final" />
+  <link rel="stylesheet" href="style.css?v=20260210fixB" />
 </head>
 
 <body class="page-wrap">
@@ -15,21 +15,21 @@
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <h1>Progress</h1>
-    <p>A gentle overview</p>
+    <h1>Books</h1>
+    <p>Recommendations by genre</p>
   </header>
 
   <main class="page">
     <section class="card">
-      <div class="section-title">Today</div>
-      <div class="gentle-text" style="margin-top:6px;">Small wins count.</div>
-
-      <div id="todayStats" style="margin-top:12px;"></div>
+      <div class="section-title">Genres</div>
+      <div class="gentle-text" style="margin-top:6px;">Tap to filter. ★ shows your favourites.</div>
+      <div class="chip-row" id="genreChips"></div>
     </section>
 
     <section class="card" style="margin-top:14px;">
-      <div class="section-title">Totals</div>
-      <div id="totalStats" style="margin-top:12px;"></div>
+      <div class="section-title">Recommendations</div>
+      <div class="gentle-text" style="margin-top:6px;">Tap ★ to favourite. “Open” goes to Goodreads.</div>
+      <div id="booksList" class="book-list"></div>
     </section>
   </main>
 
@@ -43,7 +43,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260209-final" defer></script>
-  <script src="progress.js?v=20260209-final" defer></script>
+  <script src="app.js?v=20260210fixB" defer></script>
+  <script src="books.js?v=20260210fixB" defer></script>
 </body>
 </html>

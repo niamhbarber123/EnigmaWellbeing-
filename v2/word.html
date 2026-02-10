@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Word of the day • Enigma Wellbeing</title>
+
+  <link rel="icon" href="icon.png" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="stylesheet" href="style.css?v=20260210a" />
+</head>
+
+<body class="page-wrap">
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+
+  <header class="page-header">
+    <h1>Word of the day</h1>
+    <p>A gentle affirmation for today</p>
+  </header>
+
+  <main class="page">
+    <section class="card">
+      <div class="section-title" id="wordTitle">Loading…</div>
+      <div class="gentle-text" id="wordSub" style="margin-top:6px;">Please wait.</div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="section-title">What to do</div>
+        <div class="gentle-text" style="margin-top:6px;">
+          Using these words as affirmations means you can repeat them to yourself, write them down, or think about them regularly
+          to help cultivate those qualities within yourself.
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:14px;">
+        <button id="newWordBtn" class="btn primary" type="button">New word</button>
+        <button id="saveWordBtn" class="btn" type="button">Save</button>
+      </div>
+
+      <div class="gentle-text" id="savedMsg" style="margin-top:12px; display:none;"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
+    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
+    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
+    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+  </nav>
+
+  <script src="app.js?v=20260210a" defer></script>
+  <script src="word.js?v=20260210a" defer></script>
+</body>
+</html>

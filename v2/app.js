@@ -1,64 +1,36 @@
 (() => {
   const THEME_KEY = "enigma_theme_v1";
-  const STATS_KEY = "enigma_stats_v1";
 
-  function todayKey() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  function applyTheme(isNight) {
+    document.body.classList.toggle("night", isNight);
+    const btn = document.getElementById("themeFab");
+    if (btn) btn.textContent = isNight ? "☀️" : "🌙";
   }
 
-  function loadStats() {
+  function readTheme() {
     try {
-      return JSON.parse(localStorage.getItem(STATS_KEY)) || { opens: {}, events: {} };
+      return localStorage.getItem(THEME_KEY) === "night";
     } catch {
-      return { opens: {}, events: {} };
+      return false;
     }
   }
 
-  function saveStats(s) {
-    localStorage.setItem(STATS_KEY, JSON.stringify(s));
+  function writeTheme(isNight) {
+    try {
+      localStorage.setItem(THEME_KEY, isNight ? "night" : "day");
+    } catch {}
   }
 
-  // Track helper (device-only)
-  window.enigmaTrack = function (eventName) {
-    const s = loadStats();
-    const tk = todayKey();
-    if (!s.events[tk]) s.events[tk] = {};
-    s.events[tk][eventName] = (s.events[tk][eventName] || 0) + 1;
-    saveStats(s);
-  };
+  // Apply on load
+  applyTheme(readTheme());
 
-  function applyTheme(mode) {
-    const night = mode === "night";
-    document.body.classList.toggle("night", night);
-    const fab = document.getElementById("themeFab");
-    if (fab) fab.textContent = night ? "☀️" : "🌙";
+  // Toggle button
+  const fab = document.getElementById("themeFab");
+  if (fab) {
+    fab.addEventListener("click", () => {
+      const next = !document.body.classList.contains("night");
+      applyTheme(next);
+      writeTheme(next);
+    });
   }
-
-  function loadTheme() {
-    const saved = localStorage.getItem(THEME_KEY);
-    if (saved === "night" || saved === "day") return saved;
-    const prefersNight = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    return prefersNight ? "night" : "day";
-  }
-
-  function toggleTheme() {
-    const isNight = document.body.classList.contains("night");
-    const next = isNight ? "day" : "night";
-    localStorage.setItem(THEME_KEY, next);
-    applyTheme(next);
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    applyTheme(loadTheme());
-
-    const fab = document.getElementById("themeFab");
-    if (fab) fab.addEventListener("click", toggleTheme);
-
-    // Track daily opens
-    const s = loadStats();
-    const tk = todayKey();
-    s.opens[tk] = (s.opens[tk] || 0) + 1;
-    saveStats(s);
-  });
 })();

@@ -2,72 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Check-in • Enigma Wellbeing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Check-in</title>
 
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260212v2" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/Enigma-/apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" href="/Enigma-/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/Enigma-/icon.png">
+  <link rel="manifest" href="/Enigma-/manifest.json">
+  <meta name="apple-mobile-web-app-title" content="Enigma">
+  <meta name="application-name" content="Enigma">
+  <meta name="theme-color" content="#b8a6d9">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" href="/Enigma-/style.css?v=200">
+  <style>
+    .mood-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .mood-btn{
+      padding:16px;
+      border:none;
+      border-radius:20px;
+      background: rgba(239,233,248,0.92);
+      box-shadow: var(--shadow);
+      font-weight:800;
+      color:#5a4b7a;
+      font-size:16px;
+    }
+    .mood-btn.active{ outline:3px solid rgba(184,166,217,0.7); }
+  </style>
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <h1>Check-in</h1>
-    <p>A small moment for you</p>
+    <h1>Daily check-in</h1>
+    <p>How are you feeling?</p>
   </header>
 
   <main class="page">
-    <section class="card">
-      <div class="section-title">One gentle question</div>
-      <div class="gentle-text" style="margin-top:6px;">You can skip or keep it short.</div>
-
-      <div class="checkin-q" id="checkinQuestion" style="margin-top:14px;"></div>
-
-      <textarea id="checkinNote" rows="6" placeholder="A few words… (optional)" style="margin-top:12px;"></textarea>
-
-      <div class="row" style="margin-top:12px;">
-        <button id="saveCheckin" class="btn primary" type="button">Save</button>
-        <button id="newQuestion" class="btn" type="button">New question</button>
+    <div class="card">
+      <div class="mood-grid">
+        <button class="mood-btn" onclick="pickMood(this,'calm')">😌 Calm</button>
+        <button class="mood-btn" onclick="pickMood(this,'okay')">🙂 Okay</button>
+        <button class="mood-btn" onclick="pickMood(this,'low')">😔 Low</button>
+        <button class="mood-btn" onclick="pickMood(this,'anxious')">😟 Anxious</button>
       </div>
+    </div>
 
-      <div class="gentle-text" style="margin-top:10px;" id="checkinStatus"></div>
-      <div class="safe-note" style="margin-top:10px;">You can stop at any time.</div>
-    </section>
-
-    <section class="card">
-      <div class="section-title">Why this helps</div>
-
-      <details class="info-accordion" style="margin-top:12px;">
-        <summary>Making thoughts smaller</summary>
-        <div class="info-body">Writing even one sentence can reduce mental load because the thought is no longer “floating” in your head.</div>
-      </details>
-
-      <details class="info-accordion">
-        <summary>If emotions feel too big</summary>
-        <div class="info-body">Try naming one feeling (“anxious”, “low”, “overwhelmed”). Naming can calm the brain’s threat response.</div>
-      </details>
-
-      <details class="info-accordion">
-        <summary>If you feel stuck</summary>
-        <div class="info-body">Pick one tiny action: drink water, open a window, text someone, or do one 60-second breathe cycle.</div>
-      </details>
-    </section>
+    <div class="card">
+      <textarea id="checkinNote" placeholder="Anything you'd like to note? (optional)"></textarea>
+      <button class="primary" onclick="saveCheckin()">Save check-in</button>
+      <div class="gentle-text" id="checkinSavedMsg"></div>
+    </div>
   </main>
 
   <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
+    <a href="/Enigma-/index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
+    <a href="/Enigma-/breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a href="/Enigma-/journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
+    <a class="active" href="/Enigma-/checkin.html"><div class="nav-ico">🌿</div><span>Check-in</span></a>
+    <a href="/Enigma-/progress.html"><div class="nav-ico">📊</div><span>Progress</span></a>
+    <a href="/Enigma-/help.html"><div class="nav-ico">🆘</div><span>Help</span></a>
+
+    <button id="themeFab" class="theme-fab" onclick="toggleTheme()" aria-label="Toggle night mode">🌙</button>
   </nav>
 
-  <script src="app.js?v=20260212v2" defer></script>
-  <script src="checkin.js?v=20260212v2" defer></script>
+  <script src="/Enigma-/app.js"></script>
 </body>
 </html>

@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Progress • Enigma Wellbeing</title>
+  <title>Music • Enigma Wellbeing</title>
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260209-final" />
+  <link rel="stylesheet" href="style.css?v=20260210fixS" />
 </head>
 
 <body class="page-wrap">
@@ -15,21 +15,35 @@
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
-    <h1>Progress</h1>
-    <p>A gentle overview</p>
+    <h1>Music</h1>
+    <p>Pick a mood and open calming tracks</p>
   </header>
 
   <main class="page">
     <section class="card">
-      <div class="section-title">Today</div>
-      <div class="gentle-text" style="margin-top:6px;">Small wins count.</div>
-
-      <div id="todayStats" style="margin-top:12px;"></div>
+      <div class="section-title">Mood</div>
+      <div class="chip-row" id="musicChips"></div>
     </section>
 
     <section class="card" style="margin-top:14px;">
-      <div class="section-title">Totals</div>
-      <div id="totalStats" style="margin-top:12px;"></div>
+      <div class="section-title">Tracks</div>
+      <div class="gentle-text" style="margin-top:6px;">Links open in a new tab.</div>
+      <div class="list" id="musicList"></div>
+    </section>
+
+    <section class="card" style="margin-top:14px;">
+      <div class="section-title">Minutes listened</div>
+      <div class="gentle-text" style="margin-top:6px;">
+        Today: <strong><span id="todayMin">0</span></strong> min<br/>
+        Total: <strong><span id="totalMin">0</span></strong> min
+      </div>
+
+      <div class="row" style="margin-top:12px;">
+        <button id="startSession" class="btn primary" type="button">Start session</button>
+        <button id="endSession" class="btn" type="button">End session</button>
+      </div>
+
+      <div class="gentle-text" style="margin-top:10px;" id="sessionState">No active session.</div>
     </section>
   </main>
 
@@ -43,7 +57,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260209-final" defer></script>
-  <script src="progress.js?v=20260209-final" defer></script>
+  <script src="app.js?v=20260210fixS" defer></script>
+  <script src="sounds.js?v=20260210fixS" defer></script>
 </body>
 </html>
