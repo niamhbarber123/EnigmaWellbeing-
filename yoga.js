@@ -1,74 +1,62 @@
 (() => {
   const chipsEl = document.getElementById("yogaChips");
   const listEl  = document.getElementById("yogaList");
+  if (!chipsEl || !listEl) return;
 
-  // ✅ Edit/add your videos here
   const YOGA = [
-    {
-      mood: "Calm",
-      items: [
-        { title: "Gentle yoga for calm", desc: "Slow, grounding flow.", url: "https://www.youtube.com/results?search_query=gentle+yoga+calm" },
-        { title: "Bedtime stretch", desc: "Wind down and soften tension.", url: "https://www.youtube.com/results?search_query=bedtime+yoga+stretch" }
-      ]
-    },
-    {
-      mood: "Anxiety",
-      items: [
-        { title: "Yoga for anxiety", desc: "Gentle flow to settle the nervous system.", url: "https://www.youtube.com/results?search_query=yoga+for+anxiety+gentle" },
-        { title: "Breath-led calming practice", desc: "Simple movement + breath.", url: "https://www.youtube.com/results?search_query=breath+led+yoga+calming" }
-      ]
-    },
-    {
-      mood: "Low mood",
-      items: [
-        { title: "Mood-boost gentle flow", desc: "Light movement to lift energy.", url: "https://www.youtube.com/results?search_query=gentle+yoga+for+depression" },
-        { title: "Soft morning yoga", desc: "Easy start to the day.", url: "https://www.youtube.com/results?search_query=morning+gentle+yoga" }
-      ]
-    },
-    {
-      mood: "Tension",
-      items: [
-        { title: "Neck & shoulder release", desc: "Undo desk tension.", url: "https://www.youtube.com/results?search_query=yoga+neck+shoulder+release" },
-        { title: "Hip opener gentle", desc: "Slow hips + lower back.", url: "https://www.youtube.com/results?search_query=gentle+hip+opener+yoga" }
-      ]
-    }
+    { mood: "Calm", items: [
+      { title: "Gentle full body", desc: "Slow flow to settle your nervous system.", url: "https://www.youtube.com/results?search_query=gentle+yoga+slow+flow" },
+      { title: "Stretch + release", desc: "Soft stretching for tension.", url: "https://www.youtube.com/results?search_query=gentle+yoga+stretch+release" }
+    ]},
+    { mood: "Anxiety", items: [
+      { title: "Yoga for anxiety", desc: "Grounding movement + breath.", url: "https://www.youtube.com/results?search_query=yoga+for+anxiety+grounding" },
+      { title: "Nervous system reset", desc: "Slow, supportive practice.", url: "https://www.youtube.com/results?search_query=restorative+yoga+nervous+system" }
+    ]},
+    { mood: "Sleep", items: [
+      { title: "Bedtime yoga", desc: "Wind down and soften.", url: "https://www.youtube.com/results?search_query=bedtime+yoga+relaxing" },
+      { title: "Restorative yoga", desc: "Props-friendly, very gentle.", url: "https://www.youtube.com/results?search_query=restorative+yoga+for+sleep" }
+    ]},
+    { mood: "Energy", items: [
+      { title: "Morning wake up", desc: "Easy energising flow.", url: "https://www.youtube.com/results?search_query=morning+yoga+energizing" },
+      { title: "Feel-good flow", desc: "Light movement to lift mood.", url: "https://www.youtube.com/results?search_query=feel+good+yoga+flow" }
+    ]}
   ];
 
   const MOODS = YOGA.map(x => x.mood);
   let active = MOODS[0] || "Calm";
 
-  function escapeHtml(str) {
+  function esc(str){
     return String(str).replace(/[&<>"']/g, s => ({
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
     }[s]));
   }
 
-  function renderChips() {
+  function renderChips(){
     chipsEl.innerHTML = "";
     MOODS.forEach(m => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "chip" + (m === active ? " active" : "");
-      btn.textContent = m;
-      btn.addEventListener("click", () => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip" + (m === active ? " active" : "");
+      b.textContent = m;
+      b.addEventListener("click", () => {
         active = m;
         renderChips();
         renderList();
       });
-      chipsEl.appendChild(btn);
+      chipsEl.appendChild(b);
     });
   }
 
-  function renderList() {
+  function renderList(){
     const group = YOGA.find(x => x.mood === active);
     const items = group ? group.items : [];
+    listEl.innerHTML = "";
 
-    if (!items.length) {
-      listEl.innerHTML = `<div class="gentle-text" style="margin-top:12px;">No videos for this mood yet.</div>`;
+    if (!items.length){
+      listEl.innerHTML = `<div class="gentle-text" style="margin-top:12px;">No videos yet.</div>`;
       return;
     }
 
-    listEl.innerHTML = "";
     items.forEach(item => {
       const a = document.createElement("a");
       a.className = "link-btn";
@@ -78,12 +66,11 @@
 
       a.innerHTML = `
         <div>
-          <div class="link-title">${escapeHtml(item.title)}</div>
-          <div class="link-sub">${escapeHtml(item.desc)}</div>
+          <div class="link-title">${esc(item.title)}</div>
+          <div class="link-sub">${esc(item.desc)}</div>
         </div>
         <div class="link-arrow">→</div>
       `;
-
       listEl.appendChild(a);
     });
   }
