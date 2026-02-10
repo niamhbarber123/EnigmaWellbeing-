@@ -10,21 +10,32 @@
 
   const PROMPTS = [
     "Name 3 things you can see. 2 things you can feel. 1 thing you can hear.",
-    "Where are your feet right now? Press them gently into the floor.",
+    "Press your feet gently into the floor. Notice the support underneath you.",
     "What is one tiny thing you can do next—water, window, message, shower?",
     "If this feeling is a wave, you can ride it. You only need the next breath."
   ];
   promptEl.textContent = PROMPTS[Math.floor(Math.random() * PROMPTS.length)];
 
-  let running = false;
-  let t = 60;
+  // 60 seconds total
+  const TOTAL = 60;
 
+  // Breathing timing
   const INH = 4, HLD = 2, EXH = 6;
+
+  let running = false;
+  let t = TOTAL;
   let phase = "ready";
   let phaseLeft = 0;
   let id = null;
 
-  function setText(txt) {
+  function fmt(sec){
+    const s = Math.max(0, Math.floor(sec));
+    const mm = Math.floor(s / 60);
+    const ss = s % 60;
+    return `${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`;
+  }
+
+  function setTextFaded(txt){
     phaseEl.classList.add("fade-text");
     phaseEl.classList.add("is-fading");
     setTimeout(() => {
@@ -33,31 +44,32 @@
     }, 140);
   }
 
-  function setPhase(p) {
+  function setPhase(p){
     phase = p;
-    circle.classList.remove("inhale", "hold", "exhale");
+
+    circle.classList.remove("inhale","hold","exhale");
     void circle.offsetWidth;
 
-    if (p === "inhale") { circle.classList.add("inhale"); phaseLeft = INH; setText("Inhale"); }
-    if (p === "hold")   { circle.classList.add("hold");   phaseLeft = HLD; setText("Hold"); }
-    if (p === "exhale") { circle.classList.add("exhale"); phaseLeft = EXH; setText("Exhale"); }
-    if (p === "ready")  { phaseLeft = 0; setText("Ready"); }
+    if (p === "inhale") { circle.classList.add("inhale"); phaseLeft = INH; setTextFaded("Inhale"); }
+    else if (p === "hold") { circle.classList.add("hold"); phaseLeft = HLD; setTextFaded("Hold"); }
+    else if (p === "exhale") { circle.classList.add("exhale"); phaseLeft = EXH; setTextFaded("Exhale"); }
+    else { phaseLeft = 0; setTextFaded("Ready"); }
   }
 
-  function stop() {
+  function stop(){
     running = false;
     clearInterval(id);
     id = null;
-    t = 60;
-    timeEl.textContent = "00:60";
+    t = TOTAL;
+    timeEl.textContent = fmt(t);
     setPhase("ready");
   }
 
-  function tick() {
+  function tick(){
     if (!running) return;
 
     t -= 1;
-    timeEl.textContent = `00:${String(Math.max(0, t)).padStart(2, "0")}`;
+    timeEl.textContent = fmt(t);
 
     phaseLeft -= 1;
     if (phaseLeft <= 0) {
@@ -67,22 +79,28 @@
     }
 
     if (t <= 0) {
+      running = false;
+      clearInterval(id);
+      id = null;
+      setPhase("ready");
+      setTextFaded("Done");
       window.enigmaTrack && window.enigmaTrack("overwhelmed_done");
-      stop();
-      setText("Done");
     }
   }
+
+  // Init UI
+  timeEl.textContent = fmt(t);
+  setPhase("ready");
 
   startBtn.addEventListener("click", () => {
     if (running) return;
     running = true;
-    t = 60;
-    timeEl.textContent = "00:60";
+    t = TOTAL;
+    timeEl.textContent = fmt(t);
     setPhase("inhale");
+    clearInterval(id);
     id = setInterval(tick, 1000);
   });
 
   stopBtn.addEventListener("click", stop);
-
-  setPhase("ready");
 })();
