@@ -7,100 +7,121 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260209-final" />
+  <link rel="stylesheet" href="style.css?v=20260211res1" />
 </head>
 
 <body class="page-wrap">
-  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
+  <!-- Back ALWAYS goes Home -->
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
+
+  <!-- Night mode -->
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
   <header class="page-header">
     <h1>Resources</h1>
-    <p>NHS support & guidance</p>
+    <p>NHS information + support</p>
   </header>
 
   <main class="page">
-
+    <!-- Self-harm (NHS) -->
     <section class="card">
-      <div class="section-title">Urgent support (UK)</div>
-      <div class="gentle-text" style="margin-top:6px;">If you need help right now.</div>
-
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/nhs-services/urgent-and-emergency-care-services/when-to-call-111/">
-        <div>
-          <div class="link-title">NHS 111</div>
-          <div class="link-sub">Urgent medical advice.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline">
-        <div>
-          <div class="link-title">Urgent mental health help</div>
-          <div class="link-sub">Crisis teams & local services.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/suicidal-thoughts/">
-        <div>
-          <div class="link-title">Help for suicidal thoughts</div>
-          <div class="link-sub">Immediate NHS guidance.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <div class="gentle-text" style="margin-top:12px; font-weight:900;">
-        If you are in immediate danger, call 999.
+      <div class="section-title">Self-harm support (NHS)</div>
+      <div class="gentle-text" style="margin-top:6px;">
+        Information, support, and what to do if you're struggling.
       </div>
-    </section>
 
-    <section class="card" style="margin-top:14px;">
-      <div class="section-title">Therapy & treatment</div>
-
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/service-search/mental-health/find-an-nhs-talking-therapies-service/">
+      <a class="link-btn" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/self-harm/" target="_blank" rel="noopener">
         <div>
-          <div class="link-title">NHS Talking Therapies</div>
-          <div class="link-sub">Self-refer for anxiety, depression & more.</div>
+          <div class="link-title">Understanding self-harm</div>
+          <div class="link-sub">Why people self-harm and how to get support.</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a class="link-btn" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/self-harm/help-for-self-harm/" target="_blank" rel="noopener">
+        <div>
+          <div class="link-title">Help for self-harm</div>
+          <div class="link-sub">Steps you can take and who to talk to.</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a class="link-btn" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/self-harm/helping-someone-who-self-harms/" target="_blank" rel="noopener">
+        <div>
+          <div class="link-title">Helping someone who self-harms</div>
+          <div class="link-sub">Advice if you’re worried about someone else.</div>
         </div>
         <div class="link-arrow">→</div>
       </a>
     </section>
 
+    <!-- Mental health conditions (NHS) -->
     <section class="card" style="margin-top:14px;">
       <div class="section-title">Mental health conditions (NHS)</div>
-      <div class="gentle-text" style="margin-top:6px;">Trusted NHS information.</div>
+      <div class="gentle-text" style="margin-top:6px;">
+        Reliable NHS information on common conditions.
+      </div>
 
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/clinical-depression/overview/">
-        <div><div class="link-title">Depression</div><div class="link-sub">Symptoms, causes & treatment.</div></div>
+      <a class="link-btn" href="https://www.nhs.uk/mental-health/conditions/depression/" target="_blank" rel="noopener">
+        <div>
+          <div class="link-title">Depression</div>
+          <div class="link-sub">Symptoms, treatments, and getting help.</div>
+        </div>
         <div class="link-arrow">→</div>
       </a>
 
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/overview/">
-        <div><div class="link-title">Anxiety</div><div class="link-sub">Understanding anxiety & support.</div></div>
+      <a class="link-btn" href="https://www.nhs.uk/mental-health/conditions/anxiety-disorders/" target="_blank" rel="noopener">
+        <div>
+          <div class="link-title">Anxiety disorders</div>
+          <div class="link-sub">Including panic disorder and GAD.</div>
+        </div>
         <div class="link-arrow">→</div>
       </a>
 
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/overview/">
-        <div><div class="link-title">OCD</div><div class="link-sub">What it is and treatment options.</div></div>
+      <a class="link-btn" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" target="_blank" rel="noopener">
+        <div>
+          <div class="link-title">Borderline personality disorder (BPD)</div>
+          <div class="link-sub">Symptoms, causes, and support options.</div>
+        </div>
         <div class="link-arrow">→</div>
       </a>
 
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/overview/">
-        <div><div class="link-title">BPD</div><div class="link-sub">Information and treatment approaches.</div></div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/overview/">
-        <div><div class="link-title">PTSD</div><div class="link-sub">Symptoms and help available.</div></div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <a class="link-btn" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/bipolar-disorder/overview/">
-        <div><div class="link-title">Bipolar disorder</div><div class="link-sub">Overview and support options.</div></div>
+      <a class="link-btn" href="https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" target="_blank" rel="noopener">
+        <div>
+          <div class="link-title">Obsessive compulsive disorder (OCD)</div>
+          <div class="link-sub">Understanding obsessions and compulsions.</div>
+        </div>
         <div class="link-arrow">→</div>
       </a>
     </section>
 
+    <!-- If things feel unsafe -->
+    <section class="card" style="margin-top:14px;">
+      <div class="section-title">If things feel unsafe</div>
+      <div class="gentle-text" style="margin-top:6px;">
+        You don’t have to handle this alone.
+      </div>
+
+      <a class="link-btn" href="https://111.nhs.uk/" target="_blank" rel="noopener">
+        <div>
+          <div class="link-title">NHS 111</div>
+          <div class="link-sub">Urgent help if you’re unsure what to do.</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <a class="link-btn" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/suicidal-feelings/" target="_blank" rel="noopener">
+        <div>
+          <div class="link-title">Suicidal feelings</div>
+          <div class="link-sub">NHS advice and next steps.</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <div class="gentle-text" style="margin-top:12px;">
+        If you are in immediate danger, call <strong>999</strong>.
+      </div>
+    </section>
   </main>
 
   <nav class="bottom-nav">
@@ -113,6 +134,6 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <script src="app.js?v=20260209-final" defer></script>
+  <script src="app.js?v=20260211res1" defer></script>
 </body>
 </html>
