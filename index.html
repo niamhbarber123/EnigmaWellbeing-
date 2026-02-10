@@ -1,55 +1,327 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Enigma Wellbeing</title>
 
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260209-final" />
+  <style>
+    :root{
+      --bgTop:#f7f5fb;
+      --bgMid:#f1eef9;
+      --bgBot:#fbfaff;
+
+      --card: rgba(255,255,255,.66);
+      --panel: rgba(255,255,255,.52);
+
+      --text:#3b3750;
+      --muted:#827c96;
+
+      --stroke: rgba(59,55,80,.06);
+      --shadow: 0 10px 26px rgba(40,30,80,.06);
+
+      --lav: rgba(198,186,255,.45);
+      --warm: rgba(255,220,210,.45);
+
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 700px at 20% 10%, rgba(255,255,255,.45), transparent 60%),
+        linear-gradient(180deg, var(--bgTop), var(--bgMid) 55%, var(--bgBot));
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width:430px;
+      margin:0 auto;
+      padding:18px 16px 96px;
+    }
+
+    /* Header */
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      flex:1;
+      text-align:center;
+    }
+    .brand h1{
+      margin:12px 0 6px;
+      font-size:26px;
+      font-weight:600;
+    }
+    .brand p{
+      margin:0;
+      font-size:14px;
+      color:var(--muted);
+    }
+    .moon-btn{
+      width:42px;
+      height:42px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:var(--panel);
+      box-shadow:var(--shadow);
+      display:grid;
+      place-items:center;
+      font-size:17px;
+      opacity:.8;
+    }
+
+    /* Sections */
+    .section{ margin-top:22px; }
+    .section h2{
+      margin:0 0 10px;
+      font-size:17px;
+      font-weight:600;
+      color:rgba(59,55,80,.85);
+    }
+
+    .panel{
+      background:var(--panel);
+      border-radius:var(--radius);
+      border:1px solid var(--stroke);
+      padding:12px;
+      box-shadow:var(--shadow);
+    }
+
+    /* Primary cards */
+    .big{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:16px;
+      border-radius:20px;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      text-decoration:none;
+      color:inherit;
+    }
+    .big + .big{ margin-top:10px; }
+
+    .big-icon{
+      width:44px;
+      height:44px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      font-size:20px;
+      opacity:.85;
+    }
+    .breathe .big-icon{ background:var(--lav); }
+    .calm .big-icon{ background:var(--warm); }
+
+    .big h3{
+      margin:0 0 4px;
+      font-size:18px;
+      font-weight:600;
+    }
+    .big p{
+      margin:0;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    /* Grids */
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .mini{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:14px;
+      border-radius:18px;
+      background:var(--card);
+      border:1px solid var(--stroke);
+      box-shadow:var(--shadow);
+      text-decoration:none;
+      color:inherit;
+      min-height:72px;
+    }
+    .mini .ico{
+      width:38px;
+      height:38px;
+      border-radius:14px;
+      background:rgba(245,243,255,.55);
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      opacity:.8;
+    }
+    .mini h4{
+      margin:0;
+      font-size:15px;
+      font-weight:600;
+    }
+    .mini p{
+      margin:4px 0 0;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* Your space */
+    .row{
+      display:flex;
+      gap:8px;
+      padding:10px;
+      background:var(--panel);
+      border-radius:18px;
+      border:1px solid var(--stroke);
+      box-shadow:var(--shadow);
+    }
+    .pill{
+      flex:1;
+      text-align:center;
+      padding:10px;
+      border-radius:14px;
+      text-decoration:none;
+      font-size:14px;
+      font-weight:600;
+      color:rgba(59,55,80,.85);
+      background:rgba(255,255,255,.35);
+    }
+
+    /* Support banner */
+    .support{
+      margin-top:12px;
+      padding:14px 16px;
+      border-radius:18px;
+      background:linear-gradient(
+        180deg,
+        rgba(198,186,255,.35),
+        rgba(198,186,255,.22)
+      );
+      border:1px solid rgba(59,55,80,.06);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:rgba(59,55,80,.9);
+      font-weight:600;
+      box-shadow:var(--shadow);
+    }
+    .support span:first-child{ font-size:18px; opacity:.85; }
+    .support span:last-child{ margin-left:auto; opacity:.5; }
+
+    /* Bottom nav */
+    .nav{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      background:rgba(255,255,255,.8);
+      border-top:1px solid var(--stroke);
+      backdrop-filter:blur(10px);
+      padding:10px;
+    }
+    .nav-inner{
+      max-width:430px;
+      margin:0 auto;
+      display:flex;
+      justify-content:space-between;
+    }
+    .nav a{
+      flex:1;
+      text-align:center;
+      text-decoration:none;
+      font-size:11px;
+      font-weight:600;
+      color:rgba(59,55,80,.6);
+    }
+    .nav a.active{ color:rgba(59,55,80,.9); }
+  </style>
 </head>
 
-<body class="page-wrap home">
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+<body>
+<main class="wrap">
 
-  <header class="page-header">
-    <h1>Enigma Wellbeing</h1>
-    <p>Your calm space</p>
-  </header>
-
-  <main class="page home-page">
-    <div class="home-grid">
-      <a class="home-pill" href="breathe.html"><span class="pill-ico">🌬️</span><span class="pill-text">Breathe</span></a>
-      <a class="home-pill" href="journal.html"><span class="pill-ico">📖</span><span class="pill-text">Journal</span></a>
-
-      <a class="home-pill" href="quotes.html"><span class="pill-ico">💬</span><span class="pill-text">Quotes</span></a>
-      <a class="home-pill" href="yoga.html"><span class="pill-ico">🧘‍♀️</span><span class="pill-text">Yoga</span></a>
-
-      <a class="home-pill" href="sounds.html"><span class="pill-ico">🎵</span><span class="pill-text">Music</span></a>
-      <a class="home-pill" href="word.html"><span class="pill-ico">✨</span><span class="pill-text">Word of the day</span></a>
-
-      <a class="home-pill" href="distraction.html"><span class="pill-ico">🧩</span><span class="pill-text">Distraction</span></a>
-      <a class="home-pill" href="books.html"><span class="pill-ico">📚</span><span class="pill-text">Books</span></a>
-
-      <a class="home-pill" href="mood.html"><span class="pill-ico">🙂</span><span class="pill-text">Mood</span></a>
-      <a class="home-pill" href="resources.html"><span class="pill-ico">🧠</span><span class="pill-text">Resources</span></a>
-
-      <a class="home-pill" href="progress.html"><span class="pill-ico">📈</span><span class="pill-text">Progress</span></a>
-      <a class="home-pill" href="help.html"><span class="pill-ico">🆘</span><span class="pill-text">Help</span></a>
+  <div class="top">
+    <div style="width:42px"></div>
+    <div class="brand">
+      <h1>Enigma Wellbeing</h1>
+      <p>Your calm space</p>
     </div>
-  </main>
+    <button class="moon-btn">🌙</button>
+  </div>
 
-  <nav class="bottom-nav">
-    <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
-    <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
-    <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
-    <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
-    <a href="sounds.html"><div class="nav-ico">🎵</div><span>Music</span></a>
-    <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
-  </nav>
+  <section class="section">
+    <h2>In this moment</h2>
+    <div class="panel">
+      <a class="big breathe" href="breathe.html">
+        <div class="big-icon">🌬️</div>
+        <div>
+          <h3>Breathe now</h3>
+          <p>One minute to settle</p>
+        </div>
+      </a>
 
-  <script src="app.js?v=20260209-final" defer></script>
+      <a class="big calm" href="overwhelmed.html">
+        <div class="big-icon">🤍</div>
+        <div>
+          <h3>I need calm</h3>
+          <p>Small steps, gently</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Today</h2>
+    <div class="grid">
+      <a class="mini" href="checkin.html"><div class="ico">🗒️</div><div><h4>Check in</h4><p>How are you, really?</p></div></a>
+      <a class="mini" href="journal.html"><div class="ico">📖</div><div><h4>Journal</h4><p>Write freely</p></div></a>
+      <a class="mini" href="word.html"><div class="ico">✨</div><div><h4>Daily word</h4><p>A gentle focus</p></div></a>
+      <a class="mini" href="quotes.html"><div class="ico">💬</div><div><h4>Kind words</h4><p>Quiet encouragement</p></div></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Explore</h2>
+    <div class="grid">
+      <a class="mini" href="yoga.html"><div class="ico">🧘</div><div><h4>Move gently</h4><p>Stretch & unwind</p></div></a>
+      <a class="mini" href="music.html"><div class="ico">🎵</div><div><h4>Listen</h4><p>Calming sounds</p></div></a>
+      <a class="mini" href="books.html"><div class="ico">📚</div><div><h4>Read</h4><p>Helpful ideas</p></div></a>
+      <a class="mini" href="distraction.html"><div class="ico">🧩</div><div><h4>Take a break</h4><p>Gentle resets</p></div></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Your space</h2>
+    <div class="row">
+      <a class="pill" href="progress.html">📊 Progress</a>
+      <a class="pill" href="resources.html">🧠 Support</a>
+      <a class="pill" href="settings.html">⚙️ Settings</a>
+    </div>
+
+    <a class="support" href="help.html">
+      <span>🤍</span>
+      <span>Get support now</span>
+      <span>›</span>
+    </a>
+  </section>
+
+</main>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="active" href="index.html">Home</a>
+    <a href="breathe.html">Breathe</a>
+    <a href="checkin.html">Check-in</a>
+    <a href="progress.html">Progress</a>
+    <a href="settings.html">Settings</a>
+  </div>
+</nav>
 </body>
 </html>
