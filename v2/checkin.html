@@ -2,44 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Check in • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <link rel="icon" href="../icon.png" />
+  <link rel="apple-touch-icon" href="../icon.png" />
+  <link rel="stylesheet" href="style.css?v=20260210-v2-allfix" />
 </head>
 
 <body class="page-wrap">
-  <a class="back-btn" href="index.html">←</a>
-  <button class="theme-toggle-top" id="themeFab">🌙</button>
+  <a class="back-btn" href="index.html" aria-label="Back">←</a>
+  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <header class="page-header">
-    <h1>Check in</h1>
-    <p>How are you feeling right now?</p>
-  </header>
+  <div class="page-shell">
+    <header class="page-header">
+      <h1>Check in</h1>
+      <p>How are you, really?</p>
+    </header>
 
-  <main>
-    <div class="card">
-      <div style="display:grid;gap:12px;">
-        <button class="pill">😆 Excited</button>
-        <button class="pill">😁 Happy</button>
-        <button class="pill">😊 Okay</button>
-        <button class="pill">😔 Low</button>
-        <button class="pill">😰 Anxious</button>
-        <button class="pill">🤯 Overwhelmed</button>
-        <button class="pill">😡 Angry</button>
+    <section class="section">
+      <div class="section-title">Right now</div>
+
+      <div class="card">
+        <div class="gentle">Pick a mood, then write a line or two if you want.</div>
+
+        <div class="chips" id="moodChips" style="margin-top:12px;"></div>
+
+        <textarea id="checkinText" rows="6" style="margin-top:12px;" placeholder="What’s going on for you right now?"></textarea>
+
+        <div class="row" style="margin-top:12px;">
+          <button id="saveCheckin" class="pill" type="button" style="flex:1;">Save</button>
+          <button id="clearCheckin" class="pill" type="button" style="flex:1;">Clear</button>
+        </div>
+
+        <div class="gentle" id="savedMsg" style="margin-top:10px;"></div>
       </div>
+    </section>
 
-      <textarea
-        placeholder="Anything you want to note?"
-        rows="4"
-        style="margin-top:16px;"
-      ></textarea>
+    <section class="section">
+      <div class="section-title">Recent check-ins</div>
+      <div class="card">
+        <div class="gentle">Saved on this device only.</div>
+        <div id="checkinList" style="margin-top:12px; display:grid; gap:12px;"></div>
 
-      <button class="pill" style="margin-top:16px;">
-        Save check-in
-      </button>
-    </div>
-  </main>
+        <div class="row" style="margin-top:12px;">
+          <button id="deleteAllCheckins" class="pill" type="button" style="flex:1;">Delete all</button>
+        </div>
+      </div>
+    </section>
+  </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20260210-v2-allfix" defer></script>
+  <script src="checkin.js?v=20260210-v2-allfix" defer></script>
 </body>
 </html>
