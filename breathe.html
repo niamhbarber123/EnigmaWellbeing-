@@ -7,89 +7,80 @@
 
   <link rel="icon" href="icon.png" />
   <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210fixA" />
+  <link rel="stylesheet" href="style.css?v=20260211fix1" />
 </head>
 
 <body class="page-wrap breathe-page no-scroll">
-  <!-- Back ALWAYS goes home -->
-  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
+  <!-- Back ALWAYS goes Home -->
+  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
 
-  <!-- Night mode -->
+  <!-- Night mode (top-right on all pages) -->
   <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
 
-  <header class="page-header">
+  <header class="page-header breathe-header-compact">
     <h1>Breathe</h1>
     <p>Follow the rhythm</p>
   </header>
 
-  <main class="page">
-    <div class="breathe-viewport">
+  <main class="page breathe-viewport">
+    <!-- READY (bigger) -->
+    <section class="card breathe-ready-card">
+      <div class="breathe-ready-title">Ready</div>
+      <div class="breathe-ready-sub">Choose settings, then tap Start.</div>
 
-      <!-- READY CARD -->
-      <section class="card breathe-ready-card">
-        <div class="breathe-ready-title">Ready</div>
-        <div class="breathe-ready-sub">Choose settings, then tap Start.</div>
-
-        <!-- Clock above circle -->
-        <div class="breathe-time-top">
+      <!-- Time ABOVE circle -->
+      <div class="breathe-status" style="margin-top:10px;">
+        <div class="time-display" style="font-size:16px;font-weight:900;">
           Time: <span id="timeText">01:00</span>
         </div>
+      </div>
 
-        <div class="breathe-circle-wrap">
-          <div id="breathCircle" class="breath-circle" aria-hidden="true"></div>
+      <div class="breathe-circle-wrap">
+        <div id="breathCircle" class="breath-circle" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- SESSION (smaller) -->
+    <section class="card breathe-session-card">
+      <div class="section-title">Session</div>
+      <div class="gentle-text" style="margin-top:6px;">Timer counts down. Stopwatch counts up.</div>
+
+      <!-- two equal columns -->
+      <div class="breathe-two-cols" style="margin-top:14px;">
+        <div class="form-col">
+          <div class="form-label breathe-big-label">Mode</div>
+          <select id="modeSelect" class="select breathe-select">
+            <option value="timer" selected>Timer</option>
+            <option value="stopwatch">Stopwatch</option>
+          </select>
         </div>
 
-        <div class="breathe-status">
-          <div id="phaseLabel" class="breath-label">Ready</div>
+        <div class="form-col" id="minutesField">
+          <div class="form-label breathe-big-label">Timer length</div>
+          <select id="minutesSelect" class="select breathe-select">
+            <option value="1" selected>1 minute</option>
+            <option value="2">2 minutes</option>
+            <option value="3">3 minutes</option>
+            <option value="5">5 minutes</option>
+            <option value="10">10 minutes</option>
+          </select>
         </div>
-      </section>
+      </div>
 
-      <!-- SESSION CARD -->
-      <section class="card breathe-session-card">
-        <div class="section-title">Session</div>
-        <div class="gentle-text" style="margin-top:6px;">Timer counts down. Stopwatch counts up.</div>
+      <!-- Buttons in thirds -->
+      <div class="breathe-controls breathe-controls-3">
+        <button id="startBtn" class="small-pill breathe-ctl" type="button">Start</button>
+        <button id="pauseBtn" class="small-pill breathe-ctl" type="button">Pause</button>
+        <button id="resetBtn" class="small-pill breathe-ctl" type="button">Reset</button>
 
-        <!-- Two dropdowns side-by-side -->
-        <div class="session-grid">
-          <div class="field">
-            <div class="label">Mode</div>
-            <select id="modeSelect" aria-label="Mode">
-              <option value="timer" selected>Timer</option>
-              <option value="stopwatch">Stopwatch</option>
-            </select>
-          </div>
-
-          <div class="field" id="minutesField">
-            <div class="label">Timer length</div>
-            <select id="minutesSelect" aria-label="Timer length">
-              <option value="1" selected>1 minute</option>
-              <option value="2">2 minutes</option>
-              <option value="3">3 minutes</option>
-              <option value="5">5 minutes</option>
-              <option value="10">10 minutes</option>
-              <option value="15">15 minutes</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Buttons split into thirds -->
-        <div class="row three" style="margin-top:14px;">
-          <button id="startBtn" class="btn primary" type="button">Start</button>
-          <button id="pauseBtn" class="btn" type="button">Pause</button>
-          <button id="resetBtn" class="btn" type="button">Reset</button>
-        </div>
-
-        <div id="completedPill" class="gentle-text" style="margin-top:10px; display:none; font-weight:900;">
-          Completed ✅
-        </div>
-      </section>
-
-    </div>
+        <span id="completedPill" class="small-pill completed-pill" style="display:none;">Completed ✅</span>
+      </div>
+    </section>
   </main>
 
   <nav class="bottom-nav">
     <a href="index.html"><div class="nav-ico">🏠</div><span>Home</span></a>
-    <a href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
+    <a class="active" href="breathe.html"><div class="nav-ico">🌬️</div><span>Breathe</span></a>
     <a href="journal.html"><div class="nav-ico">📖</div><span>Journal</span></a>
     <a href="quotes.html"><div class="nav-ico">💬</div><span>Quotes</span></a>
     <a href="yoga.html"><div class="nav-ico">🧘‍♀️</div><span>Yoga</span></a>
@@ -97,8 +88,7 @@
     <a href="progress.html"><div class="nav-ico">📈</div><span>Progress</span></a>
   </nav>
 
-  <!-- IMPORTANT: ensure these exact file names exist in your repo -->
-  <script src="app.js?v=20260210fixA" defer></script>
-  <script src="breathe.js?v=20260210fixA" defer></script>
+  <script src="app.js?v=20260211fix1" defer></script>
+  <script src="breathe.js?v=20260211fix1" defer></script>
 </body>
 </html>
