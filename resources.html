@@ -1,62 +1,193 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Resources • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resources • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    .page-title{ font-weight:600; }
+    .page-sub{ font-weight:500; opacity:.72; line-height:1.5; }
+
+    .tile-sub{
+      margin:2px 0 0;
+      font-size:13px;
+      font-weight:500;
+      opacity:.72;
+      line-height:1.35;
+    }
+
+    .tile{
+      align-items:flex-start;
+      min-height: 96px;
+    }
+
+    .note{
+      margin:0;
+      font-size:13px;
+      font-weight:500;
+      opacity:.72;
+      line-height:1.5;
+    }
+  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
+
   <main class="wrap">
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
+      <a class="back" href="index.html">←</a>
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
     <h1 class="page-title">Resources</h1>
-    <p class="page-sub">Trusted NHS information pages.</p>
+    <p class="page-sub">
+      NHS guidance and information about mental health and conditions.
+    </p>
 
     <section class="card">
+
       <div class="grid">
-        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/depression/">
-          <div class="ico">🌧️</div><div class="label small">Depression</div><div class="arrow small">›</div>
+
+        <!-- Anxiety -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/" target="_blank">
+          <div class="ico">😟</div>
+          <div>
+            <div class="label small">Anxiety disorders</div>
+            <div class="tile-sub">Symptoms, treatment and self-help.</div>
+          </div>
+          <div class="arrow small">›</div>
         </a>
-        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/">
-          <div class="ico">😟</div><div class="label small">Anxiety</div><div class="arrow small">›</div>
+
+        <!-- Depression -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/clinical-depression/" target="_blank">
+          <div class="ico">🌧️</div>
+          <div>
+            <div class="label small">Depression</div>
+            <div class="tile-sub">Low mood, causes and support options.</div>
+          </div>
+          <div class="arrow small">›</div>
         </a>
-        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress-anxiety/">
-          <div class="ico">⚠️</div><div class="label small">Stress</div><div class="arrow small">›</div>
+
+        <!-- Panic disorder -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/panic-disorder/" target="_blank">
+          <div class="ico">💓</div>
+          <div>
+            <div class="label small">Panic disorder</div>
+            <div class="tile-sub">Understanding panic attacks.</div>
+          </div>
+          <div class="arrow small">›</div>
         </a>
-        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/">
-          <div class="ico">🧠</div><div class="label small">BPD</div><div class="arrow small">›</div>
+
+        <!-- OCD -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" target="_blank">
+          <div class="ico">🔁</div>
+          <div>
+            <div class="label small">OCD</div>
+            <div class="tile-sub">Obsessive compulsive disorder guidance.</div>
+          </div>
+          <div class="arrow small">›</div>
         </a>
-        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/">
-          <div class="ico">🛡️</div><div class="label small">PTSD</div><div class="arrow small">›</div>
+
+        <!-- PTSD -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/" target="_blank">
+          <div class="ico">🧠</div>
+          <div>
+            <div class="label small">PTSD</div>
+            <div class="tile-sub">Post-traumatic stress disorder support.</div>
+          </div>
+          <div class="arrow small">›</div>
         </a>
-        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/self-harm/">
-          <div class="ico">🩹</div><div class="label small">Self-harm</div><div class="arrow small">›</div>
+
+        <!-- BPD -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" target="_blank">
+          <div class="ico">🫧</div>
+          <div>
+            <div class="label small">Borderline Personality Disorder</div>
+            <div class="tile-sub">Symptoms, treatment and therapy.</div>
+          </div>
+          <div class="arrow small">›</div>
         </a>
+
+        <!-- Bipolar -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/bipolar-disorder/" target="_blank">
+          <div class="ico">🌗</div>
+          <div>
+            <div class="label small">Bipolar disorder</div>
+            <div class="tile-sub">Understanding mood episodes.</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <!-- Eating disorders -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/eating-disorders/" target="_blank">
+          <div class="ico">🍽️</div>
+          <div>
+            <div class="label small">Eating disorders</div>
+            <div class="tile-sub">Anorexia, bulimia and binge eating.</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <!-- Self-harm -->
+        <a class="tile" href="https://www.nhs.uk/mental-health/conditions/self-harm/" target="_blank">
+          <div class="ico">🩹</div>
+          <div>
+            <div class="label small">Self-harm</div>
+            <div class="tile-sub">Why it happens and how to get help.</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <!-- Stress -->
+        <a class="tile" href="https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-manage-stress/" target="_blank">
+          <div class="ico">⚖️</div>
+          <div>
+            <div class="label small">Stress</div>
+            <div class="tile-sub">Ways to manage everyday stress.</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <!-- Sleep -->
+        <a class="tile" href="https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/how-to-sleep-better/" target="_blank">
+          <div class="ico">🌙</div>
+          <div>
+            <div class="label small">Sleep problems</div>
+            <div class="tile-sub">Improve sleep and night-time anxiety.</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <!-- IAPT -->
+        <a class="tile" href="https://www.nhs.uk/service-search/mental-health/find-an-nhs-talking-therapies-service/" target="_blank">
+          <div class="ico">💬</div>
+          <div>
+            <div class="label small">NHS Talking Therapies</div>
+            <div class="tile-sub">Find free therapy in your area (England).</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
       </div>
 
-      <p style="margin:10px 0 0;color:var(--muted);font-weight:650;">
-        Resources are information pages. If you need urgent help, use Help.
+      <hr class="sep" />
+
+      <p class="note">
+        If you are in immediate danger or feel unsafe, call 999 or visit A&E.
       </p>
+
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
   </script>
+
 </body>
 </html>
