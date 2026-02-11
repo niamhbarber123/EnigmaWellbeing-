@@ -1,9 +1,4 @@
-/* style.css — Enigma Wellbeing (FULL)
-   ONLY adds:
-   - Accent colour variables (default lavender)
-   - Font-size scaling variable
-   - Keeps everything else consistent
-*/
+/* style.css — Enigma Wellbeing (FULL) */
 
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
@@ -28,10 +23,10 @@ body{ margin:0; }
   --radius: 26px;
   --radius2: 22px;
 
-  /* NEW: user settings */
+  /* user settings */
   --textScale: 1;
 
-  /* NEW: accent (default lavender = your current look) */
+  /* accent (default lavender) */
   --accentTint: rgba(200,186,255,.30);
   --accentTintSoft: rgba(200,186,255,.22);
   --accentRing: rgba(200,186,255,.85);
@@ -47,7 +42,6 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* NEW: font scaling */
   font-size: calc(16px * var(--textScale));
 }
 
@@ -82,10 +76,8 @@ body.dark .watermark{ opacity:.12; }
   z-index:1;
 }
 
-/* Night mode button styling (button exists only on Home) */
-.moon,
-.icon-btn[data-theme-toggle],
-[data-theme-toggle]{
+/* Night mode button styling (HOME ONLY button uses this class) */
+.moon{
   position: fixed !important;
   top: 16px !important;
   right: 16px !important;
@@ -108,7 +100,6 @@ body.dark .watermark{ opacity:.12; }
 }
 
 /* Typography */
-header h1,
 .page-title{
   font-weight:700;
   letter-spacing:.3px;
@@ -128,7 +119,6 @@ h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
 .label{ font-weight:600; }
 .label.small{ font-weight:600; }
 
-.tile-title{ font-weight:600; }
 .tile-sub,
 .quote-meta,
 .small-note{
@@ -148,7 +138,7 @@ h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
   margin-bottom: 10px;
 }
 
-.back,.back-btn{
+.back{
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -234,12 +224,13 @@ body.dark .ico{ background: rgba(255,255,255,.10); }
 }
 .arrow.small{ font-size:20px; }
 
-/* Pills */
+/* Pills — ALL EQUAL SIZE (fix Settings being full width) */
 .pill-row{
   display:grid;
   grid-template-columns: 1fr 1fr;
   gap:12px;
 }
+
 .pill{
   width:100%;
   justify-content:center;
@@ -256,9 +247,8 @@ body.dark .ico{ background: rgba(255,255,255,.10); }
   text-decoration:none;
   color:inherit;
 }
-.pill-row .pill:nth-child(3){ grid-column: span 2; }
 
-/* Support banner (now uses accent variable, default lavender so it looks the same) */
+/* Support banner */
 .support-banner{
   margin-top: 12px;
   display:flex;
@@ -328,7 +318,7 @@ hr.sep{
   margin:18px 0;
 }
 
-/* Remove default focus rings (no blue) */
+/* Remove default blue focus rings */
 button:focus,
 button:active,
 button:focus-visible,
@@ -339,29 +329,13 @@ a:focus-visible{
   box-shadow: none !important;
 }
 
-/* Active press */
-a:active, button:active{ transform: translateY(1px); }
-a{ color:inherit; }
-/* =================================
-   CHECK IN — Remove Blue Highlight
-   ================================= */
-
-/* Remove iOS tap flash */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Remove browser blue focus styles */
-button:focus,
-button:active,
-button:focus-visible {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* Use app accent instead when selected */
+/* Selected state uses accent, not blue (for check-in mood tiles) */
 .tile[aria-pressed="true"]{
   outline: 2px solid var(--accentRing) !important;
   outline-offset: 2px;
   background: var(--accentTint) !important;
 }
+
+/* Active press */
+a:active, button:active{ transform: translateY(1px); }
+a{ color:inherit; }
