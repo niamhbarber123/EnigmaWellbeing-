@@ -332,3 +332,56 @@ textarea{
   opacity: .72 !important;
   line-height: 1.5;
 }
+/* ==============================
+   DAILY WORD — calmer feel
+   (no layout/function changes)
+   ============================== */
+
+/* Title softer */
+.page-title{
+  font-weight: 600 !important;
+  letter-spacing: .2px;
+}
+
+/* Subtitle calmer */
+.page-sub,
+.page-subtitle{
+  font-weight: 500 !important;
+  opacity: .7 !important;
+  line-height: 1.5;
+}
+
+/* The main word */
+.word-title,
+.daily-word,
+.word-display{
+  font-weight: 600 !important;
+  font-size: 26px !important;
+  letter-spacing: .4px;
+}
+
+/* Meaning text softer */
+.word-meaning,
+.word-desc,
+.word-sub{
+  font-weight: 500 !important;
+  opacity: .72 !important;
+  line-height: 1.6;
+}
+
+/* Card calmer */
+.card,
+.section-panel{
+  backdrop-filter: blur(6px);
+}
+
+/* Buttons less heavy */
+.btn{
+  font-weight: 600 !important;
+}
+
+/* Navigation arrows / secondary text */
+.small-note{
+  font-weight: 500 !important;
+  opacity: .65 !important;
+}
