@@ -1,39 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Progress • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260209-final" />
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<body class="page-wrap">
-  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <h1 class="page-title">Progress</h1>
+    <p class="page-subtitle">A gentle record of what you’ve been doing.</p>
 
-  <header class="page-header">
-    <h1>Progress</h1>
-    <p>A gentle overview</p>
-  </header>
+    <section class="section-panel">
+      <div class="grid">
+        <div class="tile">
+          <div class="tile-ico">🗒️</div>
+          <div>
+            <p class="tile-title" id="checkinCount">0 check-ins</p>
+            <p class="tile-sub">Saved in this device</p>
+          </div>
+        </div>
 
-  <main class="page">
-    <section class="card">
-      <div class="section-title">Today</div>
-      <div class="gentle-text" style="margin-top:6px;">Small wins count.</div>
+        <div class="tile">
+          <div class="tile-ico">❤️</div>
+          <div>
+            <p class="tile-title" id="quoteCount">0 saved quotes</p>
+            <p class="tile-sub">Double tap to save</p>
+          </div>
+        </div>
+      </div>
 
-      <div id="todayStats" style="margin-top:12px;"></div>
-    </section>
-
-    <section class="card" style="margin-top:14px;">
-      <div class="section-title">Totals</div>
-      <div id="totalStats" style="margin-top:12px;"></div>
+      <hr class="sep" />
+      <p style="font-weight:900; opacity:.75; margin:0 0 10px;">Latest check-ins</p>
+      <div id="latest" class="grid"></div>
+      <p class="small-note" id="empty"></p>
     </section>
   </main>
 
-  <script src="app.js?v=20260209-final" defer></script>
-  <script src="progress.js?v=20260209-final" defer></script>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
+
+    const CHECKIN_KEY = "enigma_checkins_v2";
+    const QUOTE_KEY = "enigma_saved_quotes_v2";
+
+    const checkinCount = document.getElementById("checkinCount");
+    const quoteCount = document.getElementById("quoteCount");
+    const latest = document.getElementById("latest");
+    const empty = document.getElementById("empty");
+
+    function load(){
+      const checkins = JSON.parse(localStorage.getItem(CHECKIN_KEY) || "[]");
+      const quotes = JSON.parse(localStorage.getItem(QUOTE_KEY) || "[]");
+
+      checkinCount.textContent = `${checkins.length} check-in${checkins.length===1?"":"s"}`;
+      quoteCount.textContent = `${quotes.length} saved quote${quotes.length===1?"":"s"}`;
+
+      if (!checkins.length){
+        empty.textContent = "No check-ins yet. Try the Check in page.";
+        latest.innerHTML = "";
+        return;
+      }
+
+      const last = checkins.slice(-4).reverse();
+      latest.innerHTML = last.map(c => `
+        <div class="tile">
+          <div class="tile-ico">🗒️</div>
+          <div>
+            <p class="tile-title">${c.mood}</p>
+            <p class="tile-sub">${(c.note && c.note.length) ? c.note : "No note"}</p>
+            <p class="tile-sub" style="margin-top:8px; opacity:.8;">
+              ${new Date(c.savedAt).toLocaleString()}
+            </p>
+          </div>
+        </div>
+      `).join("");
+      empty.textContent = "";
+    }
+
+    load();
+  </script>
 </body>
 </html>
