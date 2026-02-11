@@ -385,3 +385,23 @@ textarea{
   font-weight: 500 !important;
   opacity: .65 !important;
 }
+/* ==============================
+   DAILY WORD size reduction
+   ============================== */
+
+.word-title,
+.daily-word,
+.word-display{
+  font-size: 22px !important;   /* smaller */
+  font-weight: 600 !important;  /* calmer */
+  letter-spacing: .3px;
+}
+
+.word-meaning,
+.word-desc,
+.word-sub{
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  opacity: .75;
+  line-height: 1.6;
+}
