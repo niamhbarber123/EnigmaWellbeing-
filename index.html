@@ -1,89 +1,165 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enigma Wellbeing</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <!-- Watermark behind everything -->
+  <div class="icon-watermark" aria-hidden="true"></div>
 
-<main class="wrap">
+  <main class="app">
 
-  <!-- Icon Watermark -->
-  <div class="icon-watermark"></div>
+    <!-- Top -->
+    <header class="top">
+      <div class="brand">
+        <h1>Enigma Wellbeing</h1>
+        <p>Your calm space</p>
+      </div>
 
-  <div class="header">
-    <div></div>
-    <button class="icon-btn" data-theme-toggle>🌙</button>
-  </div>
+      <button class="moon-btn" data-theme-toggle aria-label="Night mode">
+        🌙
+      </button>
+    </header>
 
-  <div class="hero">
-    <h1 class="page-title">Enigma</h1>
-    <p class="page-subtitle">Start gently. Stay steady.</p>
-  </div>
+    <!-- Content card -->
+    <div class="shell">
 
-  <section class="section-panel calm-panel">
+      <!-- RIGHT NOW -->
+      <section class="block">
+        <h2 class="block-title">Right now</h2>
 
-    <div class="grid calm-grid">
+        <a class="wide-tile" href="breathe.html">
+          <div class="wide-ico">🫧</div>
+          <div class="wide-text">
+            <div class="wide-title">Breathe now</div>
+          </div>
+          <div class="chev">›</div>
+        </a>
 
-      <a class="tile calm-tile" href="breathe.html">
-        <div class="tile-ico">🫧</div>
-        <p class="tile-title">Breathe</p>
-      </a>
+        <a class="wide-tile wide-tile--warm" href="overwhelmed.html">
+          <div class="wide-ico">🫶</div>
+          <div class="wide-text">
+            <div class="wide-title">I need calm</div>
+          </div>
+          <div class="chev">›</div>
+        </a>
+      </section>
 
-      <a class="tile calm-tile" href="checkin.html">
-        <div class="tile-ico">🧠</div>
-        <p class="tile-title">Check In</p>
-      </a>
+      <!-- TODAY -->
+      <section class="block">
+        <h2 class="block-title">Today</h2>
 
-      <a class="tile calm-tile" href="journal.html">
-        <div class="tile-ico">📖</div>
-        <p class="tile-title">Journal</p>
-      </a>
+        <div class="grid2">
+          <a class="tile" href="checkin.html">
+            <div class="tile-ico">📝</div>
+            <div class="tile-col">
+              <div class="tile-title">Check in</div>
+            </div>
+            <div class="chev small">›</div>
+          </a>
 
-      <a class="tile calm-tile" href="word.html">
-        <div class="tile-ico">✨</div>
-        <p class="tile-title">Daily Word</p>
-      </a>
+          <a class="tile" href="journal.html">
+            <div class="tile-ico">📖</div>
+            <div class="tile-col">
+              <div class="tile-title">Journal</div>
+            </div>
+            <div class="chev small">›</div>
+          </a>
 
-      <a class="tile calm-tile" href="music.html">
-        <div class="tile-ico">🎧</div>
-        <p class="tile-title">Music</p>
-      </a>
+          <a class="tile" href="word.html">
+            <div class="tile-ico">✨</div>
+            <div class="tile-col">
+              <div class="tile-title">Daily word</div>
+            </div>
+            <div class="chev small">›</div>
+          </a>
 
-      <a class="tile calm-tile" href="yoga.html">
-        <div class="tile-ico">🧘</div>
-        <p class="tile-title">Move</p>
-      </a>
+          <a class="tile" href="quotes.html">
+            <div class="tile-ico">💬</div>
+            <div class="tile-col">
+              <div class="tile-title">Kind words</div>
+            </div>
+            <div class="chev small">›</div>
+          </a>
+        </div>
+      </section>
 
-      <a class="tile calm-tile" href="progress.html">
-        <div class="tile-ico">📊</div>
-        <p class="tile-title">Progress</p>
-      </a>
+      <!-- EXPLORE -->
+      <section class="block">
+        <h2 class="block-title">Explore</h2>
 
-      <a class="tile calm-tile" href="resources.html">
-        <div class="tile-ico">📘</div>
-        <p class="tile-title">Resources</p>
-      </a>
+        <div class="grid2">
+          <a class="tile" href="yoga.html">
+            <div class="tile-ico">🧘</div>
+            <div class="tile-col">
+              <div class="tile-title">Move gently</div>
+            </div>
+            <div class="chev small">›</div>
+          </a>
 
-      <a class="tile calm-tile" href="help.html">
-        <div class="tile-ico">💛</div>
-        <p class="tile-title">Support</p>
-      </a>
+          <a class="tile" href="music.html">
+            <div class="tile-ico">🎵</div>
+            <div class="tile-col">
+              <div class="tile-title">Listen</div>
+            </div>
+            <div class="chev small">›</div>
+          </a>
 
+          <a class="tile" href="books.html">
+            <div class="tile-ico">📚</div>
+            <div class="tile-col">
+              <div class="tile-title">Read</div>
+            </div>
+            <div class="chev small">›</div>
+          </a>
+
+          <a class="tile" href="distraction.html">
+            <div class="tile-ico">🧩</div>
+            <div class="tile-col">
+              <div class="tile-title">Take a break</div>
+            </div>
+            <div class="chev small">›</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- YOUR SPACE -->
+      <section class="block">
+        <h2 class="block-title">Your space</h2>
+
+        <div class="chips">
+          <a class="chip" href="progress.html">📊 <span>Progress</span></a>
+          <a class="chip" href="resources.html">🧠 <span>Resources</span></a>
+          <a class="chip" href="settings.html">⚙️ <span>Settings</span></a>
+        </div>
+
+        <a class="support-banner" href="help.html">
+          <span class="sos">SOS</span>
+          <span class="support-text">Get support now</span>
+          <span class="chev">›</span>
+        </a>
+      </section>
     </div>
 
-  </section>
+    <!-- Bottom nav -->
+    <nav class="bottom-nav" aria-label="Primary">
+      <a class="nav-item active" href="index.html"><span>🏠</span><small>Home</small></a>
+      <a class="nav-item" href="breathe.html"><span>🫧</span><small>Breathe</small></a>
+      <a class="nav-item" href="checkin.html"><span>📝</span><small>Check in</small></a>
+      <a class="nav-item" href="progress.html"><span>📈</span><small>Progress</small></a>
+      <a class="nav-item" href="settings.html"><span>⚙️</span><small>Settings</small></a>
+    </nav>
 
-</main>
+  </main>
 
-<script type="module">
-import { applySavedTheme, wireThemeButton } from "./app.js";
-applySavedTheme();
-wireThemeButton();
-</script>
-
+  <script type="module">
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+  </script>
 </body>
 </html>
