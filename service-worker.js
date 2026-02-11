@@ -1,6 +1,6 @@
 // Enigma Wellbeing — offline cache (root)
 
-const CACHE_NAME = "enigma-v2-root-cache-1";
+const CACHE_NAME = "enigma-v2-root-cache-2";
 
 const ASSETS = [
   "./",
