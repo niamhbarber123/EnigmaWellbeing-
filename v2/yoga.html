@@ -1,39 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Yoga • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210fixY" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Move gently • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<body class="page-wrap">
-  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <h1 class="page-title">Move gently</h1>
+    <p class="page-subtitle">Short, gentle movement sessions. Tap a tile to open.</p>
 
-  <header class="page-header">
-    <h1>Yoga</h1>
-    <p>Pick a mood and open a gentle flow</p>
-  </header>
+    <section class="section-panel">
+      <div class="grid">
+        <a class="tile" href="https://www.youtube.com/results?search_query=10+minute+gentle+yoga" target="_blank" rel="noopener">
+          <div class="tile-ico">🧘</div>
+          <div><p class="tile-title">10 min gentle yoga</p><p class="tile-sub">Easy flow</p></div>
+        </a>
 
-  <main class="page">
-    <section class="card">
-      <div class="section-title">Mood</div>
-      <div class="chip-row" id="yogaChips"></div>
-    </section>
+        <a class="tile" href="https://www.youtube.com/results?search_query=neck+shoulder+stretch+routine" target="_blank" rel="noopener">
+          <div class="tile-ico">💆</div>
+          <div><p class="tile-title">Neck & shoulders</p><p class="tile-sub">Release tension</p></div>
+        </a>
 
-    <section class="card" style="margin-top:14px;">
-      <div class="section-title">Videos</div>
-      <div class="gentle-text" style="margin-top:6px;">Links open in a new tab.</div>
-      <div class="list" id="yogaList"></div>
+        <a class="tile" href="https://www.youtube.com/results?search_query=bedtime+stretch+routine" target="_blank" rel="noopener">
+          <div class="tile-ico">🛏️</div>
+          <div><p class="tile-title">Bedtime stretch</p><p class="tile-sub">Wind down</p></div>
+        </a>
+
+        <a class="tile" href="https://www.youtube.com/results?search_query=beginner+yoga+breathing" target="_blank" rel="noopener">
+          <div class="tile-ico">🌬️</div>
+          <div><p class="tile-title">Breath + movement</p><p class="tile-sub">Slow & steady</p></div>
+        </a>
+      </div>
     </section>
   </main>
 
-
-  <script src="app.js?v=20260210fixY" defer></script>
-  <script src="yoga.js?v=20260210fixY" defer></script>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
+  </script>
 </body>
 </html>
