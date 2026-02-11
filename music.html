@@ -1,66 +1,155 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Music • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Music • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="style.css" />
 
   <style>
-    .media-tile{ min-height: 110px; flex-direction:column; justify-content:center; text-align:center; }
-    .media-tile .label.small{ font-size:16px; }
-    .media-tile .ico{ width:46px;height:46px; }
+    /* Calmer, less shouty (page-only) */
+    .page-title{ font-weight:600; }
+    .page-sub{ font-weight:500; opacity:.72; line-height:1.5; }
+
+    /* Small helper text in tiles */
+    .tile-sub{
+      margin:2px 0 0;
+      font-size:13px;
+      font-weight:500;
+      opacity:.72;
+      line-height:1.35;
+    }
+
+    /* Keep tiles equal height and tidy */
+    .tile{
+      align-items: flex-start;
+      min-height: 92px;
+    }
+
+    .tile .ico{ margin-top:2px; }
+
+    /* Filter row */
+    .filter-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-bottom:12px;
+    }
+    .filter-row label{
+      font-size:12px;
+      font-weight:600;
+      opacity:.7;
+      white-space:nowrap;
+    }
+    .filter-row select{
+      flex:1;
+    }
+
+    /* Make links look like tiles (no underline) */
+    .tile, .wide{ -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
+
   <main class="wrap">
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
+      <a class="back" href="index.html">←</a>
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
     <h1 class="page-title">Music</h1>
-    <p class="page-sub">Pick a vibe. Tap to open.</p>
+    <p class="page-sub">Pick something gentle. You can always switch.</p>
 
     <section class="card">
-      <div class="grid">
-        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/lofi%20beats">
-          <div class="ico">🎧</div><div class="label small">Lo-fi focus</div>
-        </a>
-        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/peaceful%20piano">
-          <div class="ico">🎹</div><div class="label small">Peaceful piano</div>
-        </a>
-        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/rain%20sounds">
-          <div class="ico">🌧️</div><div class="label small">Rain sounds</div>
-        </a>
-        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/ocean%20waves">
-          <div class="ico">🌊</div><div class="label small">Ocean waves</div>
-        </a>
-        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/white%20noise">
-          <div class="ico">📻</div><div class="label small">White noise</div>
-        </a>
-        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/binaural%20beats%20sleep">
-          <div class="ico">🌀</div><div class="label small">Sleep tones</div>
-        </a>
+
+      <div class="filter-row">
+        <label for="filter">Filter</label>
+        <select id="filter">
+          <option value="all" selected>All</option>
+          <option value="calm">Calm</option>
+          <option value="focus">Focus</option>
+          <option value="sleep">Sleep</option>
+          <option value="nature">Nature</option>
+          <option value="grounding">Grounding</option>
+          <option value="uplift">Uplift</option>
+        </select>
       </div>
 
-      <p style="margin:10px 0 0;color:var(--muted);font-weight:650;">Links open in Spotify (or browser).</p>
+      <div class="grid" id="musicGrid"></div>
+
+      <hr class="sep" />
+
+      <p class="page-sub" style="margin:0; text-align:left;">
+        Tip: if your mind feels busy, try <strong style="font-weight:600;">Nature</strong> or <strong style="font-weight:600;">Brown noise</strong>.
+      </p>
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+  </script>
+
+  <script>
+    const items = [
+      // Calm
+      { t:"Soft piano",      sub:"Quiet, simple piano.",           ico:"🎹", cat:"calm", url:"https://www.youtube.com/results?search_query=soft+piano+ambient" },
+      { t:"Ambient calm",    sub:"Slow, spacious sound.",          ico:"🌫️", cat:"calm", url:"https://www.youtube.com/results?search_query=ambient+calm+music" },
+      { t:"Lo-fi unwind",    sub:"Warm, gentle beats.",            ico:"📻", cat:"calm", url:"https://www.youtube.com/results?search_query=lofi+chill+relax" },
+
+      // Focus
+      { t:"Lo-fi focus",     sub:"Steady focus background.",       ico:"🧠", cat:"focus", url:"https://www.youtube.com/results?search_query=lofi+focus" },
+      { t:"Deep focus",      sub:"Minimal, distraction-free.",     ico:"🕯️", cat:"focus", url:"https://www.youtube.com/results?search_query=deep+focus+music" },
+      { t:"Study piano",     sub:"Light piano for focus.",         ico:"📚", cat:"focus", url:"https://www.youtube.com/results?search_query=study+piano+music" },
+
+      // Sleep
+      { t:"Sleep stories",   sub:"Gentle listening to drift off.", ico:"🌙", cat:"sleep", url:"https://www.youtube.com/results?search_query=sleep+stories+for+adults" },
+      { t:"Sleep music",     sub:"Slow, soothing tones.",          ico:"😴", cat:"sleep", url:"https://www.youtube.com/results?search_query=sleep+music" },
+      { t:"White noise",     sub:"Soft static for sleep.",         ico:"📼", cat:"sleep", url:"https://www.youtube.com/results?search_query=white+noise+sleep" },
+      { t:"Brown noise",     sub:"Deeper, more grounding.",        ico:"🟤", cat:"sleep", url:"https://www.youtube.com/results?search_query=brown+noise+sleep" },
+
+      // Nature
+      { t:"Rain",            sub:"Steady rain sounds.",            ico:"🌧️", cat:"nature", url:"https://www.youtube.com/results?search_query=rain+sounds" },
+      { t:"Ocean",           sub:"Waves, slow and even.",          ico:"🌊", cat:"nature", url:"https://www.youtube.com/results?search_query=ocean+waves+sounds" },
+      { t:"Forest",          sub:"Birds + soft wind.",             ico:"🌲", cat:"nature", url:"https://www.youtube.com/results?search_query=forest+sounds" },
+      { t:"Fireplace",       sub:"Warm crackling calm.",           ico:"🔥", cat:"nature", url:"https://www.youtube.com/results?search_query=fireplace+sounds" },
+
+      // Grounding
+      { t:"Breathing rhythm",sub:"A gentle pace for calm.",        ico:"🫧", cat:"grounding", url:"https://www.youtube.com/results?search_query=breathing+music+calm" },
+      { t:"432hz calm",      sub:"Soft tone-based calm.",          ico:"🔔", cat:"grounding", url:"https://www.youtube.com/results?search_query=432hz+calm" },
+      { t:"Binaural relax",  sub:"Headphones recommended.",        ico:"🎧", cat:"grounding", url:"https://www.youtube.com/results?search_query=binaural+beats+relax" },
+
+      // Uplift
+      { t:"Gentle uplift",   sub:"Light, hopeful energy.",         ico:"🌤️", cat:"uplift", url:"https://www.youtube.com/results?search_query=gentle+uplifting+music" },
+      { t:"Positive pop",    sub:"Easy feel-good tracks.",         ico:"✨", cat:"uplift", url:"https://www.youtube.com/results?search_query=feel+good+playlist" },
+      { t:"Morning calm",    sub:"Soft start to the day.",         ico:"☀️", cat:"uplift", url:"https://www.youtube.com/results?search_query=morning+calm+music" },
+    ];
+
+    const grid = document.getElementById("musicGrid");
+    const filter = document.getElementById("filter");
+
+    function render(){
+      const v = filter.value;
+      const list = (v === "all") ? items : items.filter(x => x.cat === v);
+
+      grid.innerHTML = list.map(x => `
+        <a class="tile" href="${x.url}" target="_blank" rel="noopener">
+          <div class="ico">${x.ico}</div>
+          <div style="flex:1;">
+            <div class="label small">${x.t}</div>
+            <div class="tile-sub">${x.sub}</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+      `).join("");
+    }
+
+    filter.addEventListener("change", render);
+    render();
   </script>
 </body>
 </html>
