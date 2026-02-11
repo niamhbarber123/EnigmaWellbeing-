@@ -1,33 +1,31 @@
-/* service-worker.js — Enigma Wellbeing (FULL)
-   Bump CACHE_NAME when you change files.
-*/
-
-const CACHE_NAME = "enigma-wellbeing-cache-v13";
+const CACHE_NAME = "enigma-wellbeing-cache-v15";
 
 const CORE_ASSETS = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./app.js",
-  "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./service-worker.js",
+  "/EnigmaWellbeing-/",
+  "/EnigmaWellbeing-/index.html",
+  "/EnigmaWellbeing-/style.css",
+  "/EnigmaWellbeing-/app.js",
+  "/EnigmaWellbeing-/manifest.json",
+  "/EnigmaWellbeing-/service-worker.js",
 
-  "./breathe.html",
-  "./overwhelmed.html",
-  "./checkin.html",
-  "./journal.html",
-  "./word.html",
-  "./quotes.html",
-  "./yoga.html",
-  "./music.html",
-  "./books.html",
-  "./distraction.html",
-  "./resources.html",
-  "./help.html",
-  "./settings.html",
-  "./progress.html"
+  "/EnigmaWellbeing-/icon.png",
+  "/EnigmaWellbeing-/icon-192.png",
+  "/EnigmaWellbeing-/icon-512.png",
+
+  "/EnigmaWellbeing-/breathe.html",
+  "/EnigmaWellbeing-/overwhelmed.html",
+  "/EnigmaWellbeing-/checkin.html",
+  "/EnigmaWellbeing-/journal.html",
+  "/EnigmaWellbeing-/word.html",
+  "/EnigmaWellbeing-/quotes.html",
+  "/EnigmaWellbeing-/yoga.html",
+  "/EnigmaWellbeing-/music.html",
+  "/EnigmaWellbeing-/books.html",
+  "/EnigmaWellbeing-/distraction.html",
+  "/EnigmaWellbeing-/resources.html",
+  "/EnigmaWellbeing-/help.html",
+  "/EnigmaWellbeing-/settings.html",
+  "/EnigmaWellbeing-/progress.html"
 ];
 
 self.addEventListener("install", (event) => {
@@ -49,7 +47,6 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // only same origin
   if (url.origin !== self.location.origin) return;
 
   const accept = req.headers.get("accept") || "";
@@ -57,7 +54,7 @@ self.addEventListener("fetch", (event) => {
     req.mode === "navigate" ||
     accept.includes("text/html") ||
     url.pathname.endsWith(".html") ||
-    url.pathname === "/" ||
+    url.pathname === "/EnigmaWellbeing-/" ||
     url.pathname.endsWith("/index.html");
 
   if (isHTML) {
@@ -77,8 +74,7 @@ async function networkFirst(request) {
   } catch {
     const cached = await cache.match(request);
     if (cached) return cached;
-    const fallback = await cache.match("./index.html");
-    return fallback || new Response("Offline", { status: 503 });
+    return cache.match("/EnigmaWellbeing-/index.html");
   }
 }
 
