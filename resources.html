@@ -1,163 +1,62 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Support & Resources • Enigma Wellbeing</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resources • Enigma</title>
 
-<style>
-.resources-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-.resource-tile{
-  min-height:110px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:14px;
-}
-
-.resource-tile .tile-ico{
-  font-size:22px;
-  margin-bottom:6px;
-}
-
-.resource-tile .tile-title{
-  font-size:14px;
-  font-weight:900;
-  margin:0 0 4px;
-}
-
-.resource-tile .tile-sub{
-  font-size:12px;
-  color:var(--muted);
-  margin:0;
-}
-
-/* Collapse to 1 column on small screens */
-@media (max-width:400px){
-  .resources-grid{
-    grid-template-columns:1fr;
-  }
-}
-</style>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
 </head>
 
 <body>
-<main class="wrap">
+  <div class="watermark" aria-hidden="true"></div>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html" data-back>← Back</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<div class="header">
-  <a class="back-btn" href="index.html" data-back>← Back</a>
-  <div class="header-center"></div>
-  <button class="icon-btn" data-theme-toggle>🌙</button>
-</div>
+    <h1 class="page-title">Resources</h1>
+    <p class="page-sub">Trusted NHS information pages.</p>
 
-<h1 class="page-title">Resources</h1>
-<p class="page-subtitle">Trusted NHS guidance.</p>
+    <section class="card">
+      <div class="grid">
+        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/depression/">
+          <div class="ico">🌧️</div><div class="label small">Depression</div><div class="arrow small">›</div>
+        </a>
+        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/">
+          <div class="ico">😟</div><div class="label small">Anxiety</div><div class="arrow small">›</div>
+        </a>
+        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress-anxiety/">
+          <div class="ico">⚠️</div><div class="label small">Stress</div><div class="arrow small">›</div>
+        </a>
+        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/">
+          <div class="ico">🧠</div><div class="label small">BPD</div><div class="arrow small">›</div>
+        </a>
+        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/">
+          <div class="ico">🛡️</div><div class="label small">PTSD</div><div class="arrow small">›</div>
+        </a>
+        <a class="tile" target="_blank" rel="noopener" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/self-harm/">
+          <div class="ico">🩹</div><div class="label small">Self-harm</div><div class="arrow small">›</div>
+        </a>
+      </div>
 
-<section class="section-panel">
+      <p style="margin:10px 0 0;color:var(--muted);font-weight:650;">
+        Resources are information pages. If you need urgent help, use Help.
+      </p>
+    </section>
+  </main>
 
-<h2 style="margin-bottom:10px;">Conditions</h2>
-
-<div class="resources-grid">
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/depression-in-adults/" target="_blank">
-  <div class="tile-ico">🌧️</div>
-  <p class="tile-title">Depression</p>
-  <p class="tile-sub">Symptoms & treatment</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/" target="_blank">
-  <div class="tile-ico">😟</div>
-  <p class="tile-title">Anxiety</p>
-  <p class="tile-sub">Understanding anxiety</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/self-harm/" target="_blank">
-  <div class="tile-ico">🩹</div>
-  <p class="tile-title">Self-harm</p>
-  <p class="tile-sub">Why it happens</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" target="_blank">
-  <div class="tile-ico">🧠</div>
-  <p class="tile-title">BPD</p>
-  <p class="tile-sub">Borderline personality</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/" target="_blank">
-  <div class="tile-ico">⚡</div>
-  <p class="tile-title">PTSD</p>
-  <p class="tile-sub">Trauma support</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" target="_blank">
-  <div class="tile-ico">🔁</div>
-  <p class="tile-title">OCD</p>
-  <p class="tile-sub">Obsessions & compulsions</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/eating-disorders/" target="_blank">
-  <div class="tile-ico">🍽️</div>
-  <p class="tile-title">Eating Disorders</p>
-  <p class="tile-sub">Support & advice</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/bipolar-disorder/" target="_blank">
-  <div class="tile-ico">🌗</div>
-  <p class="tile-title">Bipolar</p>
-  <p class="tile-sub">Mood changes</p>
-</a>
-
-</div>
-
-<hr class="sep">
-
-<h2 style="margin-bottom:10px;">Self-Help</h2>
-
-<div class="resources-grid">
-
-<a class="tile resource-tile" href="https://www.nhs.uk/every-mind-matters/" target="_blank">
-  <div class="tile-ico">✨</div>
-  <p class="tile-title">Every Mind Matters</p>
-  <p class="tile-sub">Personal plan</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/self-help/" target="_blank">
-  <div class="tile-ico">📘</div>
-  <p class="tile-title">Self-Help Guides</p>
-  <p class="tile-sub">Practical tools</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/live-well/sleep-and-tiredness/" target="_blank">
-  <div class="tile-ico">🌙</div>
-  <p class="tile-title">Sleep Help</p>
-  <p class="tile-sub">Improve rest</p>
-</a>
-
-<a class="tile resource-tile" href="https://www.nhs.uk/live-well/exercise/" target="_blank">
-  <div class="tile-ico">🏃</div>
-  <p class="tile-title">Exercise & Mood</p>
-  <p class="tile-sub">Movement benefits</p>
-</a>
-
-</div>
-
-</section>
-</main>
-
-<script type="module">
-import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-applySavedTheme();
-wireThemeButton();
-wireBackButton();
-</script>
-
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+  </script>
 </body>
 </html>
