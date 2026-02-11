@@ -1,63 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>I need calm • Enigma Wellbeing</title>
-
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210-v2-allfix" />
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <h1 class="page-title">I need calm</h1>
+    <p class="page-subtitle">You don’t have to fix everything. Just take the next small step.</p>
 
-  <div class="page-shell">
-    <header class="page-header">
-      <h1>I need calm</h1>
-      <p>Quick steps to feel safer</p>
-    </header>
-
-    <section class="section">
-      <div class="section-title">Try this now</div>
-
-      <div class="card">
-        <div class="gentle">Tap through. You only need to do one step.</div>
-
-        <div id="calmStep" style="margin-top:12px; font-size:17px; font-weight:900; color:var(--ink); line-height:1.35;">
-          Put both feet on the floor. Press your toes down gently.
+    <section class="section-panel">
+      <div class="grid">
+        <div class="tile">
+          <div class="tile-ico">👀</div>
+          <div>
+            <p class="tile-title">Look around</p>
+            <p class="tile-sub">Name 5 things you can see.</p>
+          </div>
         </div>
 
-        <div class="gentle" id="calmHint" style="margin-top:10px;">
-          Notice one thing you can see.
+        <div class="tile">
+          <div class="tile-ico">🦶</div>
+          <div>
+            <p class="tile-title">Feel grounded</p>
+            <p class="tile-sub">Press your feet into the floor.</p>
+          </div>
         </div>
 
-        <div class="row" style="margin-top:14px;">
-          <button id="nextStep" class="pill" type="button" style="flex:1;">Next</button>
-          <button id="restartSteps" class="pill" type="button" style="flex:1;">Restart</button>
+        <div class="tile">
+          <div class="tile-ico">✋</div>
+          <div>
+            <p class="tile-title">Warm hands</p>
+            <p class="tile-sub">Rub palms together slowly.</p>
+          </div>
+        </div>
+
+        <div class="tile" style="cursor:pointer;" onclick="location.href='breathe.html'">
+          <div class="tile-ico">🌬️</div>
+          <div>
+            <p class="tile-title">Breathe</p>
+            <p class="tile-sub">Start a gentle breathing cycle.</p>
+          </div>
         </div>
       </div>
+
+      <hr class="sep" />
+
+      <a class="support-banner" href="resources.html">
+        <span class="badge">SOS</span>
+        <span class="banner-text">Support & resources</span>
+        <span class="banner-arrow">›</span>
+      </a>
+
+      <p class="small-note">If you feel unsafe, seek urgent help in your area.</p>
     </section>
+  </main>
 
-    <section class="section">
-      <div class="section-title">If you feel unsafe</div>
-      <div class="card">
-        <div class="gentle">
-          If you’re in immediate danger call <strong>999</strong>.<br/>
-          For urgent advice (UK) use <strong>NHS 111</strong> or see Help.
-        </div>
-
-        <div class="row" style="margin-top:14px;">
-          <a class="pill" href="help.html" style="flex:1; text-align:center;">Open Help</a>
-          <a class="pill" href="resources.html" style="flex:1; text-align:center;">Resources</a>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <script src="app.js?v=20260210-v2-allfix" defer></script>
-  <script src="overwhelmed.js?v=20260210-v2-allfix" defer></script>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+    wireBackButton();
+  </script>
 </body>
 </html>
