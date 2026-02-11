@@ -5,182 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Books • Enigma Wellbeing</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* Calmer, less shouty (page-only) */
-    .page-title{ font-weight:600; }
-    .page-sub{ font-weight:500; opacity:.72; line-height:1.5; }
-
-    /* Subtext inside tiles */
-    .tile-sub{
-      margin:2px 0 0;
-      font-size:13px;
-      font-weight:500;
-      opacity:.72;
-      line-height:1.35;
-    }
-
-    /* Equal-feel tiles */
-    .tile{
-      align-items:flex-start;
-      min-height: 96px;
-    }
-    .tile .ico{ margin-top:2px; }
-
-    /* Filter row */
-    .filter-row{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      margin-bottom:12px;
-    }
-    .filter-row label{
-      font-size:12px;
-      font-weight:600;
-      opacity:.7;
-      white-space:nowrap;
-    }
-    .filter-row select{ flex:1; }
-
-    .note{
-      margin: 0;
-      font-size: 13px;
-      font-weight: 500;
-      opacity: .72;
-      line-height: 1.5;
-    }
+    .list{ display:flex; flex-direction:column; gap:12px; }
+    .tile{ width:100%; min-height:84px; align-items:flex-start; }
+    .tile-sub{ margin-top:2px; font-size:13px; }
   </style>
 </head>
-
 <body>
   <div class="watermark" aria-hidden="true"></div>
-
   <main class="wrap">
     <div class="topbar">
       <a class="back" href="index.html">←</a>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <div style="width:44px;"></div>
     </div>
 
     <h1 class="page-title">Books</h1>
-    <p class="page-sub">Pick a genre. Save what you want to come back to.</p>
+    <p class="page-sub">Pick something gentle.</p>
 
     <section class="card">
-      <div class="filter-row">
-        <label for="genre">Genre</label>
-        <select id="genre">
-          <option value="all" selected>All</option>
-          <option value="wellbeing">Wellbeing</option>
-          <option value="selfhelp">Self-help</option>
-          <option value="mindfulness">Mindfulness</option>
-          <option value="therapy">Therapy skills</option>
-          <option value="fiction">Fiction (comfort reads)</option>
-          <option value="fantasy">Fantasy</option>
-          <option value="romance">Romance</option>
-          <option value="mystery">Mystery/Thriller</option>
-          <option value="memoir">Memoir</option>
-          <option value="productivity">Productivity</option>
-          <option value="poetry">Poetry</option>
-        </select>
+      <div class="list">
+        <a class="tile" href="https://www.google.com/search?q=The+Comfort+Book+Matt+Haig" target="_blank" rel="noopener">
+          <div class="ico">🫶</div><div style="flex:1;">
+            <div class="label small">The Comfort Book</div><div class="tile-sub">Matt Haig • soothing reflections</div>
+          </div><div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.google.com/search?q=The+Happiness+Trap+Russ+Harris" target="_blank" rel="noopener">
+          <div class="ico">🧠</div><div style="flex:1;">
+            <div class="label small">The Happiness Trap</div><div class="tile-sub">Russ Harris • ACT skills</div>
+          </div><div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.google.com/search?q=The+House+in+the+Cerulean+Sea+TJ+Klune" target="_blank" rel="noopener">
+          <div class="ico">🏡</div><div style="flex:1;">
+            <div class="label small">The House in the Cerulean Sea</div><div class="tile-sub">TJ Klune • cosy comfort read</div>
+          </div><div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.google.com/search?q=Atomic+Habits+James+Clear" target="_blank" rel="noopener">
+          <div class="ico">⚡</div><div style="flex:1;">
+            <div class="label small">Atomic Habits</div><div class="tile-sub">James Clear • small changes</div>
+          </div><div class="arrow small">›</div>
+        </a>
       </div>
-
-      <div class="grid" id="bookGrid"></div>
-
-      <hr class="sep" />
-
-      <p class="note">
-        Tip: if you feel overwhelmed, try a <strong style="font-weight:600;">comfort read</strong> or something short and gentle.
-      </p>
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton } from "./app.js";
-    applySavedTheme();
-    wireThemeButton();
-  </script>
-
-  <script>
-    const books = [
-      /* Wellbeing / self-help / mindfulness */
-      { t:"The Comfort Book", a:"Matt Haig",            g:"wellbeing",  ico:"🫶", sub:"Short, soothing reflections." },
-      { t:"Reasons to Stay Alive", a:"Matt Haig",       g:"wellbeing",  ico:"🌿", sub:"Hopeful, honest mental health memoir." },
-      { t:"Notes on a Nervous Planet", a:"Matt Haig",   g:"wellbeing",  ico:"🌍", sub:"Calm perspectives for modern life." },
-      { t:"The Book of Joy", a:"Dalai Lama & Desmond Tutu", g:"wellbeing", ico:"😊", sub:"Warm, practical joy lessons." },
-
-      { t:"Atomic Habits", a:"James Clear",             g:"productivity", ico:"⚡", sub:"Small changes, big results." },
-      { t:"The Power of Habit", a:"Charles Duhigg",     g:"productivity", ico:"🔁", sub:"Why habits form and how to change them." },
-      { t:"Deep Work", a:"Cal Newport",                 g:"productivity", ico:"🎧", sub:"Focus skills for a busy world." },
-
-      { t:"The Gifts of Imperfection", a:"Brené Brown", g:"selfhelp",   ico:"✨", sub:"Let go of perfection, live more freely." },
-      { t:"Daring Greatly", a:"Brené Brown",            g:"selfhelp",   ico:"🛡️", sub:"Vulnerability as strength." },
-      { t:"The Happiness Trap", a:"Russ Harris",        g:"therapy",    ico:"🧠", sub:"ACT skills for anxiety and stuck thoughts." },
-      { t:"Feeling Good", a:"David D. Burns",           g:"therapy",    ico:"💬", sub:"CBT tools for low mood." },
-      { t:"Mind Over Mood", a:"Greenberger & Padesky",  g:"therapy",    ico:"📝", sub:"Practical CBT worksheets and skills." },
-
-      { t:"Wherever You Go, There You Are", a:"Jon Kabat-Zinn", g:"mindfulness", ico:"🧘", sub:"Mindfulness made simple." },
-      { t:"The Miracle of Mindfulness", a:"Thích Nhất Hạnh",    g:"mindfulness", ico:"🍃", sub:"Gentle mindful living." },
-      { t:"Peace Is Every Step", a:"Thích Nhất Hạnh",          g:"mindfulness", ico:"👣", sub:"Soft calm in daily life." },
-      { t:"10% Happier", a:"Dan Harris",                g:"mindfulness", ico:"🙂", sub:"Meditation for sceptics (and everyone)." },
-
-      /* Comfort fiction */
-      { t:"The House in the Cerulean Sea", a:"TJ Klune", g:"fiction",  ico:"🏡", sub:"Warm, funny, cosy fantasy comfort read." },
-      { t:"Eleanor Oliphant Is Completely Fine", a:"Gail Honeyman", g:"fiction", ico:"💛", sub:"Hopeful, tender, funny." },
-      { t:"A Man Called Ove", a:"Fredrik Backman",      g:"fiction",  ico:"🧡", sub:"Grumpy-soft, heartwarming." },
-      { t:"The Midnight Library", a:"Matt Haig",        g:"fiction",  ico:"📚", sub:"Life paths, hope, second chances." },
-
-      /* Fantasy */
-      { t:"Harry Potter and the Philosopher’s Stone", a:"J.K. Rowling", g:"fantasy", ico:"🪄", sub:"Classic cosy escape." },
-      { t:"The Hobbit", a:"J.R.R. Tolkien",             g:"fantasy", ico:"🐉", sub:"Adventure with warmth." },
-      { t:"Howl’s Moving Castle", a:"Diana Wynne Jones",g:"fantasy", ico:"🏰", sub:"Whimsical and comforting." },
-      { t:"The Name of the Wind", a:"Patrick Rothfuss", g:"fantasy", ico:"🎻", sub:"Rich storytelling and worldbuilding." },
-
-      /* Romance */
-      { t:"The Flatshare", a:"Beth O’Leary",            g:"romance", ico:"🏠", sub:"Warm, funny, light romance." },
-      { t:"People We Meet on Vacation", a:"Emily Henry",g:"romance", ico:"🌞", sub:"Cosy, feel-good romance." },
-      { t:"Pride and Prejudice", a:"Jane Austen",       g:"romance", ico:"💐", sub:"Classic comfort." },
-
-      /* Mystery / thriller */
-      { t:"The Thursday Murder Club", a:"Richard Osman", g:"mystery", ico:"🕵️", sub:"Cosy crime, funny and clever." },
-      { t:"Gone Girl", a:"Gillian Flynn",               g:"mystery", ico:"🖤", sub:"Dark, twisty thriller." },
-      { t:"The Girl on the Train", a:"Paula Hawkins",   g:"mystery", ico:"🚆", sub:"Fast, suspenseful read." },
-
-      /* Memoir */
-      { t:"Educated", a:"Tara Westover",                g:"memoir", ico:"📖", sub:"Powerful story of change and learning." },
-      { t:"The Diary of a Young Girl", a:"Anne Frank",  g:"memoir", ico:"🕯️", sub:"Classic historical diary." },
-      { t:"Wild", a:"Cheryl Strayed",                   g:"memoir", ico:"🥾", sub:"Grief, growth, and a long walk." },
-
-      /* Poetry */
-      { t:"Milk and Honey", a:"Rupi Kaur",              g:"poetry", ico:"🍯", sub:"Short poems about healing and love." },
-      { t:"The Sun and Her Flowers", a:"Rupi Kaur",     g:"poetry", ico:"🌻", sub:"Growth, softness, rebuilding." },
-      { t:"The Poetry Pharmacy", a:"William Sieghart",  g:"poetry", ico:"💊", sub:"Poems for emotions and moments." }
-    ];
-
-    const grid = document.getElementById("bookGrid");
-    const genre = document.getElementById("genre");
-
-    function toQuery(b){
-      return encodeURIComponent(`${b.t} ${b.a}`);
-    }
-
-    function render(){
-      const v = genre.value;
-      const list = (v === "all") ? books : books.filter(b => b.g === v);
-
-      grid.innerHTML = list.map(b => `
-        <a class="tile" href="https://www.google.com/search?q=${toQuery(b)}" target="_blank" rel="noopener">
-          <div class="ico">${b.ico}</div>
-          <div style="flex:1;">
-            <div class="label small">${b.t}</div>
-            <div class="tile-sub">${b.a} • ${b.sub}</div>
-          </div>
-          <div class="arrow small">›</div>
-        </a>
-      `).join("");
-    }
-
-    genre.addEventListener("change", render);
-    render();
+    import { applySavedTheme, applySavedPreferences } from "./app.js";
+    applySavedTheme(); applySavedPreferences();
   </script>
 </body>
 </html>
