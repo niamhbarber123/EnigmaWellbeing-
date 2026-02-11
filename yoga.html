@@ -1,46 +1,63 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Move gently • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yoga • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    .list{ display:flex; flex-direction:column; gap:12px; }
+    .tile{ width:100%; min-height:92px; align-items:flex-start; }
+    .tile-sub{ margin-top:2px; font-size:13px; }
+  </style>
 </head>
-
 <body>
   <div class="watermark" aria-hidden="true"></div>
+
   <main class="wrap">
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <a class="back" href="index.html">←</a>
+      <div style="width:44px;"></div>
     </div>
 
-    <h1 class="page-title">Move gently</h1>
-    <p class="page-sub">Small movement can calm the mind.</p>
+    <h1 class="page-title">Yoga</h1>
+    <p class="page-sub">Gentle movement. No pressure.</p>
 
     <section class="card">
-      <div class="full">
-        <div class="quote-tile"><div class="quote-text">Neck release (30s)</div><div class="quote-meta">Slow circles, breathe out long.</div></div>
-        <div class="quote-tile"><div class="quote-text">Shoulder rolls (30s)</div><div class="quote-meta">Up, back, down — soften.</div></div>
-        <div class="quote-tile"><div class="quote-text">Forward fold (45s)</div><div class="quote-meta">Let your head be heavy.</div></div>
-        <div class="quote-tile"><div class="quote-text">Child’s pose (60s)</div><div class="quote-meta">Breathe into your back.</div></div>
-        <div class="quote-tile"><div class="quote-text">Legs up the wall (2–5m)</div><div class="quote-meta">Rest your nervous system.</div></div>
-        <div class="quote-tile"><div class="quote-text">Seated twist (45s each side)</div><div class="quote-meta">Gentle, no forcing.</div></div>
+      <div class="list">
+        <a class="tile" href="https://www.youtube.com/results?search_query=10+minute+gentle+yoga" target="_blank" rel="noopener">
+          <div class="ico">🧘</div><div style="flex:1;">
+            <div class="label small">10-minute gentle yoga</div><div class="tile-sub">A soft full-body reset.</div>
+          </div><div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.youtube.com/results?search_query=bedtime+yoga+stretch" target="_blank" rel="noopener">
+          <div class="ico">🌙</div><div style="flex:1;">
+            <div class="label small">Bedtime yoga</div><div class="tile-sub">Slow stretches for sleep.</div>
+          </div><div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.youtube.com/results?search_query=yoga+for+stress+relief" target="_blank" rel="noopener">
+          <div class="ico">🌿</div><div style="flex:1;">
+            <div class="label small">Yoga for stress</div><div class="tile-sub">Gentle calming flow.</div>
+          </div><div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.youtube.com/results?search_query=neck+and+shoulders+stretch+yoga" target="_blank" rel="noopener">
+          <div class="ico">💆</div><div style="flex:1;">
+            <div class="label small">Neck & shoulders</div><div class="tile-sub">Release tension carefully.</div>
+          </div><div class="arrow small">›</div>
+        </a>
       </div>
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, applySavedPreferences } from "./app.js";
+    applySavedTheme(); applySavedPreferences();
   </script>
 </body>
 </html>
