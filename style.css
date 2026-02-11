@@ -551,3 +551,99 @@ body.dark hr.sep{ background: rgba(255,255,255,.12); }
   .big-title{ font-size: 24px; }
   .circle{ width: 200px; height: 200px; }
 }
+/* ===============================
+   CALM HOMEPAGE STYLE
+================================ */
+
+.hero{
+  text-align:center;
+  margin-top:30px;
+  margin-bottom:25px;
+}
+
+.page-title{
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.page-subtitle{
+  color:var(--muted);
+  font-weight:600;
+  margin-top:6px;
+}
+
+/* Softer panel */
+.calm-panel{
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(6px);
+}
+
+body.dark .calm-panel{
+  background:rgba(255,255,255,.05);
+}
+
+/* Grid spacing */
+.calm-grid{
+  gap:16px;
+}
+
+/* Calmer tile look */
+.calm-tile{
+  text-align:center;
+  padding:22px 10px;
+  border-radius:22px;
+  background:rgba(255,255,255,.6);
+  backdrop-filter:blur(4px);
+  transition:all .2s ease;
+}
+
+body.dark .calm-tile{
+  background:rgba(255,255,255,.07);
+}
+
+.calm-tile:hover{
+  transform:translateY(-2px);
+}
+
+.calm-tile .tile-ico{
+  font-size:22px;
+  margin-bottom:6px;
+}
+
+.calm-tile .tile-title{
+  font-size:14px;
+  font-weight:800;
+}
+
+/* ===============================
+   ICON WATERMARK
+================================ */
+
+.icon-watermark{
+  position:fixed;
+  top:55%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:380px;
+  height:380px;
+  background-image:url("icon.png");
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  opacity:0.035;
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+}
+
+/* Slightly more visible in dark */
+body.dark .icon-watermark{
+  opacity:0.06;
+}
+
+/* Ensure content stays above watermark */
+.wrap{
+  position:relative;
+  z-index:1;
+}
