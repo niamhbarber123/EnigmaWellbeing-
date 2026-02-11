@@ -1,74 +1,68 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>I need calm • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I need calm • Enigma</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
 </head>
 <body>
+  <div class="watermark" aria-hidden="true"></div>
+
   <main class="wrap">
-    <div class="header">
-      <a class="back-btn" href="index.html" data-back>← Back</a>
-      <div class="header-center"></div>
-      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    <div class="topbar">
+      <a class="back" href="index.html" data-back>← Back</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
     <h1 class="page-title">I need calm</h1>
-    <p class="page-subtitle">You don’t have to fix everything. Just take the next small step.</p>
+    <p class="page-sub">Small steps to feel safer right now.</p>
 
-    <section class="section-panel">
-      <div class="grid">
-        <div class="tile">
-          <div class="tile-ico">👀</div>
-          <div>
-            <p class="tile-title">Look around</p>
-            <p class="tile-sub">Name 5 things you can see.</p>
-          </div>
+    <section class="card">
+      <h2 style="margin:0 0 10px;">Try this now</h2>
+
+      <div class="full">
+        <div class="quote-tile">
+          <div class="quote-text">Name 5 things you can see.</div>
+          <div class="quote-meta">Grounding • 30 seconds</div>
         </div>
 
-        <div class="tile">
-          <div class="tile-ico">🦶</div>
-          <div>
-            <p class="tile-title">Feel grounded</p>
-            <p class="tile-sub">Press your feet into the floor.</p>
-          </div>
+        <div class="quote-tile">
+          <div class="quote-text">Put one hand on your chest. Breathe out longer than you breathe in.</div>
+          <div class="quote-meta">Regulate • 60 seconds</div>
         </div>
 
-        <div class="tile">
-          <div class="tile-ico">✋</div>
-          <div>
-            <p class="tile-title">Warm hands</p>
-            <p class="tile-sub">Rub palms together slowly.</p>
-          </div>
+        <div class="quote-tile">
+          <div class="quote-text">Unclench your jaw. Drop your shoulders. Let your hands soften.</div>
+          <div class="quote-meta">Release tension</div>
         </div>
 
-        <div class="tile" style="cursor:pointer;" onclick="location.href='breathe.html'">
-          <div class="tile-ico">🌬️</div>
-          <div>
-            <p class="tile-title">Breathe</p>
-            <p class="tile-sub">Start a gentle breathing cycle.</p>
-          </div>
+        <div class="quote-tile">
+          <div class="quote-text">If you can, sip water slowly or hold something cold for 20 seconds.</div>
+          <div class="quote-meta">Reset your nervous system</div>
         </div>
       </div>
 
-      <hr class="sep" />
+      <hr class="sep">
 
-      <a class="support-banner" href="resources.html">
-        <span class="badge">SOS</span>
-        <span class="banner-text">Support & resources</span>
-        <span class="banner-arrow">›</span>
-      </a>
-
-      <p class="small-note">If you feel unsafe, seek urgent help in your area.</p>
+      <div class="btn-row">
+        <a class="btn primary" href="breathe.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Go to Breathe</a>
+        <a class="btn" href="help.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Get Help</a>
+      </div>
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-    applySavedTheme();
-    wireThemeButton();
-    wireBackButton();
+    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
   </script>
 </body>
 </html>
