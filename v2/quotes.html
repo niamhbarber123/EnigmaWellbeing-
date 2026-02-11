@@ -1,186 +1,157 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kind words • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    /* Full-width quote tiles (single column) */
-    .quotes-list{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .quote-tile .tile-ico{
-      align-self:flex-start;
-      margin-top: 2px;
-    }
-    .quote-text{
-      font-size: 16px;
-      font-weight: 900;
-      line-height: 1.35;
-      margin: 0;
-    }
-    .quote-hint{
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-weight: 650;
-      font-size: 13px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kind words • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css" />
+
+<style>
+  .quotes-list{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .quote-tile{
+    position:relative;
+    padding:20px;
+  }
+
+  .quote-text{
+    font-size:16px;
+    font-weight:900;
+    line-height:1.4;
+    margin:0;
+  }
+
+  .save-indicator{
+    position:absolute;
+    bottom:14px;
+    right:16px;
+    font-size:18px;
+    opacity:.85;
+  }
+</style>
 </head>
 
 <body>
-  <main class="wrap">
-    <div class="header">
-      <a class="back-btn" href="index.html" data-back>← Back</a>
-      <div class="header-center"></div>
-      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+<main class="wrap">
+
+  <div class="header">
+    <a class="back-btn" href="index.html" data-back>← Back</a>
+    <div class="header-center"></div>
+    <button class="icon-btn" data-theme-toggle>🌙</button>
+  </div>
+
+  <h1 class="page-title">Kind words</h1>
+
+  <section class="section-panel">
+
+    <div class="btn-row">
+      <button class="btn" id="allBtn" type="button">All</button>
+      <button class="btn" id="savedBtn" type="button">Saved</button>
     </div>
 
-    <h1 class="page-title">Kind words</h1>
+    <div style="height:12px;"></div>
 
-    <section class="section-panel">
-      <div class="btn-row">
-        <button class="btn" id="allBtn" type="button">All</button>
-        <button class="btn" id="savedBtn" type="button">Saved</button>
-      </div>
+    <div class="quotes-list" id="quotesList"></div>
 
-      <div style="height:12px;"></div>
+    <p class="small-note" id="hint"></p>
 
-      <div class="quotes-list" id="quotesList"></div>
+  </section>
 
-      <p class="small-note" id="hint"></p>
-    </section>
-  </main>
+</main>
 
-  <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, onDoubleTap } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton();
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton, onDoubleTap } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
 
-    const SAVE_KEY = "enigma_saved_quotes_v2";
+const SAVE_KEY = "enigma_saved_quotes_v2";
 
-    // More quotes (feel free to edit/add)
-    const QUOTES = [
-      "This moment is hard — and you are still here.",
-      "Small steps still count.",
-      "You don’t have to do it all today.",
-      "Breathe. Shoulders down. Jaw soft.",
-      "One thing at a time.",
-      "You are allowed to rest.",
-      "If all you did today was survive, that’s enough.",
-      "You can start again at any moment.",
-      "Slow is still moving.",
-      "You don’t need to earn kindness.",
-      "Be gentle with yourself — you’re learning.",
-      "You have handled hard days before.",
-      "Feelings are visitors — they come and go.",
-      "Right now, choose the next small step.",
-      "Your best looks different every day.",
-      "You are not behind — you are human.",
-      "You can take up space and still be loved.",
-      "It’s okay to pause.",
-      "It’s okay to not be okay.",
-      "You don’t need to have all the answers.",
-      "You are doing better than you think.",
-      "Let your breath bring you back.",
-      "Progress can be quiet.",
-      "You can be brave and tired at the same time.",
-      "You deserve peace, even on messy days.",
-      "You don’t have to carry this alone.",
-      "Not everything needs fixing right now.",
-      "Your feelings make sense.",
-      "You’re allowed to take it slow.",
-      "Try again, gently.",
-      "You are not a burden.",
-      "Softness is strength.",
-      "You don’t need permission to rest.",
-      "Even a tiny win is a win.",
-      "You can do hard things — slowly.",
-      "You are worthy of care.",
-      "Let today be lighter.",
-      "Inhale: you are safe enough. Exhale: let go.",
-      "You can choose calm, one breath at a time.",
-      "You are allowed to ask for help.",
-      "You are more than what you’re feeling.",
-      "Your pace is valid.",
-      "There is no rush.",
-      "You can take breaks without quitting.",
-      "You can make space for yourself.",
-      "Some days, “good enough” is perfect.",
-      "You are not failing — you are healing.",
-      "This is a chapter, not the whole story.",
-      "You are allowed to change your mind.",
-      "You don’t have to be productive to be valuable.",
-      "It’s okay to need comfort.",
-      "Choose softness where you can.",
-      "You can come back to yourself.",
-      "The next breath is waiting for you.",
-      "You are doing the best you can with what you have.",
-      "You can start small and still get somewhere.",
-      "You are allowed to feel proud.",
-      "You are allowed to feel tired."
-    ];
+const QUOTES = [
+  "This moment is hard — and you are still here.",
+  "Small steps still count.",
+  "You don’t have to do it all today.",
+  "Breathe. Shoulders down. Jaw soft.",
+  "One thing at a time.",
+  "You are allowed to rest.",
+  "If all you did today was survive, that’s enough.",
+  "You can start again at any moment.",
+  "Slow is still moving.",
+  "You don’t need to earn kindness.",
+  "Be gentle with yourself — you’re learning.",
+  "You have handled hard days before.",
+  "Feelings are visitors — they come and go.",
+  "Right now, choose the next small step.",
+  "Your best looks different every day.",
+  "You are not behind — you are human.",
+  "It’s okay to pause.",
+  "You are doing better than you think.",
+  "Progress can be quiet.",
+  "You can be brave and tired at the same time.",
+  "Choose softness where you can.",
+  "Some days, 'good enough' is perfect.",
+  "This is a chapter, not the whole story.",
+  "You don’t have to be productive to be valuable.",
+  "You are allowed to feel proud."
+];
 
-    function getSaved(){
-      try { return new Set(JSON.parse(localStorage.getItem(SAVE_KEY) || "[]")); }
-      catch { return new Set(); }
-    }
+function getSaved(){
+  try { return new Set(JSON.parse(localStorage.getItem(SAVE_KEY) || "[]")); }
+  catch { return new Set(); }
+}
 
-    function setSaved(set){
-      localStorage.setItem(SAVE_KEY, JSON.stringify([...set]));
-    }
+function setSaved(set){
+  localStorage.setItem(SAVE_KEY, JSON.stringify([...set]));
+}
 
-    const listEl = document.getElementById("quotesList");
-    const hintEl = document.getElementById("hint");
-    const allBtn = document.getElementById("allBtn");
-    const savedBtn = document.getElementById("savedBtn");
+const listEl = document.getElementById("quotesList");
+const hintEl = document.getElementById("hint");
+const allBtn = document.getElementById("allBtn");
+const savedBtn = document.getElementById("savedBtn");
 
-    let filter = "all";
+let filter = "all";
 
-    function render(){
-      const saved = getSaved();
-      const items = (filter === "saved")
-        ? QUOTES.filter(q => saved.has(q))
-        : QUOTES.slice();
+function render(){
+  const saved = getSaved();
+  const items = (filter === "saved")
+    ? QUOTES.filter(q => saved.has(q))
+    : QUOTES.slice();
 
-      if(filter === "saved" && items.length === 0){
-        listEl.innerHTML = "";
-        hintEl.textContent = "No saved quotes yet. Go to All and double tap one.";
-        return;
-      }
+  if(filter === "saved" && items.length === 0){
+    listEl.innerHTML = "";
+    hintEl.textContent = "No saved quotes yet.";
+    return;
+  }
 
-      hintEl.textContent = "";
+  hintEl.textContent = "";
 
-      listEl.innerHTML = items.map(q => `
-        <div class="tile quote-tile" data-quote="${encodeURIComponent(q)}" style="cursor:pointer;">
-          <div class="tile-ico">💬</div>
-          <div style="width:100%;">
-            <p class="quote-text">${q}</p>
-            <p class="quote-hint">Double tap to save / unsave</p>
-          </div>
-          <div class="save-indicator" aria-hidden="true">${saved.has(q) ? "❤️" : "🤍"}</div>
-        </div>
-      `).join("");
+  listEl.innerHTML = items.map(q => `
+    <div class="tile quote-tile" data-quote="${encodeURIComponent(q)}" style="cursor:pointer;">
+      <p class="quote-text">${q}</p>
+      <div class="save-indicator">${saved.has(q) ? "❤️" : "🤍"}</div>
+    </div>
+  `).join("");
 
-      [...listEl.querySelectorAll("[data-quote]")].forEach(tile=>{
-        const q = decodeURIComponent(tile.dataset.quote);
-        onDoubleTap(tile, ()=>{
-          const s = getSaved();
-          if(s.has(q)) s.delete(q);
-          else s.add(q);
-          setSaved(s);
-          hintEl.textContent = s.has(q) ? "Saved." : "Unsaved.";
-          render();
-        });
-      });
-    }
+  [...listEl.querySelectorAll("[data-quote]")].forEach(tile=>{
+    const q = decodeURIComponent(tile.dataset.quote);
+    onDoubleTap(tile, ()=>{
+      const s = getSaved();
+      if(s.has(q)) s.delete(q);
+      else s.add(q);
+      setSaved(s);
+      render();
+    });
+  });
+}
 
-    allBtn.addEventListener("click", ()=>{ filter="all"; render(); });
-    savedBtn.addEventListener("click", ()=>{ filter="saved"; render(); });
+allBtn.addEventListener("click", ()=>{ filter="all"; render(); });
+savedBtn.addEventListener("click", ()=>{ filter="saved"; render(); });
 
-    render();
-  </script>
+render();
+</script>
 </body>
 </html>
