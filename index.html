@@ -5,30 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Enigma Wellbeing</title>
 
-  <!-- Calm rounded font (less shouty when sized down) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
 </head>
 
 <body>
-  <!-- Icon watermark behind everything -->
   <div class="watermark" aria-hidden="true"></div>
 
   <main class="wrap">
-
     <header class="header">
-      <div class="header-center">
-        <h1>Enigma Wellbeing</h1>
-        <p>Your calm space</p>
-      </div>
-
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <h1>Enigma Wellbeing</h1>
+      <p>Your calm space</p>
+      <button class="moon" data-theme-toggle aria-label="Night mode" style="position:absolute;right:14px;top:18px;">🌙</button>
     </header>
 
-    <!-- RIGHT NOW -->
     <section class="section">
       <h2>Right now</h2>
 
@@ -45,77 +41,34 @@
       </a>
     </section>
 
-    <!-- TODAY -->
     <section class="section">
       <h2>Today</h2>
-
       <div class="grid">
-        <a class="tile" href="checkin.html">
-          <div class="ico">📝</div>
-          <div class="label small">Check in</div>
-          <div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="journal.html">
-          <div class="ico">📖</div>
-          <div class="label small">Journal</div>
-          <div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="word.html">
-          <div class="ico">✨</div>
-          <div class="label small">Daily word</div>
-          <div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="quotes.html">
-          <div class="ico">💬</div>
-          <div class="label small">Kind words</div>
-          <div class="arrow small">›</div>
-        </a>
+        <a class="tile" href="checkin.html"><div class="ico">📝</div><div class="label small">Check in</div><div class="arrow small">›</div></a>
+        <a class="tile" href="journal.html"><div class="ico">📖</div><div class="label small">Journal</div><div class="arrow small">›</div></a>
+        <a class="tile" href="word.html"><div class="ico">✨</div><div class="label small">Daily word</div><div class="arrow small">›</div></a>
+        <a class="tile" href="quotes.html"><div class="ico">💬</div><div class="label small">Kind words</div><div class="arrow small">›</div></a>
       </div>
     </section>
 
-    <!-- EXPLORE -->
     <section class="section">
       <h2>Explore</h2>
-
       <div class="grid">
-        <a class="tile" href="yoga.html">
-          <div class="ico">🧘</div>
-          <div class="label small">Move gently</div>
-          <div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="music.html">
-          <div class="ico">🎵</div>
-          <div class="label small">Listen</div>
-          <div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="books.html">
-          <div class="ico">📚</div>
-          <div class="label small">Read</div>
-          <div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="distraction.html">
-          <div class="ico">🧩</div>
-          <div class="label small">Take a break</div>
-          <div class="arrow small">›</div>
-        </a>
+        <a class="tile" href="yoga.html"><div class="ico">🧘</div><div class="label small">Move gently</div><div class="arrow small">›</div></a>
+        <a class="tile" href="music.html"><div class="ico">🎵</div><div class="label small">Listen</div><div class="arrow small">›</div></a>
+        <a class="tile" href="books.html"><div class="ico">📚</div><div class="label small">Read</div><div class="arrow small">›</div></a>
+        <a class="tile" href="distraction.html"><div class="ico">🧩</div><div class="label small">Take a break</div><div class="arrow small">›</div></a>
       </div>
     </section>
 
-    <!-- YOUR SPACE (requested buttons) -->
     <section class="section">
       <h2>Your space</h2>
 
       <div class="pill-row">
         <a class="pill" href="progress.html">📊 <span>Progress</span></a>
         <a class="pill" href="resources.html">🧠 <span>Resources</span></a>
-        <a class="pill" href="help.html">🆘 <span>Support</span></a>
-        <a class="pill" href="help.html">☎️ <span>Help</span></a>
+        <a class="pill" href="support.html">💛 <span>Support</span></a>
+        <a class="pill" href="settings.html">⚙️ <span>Settings</span></a>
       </div>
 
       <a class="support-banner" href="help.html">
@@ -124,13 +77,11 @@
         <span class="arrow">›</span>
       </a>
     </section>
-
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton } from "./app.js";
-    applySavedTheme();
-    wireThemeButton();
+    import { applySavedTheme, wireThemeButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); registerServiceWorker();
   </script>
 </body>
 </html>
