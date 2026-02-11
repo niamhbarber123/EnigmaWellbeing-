@@ -16,7 +16,6 @@
   <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
 
   <main class="wrap">
-
     <header style="text-align:center; margin-bottom:20px;">
       <h1 style="margin:0;">Enigma Wellbeing</h1>
       <p class="page-sub" style="margin-top:6px;">Your calm space</p>
@@ -101,6 +100,7 @@
     <section class="section">
       <h2>Your space</h2>
 
+      <!-- All 4 are equal size now -->
       <div class="pill-row">
         <a class="pill" href="progress.html">📊 Progress</a>
         <a class="pill" href="resources.html">🧠 Resources</a>
@@ -108,15 +108,13 @@
         <a class="pill" href="help.html">🆘 Help</a>
       </div>
     </section>
-
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, applySavedPreferences } from "./app.js";
+    import { applySavedTheme, applySavedPreferences, wireThemeButton } from "./app.js";
     applySavedTheme();
     applySavedPreferences();
     wireThemeButton();
   </script>
-
 </body>
 </html>
