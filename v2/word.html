@@ -1,48 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Word of the day • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210a" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily word • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <h1 class="page-title">Daily word</h1>
+    <p class="page-subtitle">A small focus for today. (It changes daily.)</p>
 
-  <header class="page-header">
-    <h1>Word of the day</h1>
-    <p>A gentle affirmation for today</p>
-  </header>
-
-  <main class="page">
-    <section class="card">
-      <div class="section-title" id="wordTitle">Loading…</div>
-      <div class="gentle-text" id="wordSub" style="margin-top:6px;">Please wait.</div>
-
-      <div class="card" style="margin-top:14px;">
-        <div class="section-title">What to do</div>
-        <div class="gentle-text" style="margin-top:6px;">
-          Using these words as affirmations means you can repeat them to yourself, write them down, or think about them regularly
-          to help cultivate those qualities within yourself.
+    <section class="section-panel">
+      <div class="tile" id="wordTile">
+        <div class="tile-ico">✨</div>
+        <div>
+          <p class="tile-title" id="word">—</p>
+          <p class="tile-sub" id="meaning">—</p>
         </div>
       </div>
 
-      <div class="row" style="margin-top:14px;">
-        <button id="newWordBtn" class="btn primary" type="button">New word</button>
-        <button id="saveWordBtn" class="btn" type="button">Save</button>
-      </div>
-
-      <div class="gentle-text" id="savedMsg" style="margin-top:12px; display:none;"></div>
+      <div style="height:12px;"></div>
+      <button class="btn" id="newBtn">Pick a new word</button>
+      <p class="small-note">Tip: try using the word in a sentence today.</p>
     </section>
   </main>
 
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
 
-  <script src="app.js?v=20260210a" defer></script>
-  <script src="word.js?v=20260210a" defer></script>
+    const WORDS = [
+      { w:"Gentle", m:"Soft, kind, not forced." },
+      { w:"Steady", m:"Stable, consistent, grounded." },
+      { w:"Release", m:"Letting tension go, little by little." },
+      { w:"Pause", m:"A moment to breathe before the next step." },
+      { w:"Enough", m:"You don’t have to earn rest." },
+      { w:"Anchor", m:"Something small that brings you back." },
+    ];
+
+    const KEY = "enigma_daily_word_v2";
+
+    const wEl = document.getElementById("word");
+    const mEl = document.getElementById("meaning");
+    const newBtn = document.getElementById("newBtn");
+
+    function todayKey(){
+      const d = new Date();
+      return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+    }
+
+    function pick(){
+      return WORDS[Math.floor(Math.random()*WORDS.length)];
+    }
+
+    function load(){
+      const raw = localStorage.getItem(KEY);
+      const t = todayKey();
+      if (raw){
+        try{
+          const data = JSON.parse(raw);
+          if (data.day === t){
+            wEl.textContent = data.word.w;
+            mEl.textContent = data.word.m;
+            return;
+          }
+        }catch{}
+      }
+      const word = pick();
+      localStorage.setItem(KEY, JSON.stringify({ day:t, word }));
+      wEl.textContent = word.w;
+      mEl.textContent = word.m;
+    }
+
+    newBtn.addEventListener("click", ()=>{
+      const word = pick();
+      localStorage.setItem(KEY, JSON.stringify({ day: todayKey(), word }));
+      wEl.textContent = word.w;
+      mEl.textContent = word.m;
+    });
+
+    load();
+  </script>
 </body>
 </html>
