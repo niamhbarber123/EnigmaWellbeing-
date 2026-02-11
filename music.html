@@ -1,117 +1,66 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Listen • Enigma Wellbeing</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Music • Enigma</title>
 
-<style>
-.music-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-.music-tile{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  min-height:150px;
-  padding:18px;
-}
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
 
-.music-tile .tile-ico{
-  font-size:26px;
-  margin-bottom:10px;
-}
-
-.music-tile .tile-title{
-  font-size:15px;
-  font-weight:900;
-  margin:0 0 6px;
-}
-
-.music-tile .tile-sub{
-  font-size:13px;
-  color:var(--muted);
-  margin:0;
-}
-
-/* Make 1 column on very small screens */
-@media (max-width:400px){
-  .music-grid{
-    grid-template-columns:1fr;
-  }
-}
-</style>
+  <style>
+    .media-tile{ min-height: 110px; flex-direction:column; justify-content:center; text-align:center; }
+    .media-tile .label.small{ font-size:16px; }
+    .media-tile .ico{ width:46px;height:46px; }
+  </style>
 </head>
 
 <body>
-<main class="wrap">
+  <div class="watermark" aria-hidden="true"></div>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html" data-back>← Back</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<div class="header">
-  <a class="back-btn" href="index.html" data-back>← Back</a>
-  <div class="header-center"></div>
-  <button class="icon-btn" data-theme-toggle>🌙</button>
-</div>
+    <h1 class="page-title">Music</h1>
+    <p class="page-sub">Pick a vibe. Tap to open.</p>
 
-<h1 class="page-title">Listen</h1>
-<p class="page-subtitle">Choose something gentle.</p>
+    <section class="card">
+      <div class="grid">
+        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/lofi%20beats">
+          <div class="ico">🎧</div><div class="label small">Lo-fi focus</div>
+        </a>
+        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/peaceful%20piano">
+          <div class="ico">🎹</div><div class="label small">Peaceful piano</div>
+        </a>
+        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/rain%20sounds">
+          <div class="ico">🌧️</div><div class="label small">Rain sounds</div>
+        </a>
+        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/ocean%20waves">
+          <div class="ico">🌊</div><div class="label small">Ocean waves</div>
+        </a>
+        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/white%20noise">
+          <div class="ico">📻</div><div class="label small">White noise</div>
+        </a>
+        <a class="tile media-tile" target="_blank" rel="noopener" href="https://open.spotify.com/search/binaural%20beats%20sleep">
+          <div class="ico">🌀</div><div class="label small">Sleep tones</div>
+        </a>
+      </div>
 
-<section class="section-panel">
+      <p style="margin:10px 0 0;color:var(--muted);font-weight:650;">Links open in Spotify (or browser).</p>
+    </section>
+  </main>
 
-<div class="music-grid">
-
-<a class="tile music-tile" href="https://www.youtube.com/results?search_query=calm+instrumental+music" target="_blank">
-  <div class="tile-ico">🎼</div>
-  <p class="tile-title">Calm Instrumental</p>
-  <p class="tile-sub">Soft background music</p>
-</a>
-
-<a class="tile music-tile" href="https://www.youtube.com/results?search_query=ocean+waves+sound" target="_blank">
-  <div class="tile-ico">🌊</div>
-  <p class="tile-title">Ocean Waves</p>
-  <p class="tile-sub">Natural calming sounds</p>
-</a>
-
-<a class="tile music-tile" href="https://www.youtube.com/results?search_query=rain+sounds+sleep" target="_blank">
-  <div class="tile-ico">🌧️</div>
-  <p class="tile-title">Rain Sounds</p>
-  <p class="tile-sub">White noise for calm</p>
-</a>
-
-<a class="tile music-tile" href="https://www.youtube.com/results?search_query=relaxing+piano+music" target="_blank">
-  <div class="tile-ico">🎹</div>
-  <p class="tile-title">Relaxing Piano</p>
-  <p class="tile-sub">Slow & peaceful</p>
-</a>
-
-<a class="tile music-tile" href="https://www.youtube.com/results?search_query=guided+meditation+music" target="_blank">
-  <div class="tile-ico">🧘</div>
-  <p class="tile-title">Meditation Music</p>
-  <p class="tile-sub">Deep focus</p>
-</a>
-
-<a class="tile music-tile" href="https://www.youtube.com/results?search_query=lofi+calm+music" target="_blank">
-  <div class="tile-ico">🎧</div>
-  <p class="tile-title">Lo-Fi Calm</p>
-  <p class="tile-sub">Gentle background focus</p>
-</a>
-
-</div>
-
-</section>
-</main>
-
-<script type="module">
-import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-applySavedTheme();
-wireThemeButton();
-wireBackButton();
-</script>
-
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+  </script>
 </body>
 </html>
