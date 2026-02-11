@@ -147,13 +147,6 @@ h2{
    Layout Components (UNCHANGED STRUCTURE)
    ========================================= */
 
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom: 10px;
-}
 
 .back{
   display:inline-flex;
@@ -213,4 +206,26 @@ hr.sep{
   height:1px;
   background:var(--stroke);
   margin:18px 0;
+}
+/* ===== Force Night Mode Button Top Right ===== */
+
+.moon,
+.icon-btn[data-theme-toggle],
+[data-theme-toggle]{
+  position: fixed !important;
+  top: 16px !important;
+  right: 16px !important;
+  left: auto !important;
+  z-index: 9999 !important;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--card);
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
 }
