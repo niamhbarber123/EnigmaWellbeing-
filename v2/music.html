@@ -1,50 +1,86 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Listen • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="wrap">
-    <div class="header">
-      <a class="back-btn" href="index.html" data-back>← Back</a>
-      <div class="header-center"></div>
-      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
-    </div>
+<main class="wrap">
 
-    <h1 class="page-title">Listen</h1>
-    <p class="page-subtitle">Tap a tile to open calming audio.</p>
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
 
-    <section class="section-panel">
-      <div class="grid">
-        <a class="tile" href="https://www.youtube.com/results?search_query=calming+rain+sounds" target="_blank" rel="noopener">
-          <div class="tile-ico">🌧️</div>
-          <div><p class="tile-title">Rain</p><p class="tile-sub">Soft rain ambience</p></div>
-        </a>
+<h1 class="page-title">Listen</h1>
+<p class="page-subtitle">Choose something gentle.</p>
 
-        <a class="tile" href="https://www.youtube.com/results?search_query=white+noise+1+hour" target="_blank" rel="noopener">
-          <div class="tile-ico">📻</div>
-          <div><p class="tile-title">White noise</p><p class="tile-sub">Steady background sound</p></div>
-        </a>
+<section class="section-panel">
+<div class="grid">
 
-        <a class="tile" href="https://www.youtube.com/results?search_query=lofi+calm+playlist" target="_blank" rel="noopener">
-          <div class="tile-ico">🎶</div>
-          <div><p class="tile-title">Lo-fi</p><p class="tile-sub">Calm focus music</p></div>
-        </a>
+<a class="tile" href="https://www.youtube.com/results?search_query=calm+instrumental+music" target="_blank">
+  <div class="tile-ico">🎼</div>
+  <div>
+    <p class="tile-title">Calm Instrumental</p>
+    <p class="tile-sub">Soft background music</p>
+  </div>
+</a>
 
-        <a class="tile" href="https://www.youtube.com/results?search_query=guided+sleep+meditation" target="_blank" rel="noopener">
-          <div class="tile-ico">🌙</div>
-          <div><p class="tile-title">Sleep</p><p class="tile-sub">Guided wind-down</p></div>
-        </a>
-      </div>
-    </section>
-  </main>
+<a class="tile" href="https://www.youtube.com/results?search_query=ocean+waves+sound" target="_blank">
+  <div class="tile-ico">🌊</div>
+  <div>
+    <p class="tile-title">Ocean Waves</p>
+    <p class="tile-sub">Natural calming sounds</p>
+  </div>
+</a>
 
-  <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton();
-  </script>
+<a class="tile" href="https://www.youtube.com/results?search_query=rain+sounds+sleep" target="_blank">
+  <div class="tile-ico">🌧️</div>
+  <div>
+    <p class="tile-title">Rain Sounds</p>
+    <p class="tile-sub">White noise for calm</p>
+  </div>
+</a>
+
+<a class="tile" href="https://www.youtube.com/results?search_query=piano+relaxing+music" target="_blank">
+  <div class="tile-ico">🎹</div>
+  <div>
+    <p class="tile-title">Relaxing Piano</p>
+    <p class="tile-sub">Slow & peaceful</p>
+  </div>
+</a>
+
+<a class="tile" href="https://www.youtube.com/results?search_query=guided+meditation+music" target="_blank">
+  <div class="tile-ico">🧘</div>
+  <div>
+    <p class="tile-title">Meditation Music</p>
+    <p class="tile-sub">Deep focus</p>
+  </div>
+</a>
+
+<a class="tile" href="https://www.youtube.com/results?search_query=lofi+calm+music" target="_blank">
+  <div class="tile-ico">🎧</div>
+  <div>
+    <p class="tile-title">Lo-Fi Calm</p>
+    <p class="tile-sub">Gentle background focus</p>
+  </div>
+</a>
+
+</div>
+</section>
+
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+</script>
+
 </body>
 </html>
