@@ -1,54 +1,284 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Breathe • Enigma</title>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Breathe • Enigma Wellbeing</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="breathe.css" />
 </head>
-
-<body class="page-wrap">
-  <header class="app-header">
-    <button class="back-btn">←</button>
-    <button class="theme-toggle">🌙</button>
-    <h1>Breathe</h1>
-    <p>Follow the rhythm</p>
-  </header>
-
-  <main>
-    <section class="card breathe-card">
-      <div id="circle">
-        <span id="phase">Ready</span>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back aria-label="Back">← Back</a>
+      <div class="header-center">
+        <div style="height:8px;"></div>
       </div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-      <div id="clock">01:00</div>
-    </section>
+    <h1 class="page-title">Breathe</h1>
+    <p class="page-subtitle">A gentle breathing guide. Choose a timer or stopwatch, then press start.</p>
 
-    <section class="card">
-      <div class="row two-cols">
-        <select id="mode">
-          <option value="timer">Timer</option>
-          <option value="stopwatch">Stopwatch</option>
-        </select>
-
-        <select id="length">
-          <option value="60">1 minute</option>
-          <option value="120">2 minutes</option>
-          <option value="300">5 minutes</option>
-        </select>
-      </div>
-
+    <section class="section-panel breathe-shell">
       <div class="controls">
-        <button id="start">Start</button>
-        <button id="pause">Pause</button>
-        <button id="reset">Reset</button>
+        <div class="control-box">
+          <p class="control-label">Mode</p>
+          <select id="mode">
+            <option value="timer">Timer</option>
+            <option value="stopwatch">Stopwatch</option>
+          </select>
+        </div>
+
+        <div class="control-box">
+          <p class="control-label">Time</p>
+          <select id="duration">
+            <option value="60">1 minute</option>
+            <option value="120">2 minutes</option>
+            <option value="180">3 minutes</option>
+            <option value="300">5 minutes</option>
+            <option value="600">10 minutes</option>
+          </select>
+        </div>
+
+        <div class="control-box">
+          <p class="control-label">Breath pattern</p>
+          <select id="pattern">
+            <option value="4,4,6">In 4 • Hold 4 • Out 6</option>
+            <option value="4,2,6">In 4 • Hold 2 • Out 6</option>
+            <option value="4,0,6">In 4 • Out 6</option>
+            <option value="5,0,5">In 5 • Out 5</option>
+          </select>
+        </div>
+
+        <div class="control-box">
+          <p class="control-label">Sound</p>
+          <select id="sound">
+            <option value="off">Off</option>
+            <option value="soft">Soft chime</option>
+          </select>
+        </div>
       </div>
+
+      <div class="timer-bar">
+        <div>
+          <div style="font-weight:900; opacity:.75;">Time</div>
+          <div class="time-big" id="timeDisplay">01:00</div>
+        </div>
+        <div class="phase" id="phaseDisplay">Ready</div>
+      </div>
+
+      <div class="circle-wrap">
+        <div class="circle" id="circle" aria-label="Breathing circle">
+          <div class="circle-text" id="circleText">Press start</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" id="startBtn">Start</button>
+        <button class="btn" id="pauseBtn">Pause</button>
+        <button class="btn" id="resetBtn">Reset</button>
+      </div>
+
+      <p class="small-note">Tip: Try relaxing your shoulders on the exhale.</p>
     </section>
   </main>
 
-  <script src="app.js"></script>
-  <script src="breathe.js"></script>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, fmt } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+    wireBackButton();
+
+    const modeEl = document.getElementById("mode");
+    const durationEl = document.getElementById("duration");
+    const patternEl = document.getElementById("pattern");
+    const soundEl = document.getElementById("sound");
+
+    const timeDisplay = document.getElementById("timeDisplay");
+    const phaseDisplay = document.getElementById("phaseDisplay");
+    const circle = document.getElementById("circle");
+    const circleText = document.getElementById("circleText");
+
+    const startBtn = document.getElementById("startBtn");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // Soft chime using WebAudio (no external files)
+    let audioCtx = null;
+    function chime() {
+      if (soundEl.value !== "soft") return;
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = "sine";
+      o.frequency.value = 660;
+      g.gain.value = 0.0001;
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start();
+      g.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.25);
+      o.stop(audioCtx.currentTime + 0.26);
+    }
+
+    let running = false;
+    let paused = false;
+
+    let timerSeconds = parseInt(durationEl.value, 10);
+    let stopwatchSeconds = 0;
+
+    // breath phases
+    function getPattern() {
+      const [inh, hold, ex] = patternEl.value.split(",").map(n => parseInt(n,10));
+      return { inh, hold, ex, cycle: inh + hold + ex };
+    }
+
+    let phase = "ready"; // inhale/hold/exhale/ready/done
+    let phaseRemaining = 0;
+
+    function setPhase(newPhase) {
+      phase = newPhase;
+      circle.classList.remove("inhale","hold","exhale");
+
+      if (newPhase === "inhale") {
+        circle.classList.add("inhale");
+        phaseDisplay.textContent = "Inhale";
+        circleText.textContent = "Inhale";
+      } else if (newPhase === "hold") {
+        circle.classList.add("hold");
+        phaseDisplay.textContent = "Hold";
+        circleText.textContent = "Hold";
+      } else if (newPhase === "exhale") {
+        circle.classList.add("exhale");
+        phaseDisplay.textContent = "Exhale";
+        circleText.textContent = "Exhale";
+      } else if (newPhase === "done") {
+        phaseDisplay.textContent = "Done";
+        circleText.textContent = "Well done";
+      } else {
+        phaseDisplay.textContent = "Ready";
+        circleText.textContent = "Press start";
+      }
+    }
+
+    function resetAll() {
+      running = false;
+      paused = false;
+
+      timerSeconds = parseInt(durationEl.value, 10);
+      stopwatchSeconds = 0;
+
+      timeDisplay.textContent = fmt(timerSeconds);
+      setPhase("ready");
+
+      if (tickInterval) clearInterval(tickInterval);
+      tickInterval = null;
+    }
+
+    // update display when settings change
+    modeEl.addEventListener("change", () => {
+      if (running) return;
+      if (modeEl.value === "timer") {
+        timeDisplay.textContent = fmt(parseInt(durationEl.value,10));
+      } else {
+        timeDisplay.textContent = fmt(0);
+      }
+    });
+
+    durationEl.addEventListener("change", () => {
+      if (running) return;
+      timerSeconds = parseInt(durationEl.value,10);
+      if (modeEl.value === "timer") timeDisplay.textContent = fmt(timerSeconds);
+    });
+
+    // main tick
+    let tickInterval = null;
+
+    function startBreathing() {
+      if (running && !paused) return;
+
+      if (!running) {
+        // initialize
+        const { inh, hold, ex } = getPattern();
+        phaseRemaining = inh;
+        setPhase("inhale");
+        chime();
+      }
+
+      running = true;
+      paused = false;
+
+      if (tickInterval) clearInterval(tickInterval);
+      tickInterval = setInterval(() => {
+        if (!running || paused) return;
+
+        // time accounting
+        if (modeEl.value === "timer") {
+          timerSeconds -= 1;
+          timeDisplay.textContent = fmt(Math.max(timerSeconds,0));
+          if (timerSeconds <= 0) {
+            running = false;
+            setPhase("done");
+            chime();
+            clearInterval(tickInterval);
+            tickInterval = null;
+            return;
+          }
+        } else {
+          stopwatchSeconds += 1;
+          timeDisplay.textContent = fmt(stopwatchSeconds);
+        }
+
+        // phase accounting
+        phaseRemaining -= 1;
+        if (phaseRemaining <= 0) {
+          const { inh, hold, ex } = getPattern();
+
+          if (phase === "inhale") {
+            if (hold > 0) { phaseRemaining = hold; setPhase("hold"); }
+            else { phaseRemaining = ex; setPhase("exhale"); }
+            chime();
+          } else if (phase === "hold") {
+            phaseRemaining = ex;
+            setPhase("exhale");
+            chime();
+          } else if (phase === "exhale") {
+            phaseRemaining = inh;
+            setPhase("inhale");
+            chime();
+          } else {
+            phaseRemaining = inh;
+            setPhase("inhale");
+            chime();
+          }
+        }
+      }, 1000);
+    }
+
+    function pauseBreathing() {
+      if (!running) return;
+      paused = !paused;
+      pauseBtn.textContent = paused ? "Resume" : "Pause";
+      if (paused) {
+        phaseDisplay.textContent = "Paused";
+        circleText.textContent = "Paused";
+      } else {
+        // restore text based on phase
+        if (phase === "inhale") circleText.textContent = "Inhale";
+        if (phase === "hold") circleText.textContent = "Hold";
+        if (phase === "exhale") circleText.textContent = "Exhale";
+      }
+    }
+
+    startBtn.addEventListener("click", startBreathing);
+    pauseBtn.addEventListener("click", pauseBreathing);
+    resetBtn.addEventListener("click", () => {
+      pauseBtn.textContent = "Pause";
+      resetAll();
+    });
+
+    // initial
+    timeDisplay.textContent = fmt(parseInt(durationEl.value,10));
+    setPhase("ready");
+  </script>
 </body>
 </html>
