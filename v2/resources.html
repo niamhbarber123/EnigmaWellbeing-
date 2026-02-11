@@ -5,6 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Support & Resources • Enigma Wellbeing</title>
 <link rel="stylesheet" href="style.css">
+
+<style>
+.resources-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.resource-tile{
+  min-height:110px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:14px;
+}
+
+.resource-tile .tile-ico{
+  font-size:22px;
+  margin-bottom:6px;
+}
+
+.resource-tile .tile-title{
+  font-size:14px;
+  font-weight:900;
+  margin:0 0 4px;
+}
+
+.resource-tile .tile-sub{
+  font-size:12px;
+  color:var(--muted);
+  margin:0;
+}
+
+/* Collapse to 1 column on small screens */
+@media (max-width:400px){
+  .resources-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -16,143 +58,93 @@
   <button class="icon-btn" data-theme-toggle>🌙</button>
 </div>
 
-<h1 class="page-title">Support & Resources</h1>
-<p class="page-subtitle">Trusted NHS guidance and self-help information.</p>
+<h1 class="page-title">Resources</h1>
+<p class="page-subtitle">Trusted NHS guidance.</p>
 
 <section class="section-panel">
 
-<h2 style="margin-bottom:12px;">Mental Health Conditions</h2>
+<h2 style="margin-bottom:10px;">Conditions</h2>
 
-<div class="grid">
+<div class="resources-grid">
 
-<!-- Depression -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/depression-in-adults/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/depression-in-adults/" target="_blank">
   <div class="tile-ico">🌧️</div>
-  <div>
-    <p class="tile-title">Depression</p>
-    <p class="tile-sub">Symptoms & treatment</p>
-  </div>
+  <p class="tile-title">Depression</p>
+  <p class="tile-sub">Symptoms & treatment</p>
 </a>
 
-<!-- Anxiety -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/generalised-anxiety-disorder/" target="_blank">
   <div class="tile-ico">😟</div>
-  <div>
-    <p class="tile-title">Anxiety</p>
-    <p class="tile-sub">Understanding anxiety disorders</p>
-  </div>
+  <p class="tile-title">Anxiety</p>
+  <p class="tile-sub">Understanding anxiety</p>
 </a>
 
-<!-- Self harm -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/self-harm/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/self-harm/" target="_blank">
   <div class="tile-ico">🩹</div>
-  <div>
-    <p class="tile-title">Self-harm</p>
-    <p class="tile-sub">Why it happens & getting help</p>
-  </div>
+  <p class="tile-title">Self-harm</p>
+  <p class="tile-sub">Why it happens</p>
 </a>
 
-<!-- BPD -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/borderline-personality-disorder/" target="_blank">
   <div class="tile-ico">🧠</div>
-  <div>
-    <p class="tile-title">Borderline Personality Disorder</p>
-    <p class="tile-sub">BPD / EUPD information</p>
-  </div>
+  <p class="tile-title">BPD</p>
+  <p class="tile-sub">Borderline personality</p>
 </a>
 
-<!-- PTSD -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/post-traumatic-stress-disorder-ptsd/" target="_blank">
   <div class="tile-ico">⚡</div>
-  <div>
-    <p class="tile-title">PTSD</p>
-    <p class="tile-sub">Post-traumatic stress disorder</p>
-  </div>
+  <p class="tile-title">PTSD</p>
+  <p class="tile-sub">Trauma support</p>
 </a>
 
-<!-- OCD -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/obsessive-compulsive-disorder-ocd/" target="_blank">
   <div class="tile-ico">🔁</div>
-  <div>
-    <p class="tile-title">OCD</p>
-    <p class="tile-sub">Obsessive compulsive disorder</p>
-  </div>
+  <p class="tile-title">OCD</p>
+  <p class="tile-sub">Obsessions & compulsions</p>
 </a>
 
-<!-- Eating disorders -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/eating-disorders/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/eating-disorders/" target="_blank">
   <div class="tile-ico">🍽️</div>
-  <div>
-    <p class="tile-title">Eating Disorders</p>
-    <p class="tile-sub">Anorexia, bulimia & more</p>
-  </div>
+  <p class="tile-title">Eating Disorders</p>
+  <p class="tile-sub">Support & advice</p>
 </a>
 
-<!-- Bipolar -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/bipolar-disorder/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/conditions/bipolar-disorder/" target="_blank">
   <div class="tile-ico">🌗</div>
-  <div>
-    <p class="tile-title">Bipolar Disorder</p>
-    <p class="tile-sub">Mood changes & support</p>
-  </div>
-</a>
-
-<!-- Panic disorder -->
-<a class="tile" href="https://www.nhs.uk/mental-health/conditions/panic-disorder/" target="_blank">
-  <div class="tile-ico">💓</div>
-  <div>
-    <p class="tile-title">Panic Disorder</p>
-    <p class="tile-sub">Understanding panic attacks</p>
-  </div>
-</a>
-
-<!-- Stress -->
-<a class="tile" href="https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/tips-to-reduce-stress/" target="_blank">
-  <div class="tile-ico">🌿</div>
-  <div>
-    <p class="tile-title">Stress Management</p>
-    <p class="tile-sub">Tips to reduce stress</p>
-  </div>
+  <p class="tile-title">Bipolar</p>
+  <p class="tile-sub">Mood changes</p>
 </a>
 
 </div>
 
 <hr class="sep">
 
-<h2 style="margin-bottom:12px;">Self-Help Tools</h2>
+<h2 style="margin-bottom:10px;">Self-Help</h2>
 
-<div class="grid">
+<div class="resources-grid">
 
-<a class="tile" href="https://www.nhs.uk/every-mind-matters/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/every-mind-matters/" target="_blank">
   <div class="tile-ico">✨</div>
-  <div>
-    <p class="tile-title">Every Mind Matters</p>
-    <p class="tile-sub">Create a personalised plan</p>
-  </div>
+  <p class="tile-title">Every Mind Matters</p>
+  <p class="tile-sub">Personal plan</p>
 </a>
 
-<a class="tile" href="https://www.nhs.uk/mental-health/self-help/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/mental-health/self-help/" target="_blank">
   <div class="tile-ico">📘</div>
-  <div>
-    <p class="tile-title">Self-Help Guides</p>
-    <p class="tile-sub">Practical advice & exercises</p>
-  </div>
+  <p class="tile-title">Self-Help Guides</p>
+  <p class="tile-sub">Practical tools</p>
 </a>
 
-<a class="tile" href="https://www.nhs.uk/live-well/sleep-and-tiredness/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/live-well/sleep-and-tiredness/" target="_blank">
   <div class="tile-ico">🌙</div>
-  <div>
-    <p class="tile-title">Sleep Help</p>
-    <p class="tile-sub">Improve rest & routine</p>
-  </div>
+  <p class="tile-title">Sleep Help</p>
+  <p class="tile-sub">Improve rest</p>
 </a>
 
-<a class="tile" href="https://www.nhs.uk/live-well/exercise/" target="_blank">
+<a class="tile resource-tile" href="https://www.nhs.uk/live-well/exercise/" target="_blank">
   <div class="tile-ico">🏃</div>
-  <div>
-    <p class="tile-title">Exercise & Mood</p>
-    <p class="tile-sub">Movement benefits</p>
-  </div>
+  <p class="tile-title">Exercise & Mood</p>
+  <p class="tile-sub">Movement benefits</p>
 </a>
 
 </div>
