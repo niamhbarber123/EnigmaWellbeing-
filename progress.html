@@ -1,118 +1,80 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Progress • Enigma Wellbeing</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Progress • Enigma</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
 </head>
 
 <body>
-<main class="wrap">
+  <div class="watermark" aria-hidden="true"></div>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html" data-back>← Back</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<div class="header">
-  <a class="back-btn" href="index.html" data-back>← Back</a>
-  <div class="header-center"></div>
-  <button class="icon-btn" data-theme-toggle>🌙</button>
-</div>
+    <h1 class="page-title">Progress</h1>
+    <p class="page-sub">Your small steps add up.</p>
 
-<h1 class="page-title">Progress</h1>
-<p class="page-subtitle">Your small steps add up.</p>
+    <section class="card" id="stats"></section>
+  </main>
 
-<section class="section-panel">
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
 
-<div class="grid">
+    const checkins = JSON.parse(localStorage.getItem("enigma_checkins_v2") || "[]");
+    const journal  = JSON.parse(localStorage.getItem("enigma_journal_v2") || "[]");
+    const breathe  = JSON.parse(localStorage.getItem("enigma_breathe_logs_v2") || "[]");
+    const savedQuotes = JSON.parse(localStorage.getItem("enigma_quotes_saved_v2") || "[]");
 
-<div class="tile">
-  <div class="tile-ico">📊</div>
-  <div>
-    <p class="tile-title" id="checkinCount">0</p>
-    <p class="tile-sub">Check-ins completed</p>
-  </div>
-</div>
+    function streakFrom(arr){
+      const days = new Set(arr.map(x => (new Date(x.savedAt)).toDateString()));
+      const today = new Date();
+      let streak=0;
+      for(;;){
+        const d = new Date(today);
+        d.setDate(today.getDate()-streak);
+        if(days.has(d.toDateString())) streak++;
+        else break;
+      }
+      return streak;
+    }
 
-<div class="tile">
-  <div class="tile-ico">📖</div>
-  <div>
-    <p class="tile-title" id="journalWords">0</p>
-    <p class="tile-sub">Journal words written</p>
-  </div>
-</div>
+    document.getElementById("stats").innerHTML = `
+      <h2 style="margin:0 0 10px;">This app activity</h2>
 
-<div class="tile">
-  <div class="tile-ico">❤️</div>
-  <div>
-    <p class="tile-title" id="savedQuotes">0</p>
-    <p class="tile-sub">Saved quotes</p>
-  </div>
-</div>
+      <div class="grid">
+        <div class="tile"><div class="ico">📝</div><div class="label small">Check-ins<br><span style="opacity:.6;font-weight:800;">${checkins.length}</span></div></div>
+        <div class="tile"><div class="ico">📖</div><div class="label small">Journal entries<br><span style="opacity:.6;font-weight:800;">${journal.length}</span></div></div>
+        <div class="tile"><div class="ico">🫧</div><div class="label small">Breathing sessions<br><span style="opacity:.6;font-weight:800;">${breathe.length}</span></div></div>
+        <div class="tile"><div class="ico">💬</div><div class="label small">Saved quotes<br><span style="opacity:.6;font-weight:800;">${savedQuotes.length}</span></div></div>
+      </div>
 
-<div class="tile">
-  <div class="tile-ico">✨</div>
-  <div>
-    <p class="tile-title" id="savedWords">0</p>
-    <p class="tile-sub">Saved daily words</p>
-  </div>
-</div>
+      <hr class="sep">
 
-</div>
+      <div class="quote-tile">
+        <div class="quote-text">Current check-in streak: ${streakFrom(checkins)} day(s)</div>
+        <div class="quote-meta">A streak is just a reminder — missing a day is okay.</div>
+      </div>
 
-<hr class="sep">
+      <div style="height:10px;"></div>
 
-<h2>Mood Summary</h2>
-<div id="moodSummary"></div>
-
-<hr class="sep">
-
-<button class="btn" id="clearDataBtn">Clear All Data</button>
-
-</section>
-</main>
-
-<script type="module">
-import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-applySavedTheme();
-wireThemeButton();
-wireBackButton();
-
-function updateStats(){
-
-  const checkins = JSON.parse(localStorage.getItem("enigma_checkins_v2") || "[]");
-  document.getElementById("checkinCount").textContent = checkins.length;
-
-  const journal = localStorage.getItem("enigma_journal_v2") || "";
-  const wordCount = journal.trim().split(/\s+/).filter(Boolean).length;
-  document.getElementById("journalWords").textContent = wordCount;
-
-  const quotes = JSON.parse(localStorage.getItem("enigma_saved_quotes_v2") || "[]");
-  document.getElementById("savedQuotes").textContent = quotes.length;
-
-  const words = JSON.parse(localStorage.getItem("enigma_saved_words_v2") || "[]");
-  document.getElementById("savedWords").textContent = words.length;
-
-  const moodSummary = document.getElementById("moodSummary");
-
-  if(checkins.length){
-    const counts = {};
-    checkins.forEach(c=>{
-      counts[c.mood] = (counts[c.mood]||0)+1;
-    });
-    moodSummary.innerHTML = Object.entries(counts)
-      .map(([m,c])=>`<p>${m}: ${c}</p>`)
-      .join("");
-  } else {
-    moodSummary.innerHTML = "<p>No mood data yet.</p>";
-  }
-}
-
-document.getElementById("clearDataBtn").addEventListener("click", ()=>{
-  if(confirm("Clear ALL saved data?")){
-    localStorage.clear();
-    updateStats();
-  }
-});
-
-updateStats();
-</script>
+      <div class="btn-row">
+        <a class="btn primary" href="checkin.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Check in</a>
+        <a class="btn" href="journal.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Journal</a>
+      </div>
+    `;
+  </script>
 </body>
 </html>
