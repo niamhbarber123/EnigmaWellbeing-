@@ -366,3 +366,28 @@ a:active, button:active{ transform: translateY(1px); }
 .pill-row .pill:nth-child(3){
   grid-column: span 2;
 }
+/* ==============================
+   REMOVE BLUE TAP / FOCUS COLOUR
+   ============================== */
+
+/* Remove mobile tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove default blue focus outline */
+button:focus,
+button:active,
+button:focus-visible,
+.mood-btn:focus,
+.mood-btn:active,
+.mood-btn:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep your soft purple selected state only */
+.mood-btn[aria-pressed="true"]{
+  outline: 2px solid rgba(200,186,255,.85) !important;
+  outline-offset: 2px;
+}
