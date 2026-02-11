@@ -1,67 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Distraction • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-
-  <link rel="stylesheet" href="style.css?v=20260210-final" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Take a break • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<body class="page-wrap">
-  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <h1 class="page-title">Take a break</h1>
+    <p class="page-subtitle">Short, gentle distractions to reset your brain.</p>
 
-  <header class="page-header">
-    <h1>Distraction</h1>
-    <p>Gentle questions to interrupt a spiral</p>
-  </header>
-
-  <main class="page">
-    <!-- Intro card -->
-    <section class="card" id="introCard">
-      <div class="gentle-text" style="line-height:1.55;">
-        Type any answer to continue — or Skip. Progress counts only answered.
-      </div>
-
-      <div class="gentle-text" style="margin-top:10px; font-weight:900;">
-        Tap Start to begin.
-      </div>
-
-      <div class="gentle-text" style="margin-top:10px;">
-        Answered: <strong><span id="answeredCount">0</span></strong>
-      </div>
-
-      <div class="row" style="margin-top:14px; grid-template-columns: 1fr;">
-        <button id="startDistraction" class="btn primary" type="button">Start</button>
-      </div>
-    </section>
-
-    <!-- Question card -->
-    <section class="card" id="questionCard" style="display:none;">
-      <div class="section-title" id="questionTitle">Question</div>
-      <div class="gentle-text" id="questionText" style="margin-top:8px; line-height:1.55;"></div>
-
-      <textarea id="answerBox" rows="4" placeholder="Type here..." style="margin-top:14px;"></textarea>
-
-      <div class="row three" style="margin-top:14px;">
-        <button id="submitAnswer" class="btn primary" type="button">Next</button>
-        <button id="skipQuestion" class="btn" type="button">Skip</button>
-        <button id="endDistraction" class="btn danger" type="button">Finish</button>
-      </div>
-
-      <div class="gentle-text" style="margin-top:10px;">
-        Answered: <strong><span id="answeredCount2">0</span></strong>
-      </div>
+    <section class="section-panel">
+      <div class="grid" id="acts"></div>
     </section>
   </main>
 
-  
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
 
-  <script src="app.js?v=20260210-final" defer></script>
-  <script src="distraction.js?v=20260210-final" defer></script>
+    const activities = [
+      { ico:"🔎", title:"Spot 5 colours", sub:"Find 5 different colours around you." },
+      { ico:"🧊", title:"Cold water", sub:"Rinse hands in cool water for 20 seconds." },
+      { ico:"📝", title:"Brain dump", sub:"Write 3 thoughts, no judgement." },
+      { ico:"🎧", title:"One song", sub:"Listen to one calming track." },
+      { ico:"🚶", title:"Tiny walk", sub:"Walk to another room and back." },
+      { ico:"🫖", title:"Make a drink", sub:"Slowly make tea or water." }
+    ];
+
+    const el = document.getElementById("acts");
+    el.innerHTML = activities.map(a => `
+      <div class="tile">
+        <div class="tile-ico">${a.ico}</div>
+        <div>
+          <p class="tile-title">${a.title}</p>
+          <p class="tile-sub">${a.sub}</p>
+        </div>
+      </div>
+    `).join("");
+  </script>
 </body>
 </html>
