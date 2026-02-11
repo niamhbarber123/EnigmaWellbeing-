@@ -1,70 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Quotes • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-
-  <!-- v2 shared styles -->
-  <link rel="stylesheet" href="style.css?v=20260211v2a" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kind words • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<body class="page-wrap">
-  <!-- Back + Night mode (consistent on all v2 pages) -->
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <h1 class="page-title">Kind words</h1>
+    <p class="page-subtitle">Double tap a quote to save it. Double tap again to unsave.</p>
 
-  <header class="page-header">
-    <h1>Quotes</h1>
-    <p>Search and save words that ground you</p>
-  </header>
-
-  <main class="page">
-    <section class="card">
-      <div class="section-title">Daily quote</div>
-      <div class="gentle-text" style="margin-top:6px;">A gentle one for today.</div>
-
-      <!-- quotes.js fills this -->
-      <div id="dailyQuote" class="inner-box" style="margin-top:12px;"></div>
-    </section>
-
-    <section class="card">
-      <div class="section-title">Find a quote</div>
-
-      <input
-        id="quoteQuery"
-        class="input"
-        style="margin-top:12px;"
-        placeholder="Search quotes or authors..."
-        autocomplete="off"
-      />
-
-      <div class="row" style="margin-top:12px;">
-        <button id="searchBtn" class="btn primary" type="button">Search</button>
-        <button id="randomBtn" class="btn" type="button">Random</button>
+    <section class="section-panel">
+      <div class="btn-row">
+        <button class="btn" id="allBtn">All</button>
+        <button class="btn" id="savedBtn">Saved</button>
       </div>
 
-      <div class="row" style="margin-top:12px;">
-        <button id="showSavedBtn" class="btn primary" type="button">
-          💜 Saved (<span id="savedCount">0</span>)
-        </button>
-        <button id="deleteSavedBtn" class="btn danger" type="button">Delete saved</button>
-      </div>
+      <div style="height:12px;"></div>
+      <div class="grid" id="quotesGrid"></div>
 
-      <div class="gentle-text" style="margin-top:10px;">Tip: only the 💜 button saves.</div>
+      <p class="small-note" id="hint"></p>
     </section>
-
-    <!-- quotes.js fills this -->
-    <div id="quotesList" style="margin-top:14px;"></div>
   </main>
 
-  <!-- v2 shared theme script -->
-  <script src="app.js?v=20260211v2a" defer></script>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, onDoubleTap } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
 
-  <!-- your quotes logic -->
-  <script src="quotes.js?v=20260211v2a" defer></script>
+    const QUOTES = [
+      "You are doing your best with what you have.",
+      "Small steps count.",
+      "Breathe. You are safe in this moment.",
+      "Let it be gentle.",
+      "You don’t have to do it all at once.",
+      "This feeling will pass.",
+      "One thing at a time.",
+      "You’ve made it through hard days before."
+    ];
+
+    const SAVE_KEY = "enigma_saved_quotes_v2";
+    const grid = document.getElementById("quotesGrid");
+    const hint = document.getElementById("hint");
+
+    const allBtn = document.getElementById("allBtn");
+    const savedBtn = document.getElementById("savedBtn");
+
+    let filter = "all";
+
+    function getSaved(){
+      try{ return new Set(JSON.parse(localStorage.getItem(SAVE_KEY) || "[]")); }
+      catch{ return new Set(); }
+    }
+    function setSaved(set){
+      localStorage.setItem(SAVE_KEY, JSON.stringify([...set]));
+    }
+
+    function render(){
+      const saved = getSaved();
+      const list = (filter === "saved")
+        ? QUOTES.filter(q => saved.has(q))
+        : QUOTES.slice();
+
+      grid.innerHTML = list.map(q => `
+        <div class="tile quote-tile" data-quote="${encodeURIComponent(q)}" style="cursor:pointer;">
+          <div class="tile-ico">💬</div>
+          <div>
+            <p class="tile-title" style="font-size:16px; font-weight:900; margin:0;">${q}</p>
+            <p class="tile-sub" style="margin-top:8px;">Double tap to save/unsave</p>
+          </div>
+          <div class="save-indicator" aria-hidden="true">${saved.has(q) ? "❤️" : "🤍"}</div>
+        </div>
+      `).join("");
+
+      [...grid.querySelectorAll("[data-quote]")].forEach(tile=>{
+        const q = decodeURIComponent(tile.dataset.quote);
+        onDoubleTap(tile, ()=>{
+          const s = getSaved();
+          if (s.has(q)) s.delete(q);
+          else s.add(q);
+          setSaved(s);
+          hint.textContent = s.has(q) ? "Saved." : "Unsaved.";
+          render();
+        });
+      });
+
+      if (filter === "saved" && list.length === 0){
+        hint.textContent = "No saved quotes yet. Go to All and double tap one.";
+      }
+    }
+
+    allBtn.addEventListener("click", ()=>{ filter="all"; hint.textContent=""; render(); });
+    savedBtn.addEventListener("click", ()=>{ filter="saved"; hint.textContent=""; render(); });
+
+    render();
+  </script>
 </body>
 </html>
