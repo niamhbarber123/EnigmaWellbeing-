@@ -7,38 +7,115 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-
-  <style>
-    .tile[aria-pressed="true"]{
-      outline: 2px solid var(--accentRing);
-      outline-offset: 2px;
-      background: var(--accentTint);
-    }
-  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
   <main class="wrap">
+
+    <!-- Top bar (NO moon here) -->
     <div class="topbar">
       <a class="back" href="index.html">←</a>
-      <div style="width:44px;"></div>
+      <div></div>
     </div>
 
-    <h1 class="page-title">Check in</h1>
-    <p class="page-sub">How are you feeling right now?</p>
+    <h1 style="margin-bottom:6px;">Check in</h1>
+    <p class="page-sub">
+      How are you feeling right now?
+    </p>
 
-    <section class="section-panel">
+    <section class="card">
+
       <div class="grid" id="moods"></div>
 
       <hr class="sep" />
 
-      <label style="font-weight:600; opacity:.75;">Optional note</label>
-      <textarea id="note" placeholder="One sentence is enough. (optional)"></textarea>
+      <label class="label small" style="opacity:.75;">Optional note</label>
+      <textarea id="note" placeholder="One sentence is enough…"></textarea>
 
-      <div style="height:10px;"></div>
+      <div style="height:14px;"></div>
 
-      <div class="btn-row">
-        <button class="btn" id="saveBtn" type="button">Save check in</button>
-        <button class="btn
+      <button class="btn primary" id="saveBtn">Save</button>
+
+      <p id="savedMsg" style="margin-top:12px; opacity:.7;"></p>
+
+    </section>
+
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, applySavedPreferences } from "./app.js";
+    applySavedTheme();
+    applySavedPreferences();
+  </script>
+
+  <script>
+    const moods = [
+      { key:"Calm", ico:"🙂" },
+      { key:"Happy", ico:"😁" },
+      { key:"Okay", ico:"😌" },
+      { key:"Low", ico:"🌧️" },
+      { key:"Anxious", ico:"😟" },
+      { key:"Overwhelmed", ico:"🧠" },
+      { key:"Tired", ico:"😴" },
+      { key:"Frustrated", ico:"😤" }
+    ];
+
+    const moodsEl = document.getElementById("moods");
+    const noteEl = document.getElementById("note");
+    const saveBtn = document.getElementById("saveBtn");
+    const msg = document.getElementById("savedMsg");
+
+    const KEY = "enigma_checkins_v3";
+
+    let selected = null;
+
+    function render(){
+      moodsEl.innerHTML = moods.map(m => `
+        <button class="tile"
+          data-mood="${m.key}"
+          aria-pressed="${selected === m.key ? "true" : "false"}"
+          style="cursor:pointer;">
+            <div class="ico">${m.ico}</div>
+            <div class="label">${m.key}</div>
+            <div class="arrow small">›</div>
+        </button>
+      `).join("");
+
+      document.querySelectorAll("[data-mood]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          selected = btn.dataset.mood;
+          msg.textContent = "";
+          render();
+        });
+      });
+    }
+
+    saveBtn.addEventListener("click", ()=>{
+      if(!selected){
+        msg.textContent = "Choose a mood first.";
+        return;
+      }
+
+      const entry = {
+        mood: selected,
+        note: noteEl.value.trim(),
+        savedAt: new Date().toISOString()
+      };
+
+      const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
+      arr.push(entry);
+      localStorage.setItem(KEY, JSON.stringify(arr));
+
+      msg.textContent = "Saved.";
+      noteEl.value = "";
+      selected = null;
+      render();
+    });
+
+    render();
+  </script>
+
+</body>
+</html>
