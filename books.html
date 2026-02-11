@@ -1,153 +1,115 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Read • Enigma Wellbeing</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Books • Enigma</title>
 
-<style>
-.genre-buttons{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:16px;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-.genre-btn{
-  padding:8px 14px;
-  border-radius:20px;
-  border:1px solid var(--stroke);
-  background:var(--panel);
-  font-weight:800;
-  cursor:pointer;
-}
-
-.genre-btn.active{
-  background:rgba(200,186,255,.25);
-}
-
-.books-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:12px;
-}
-</style>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
 </head>
 
 <body>
-<main class="wrap">
+  <div class="watermark" aria-hidden="true"></div>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html" data-back>← Back</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<div class="header">
-  <a class="back-btn" href="index.html" data-back>← Back</a>
-  <div class="header-center"></div>
-  <button class="icon-btn" data-theme-toggle>🌙</button>
-</div>
+    <h1 class="page-title">Read</h1>
+    <p class="page-sub">Choose a genre.</p>
 
-<h1 class="page-title">Read</h1>
-<p class="page-subtitle">Choose a genre.</p>
+    <section class="card">
+      <label style="font-weight:900;opacity:.7;font-size:12px;">Genre</label>
+      <select id="genre"></select>
 
-<section class="section-panel">
+      <hr class="sep">
 
-<div class="genre-buttons" id="genreButtons"></div>
+      <div class="full" id="list"></div>
+    </section>
+  </main>
 
-<div class="books-grid" id="booksGrid"></div>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
 
-</section>
+    const books = {
+      "Comfort reads":[
+        "The House in the Cerulean Sea — TJ Klune",
+        "Eleanor Oliphant Is Completely Fine — Gail Honeyman",
+        "The Little Prince — Antoine de Saint-Exupéry",
+        "A Man Called Ove — Fredrik Backman",
+        "The Comfort Book — Matt Haig",
+        "The Midnight Library — Matt Haig"
+      ],
+      "Romance":[
+        "The Flatshare — Beth O’Leary",
+        "Beach Read — Emily Henry",
+        "Red, White & Royal Blue — Casey McQuiston",
+        "Pride and Prejudice — Jane Austen",
+        "People We Meet on Vacation — Emily Henry"
+      ],
+      "Thriller / Mystery":[
+        "The Thursday Murder Club — Richard Osman",
+        "Gone Girl — Gillian Flynn",
+        "The Girl on the Train — Paula Hawkins",
+        "The Silent Patient — Alex Michaelides",
+        "Big Little Lies — Liane Moriarty"
+      ],
+      "Fantasy":[
+        "Harry Potter and the Philosopher’s Stone — J.K. Rowling",
+        "The Hobbit — J.R.R. Tolkien",
+        "Mistborn — Brandon Sanderson",
+        "A Darker Shade of Magic — V.E. Schwab",
+        "The Name of the Wind — Patrick Rothfuss"
+      ],
+      "Non-fiction (mind & wellbeing)":[
+        "Reasons to Stay Alive — Matt Haig",
+        "The Body Keeps the Score — Bessel van der Kolk",
+        "Atomic Habits — James Clear",
+        "The Happiness Trap — Russ Harris",
+        "Why We Sleep — Matthew Walker"
+      ],
+      "Short & easy":[
+        "Of Mice and Men — John Steinbeck",
+        "The Alchemist — Paulo Coelho",
+        "The Outsiders — S.E. Hinton",
+        "Coraline — Neil Gaiman"
+      ]
+    };
 
-</main>
+    const genreEl = document.getElementById("genre");
+    const listEl = document.getElementById("list");
+    const genres = Object.keys(books);
 
-<script type="module">
-import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-applySavedTheme();
-wireThemeButton();
-wireBackButton();
+    genreEl.innerHTML = genres.map(g=>`<option value="${g}">${g}</option>`).join("");
 
-const books = [
-  // Self Development
-  { title:"Atomic Habits – James Clear", genre:"Self Development" },
-  { title:"The Comfort Book – Matt Haig", genre:"Self Development" },
-  { title:"The Power of Now – Eckhart Tolle", genre:"Self Development" },
-  { title:"Feel the Fear and Do It Anyway – Susan Jeffers", genre:"Self Development" },
-  { title:"Mindset – Carol Dweck", genre:"Self Development" },
+    function render(){
+      const g = genreEl.value;
+      listEl.innerHTML = books[g].map((b)=>`
+        <div class="quote-tile" data-title="${encodeURIComponent(b)}">
+          <div class="quote-text">${b}</div>
+          <div class="quote-meta">Tap to search</div>
+        </div>
+      `).join("");
 
-  // Mental Health
-  { title:"Reasons to Stay Alive – Matt Haig", genre:"Mental Health" },
-  { title:"The Body Keeps the Score – Bessel van der Kolk", genre:"Mental Health" },
-  { title:"Lost Connections – Johann Hari", genre:"Mental Health" },
-  { title:"Self-Compassion – Kristin Neff", genre:"Mental Health" },
+      listEl.querySelectorAll(".quote-tile").forEach(tile=>{
+        tile.addEventListener("click", ()=>{
+          const q = tile.dataset.title;
+          window.open(`https://www.google.com/search?q=${q}`, "_blank");
+        });
+      });
+    }
 
-  // Fiction
-  { title:"The Midnight Library – Matt Haig", genre:"Fiction" },
-  { title:"Eleanor Oliphant Is Completely Fine – Gail Honeyman", genre:"Fiction" },
-  { title:"The Book Thief – Markus Zusak", genre:"Fiction" },
-  { title:"The Night Circus – Erin Morgenstern", genre:"Fiction" },
-  { title:"Where the Crawdads Sing – Delia Owens", genre:"Fiction" },
-
-  // Romance
-  { title:"It Ends With Us – Colleen Hoover", genre:"Romance" },
-  { title:"Pride and Prejudice – Jane Austen", genre:"Romance" },
-  { title:"The Love Hypothesis – Ali Hazelwood", genre:"Romance" },
-
-  // Fantasy
-  { title:"Harry Potter – J.K. Rowling", genre:"Fantasy" },
-  { title:"A Court of Thorns and Roses – Sarah J. Maas", genre:"Fantasy" },
-  { title:"The Hobbit – J.R.R. Tolkien", genre:"Fantasy" },
-
-  // Thriller
-  { title:"Gone Girl – Gillian Flynn", genre:"Thriller" },
-  { title:"The Girl on the Train – Paula Hawkins", genre:"Thriller" },
-  { title:"The Silent Patient – Alex Michaelides", genre:"Thriller" },
-
-  // Classics
-  { title:"1984 – George Orwell", genre:"Classics" },
-  { title:"To Kill a Mockingbird – Harper Lee", genre:"Classics" },
-  { title:"Jane Eyre – Charlotte Brontë", genre:"Classics" }
-];
-
-const genres = ["All", ...new Set(books.map(b => b.genre))];
-
-const genreButtons = document.getElementById("genreButtons");
-const booksGrid = document.getElementById("booksGrid");
-
-let currentGenre = "All";
-
-function renderGenres(){
-  genreButtons.innerHTML = genres.map(g => `
-    <button class="genre-btn ${g===currentGenre ? 'active':''}" data-genre="${g}">
-      ${g}
-    </button>
-  `).join("");
-
-  document.querySelectorAll(".genre-btn").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      currentGenre = btn.dataset.genre;
-      renderGenres();
-      renderBooks();
-    });
-  });
-}
-
-function renderBooks(){
-  const filtered = currentGenre === "All"
-    ? books
-    : books.filter(b => b.genre === currentGenre);
-
-  booksGrid.innerHTML = filtered.map(b => `
-    <a class="tile" href="https://www.google.com/search?q=${encodeURIComponent(b.title)}" target="_blank">
-      <div class="tile-ico">📚</div>
-      <div>
-        <p class="tile-title">${b.title}</p>
-        <p class="tile-sub">${b.genre}</p>
-      </div>
-    </a>
-  `).join("");
-}
-
-renderGenres();
-renderBooks();
-
-</script>
-
+    genreEl.addEventListener("change", render);
+    render();
+  </script>
 </body>
 </html>
