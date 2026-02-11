@@ -1,8 +1,5 @@
 /* =========================================
-   ENIGMA WELLBEING v2 — Calm UI (Root)
-   - Icon watermark (icon.png)
-   - Light/Dark mode (body.dark)
-   - Consistent tiles/cards across pages
+   ENIGMA WELLBEING — Calm UI (Root)
    ========================================= */
 
 *{ box-sizing:border-box; }
@@ -93,8 +90,8 @@ body.dark .watermark{ opacity:.12; }
 }
 
 .moon{
-  width:44px;
-  height:44px;
+  width:42px;
+  height:42px;
   border-radius:999px;
   border:none;
   background: var(--card);
@@ -102,29 +99,41 @@ body.dark .watermark{ opacity:.12; }
   cursor:pointer;
   font-size:18px;
   color:inherit;
+  flex-shrink:0;
 }
 
+/* ✅ HOME HEADER FIX (smaller title + fits with moon button) */
 .header{
-  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 10px 4px 6px;
   position:relative;
-  padding: 8px 0 6px;
+  text-align:left;
+}
+
+.header-text{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
 }
 
 .header h1{
-  font-size: 40px;
-  font-weight: 900;
-  margin: 10px 0 4px;
-  line-height:1.05;
+  font-size: 30px;
+  font-weight: 800;
+  margin: 0;
+  line-height:1.1;
 }
 
 .header p{
   margin:0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   opacity:.6;
   color: var(--muted);
 }
 
+/* Titles */
 .page-title{
   margin: 6px 0 6px;
   font-size: 28px;
@@ -337,164 +346,3 @@ body.dark .support-banner{
 
 a{ color:inherit; }
 a:active, button:active{ transform: translateY(1px); }
-
-/* Full width list tiles */
-.full{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-/* Quote style tile */
-.quote-tile{
-  position:relative;
-  padding: 14px 46px 14px 14px;
-  border-radius: var(--radius2);
-  background: var(--card);
-  border:1px solid var(--stroke);
-  box-shadow: var(--shadow2);
-  text-decoration:none;
-  color:inherit;
-  display:block;
-}
-.quote-text{
-  font-weight:850;
-  font-size:16px;
-  line-height:1.35;
-}
-.quote-meta{
-  margin-top:8px;
-  color: var(--muted);
-  font-weight:650;
-  font-size:13px;
-}
-.save-fab{
-  position:absolute;
-  right:10px;
-  bottom:10px;
-  width:36px;
-  height:36px;
-  border-radius:999px;
-  border:1px solid var(--stroke);
-  background: rgba(255,255,255,.75);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  font-size:16px;
-}
-body.dark .save-fab{ background: rgba(255,255,255,.10); }
-
-.saved{
-  outline: 2px solid rgba(200,186,255,.9);
-  outline-offset: 2px;
-  background: rgba(200,186,255,.14);
-}
-
-/* Accordion folders (check-in) */
-details.folder{
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  box-shadow: var(--shadow2);
-  border-radius: var(--radius2);
-  padding: 10px 12px;
-}
-details.folder + details.folder{ margin-top: 12px; }
-summary.folder-title{
-  list-style:none;
-  cursor:pointer;
-  font-weight:900;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-summary.folder-title::-webkit-details-marker{ display:none; }
-.folder-sub{
-  margin-top: 8px;
-  color: var(--muted);
-  font-weight:650;
-  font-size:13px;
-}
-.folder-grid{
-  margin-top: 10px;
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-@media (max-width:380px){
-  .folder-grid{ grid-template-columns: 1fr; }
-}
-.mood-btn{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding: 12px;
-  border-radius: 18px;
-  border:1px solid var(--stroke);
-  background: rgba(255,255,255,.70);
-  font-weight:850;
-  cursor:pointer;
-  text-align:left;
-  font-family:inherit;
-  color:inherit;
-}
-body.dark .mood-btn{ background: rgba(255,255,255,.08); }
-.mood-btn[aria-pressed="true"]{
-  outline: 2px solid rgba(200,186,255,.9);
-  outline-offset: 2px;
-  background: rgba(200,186,255,.18);
-}
-/* --- TONE DOWN HOME HEADING + BUTTON TITLES (override only) --- */
-
-/* Main app heading */
-.header h1{
-  font-size: 32px;      /* was 40px */
-  font-weight: 800;     /* was 900 */
-}
-
-/* Section titles (optional: slightly calmer) */
-.section h2{
-  font-size: 18px;      /* was 20px */
-  font-weight: 800;     /* was 850 */
-}
-
-/* Big button title text */
-.label{
-  font-size: 18px;      /* was 22px */
-  font-weight: 750;     /* was 850 */
-}
-
-/* Small tile title text */
-.label.small{
-  font-size: 14px;      /* was 16px */
-  font-weight: 700;     /* was 750 */
-}
-/* --- HOME: smaller + less bold heading + button titles (override only) --- */
-
-/* Main heading */
-body.home h1{
-  font-size: 32px !important;
-  font-weight: 800 !important;
-}
-
-/* Section headings (Right now / Today / Explore / Your space) */
-body.home h2{
-  font-size: 18px !important;
-  font-weight: 800 !important;
-}
-
-/* Button titles (covers links + buttons on the home screen) */
-body.home a,
-body.home button{
-  font-weight: 650 !important;
-}
-
-/* If you are using the v2 tile classes, these also get toned down */
-body.home .label{
-  font-size: 18px !important;
-  font-weight: 750 !important;
-}
-body.home .label.small{
-  font-size: 14px !important;
-  font-weight: 700 !important;
-}
