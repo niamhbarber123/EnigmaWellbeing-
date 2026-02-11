@@ -405,3 +405,37 @@ textarea{
   opacity: .75;
   line-height: 1.6;
 }
+/* ==============================
+   QUOTES PAGE — calmer feel
+   ============================== */
+
+/* Page heading */
+.page-title{
+  font-weight: 600 !important;
+  letter-spacing: .2px;
+}
+
+/* Quote text */
+.quote-text{
+  font-weight: 500 !important;     /* was bold */
+  font-size: 15.5px !important;
+  line-height: 1.6;
+  opacity: .88;
+}
+
+/* Author / meta text */
+.quote-meta{
+  font-weight: 500 !important;
+  opacity: .65 !important;
+}
+
+/* Save button calmer */
+.save-fab{
+  font-weight: 500 !important;
+}
+
+/* Remove any heavy bold inside tiles */
+.quote-tile strong,
+.quote-tile b{
+  font-weight: 600 !important;
+}
