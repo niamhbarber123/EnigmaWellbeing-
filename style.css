@@ -285,3 +285,50 @@ summary.folder-title{
 .mood-btn{
   font-weight: 600 !important;
 }
+/* ==============================
+   JOURNAL — calmer feel
+   (no layout/function changes)
+   ============================== */
+
+/* Title + subtitle less shouty */
+.page-title{
+  font-weight: 600 !important;
+  letter-spacing: .1px;
+}
+.page-sub,
+.page-subtitle{
+  font-weight: 500 !important;
+  opacity: .72 !important;
+  line-height: 1.5;
+}
+
+/* Card text calmer */
+.card, .section-panel{
+  color: var(--text);
+}
+
+/* Inputs: softer */
+input, textarea{
+  font-weight: 500 !important;
+  line-height: 1.6;
+}
+
+/* Journal textarea: more “gentle writing” */
+textarea{
+  min-height: 180px;               /* feels less cramped */
+  padding: 14px 14px !important;
+  border-radius: 18px !important;
+  opacity: .98;
+}
+
+/* Buttons less heavy */
+.btn{
+  font-weight: 600 !important;
+}
+
+/* Small helper text */
+.small-note{
+  font-weight: 500 !important;
+  opacity: .72 !important;
+  line-height: 1.5;
+}
