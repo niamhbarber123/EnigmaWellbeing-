@@ -5,7 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Enigma Wellbeing</title>
 
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- App icon + PWA -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- iPhone Home Screen icon -->
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+
+  <!-- iOS PWA settings -->
+  <meta name="theme-color" content="#f4f1ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -16,11 +33,14 @@
   <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
 
   <main class="wrap">
+
+    <!-- Header -->
     <header style="text-align:center; margin-bottom:20px;">
       <h1 style="margin:0;">Enigma Wellbeing</h1>
       <p class="page-sub" style="margin-top:6px;">Your calm space</p>
     </header>
 
+    <!-- Right now -->
     <section class="section">
       <h2>Right now</h2>
 
@@ -37,6 +57,7 @@
       </a>
     </section>
 
+    <!-- Today -->
     <section class="section">
       <h2>Today</h2>
 
@@ -67,6 +88,7 @@
       </div>
     </section>
 
+    <!-- Explore -->
     <section class="section">
       <h2>Explore</h2>
 
@@ -97,10 +119,10 @@
       </div>
     </section>
 
+    <!-- Your Space -->
     <section class="section">
       <h2>Your space</h2>
 
-      <!-- All 4 are equal size now -->
       <div class="pill-row">
         <a class="pill" href="progress.html">📊 Progress</a>
         <a class="pill" href="resources.html">🧠 Resources</a>
@@ -108,7 +130,17 @@
         <a class="pill" href="help.html">🆘 Help</a>
       </div>
     </section>
+
   </main>
+
+  <!-- Register service worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+      });
+    }
+  </script>
 
   <script type="module">
     import { applySavedTheme, applySavedPreferences, wireThemeButton } from "./app.js";
@@ -116,5 +148,6 @@
     applySavedPreferences();
     wireThemeButton();
   </script>
+
 </body>
 </html>
