@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breathe • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.breathe-container{
+  text-align:center;
+  margin-top:20px;
+}
+
+.circle{
+  width:220px;
+  height:220px;
+  margin:20px auto;
+  border-radius:50%;
+  background:rgba(200,186,255,.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:22px;
+  transition:transform ease-in-out;
+}
+
+.phase-text{
+  font-weight:900;
+  font-size:18px;
+  margin-top:10px;
+}
+
+.controls{
+  display:grid;
+  gap:10px;
+  margin-top:15px;
+}
+
+select, button{
+  padding:10px;
+  border-radius:12px;
+  border:1px solid var(--stroke);
+  font-weight:700;
+}
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
+
+<h1 class="page-title">Breathe</h1>
+<p class="page-subtitle">Follow the rhythm.</p>
+
+<section class="section-panel breathe-container">
+
+<div class="circle" id="circle">
+  <span id="timeDisplay">00:00</span>
+</div>
+
+<p class="phase-text" id="phaseText">Ready</p>
+
+<div class="controls">
+
+<label>Pace</label>
+<select id="paceSelect">
+  <option value="slow">Slow</option>
+  <option value="medium" selected>Medium</option>
+  <option value="fast">Fast</option>
+</select>
+
+<label>Mode</label>
+<select id="modeSelect">
+  <option value="timer">Timer</option>
+  <option value="stopwatch">Stopwatch</option>
+</select>
+
+<label>Time (minutes)</label>
+<select id="timeSelect">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="5">5</option>
+  <option value="10">10</option>
+</select>
+
+<button id="startBtn">Start</button>
+<button id="stopBtn">Stop</button>
+
+</div>
+
+</section>
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+const circle = document.getElementById("circle");
+const phaseText = document.getElementById("phaseText");
+const timeDisplay = document.getElementById("timeDisplay");
+
+const paceSelect = document.getElementById("paceSelect");
+const modeSelect = document.getElementById("modeSelect");
+const timeSelect = document.getElementById("timeSelect");
+
+const startBtn = document.getElementById("startBtn");
+const stopBtn = document.getElementById("stopBtn");
+
+let breathTimeout;
+let timerInterval;
+let running = false;
+let elapsed = 0;
+
+function formatTime(sec){
+  const m = String(Math.floor(sec/60)).padStart(2,'0');
+  const s = String(sec%60).padStart(2,'0');
+  return `${m}:${s}`;
+}
+
+function getDurations(){
+  const pace = paceSelect.value;
+
+  if(pace === "slow") return { inhale:6, hold:4, exhale:8 };
+  if(pace === "medium") return { inhale:4, hold:4, exhale:6 };
+  return { inhale:3, hold:2, exhale:4 };
+}
+
+function startTimer(){
+  if(modeSelect.value === "timer"){
+    elapsed = parseInt(timeSelect.value) * 60;
+    timeDisplay.textContent = formatTime(elapsed);
+
+    timerInterval = setInterval(()=>{
+      elapsed--;
+      timeDisplay.textContent = formatTime(elapsed);
+      if(elapsed <= 0) stopAll();
+    },1000);
+  } else {
+    elapsed = 0;
+    timerInterval = setInterval(()=>{
+      elapsed++;
+      timeDisplay.textContent = formatTime(elapsed);
+    },1000);
+  }
+}
+
+function breathingCycle(){
+  if(!running) return;
+
+  const { inhale, hold, exhale } = getDurations();
+
+  // Inhale
+  phaseText.textContent = "Inhale";
+  circle.style.transitionDuration = inhale + "s";
+  circle.style.transform = "scale(1.35)";
+
+  breathTimeout = setTimeout(()=>{
+    if(!running) return;
+
+    // Hold
+    phaseText.textContent = "Hold";
+    breathTimeout = setTimeout(()=>{
+      if(!running) return;
+
+      // Exhale
+      phaseText.textContent = "Exhale";
+      circle.style.transitionDuration = exhale + "s";
+      circle.style.transform = "scale(1)";
+
+      breathTimeout = setTimeout(()=>{
+        breathingCycle();
+      }, exhale * 1000);
+
+    }, hold * 1000);
+
+  }, inhale * 1000);
+}
+
+function startAll(){
+  if(running) return;
+  running = true;
+  startTimer();
+  breathingCycle();
+}
+
+function stopAll(){
+  running = false;
+  clearTimeout(breathTimeout);
+  clearInterval(timerInterval);
+  phaseText.textContent = "Ready";
+  circle.style.transform = "scale(1)";
+}
+
+startBtn.addEventListener("click", startAll);
+stopBtn.addEventListener("click", stopAll);
+</script>
+</body>
+</html>

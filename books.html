@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.genre-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.genre-btn{
+  padding:8px 14px;
+  border-radius:20px;
+  border:1px solid var(--stroke);
+  background:var(--panel);
+  font-weight:800;
+  cursor:pointer;
+}
+
+.genre-btn.active{
+  background:rgba(200,186,255,.25);
+}
+
+.books-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
+
+<h1 class="page-title">Read</h1>
+<p class="page-subtitle">Choose a genre.</p>
+
+<section class="section-panel">
+
+<div class="genre-buttons" id="genreButtons"></div>
+
+<div class="books-grid" id="booksGrid"></div>
+
+</section>
+
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+const books = [
+  // Self Development
+  { title:"Atomic Habits – James Clear", genre:"Self Development" },
+  { title:"The Comfort Book – Matt Haig", genre:"Self Development" },
+  { title:"The Power of Now – Eckhart Tolle", genre:"Self Development" },
+  { title:"Feel the Fear and Do It Anyway – Susan Jeffers", genre:"Self Development" },
+  { title:"Mindset – Carol Dweck", genre:"Self Development" },
+
+  // Mental Health
+  { title:"Reasons to Stay Alive – Matt Haig", genre:"Mental Health" },
+  { title:"The Body Keeps the Score – Bessel van der Kolk", genre:"Mental Health" },
+  { title:"Lost Connections – Johann Hari", genre:"Mental Health" },
+  { title:"Self-Compassion – Kristin Neff", genre:"Mental Health" },
+
+  // Fiction
+  { title:"The Midnight Library – Matt Haig", genre:"Fiction" },
+  { title:"Eleanor Oliphant Is Completely Fine – Gail Honeyman", genre:"Fiction" },
+  { title:"The Book Thief – Markus Zusak", genre:"Fiction" },
+  { title:"The Night Circus – Erin Morgenstern", genre:"Fiction" },
+  { title:"Where the Crawdads Sing – Delia Owens", genre:"Fiction" },
+
+  // Romance
+  { title:"It Ends With Us – Colleen Hoover", genre:"Romance" },
+  { title:"Pride and Prejudice – Jane Austen", genre:"Romance" },
+  { title:"The Love Hypothesis – Ali Hazelwood", genre:"Romance" },
+
+  // Fantasy
+  { title:"Harry Potter – J.K. Rowling", genre:"Fantasy" },
+  { title:"A Court of Thorns and Roses – Sarah J. Maas", genre:"Fantasy" },
+  { title:"The Hobbit – J.R.R. Tolkien", genre:"Fantasy" },
+
+  // Thriller
+  { title:"Gone Girl – Gillian Flynn", genre:"Thriller" },
+  { title:"The Girl on the Train – Paula Hawkins", genre:"Thriller" },
+  { title:"The Silent Patient – Alex Michaelides", genre:"Thriller" },
+
+  // Classics
+  { title:"1984 – George Orwell", genre:"Classics" },
+  { title:"To Kill a Mockingbird – Harper Lee", genre:"Classics" },
+  { title:"Jane Eyre – Charlotte Brontë", genre:"Classics" }
+];
+
+const genres = ["All", ...new Set(books.map(b => b.genre))];
+
+const genreButtons = document.getElementById("genreButtons");
+const booksGrid = document.getElementById("booksGrid");
+
+let currentGenre = "All";
+
+function renderGenres(){
+  genreButtons.innerHTML = genres.map(g => `
+    <button class="genre-btn ${g===currentGenre ? 'active':''}" data-genre="${g}">
+      ${g}
+    </button>
+  `).join("");
+
+  document.querySelectorAll(".genre-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      currentGenre = btn.dataset.genre;
+      renderGenres();
+      renderBooks();
+    });
+  });
+}
+
+function renderBooks(){
+  const filtered = currentGenre === "All"
+    ? books
+    : books.filter(b => b.genre === currentGenre);
+
+  booksGrid.innerHTML = filtered.map(b => `
+    <a class="tile" href="https://www.google.com/search?q=${encodeURIComponent(b.title)}" target="_blank">
+      <div class="tile-ico">📚</div>
+      <div>
+        <p class="tile-title">${b.title}</p>
+        <p class="tile-sub">${b.genre}</p>
+      </div>
+    </a>
+  `).join("");
+}
+
+renderGenres();
+renderBooks();
+
+</script>
+
+</body>
+</html>

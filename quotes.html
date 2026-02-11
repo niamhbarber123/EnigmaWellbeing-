@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kind words • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css" />
+
+<style>
+  .quotes-list{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+
+  .quote-tile{
+    position:relative;
+    padding:20px;
+  }
+
+  .quote-text{
+    font-size:16px;
+    font-weight:900;
+    line-height:1.4;
+    margin:0;
+  }
+
+  .save-indicator{
+    position:absolute;
+    bottom:14px;
+    right:16px;
+    font-size:18px;
+    opacity:.85;
+  }
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+  <div class="header">
+    <a class="back-btn" href="index.html" data-back>← Back</a>
+    <div class="header-center"></div>
+    <button class="icon-btn" data-theme-toggle>🌙</button>
+  </div>
+
+  <h1 class="page-title">Kind words</h1>
+
+  <section class="section-panel">
+
+    <div class="btn-row">
+      <button class="btn" id="allBtn" type="button">All</button>
+      <button class="btn" id="savedBtn" type="button">Saved</button>
+    </div>
+
+    <div style="height:12px;"></div>
+
+    <div class="quotes-list" id="quotesList"></div>
+
+    <p class="small-note" id="hint"></p>
+
+  </section>
+
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton, onDoubleTap } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+const SAVE_KEY = "enigma_saved_quotes_v2";
+
+const QUOTES = [
+  "This moment is hard — and you are still here.",
+  "Small steps still count.",
+  "You don’t have to do it all today.",
+  "Breathe. Shoulders down. Jaw soft.",
+  "One thing at a time.",
+  "You are allowed to rest.",
+  "If all you did today was survive, that’s enough.",
+  "You can start again at any moment.",
+  "Slow is still moving.",
+  "You don’t need to earn kindness.",
+  "Be gentle with yourself — you’re learning.",
+  "You have handled hard days before.",
+  "Feelings are visitors — they come and go.",
+  "Right now, choose the next small step.",
+  "Your best looks different every day.",
+  "You are not behind — you are human.",
+  "It’s okay to pause.",
+  "You are doing better than you think.",
+  "Progress can be quiet.",
+  "You can be brave and tired at the same time.",
+  "Choose softness where you can.",
+  "Some days, 'good enough' is perfect.",
+  "This is a chapter, not the whole story.",
+  "You don’t have to be productive to be valuable.",
+  "You are allowed to feel proud."
+];
+
+function getSaved(){
+  try { return new Set(JSON.parse(localStorage.getItem(SAVE_KEY) || "[]")); }
+  catch { return new Set(); }
+}
+
+function setSaved(set){
+  localStorage.setItem(SAVE_KEY, JSON.stringify([...set]));
+}
+
+const listEl = document.getElementById("quotesList");
+const hintEl = document.getElementById("hint");
+const allBtn = document.getElementById("allBtn");
+const savedBtn = document.getElementById("savedBtn");
+
+let filter = "all";
+
+function render(){
+  const saved = getSaved();
+  const items = (filter === "saved")
+    ? QUOTES.filter(q => saved.has(q))
+    : QUOTES.slice();
+
+  if(filter === "saved" && items.length === 0){
+    listEl.innerHTML = "";
+    hintEl.textContent = "No saved quotes yet.";
+    return;
+  }
+
+  hintEl.textContent = "";
+
+  listEl.innerHTML = items.map(q => `
+    <div class="tile quote-tile" data-quote="${encodeURIComponent(q)}" style="cursor:pointer;">
+      <p class="quote-text">${q}</p>
+      <div class="save-indicator">${saved.has(q) ? "❤️" : "🤍"}</div>
+    </div>
+  `).join("");
+
+  [...listEl.querySelectorAll("[data-quote]")].forEach(tile=>{
+    const q = decodeURIComponent(tile.dataset.quote);
+    onDoubleTap(tile, ()=>{
+      const s = getSaved();
+      if(s.has(q)) s.delete(q);
+      else s.add(q);
+      setSaved(s);
+      render();
+    });
+  });
+}
+
+allBtn.addEventListener("click", ()=>{ filter="all"; render(); });
+savedBtn.addEventListener("click", ()=>{ filter="saved"; render(); });
+
+render();
+</script>
+</body>
+</html>

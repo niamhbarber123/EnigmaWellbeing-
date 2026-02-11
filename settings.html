@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
+
+    <h1 class="page-title">Settings</h1>
+    <p class="page-subtitle">Keep things comfortable.</p>
+
+    <section class="section-panel">
+      <div class="grid">
+        <div class="tile">
+          <div class="tile-ico">🌙</div>
+          <div>
+            <p class="tile-title">Night mode</p>
+            <p class="tile-sub">Use the moon button (top right)</p>
+          </div>
+        </div>
+
+        <button class="tile" id="clearBtn" type="button" style="cursor:pointer; text-align:left;">
+          <div class="tile-ico">🧹</div>
+          <div>
+            <p class="tile-title">Clear saved data</p>
+            <p class="tile-sub">Quotes + check-ins on this device</p>
+          </div>
+        </button>
+
+        <a class="tile" href="resources.html">
+          <div class="tile-ico">🧠</div>
+          <div>
+            <p class="tile-title">Support & resources</p>
+            <p class="tile-sub">Help links</p>
+          </div>
+        </a>
+
+        <a class="tile" href="index.html">
+          <div class="tile-ico">🏠</div>
+          <div>
+            <p class="tile-title">Home</p>
+            <p class="tile-sub">Back to main menu</p>
+          </div>
+        </a>
+      </div>
+
+      <p class="small-note" id="msg"></p>
+    </section>
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
+
+    const msg = document.getElementById("msg");
+    document.getElementById("clearBtn").addEventListener("click", ()=>{
+      const ok = confirm("Clear saved quotes and check-ins on this device?");
+      if (!ok) return;
+      localStorage.removeItem("enigma_saved_quotes_v2");
+      localStorage.removeItem("enigma_checkins_v2");
+      msg.textContent = "Cleared.";
+    });
+  </script>
+</body>
+</html>

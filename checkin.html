@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Check in • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css" />
+
+<style>
+  /* Folder styling */
+  .folders{
+    display:grid;
+    gap:12px;
+  }
+
+  details.folder{
+    border:1px solid var(--stroke);
+    border-radius:18px;
+    background:var(--panel);
+    box-shadow:var(--shadowSoft);
+    overflow:hidden;
+  }
+
+  details.folder > summary{
+    list-style:none;
+    cursor:pointer;
+    padding:14px;
+    font-weight:900;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  details.folder > summary::-webkit-details-marker{ display:none; }
+
+  .folder-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .folder-chevron{
+    opacity:.6;
+    transition:transform .2s ease;
+  }
+
+  details[open] .folder-chevron{
+    transform:rotate(90deg);
+  }
+
+  .folder-content{
+    padding:12px;
+  }
+
+  .tile[aria-pressed="true"]{
+    outline:2px solid rgba(200,186,255,.9);
+    outline-offset:2px;
+    background:rgba(200,186,255,.18);
+  }
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+  <div class="header">
+    <a class="back-btn" href="index.html" data-back>← Back</a>
+    <div class="header-center"></div>
+    <button class="icon-btn" data-theme-toggle>🌙</button>
+  </div>
+
+  <h1 class="page-title">Check in</h1>
+  <p class="page-subtitle">How are you feeling right now?</p>
+
+  <section class="section-panel">
+
+    <div class="folders" id="folders"></div>
+
+    <hr class="sep" />
+
+    <label style="font-weight:900; opacity:.75;">Optional note</label>
+    <textarea id="note" placeholder="One sentence is enough."></textarea>
+
+    <div style="height:10px;"></div>
+
+    <div class="btn-row">
+      <button class="btn" id="saveBtn">Save check in</button>
+      <button class="btn" id="clearBtn">Clear</button>
+    </div>
+
+    <p class="small-note" id="savedMsg"></p>
+
+  </section>
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+const KEY = "enigma_checkins_v2";
+
+const moodFolders = [
+  {
+    name:"🙂 Feeling good",
+    moods:[
+      { key:"Calm", ico:"🙂", sub:"Steady, settled" },
+      { key:"Content", ico:"😊", sub:"Quietly okay" },
+      { key:"Happy", ico:"😁", sub:"Light, good" },
+      { key:"Grateful", ico:"🙏", sub:"Appreciative" },
+      { key:"Motivated", ico:"⚡", sub:"Ready to do things" },
+      { key:"Hopeful", ico:"🌤️", sub:"Looking forward" }
+    ]
+  },
+  {
+    name:"😌 So-so",
+    moods:[
+      { key:"Okay", ico:"😌", sub:"Managing" },
+      { key:"Meh", ico:"😶", sub:"Flat, neutral" },
+      { key:"Unsure", ico:"🤔", sub:"Not sure what I feel" },
+      { key:"Restless", ico:"🫧", sub:"Can’t settle" },
+      { key:"Tired", ico:"😴", sub:"Low energy" }
+    ]
+  },
+  {
+    name:"🌧 Hard day",
+    moods:[
+      { key:"Low", ico:"🌧️", sub:"Heavy, tired, flat" },
+      { key:"Sad", ico:"😔", sub:"A bit down" },
+      { key:"Lonely", ico:"🫶", sub:"Wanting connection" },
+      { key:"Numb", ico:"🧊", sub:"Shut down" },
+      { key:"Overwhelmed", ico:"🧠", sub:"Too much at once" },
+      { key:"Anxious", ico:"😟", sub:"Worried, tense" },
+      { key:"Stressed", ico:"😣", sub:"Under pressure" },
+      { key:"Panicky", ico:"💓", sub:"Racing, uneasy" },
+      { key:"Frustrated", ico:"😤", sub:"Annoyed, stuck" },
+      { key:"Angry", ico:"😠", sub:"Hot, tense" },
+      { key:"Burnt out", ico:"🕯️", sub:"Drained" },
+      { key:"Sore", ico:"💢", sub:"Body feels heavy" }
+    ]
+  }
+];
+
+const foldersEl = document.getElementById("folders");
+const noteEl = document.getElementById("note");
+const saveBtn = document.getElementById("saveBtn");
+const clearBtn = document.getElementById("clearBtn");
+const msg = document.getElementById("savedMsg");
+
+let selected = null;
+
+function render(){
+  foldersEl.innerHTML = moodFolders.map(folder=>`
+    <details class="folder">
+      <summary>
+        <div class="folder-title">
+          ${folder.name}
+        </div>
+        <span class="folder-chevron">›</span>
+      </summary>
+      <div class="folder-content">
+        <div class="grid">
+          ${folder.moods.map(m=>`
+            <button class="tile"
+              data-mood="${m.key}"
+              aria-pressed="${selected===m.key}"
+              style="cursor:pointer;text-align:left;">
+              <div class="tile-ico">${m.ico}</div>
+              <div>
+                <p class="tile-title">${m.key}</p>
+                <p class="tile-sub">${m.sub}</p>
+              </div>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    </details>
+  `).join("");
+
+  document.querySelectorAll("[data-mood]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      selected = btn.dataset.mood;
+      msg.textContent="";
+      render();
+    });
+  });
+}
+
+saveBtn.addEventListener("click", ()=>{
+  if(!selected){
+    msg.textContent="Choose a mood first.";
+    return;
+  }
+  const entry={
+    mood:selected,
+    note:noteEl.value.trim(),
+    savedAt:new Date().toISOString()
+  };
+  const arr=JSON.parse(localStorage.getItem(KEY)||"[]");
+  arr.push(entry);
+  localStorage.setItem(KEY,JSON.stringify(arr));
+  msg.textContent=`Saved. (${new Date(entry.savedAt).toLocaleString()})`;
+  noteEl.value="";
+  selected=null;
+  render();
+});
+
+clearBtn.addEventListener("click", ()=>{
+  noteEl.value="";
+  selected=null;
+  msg.textContent="";
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

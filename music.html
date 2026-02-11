@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listen • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.music-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.music-tile{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  min-height:150px;
+  padding:18px;
+}
+
+.music-tile .tile-ico{
+  font-size:26px;
+  margin-bottom:10px;
+}
+
+.music-tile .tile-title{
+  font-size:15px;
+  font-weight:900;
+  margin:0 0 6px;
+}
+
+.music-tile .tile-sub{
+  font-size:13px;
+  color:var(--muted);
+  margin:0;
+}
+
+/* Make 1 column on very small screens */
+@media (max-width:400px){
+  .music-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
+
+<h1 class="page-title">Listen</h1>
+<p class="page-subtitle">Choose something gentle.</p>
+
+<section class="section-panel">
+
+<div class="music-grid">
+
+<a class="tile music-tile" href="https://www.youtube.com/results?search_query=calm+instrumental+music" target="_blank">
+  <div class="tile-ico">🎼</div>
+  <p class="tile-title">Calm Instrumental</p>
+  <p class="tile-sub">Soft background music</p>
+</a>
+
+<a class="tile music-tile" href="https://www.youtube.com/results?search_query=ocean+waves+sound" target="_blank">
+  <div class="tile-ico">🌊</div>
+  <p class="tile-title">Ocean Waves</p>
+  <p class="tile-sub">Natural calming sounds</p>
+</a>
+
+<a class="tile music-tile" href="https://www.youtube.com/results?search_query=rain+sounds+sleep" target="_blank">
+  <div class="tile-ico">🌧️</div>
+  <p class="tile-title">Rain Sounds</p>
+  <p class="tile-sub">White noise for calm</p>
+</a>
+
+<a class="tile music-tile" href="https://www.youtube.com/results?search_query=relaxing+piano+music" target="_blank">
+  <div class="tile-ico">🎹</div>
+  <p class="tile-title">Relaxing Piano</p>
+  <p class="tile-sub">Slow & peaceful</p>
+</a>
+
+<a class="tile music-tile" href="https://www.youtube.com/results?search_query=guided+meditation+music" target="_blank">
+  <div class="tile-ico">🧘</div>
+  <p class="tile-title">Meditation Music</p>
+  <p class="tile-sub">Deep focus</p>
+</a>
+
+<a class="tile music-tile" href="https://www.youtube.com/results?search_query=lofi+calm+music" target="_blank">
+  <div class="tile-ico">🎧</div>
+  <p class="tile-title">Lo-Fi Calm</p>
+  <p class="tile-sub">Gentle background focus</p>
+</a>
+
+</div>
+
+</section>
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+</script>
+
+</body>
+</html>

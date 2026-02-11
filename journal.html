@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Journal • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css" />
+
+<style>
+  .prompt-box{
+    border-radius:18px;
+    background:var(--panel);
+    border:1px solid var(--stroke);
+    box-shadow:var(--shadowSoft);
+    padding:14px;
+    margin-bottom:14px;
+  }
+
+  .prompt-title{
+    font-weight:900;
+    margin:0 0 8px;
+  }
+
+  .prompt-text{
+    color:var(--muted);
+    font-weight:650;
+    line-height:1.4;
+  }
+
+  .journal-area{
+    width:100%;
+    min-height:180px;
+    resize:vertical;
+    border-radius:18px;
+    border:1px solid var(--stroke);
+    background:rgba(255,255,255,.55);
+    padding:14px;
+    box-shadow:var(--shadowSoft);
+    font-family:inherit;
+    color:var(--text);
+  }
+
+  body.dark .journal-area{
+    background:rgba(255,255,255,.06);
+  }
+
+  .journal-meta{
+    display:flex;
+    justify-content:space-between;
+    margin-top:8px;
+    font-size:13px;
+    color:var(--muted);
+    font-weight:650;
+  }
+
+  .journal-actions{
+    margin-top:14px;
+    display:flex;
+    gap:10px;
+  }
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+  <div class="header">
+    <a class="back-btn" href="index.html" data-back>← Back</a>
+    <div class="header-center"></div>
+    <button class="icon-btn" data-theme-toggle>🌙</button>
+  </div>
+
+  <h1 class="page-title">Journal</h1>
+  <p class="page-subtitle">Write freely. This is just for you.</p>
+
+  <!-- Prompt -->
+  <div class="prompt-box">
+    <p class="prompt-title">Need a prompt?</p>
+    <p class="prompt-text" id="promptText">
+      What’s one small thing that felt okay today?
+    </p>
+    <div style="height:8px;"></div>
+    <button class="btn" id="newPromptBtn" type="button">New prompt</button>
+  </div>
+
+  <!-- Journal Area -->
+  <section class="section-panel">
+    <textarea 
+      id="journalText"
+      class="journal-area"
+      placeholder="Start writing here… You don’t need full sentences. Just let it out.">
+    </textarea>
+
+    <div class="journal-meta">
+      <span id="wordCount">0 words</span>
+      <span id="saveStatus">Saved</span>
+    </div>
+
+    <div class="journal-actions">
+      <button class="btn" id="clearBtn" type="button">Clear</button>
+    </div>
+  </section>
+
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+const KEY = "enigma_journal_v2";
+
+const textarea = document.getElementById("journalText");
+const wordCountEl = document.getElementById("wordCount");
+const saveStatusEl = document.getElementById("saveStatus");
+const clearBtn = document.getElementById("clearBtn");
+const promptText = document.getElementById("promptText");
+const newPromptBtn = document.getElementById("newPromptBtn");
+
+const prompts = [
+  "What’s one small thing that felt okay today?",
+  "What’s been sitting in your mind lately?",
+  "If you could say one honest sentence right now, what would it be?",
+  "What does your body need today?",
+  "What are you carrying that isn’t yours?",
+  "What would feel kind right now?",
+  "What are you proud of, even a little bit?",
+  "What’s one thing you can let go of today?",
+  "What does ‘enough’ look like for you today?",
+  "What would you say to a friend feeling this way?"
+];
+
+function updateWordCount(){
+  const words = textarea.value.trim().split(/\s+/).filter(Boolean);
+  wordCountEl.textContent = words.length + " words";
+}
+
+function save(){
+  localStorage.setItem(KEY, textarea.value);
+  saveStatusEl.textContent = "Saved";
+}
+
+function load(){
+  const saved = localStorage.getItem(KEY);
+  if(saved){
+    textarea.value = saved;
+  }
+  updateWordCount();
+}
+
+textarea.addEventListener("input", ()=>{
+  updateWordCount();
+  saveStatusEl.textContent = "Saving…";
+  setTimeout(save, 400);
+});
+
+clearBtn.addEventListener("click", ()=>{
+  if(confirm("Clear your journal entry?")){
+    textarea.value = "";
+    updateWordCount();
+    save();
+  }
+});
+
+newPromptBtn.addEventListener("click", ()=>{
+  const random = prompts[Math.floor(Math.random()*prompts.length)];
+  promptText.textContent = random;
+});
+
+load();
+</script>
+</body>
+</html>

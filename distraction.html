@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Take a break • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
+
+    <h1 class="page-title">Take a break</h1>
+    <p class="page-subtitle">Short, gentle distractions to reset your brain.</p>
+
+    <section class="section-panel">
+      <div class="grid" id="acts"></div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
+
+    const activities = [
+      { ico:"🔎", title:"Spot 5 colours", sub:"Find 5 different colours around you." },
+      { ico:"🧊", title:"Cold water", sub:"Rinse hands in cool water for 20 seconds." },
+      { ico:"📝", title:"Brain dump", sub:"Write 3 thoughts, no judgement." },
+      { ico:"🎧", title:"One song", sub:"Listen to one calming track." },
+      { ico:"🚶", title:"Tiny walk", sub:"Walk to another room and back." },
+      { ico:"🫖", title:"Make a drink", sub:"Slowly make tea or water." }
+    ];
+
+    const el = document.getElementById("acts");
+    el.innerHTML = activities.map(a => `
+      <div class="tile">
+        <div class="tile-ico">${a.ico}</div>
+        <div>
+          <p class="tile-title">${a.title}</p>
+          <p class="tile-sub">${a.sub}</p>
+        </div>
+      </div>
+    `).join("");
+  </script>
+</body>
+</html>

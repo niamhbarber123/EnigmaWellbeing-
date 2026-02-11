@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>I need calm • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
+
+    <h1 class="page-title">I need calm</h1>
+    <p class="page-subtitle">You don’t have to fix everything. Just take the next small step.</p>
+
+    <section class="section-panel">
+      <div class="grid">
+        <div class="tile">
+          <div class="tile-ico">👀</div>
+          <div>
+            <p class="tile-title">Look around</p>
+            <p class="tile-sub">Name 5 things you can see.</p>
+          </div>
+        </div>
+
+        <div class="tile">
+          <div class="tile-ico">🦶</div>
+          <div>
+            <p class="tile-title">Feel grounded</p>
+            <p class="tile-sub">Press your feet into the floor.</p>
+          </div>
+        </div>
+
+        <div class="tile">
+          <div class="tile-ico">✋</div>
+          <div>
+            <p class="tile-title">Warm hands</p>
+            <p class="tile-sub">Rub palms together slowly.</p>
+          </div>
+        </div>
+
+        <div class="tile" style="cursor:pointer;" onclick="location.href='breathe.html'">
+          <div class="tile-ico">🌬️</div>
+          <div>
+            <p class="tile-title">Breathe</p>
+            <p class="tile-sub">Start a gentle breathing cycle.</p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="sep" />
+
+      <a class="support-banner" href="resources.html">
+        <span class="badge">SOS</span>
+        <span class="banner-text">Support & resources</span>
+        <span class="banner-arrow">›</span>
+      </a>
+
+      <p class="small-note">If you feel unsafe, seek urgent help in your area.</p>
+    </section>
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+    wireBackButton();
+  </script>
+</body>
+</html>

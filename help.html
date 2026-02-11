@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get Support Now • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<main class="wrap">
+
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
+
+<h1 class="page-title">Get Support Now</h1>
+<p class="page-subtitle">Immediate help and your personal support contacts.</p>
+
+<section class="section-panel">
+
+<h2>Emergency & Crisis</h2>
+<div class="grid">
+
+<a class="tile" href="tel:999">
+  <div class="tile-ico">🚨</div>
+  <div>
+    <p class="tile-title">Emergency</p>
+    <p class="tile-sub">Call 999</p>
+  </div>
+</a>
+
+<a class="tile" href="tel:111">
+  <div class="tile-ico">📞</div>
+  <div>
+    <p class="tile-title">NHS 111</p>
+    <p class="tile-sub">Press 2 for mental health</p>
+  </div>
+</a>
+
+<a class="tile" href="https://www.samaritans.org/" target="_blank">
+  <div class="tile-ico">💛</div>
+  <div>
+    <p class="tile-title">Samaritans</p>
+    <p class="tile-sub">Call 116 123</p>
+  </div>
+</a>
+
+<a class="tile" href="https://www.shout247.com/" target="_blank">
+  <div class="tile-ico">💬</div>
+  <div>
+    <p class="tile-title">Shout</p>
+    <p class="tile-sub">Text 85258</p>
+  </div>
+</a>
+
+</div>
+
+<hr class="sep">
+
+<h2>Your Support Contacts</h2>
+
+<div class="grid" id="contactsGrid"></div>
+
+<div style="height:10px;"></div>
+
+<input id="contactName" placeholder="Name" style="width:100%;margin-bottom:8px;">
+<input id="contactNumber" placeholder="Phone number" style="width:100%;margin-bottom:8px;">
+<button class="btn" id="addContactBtn">Add Contact</button>
+
+</section>
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+const KEY = "enigma_support_contacts_v2";
+
+const grid = document.getElementById("contactsGrid");
+const nameInput = document.getElementById("contactName");
+const numberInput = document.getElementById("contactNumber");
+const addBtn = document.getElementById("addContactBtn");
+
+function getContacts(){
+  return JSON.parse(localStorage.getItem(KEY) || "[]");
+}
+
+function saveContacts(arr){
+  localStorage.setItem(KEY, JSON.stringify(arr));
+}
+
+function render(){
+  const contacts = getContacts();
+  grid.innerHTML = contacts.map((c,i)=>`
+    <div class="tile">
+      <div class="tile-ico">👤</div>
+      <div>
+        <p class="tile-title">${c.name}</p>
+        <p class="tile-sub">${c.number}</p>
+      </div>
+      <button onclick="removeContact(${i})" style="margin-left:auto;">✖</button>
+    </div>
+  `).join("");
+}
+
+window.removeContact = function(index){
+  const contacts = getContacts();
+  contacts.splice(index,1);
+  saveContacts(contacts);
+  render();
+};
+
+addBtn.addEventListener("click", ()=>{
+  if(!nameInput.value || !numberInput.value) return;
+  const contacts = getContacts();
+  contacts.push({ name:nameInput.value, number:numberInput.value });
+  saveContacts(contacts);
+  nameInput.value="";
+  numberInput.value="";
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
