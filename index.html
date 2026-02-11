@@ -8,20 +8,23 @@
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- App icon + PWA -->
-  <link rel="manifest" href="manifest.json">
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
 
-  <!-- iPhone Home Screen icon -->
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <!-- ✅ iOS Home Screen icon (this is what iPhone uses) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="./icon.png?v=15">
+  <link rel="apple-touch-icon" href="./icon.png?v=15">
 
   <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=15">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=15">
+  <link rel="icon" type="image/png" href="./icon.png?v=15">
 
-  <!-- iOS PWA settings -->
+  <!-- iOS PWA meta -->
   <meta name="theme-color" content="#f4f1ff">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Enigma">
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -34,13 +37,11 @@
 
   <main class="wrap">
 
-    <!-- Header -->
     <header style="text-align:center; margin-bottom:20px;">
       <h1 style="margin:0;">Enigma Wellbeing</h1>
       <p class="page-sub" style="margin-top:6px;">Your calm space</p>
     </header>
 
-    <!-- Right now -->
     <section class="section">
       <h2>Right now</h2>
 
@@ -57,7 +58,6 @@
       </a>
     </section>
 
-    <!-- Today -->
     <section class="section">
       <h2>Today</h2>
 
@@ -88,7 +88,6 @@
       </div>
     </section>
 
-    <!-- Explore -->
     <section class="section">
       <h2>Explore</h2>
 
@@ -119,7 +118,6 @@
       </div>
     </section>
 
-    <!-- Your Space -->
     <section class="section">
       <h2>Your space</h2>
 
@@ -133,7 +131,7 @@
 
   </main>
 
-  <!-- Register service worker -->
+  <!-- Register SW -->
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
@@ -148,6 +146,5 @@
     applySavedPreferences();
     wireThemeButton();
   </script>
-
 </body>
 </html>
