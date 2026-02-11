@@ -1,141 +1,154 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Help • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Help • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    /* Calm, less shouty (page-only) */
+    .page-title{ font-weight:600; }
+    .page-sub{ font-weight:500; opacity:.72; line-height:1.5; }
+
+    .tile-sub{
+      margin:2px 0 0;
+      font-size:13px;
+      font-weight:500;
+      opacity:.72;
+      line-height:1.35;
+    }
+
+    .tile{ align-items:flex-start; min-height: 96px; }
+    .tile .ico{ margin-top:2px; }
+
+    .soft-note{
+      margin:0;
+      font-size:13px;
+      font-weight:500;
+      opacity:.72;
+      line-height:1.5;
+      color: var(--muted);
+    }
+
+    .callout{
+      border-radius: 20px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.55);
+      padding: 12px;
+      box-shadow: var(--shadow2);
+    }
+    body.dark .callout{ background: rgba(255,255,255,.07); }
+
+    .callout h3{
+      margin:0 0 6px;
+      font-size:14px;
+      font-weight:600;
+      opacity:.9;
+    }
+    .callout p{
+      margin:0;
+      font-size:13px;
+      font-weight:500;
+      opacity:.75;
+      line-height:1.5;
+    }
+  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
+
   <main class="wrap">
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
+      <a class="back" href="index.html">←</a>
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
     <h1 class="page-title">Help</h1>
-    <p class="page-sub">UK support options. If in danger call 999.</p>
+    <p class="page-sub">If you need support, you deserve it. Pick what feels easiest.</p>
 
     <section class="card">
-      <h2 style="margin:0 0 10px;">Urgent</h2>
 
-      <div class="full">
-        <div class="quote-tile">
-          <div class="quote-text">🚨 Emergency: call 999</div>
-          <div class="quote-meta">If you or someone else is at immediate risk.</div>
-        </div>
-
-        <a class="quote-tile" href="tel:111">
-          <div class="quote-text">☎️ NHS 111</div>
-          <div class="quote-meta">Non-emergency medical help.</div>
-        </a>
-
-        <a class="quote-tile" href="tel:116123">
-          <div class="quote-text">💚 Samaritans — 116 123</div>
-          <div class="quote-meta">24/7 listening support.</div>
-        </a>
-
-        <a class="quote-tile" href="sms:85258">
-          <div class="quote-text">💬 SHOUT — text 85258</div>
-          <div class="quote-meta">Free 24/7 text support (UK).</div>
-        </a>
-
-        <a class="quote-tile" target="_blank" rel="noopener" href="https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline">
-          <div class="quote-text">🧠 Find urgent mental health helpline</div>
-          <div class="quote-meta">NHS urgent support by area.</div>
-        </a>
+      <div class="callout">
+        <h3>Immediate danger</h3>
+        <p>If you or someone else is in immediate danger, call <strong style="font-weight:600;">999</strong> or go to A&amp;E.</p>
       </div>
 
-      <hr class="sep">
+      <div style="height:12px;"></div>
 
-      <h2 style="margin:0 0 10px;">Your contacts</h2>
-      <div class="full" id="contacts"></div>
+      <div class="grid">
 
-      <div style="height:10px;"></div>
+        <a class="tile" href="tel:999">
+          <div class="ico">🚨</div>
+          <div>
+            <div class="label small">Call 999</div>
+            <div class="tile-sub">Emergency services (UK).</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
 
-      <label style="font-weight:900;opacity:.7;font-size:12px;">Add a contact</label>
-      <input id="name" placeholder="Name (e.g. Mum)">
-      <div style="height:8px;"></div>
-      <input id="phone" placeholder="Phone (e.g. 07...)">
+        <a class="tile" href="tel:111">
+          <div class="ico">🩺</div>
+          <div>
+            <div class="label small">Call 111</div>
+            <div class="tile-sub">Urgent medical help and advice (UK).</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
 
-      <div style="height:10px;"></div>
-      <div class="btn-row">
-        <button class="btn primary" id="addBtn" type="button">Add</button>
-        <button class="btn" id="clearBtn" type="button">Clear</button>
+        <a class="tile" href="https://www.samaritans.org/how-we-can-help/contact-samaritan/" target="_blank" rel="noopener">
+          <div class="ico">☎️</div>
+          <div>
+            <div class="label small">Samaritans</div>
+            <div class="tile-sub">24/7 listening support.</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline" target="_blank" rel="noopener">
+          <div class="ico">🏥</div>
+          <div>
+            <div class="label small">NHS urgent mental health helpline</div>
+            <div class="tile-sub">Find your local crisis line (UK).</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.nhs.uk/mental-health/get-urgent-help-for-mental-health/" target="_blank" rel="noopener">
+          <div class="ico">🫶</div>
+          <div>
+            <div class="label small">Get urgent help (NHS)</div>
+            <div class="tile-sub">What to do if you need help now.</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.nhs.uk/service-search/mental-health/find-an-nhs-talking-therapies-service/" target="_blank" rel="noopener">
+          <div class="ico">💬</div>
+          <div>
+            <div class="label small">NHS Talking Therapies</div>
+            <div class="tile-sub">Find free therapy in your area (England).</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
       </div>
 
-      <p id="msg" style="margin:10px 0 0;color:var(--muted);font-weight:650;"></p>
+      <hr class="sep" />
+
+      <p class="soft-note">
+        If speaking feels hard, try sending a message to someone you trust — even a simple “can you talk?” is enough.
+      </p>
+
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
-
-    const KEY="enigma_help_contacts_v2";
-    const contactsEl=document.getElementById("contacts");
-    const nameEl=document.getElementById("name");
-    const phoneEl=document.getElementById("phone");
-    const msg=document.getElementById("msg");
-
-    function load(){ return JSON.parse(localStorage.getItem(KEY)||"[]"); }
-    function save(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
-
-    function render(){
-      const arr=load();
-      if(!arr.length){
-        contactsEl.innerHTML = `<div class="quote-tile"><div class="quote-text">No contacts added yet.</div><div class="quote-meta">Add someone you trust.</div></div>`;
-        return;
-      }
-      contactsEl.innerHTML = arr.map((c,i)=>`
-        <div class="quote-tile" data-i="${i}">
-          <div class="quote-text">👤 ${c.name}</div>
-          <div class="quote-meta">${c.phone}</div>
-          <button class="save-fab" type="button" title="Delete">🗑️</button>
-        </div>
-      `).join("");
-
-      contactsEl.querySelectorAll(".quote-tile").forEach(tile=>{
-        const i = Number(tile.dataset.i);
-
-        tile.addEventListener("click", (e)=>{
-          if (e.target.classList.contains("save-fab")) return;
-          window.location.href = `tel:${load()[i].phone}`;
-        });
-
-        tile.querySelector(".save-fab").addEventListener("click", ()=>{
-          const arr2=load(); arr2.splice(i,1); save(arr2); render();
-        });
-      });
-    }
-
-    document.getElementById("addBtn").addEventListener("click", ()=>{
-      const name=nameEl.value.trim();
-      const phone=phoneEl.value.trim();
-      if(!name || !phone){ msg.textContent="Add a name and phone number."; return; }
-      const arr=load();
-      arr.push({ name, phone });
-      save(arr);
-      nameEl.value=""; phoneEl.value="";
-      msg.textContent="Saved.";
-      render();
-    });
-
-    document.getElementById("clearBtn").addEventListener("click", ()=>{
-      nameEl.value=""; phoneEl.value=""; msg.textContent="";
-    });
-
-    render();
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
   </script>
 </body>
 </html>
