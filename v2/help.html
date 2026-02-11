@@ -1,122 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Help • Enigma Wellbeing</title>
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260211v2a" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get Support Now • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
-<body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back to Home">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+<body>
+<main class="wrap">
 
-  <header class="page-header">
-    <h1>Need help now?</h1>
-    <p>You’re not alone — support is available</p>
-  </header>
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
 
-  <main class="page">
-    <section class="card">
-      <div class="section-title">Urgent support (UK)</div>
-      <div class="gentle-text" style="margin-top:6px;">If you feel unsafe or overwhelmed right now.</div>
+<h1 class="page-title">Get support now</h1>
+<p class="page-subtitle">If you need immediate help.</p>
 
-      <a class="link-btn" href="https://111.nhs.uk/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">NHS 111</div>
-          <div class="link-sub">Urgent medical or mental health advice.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
+<section class="section-panel">
+<div class="grid">
 
-      <a class="link-btn" href="https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">Urgent mental health helplines</div>
-          <div class="link-sub">Crisis teams and local services.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
+<a class="tile" href="tel:999">
+  <div class="tile-ico">🚨</div>
+  <div>
+    <p class="tile-title">Emergency</p>
+    <p class="tile-sub">Call 999</p>
+  </div>
+</a>
 
-      <a class="link-btn" href="https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/suicidal-feelings/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">Suicidal feelings</div>
-          <div class="link-sub">Immediate NHS guidance.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
+<a class="tile" href="tel:111">
+  <div class="tile-ico">📞</div>
+  <div>
+    <p class="tile-title">NHS 111</p>
+    <p class="tile-sub">Press 2 for mental health support</p>
+  </div>
+</a>
 
-      <div class="gentle-text" style="margin-top:12px; font-weight:900;">
-        If you are in immediate danger, call <strong>999</strong>.
-      </div>
-    </section>
+<a class="tile" href="https://www.samaritans.org/" target="_blank">
+  <div class="tile-ico">💛</div>
+  <div>
+    <p class="tile-title">Samaritans</p>
+    <p class="tile-sub">Call 116 123</p>
+  </div>
+</a>
 
-    <section class="card">
-      <div class="section-title">24/7 helplines (UK)</div>
+<a class="tile" href="https://www.shout247.com/" target="_blank">
+  <div class="tile-ico">💬</div>
+  <div>
+    <p class="tile-title">Shout</p>
+    <p class="tile-sub">Text 85258</p>
+  </div>
+</a>
 
-      <a class="link-btn" href="https://www.samaritans.org/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">Samaritans</div>
-          <div class="link-sub">Call 116 123 • 24/7 emotional support.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
+</div>
+</section>
 
-      <a class="link-btn" href="https://giveusashout.org/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">Shout</div>
-          <div class="link-sub">Text 85258 • free, confidential support.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
+</main>
 
-      <a class="link-btn" href="https://www.papyrus-uk.org/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">PAPYRUS HOPELINE247</div>
-          <div class="link-sub">Under 35s • Call 0800 068 4141.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+</script>
 
-      <a class="link-btn" href="https://andysmanclub.co.uk/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">Andy’s Man Club</div>
-          <div class="link-sub">Men’s suicide prevention • free peer support groups.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-    </section>
-
-    <section class="card">
-      <div class="section-title">More UK support</div>
-
-      <a class="link-btn" href="https://www.mind.org.uk/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">Mind</div>
-          <div class="link-sub">Advice and support for mental health.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <a class="link-btn" href="https://www.youngminds.org.uk/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">YoungMinds</div>
-          <div class="link-sub">Support for young people and parents.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-
-      <a class="link-btn" href="https://www.rethink.org/" target="_blank" rel="noopener">
-        <div>
-          <div class="link-title">Rethink Mental Illness</div>
-          <div class="link-sub">Information and support services.</div>
-        </div>
-        <div class="link-arrow">→</div>
-      </a>
-    </section>
-  </main>
-
-  <script src="app.js?v=20260211v2a" defer></script>
 </body>
 </html>
