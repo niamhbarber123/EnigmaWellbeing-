@@ -1,43 +1,104 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Daily word • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Word • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.word-card{
+  text-align:center;
+  padding:28px 20px;
+  border-radius:22px;
+  background:var(--panel);
+  border:1px solid var(--stroke);
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+  transition:all .3s ease;
+}
+
+.word-main{
+  font-size:32px;
+  font-weight:900;
+  margin:0 0 8px;
+}
+
+.word-meaning{
+  font-size:15px;
+  color:var(--muted);
+  font-weight:700;
+  margin:0;
+}
+
+.small-card{
+  border-radius:18px;
+  background:rgba(255,255,255,.45);
+  border:1px solid var(--stroke);
+  padding:14px;
+  margin-top:12px;
+}
+
+body.dark .small-card{
+  background:rgba(255,255,255,.06);
+}
+
+.fade{
+  animation:fadeIn .3s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(5px);}
+  to{opacity:1; transform:translateY(0);}
+}
+</style>
 </head>
+
 <body>
-  <main class="wrap">
-    <div class="header">
-      <a class="back-btn" href="index.html" data-back>← Back</a>
-      <div class="header-center"></div>
-      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
-    </div>
+<main class="wrap">
 
-    <h1 class="page-title">Daily word</h1>
-    <p class="page-subtitle">A small focus for today. (It changes daily.)</p>
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
 
-    <section class="section-panel">
-      <div class="tile" id="wordTile">
-        <div class="tile-ico">✨</div>
-        <div>
-          <p class="tile-title" id="word">—</p>
-          <p class="tile-sub" id="meaning">—</p>
-        </div>
-      </div>
+<h1 class="page-title">Daily Word</h1>
+<p class="page-subtitle">A gentle focus for today.</p>
 
-      <div style="height:12px;"></div>
-      <button class="btn" id="newBtn">Pick a new word</button>
-      <p class="small-note">Tip: try using the word in a sentence today.</p>
-    </section>
-  </main>
+<section class="section-panel">
 
-  <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton();
+<div class="word-card fade" id="todayCard">
+  <p class="word-main" id="todayWord">—</p>
+  <p class="word-meaning" id="todayMeaning">—</p>
+</div>
 
-    const WORDS = [
-      const words = [
+<div class="btn-row">
+  <button class="btn" id="newBtn">New word</button>
+  <button class="btn" id="saveBtn">Save</button>
+</div>
+
+<p class="small-note" id="saveStatus"></p>
+
+<hr class="sep">
+
+<h2>Yesterday</h2>
+<div class="small-card">
+  <p class="word-main" style="font-size:22px;" id="yesterdayWord">—</p>
+  <p class="word-meaning" id="yesterdayMeaning">—</p>
+</div>
+
+</section>
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+/* === YOUR EXACT WORD LIST === */
+const words = [
   { w:"Gentle", m:"Soft, kind, not forced." },
   { w:"Steady", m:"Stable and grounded." },
   { w:"Release", m:"Let tension soften." },
@@ -50,7 +111,6 @@
   { w:"Balance", m:"Not too much, not too little." },
   { w:"Presence", m:"Here, not ahead." },
   { w:"Trust", m:"Belief in your own strength." },
-
   { w:"Reset", m:"Begin again, softly." },
   { w:"Clarity", m:"Seeing without overwhelm." },
   { w:"Grounded", m:"Connected to the present moment." },
@@ -101,48 +161,89 @@
   { w:"Rooted", m:"Grounded and steady." }
 ];
 
-    const KEY = "enigma_daily_word_v2";
+const STORAGE_KEY = "enigma_daily_words_v4";
+const SAVED_KEY = "enigma_saved_words_v2";
 
-    const wEl = document.getElementById("word");
-    const mEl = document.getElementById("meaning");
-    const newBtn = document.getElementById("newBtn");
+function dateKey(offset=0){
+  const d = new Date();
+  d.setDate(d.getDate()+offset);
+  return d.toISOString().split("T")[0];
+}
 
-    function todayKey(){
-      const d = new Date();
-      return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-    }
+function getData(){
+  return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+}
 
-    function pick(){
-      return WORDS[Math.floor(Math.random()*WORDS.length)];
-    }
+function saveData(obj){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+}
 
-    function load(){
-      const raw = localStorage.getItem(KEY);
-      const t = todayKey();
-      if (raw){
-        try{
-          const data = JSON.parse(raw);
-          if (data.day === t){
-            wEl.textContent = data.word.w;
-            mEl.textContent = data.word.m;
-            return;
-          }
-        }catch{}
-      }
-      const word = pick();
-      localStorage.setItem(KEY, JSON.stringify({ day:t, word }));
-      wEl.textContent = word.w;
-      mEl.textContent = word.m;
-    }
+function pickRandom(excludeWord){
+  const filtered = words.filter(w => w.w !== excludeWord);
+  return filtered[Math.floor(Math.random()*filtered.length)];
+}
 
-    newBtn.addEventListener("click", ()=>{
-      const word = pick();
-      localStorage.setItem(KEY, JSON.stringify({ day: todayKey(), word }));
-      wEl.textContent = word.w;
-      mEl.textContent = word.m;
-    });
+function loadWord(){
+  const data = getData();
+  const today = dateKey(0);
+  const yesterday = dateKey(-1);
 
-    load();
-  </script>
+  if(!data[today]){
+    const yesterdayWord = data[yesterday]?.w;
+    data[today] = pickRandom(yesterdayWord);
+    saveData(data);
+  }
+
+  const todayWord = data[today];
+  const yesterdayWord = data[yesterday];
+
+  document.getElementById("todayWord").textContent = todayWord.w;
+  document.getElementById("todayMeaning").textContent = todayWord.m;
+
+  if(yesterdayWord){
+    document.getElementById("yesterdayWord").textContent = yesterdayWord.w;
+    document.getElementById("yesterdayMeaning").textContent = yesterdayWord.m;
+  } else {
+    document.getElementById("yesterdayWord").textContent = "—";
+    document.getElementById("yesterdayMeaning").textContent = "No word recorded.";
+  }
+
+  updateSaveButton();
+}
+
+function updateSaveButton(){
+  const saved = JSON.parse(localStorage.getItem(SAVED_KEY) || "[]");
+  const current = document.getElementById("todayWord").textContent;
+  const btn = document.getElementById("saveBtn");
+
+  btn.textContent = saved.includes(current) ? "Unsave" : "Save";
+}
+
+document.getElementById("newBtn").addEventListener("click", ()=>{
+  const data = getData();
+  const today = dateKey(0);
+  const yesterdayWord = data[dateKey(-1)]?.w;
+  data[today] = pickRandom(yesterdayWord);
+  saveData(data);
+  loadWord();
+});
+
+document.getElementById("saveBtn").addEventListener("click", ()=>{
+  const saved = JSON.parse(localStorage.getItem(SAVED_KEY) || "[]");
+  const current = document.getElementById("todayWord").textContent;
+
+  if(saved.includes(current)){
+    const updated = saved.filter(w => w !== current);
+    localStorage.setItem(SAVED_KEY, JSON.stringify(updated));
+  } else {
+    saved.push(current);
+    localStorage.setItem(SAVED_KEY, JSON.stringify(saved));
+  }
+
+  updateSaveButton();
+});
+
+loadWord();
+</script>
 </body>
 </html>
