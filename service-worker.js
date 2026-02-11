@@ -1,8 +1,12 @@
 /* service-worker.js — Enigma Wellbeing
-   Purpose: offline caching + update cleanly when you change files
+   Amendments included:
+   1) Cache-busting version you can bump to force updates.
+   2) Network-first for HTML so your pages update properly.
+   3) Stale-while-revalidate for CSS/JS/images for speed.
 */
 
-const CACHE_NAME = "enigma-wellbeing-cache-v7"; // 👈 bump this number to force updates
+const CACHE_NAME = "enigma-wellbeing-cache-v9"; // 👈 bump this each time you want to force refresh
+
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -11,7 +15,6 @@ const CORE_ASSETS = [
   "./manifest.json",
   "./icon.png",
 
-  // Pages (add/remove if your repo differs)
   "./breathe.html",
   "./overwhelmed.html",
   "./checkin.html",
@@ -29,7 +32,6 @@ const CORE_ASSETS = [
   "./progress.html"
 ];
 
-// Install: cache core assets
 self.addEventListener("install", (event) => {
   self.skipWaiting();
   event.waitUntil(
@@ -37,72 +39,53 @@ self.addEventListener("install", (event) => {
   );
 });
 
-// Activate: remove old caches
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    (async () => {
-      const keys = await caches.keys();
-      await Promise.all(
-        keys.map((key) => (key !== CACHE_NAME ? caches.delete(key) : null))
-      );
-      await self.clients.claim();
-    })()
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)));
+    await self.clients.claim();
+  })());
 });
 
-// Fetch strategy:
-// - HTML: network-first (so pages update)
-// - CSS/JS/Images: stale-while-revalidate (fast, but updates in background)
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // Only handle same-origin requests
   if (url.origin !== self.location.origin) return;
 
-  // If navigating to a page (HTML), prefer fresh network
-  const isHTML =
-    req.mode === "navigate" ||
-    (req.headers.get("accept") || "").includes("text/html") ||
-    url.pathname.endsWith(".html");
+  const accept = req.headers.get("accept") || "";
+  const isHTML = req.mode === "navigate" || accept.includes("text/html") || url.pathname.endsWith(".html");
 
   if (isHTML) {
     event.respondWith(networkFirst(req));
     return;
   }
 
-  // For static assets
   const isStatic =
     url.pathname.endsWith(".css") ||
-    url.pathname.endsWith(".js") ||
+    url.pathname.endsWith(".js")  ||
     url.pathname.endsWith(".png") ||
     url.pathname.endsWith(".jpg") ||
-    url.pathname.endsWith(".jpeg") ||
+    url.pathname.endsWith(".jpeg")||
     url.pathname.endsWith(".svg") ||
-    url.pathname.endsWith(".webp") ||
+    url.pathname.endsWith(".webp")||
     url.pathname.endsWith(".ico") ||
     url.pathname.endsWith(".json");
 
-  if (isStatic) {
-    event.respondWith(staleWhileRevalidate(req));
-    return;
-  }
-
-  // Default fallback
-  event.respondWith(staleWhileRevalidate(req));
+  event.respondWith(isStatic ? staleWhileRevalidate(req) : staleWhileRevalidate(req));
 });
 
 async function networkFirst(request) {
   const cache = await caches.open(CACHE_NAME);
+
   try {
     const fresh = await fetch(request);
-    // Cache a copy
     cache.put(request, fresh.clone());
     return fresh;
   } catch (err) {
     const cached = await cache.match(request);
     if (cached) return cached;
-    // Fallback to cached home if a page is missing
+
     const fallback = await cache.match("./index.html");
     return fallback || new Response("Offline", { status: 503 });
   }
@@ -119,6 +102,5 @@ async function staleWhileRevalidate(request) {
     })
     .catch(() => null);
 
-  // Return cached immediately if available; otherwise wait for network
   return cached || (await fetchPromise) || new Response("Offline", { status: 503 });
 }
