@@ -1,3 +1,8 @@
+/* =========================================
+   Enigma Wellbeing — Calm Home (smaller tiles)
+   Watermark: icon.png
+   ========================================= */
+
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 
@@ -13,59 +18,63 @@ body.dark{
   background: linear-gradient(180deg,#1f1a29 0%, #1b1724 100%);
 }
 
-/* ICON WATERMARK (uses icon.png in repo root) */
+/* Icon watermark behind everything */
 .watermark{
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
+
   background-image: url("icon.png");
   background-repeat: no-repeat;
   background-position: center 55%;
   background-size: 420px;
-  opacity: .08;
+  opacity: .07;
   filter: blur(0.3px);
 }
-body.dark .watermark{ opacity: .14; }
+body.dark .watermark{ opacity: .12; }
 
+/* Page layout */
 .wrap{
   max-width: 520px;
   margin: 0 auto;
-  padding: 20px 14px 40px;
+  padding: 18px 14px 36px;
   position: relative;
   z-index: 1;
 }
 
-/* Header */
+/* Header (less shouty) */
 .header{
   text-align:center;
   position:relative;
-  padding-bottom: 10px;
+  padding: 8px 0 6px;
 }
 .header h1{
-  font-size: 46px;
+  font-size: 40px;     /* smaller than before */
   font-weight: 900;
-  margin: 12px 0 4px;
+  margin: 10px 0 4px;
   line-height: 1.05;
+  letter-spacing: .1px;
 }
 .header p{
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;     /* calmer subtitle */
   font-weight: 600;
-  opacity: .6;
+  opacity: .55;
 }
 
+/* Moon toggle */
 .moon{
   position:absolute;
   right: 0;
-  top: 10px;
-  width: 46px;
-  height: 46px;
+  top: 8px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
   border: none;
-  background: rgba(255,255,255,.75);
-  box-shadow: 0 20px 50px rgba(50,30,90,.15);
-  cursor:pointer;
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 18px 44px rgba(50,30,90,.12);
+  cursor: pointer;
   font-size: 18px;
 }
 body.dark .moon{
@@ -73,61 +82,84 @@ body.dark .moon{
   color: white;
 }
 
-/* Sections */
+/* Section titles */
 .section h2{
-  font-size: 22px;
+  font-size: 20px;     /* smaller */
   font-weight: 800;
-  margin: 20px 0 12px;
+  margin: 18px 0 10px;
+  opacity: .88;
 }
 
-/* Wide tiles */
+/* Wide tiles (Right now) — slightly smaller */
 .wide{
   display:flex;
   align-items:center;
-  gap:14px;
-  padding:18px;
-  border-radius:26px;
-  margin-bottom:14px;
+  gap:12px;
+  padding:14px 14px;     /* smaller */
+  border-radius:24px;
+  margin-bottom:12px;
   text-decoration:none;
   color:inherit;
-  box-shadow: 0 20px 50px rgba(50,30,90,.12);
+
+  box-shadow: 0 16px 40px rgba(50,30,90,.10);
   border: 1px solid rgba(30,20,60,.08);
 }
-.cool{ background: linear-gradient(90deg,rgba(200,186,255,.45),rgba(255,255,255,.62)); }
-.warm{ background: linear-gradient(90deg,rgba(255,210,225,.40),rgba(255,255,255,.62)); }
 
+.cool{
+  background: linear-gradient(90deg,rgba(200,186,255,.38),rgba(255,255,255,.62));
+}
+.warm{
+  background: linear-gradient(90deg,rgba(255,210,225,.34),rgba(255,255,255,.62));
+}
+
+body.dark .wide{
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.12);
+}
+
+/* Common icon bubble */
 .ico{
-  width:46px;
-  height:46px;
-  border-radius:18px;
-  background: rgba(255,255,255,.70);
+  width:42px;
+  height:42px;
+  border-radius:16px;
+  background: rgba(255,255,255,.68);
   border: 1px solid rgba(30,20,60,.08);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:20px;
+  font-size:18px;
 }
+
+body.dark .ico{
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.12);
+}
+
+/* Labels */
 .label{
-  font-size:24px;
-  font-weight:800;
+  font-size: 22px;  /* reduced */
+  font-weight: 800;
 }
 .label.small{
-  font-size:18px;
-  font-weight:700;
+  font-size: 16px;  /* reduced */
+  font-weight: 700;
+  line-height: 1.1;
 }
+
+/* Chevron arrows */
 .arrow{
   margin-left:auto;
-  font-size:28px;
-  opacity:.4;
+  font-size:26px;
+  opacity:.35;
   font-weight:900;
 }
 .arrow.small{ font-size:22px; }
 
-/* Grid tiles */
+/* Grid tiles — smaller like screenshot #2 */
 .grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap:14px;
+  gap:12px;
 }
 @media (max-width:380px){
   .grid{ grid-template-columns: 1fr; }
@@ -137,24 +169,91 @@ body.dark .moon{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:16px;
-  border-radius:24px;
-  background: rgba(255,255,255,.75);
+  padding:14px;
+  border-radius:22px;
+  background: rgba(255,255,255,.74);
   border: 1px solid rgba(30,20,60,.08);
-  box-shadow: 0 16px 40px rgba(50,30,90,.10);
+  box-shadow: 0 14px 34px rgba(50,30,90,.09);
   text-decoration:none;
   color:inherit;
-  min-height:84px;
+  min-height:76px; /* smaller */
 }
-
-body.dark .wide,
 body.dark .tile{
   background: rgba(255,255,255,.08);
   border-color: rgba(255,255,255,.12);
 }
-body.dark .ico{
-  background: rgba(255,255,255,.10);
+
+/* Your space pills (requested) */
+.pill-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.pill{
+  flex:1;
+  min-width: 145px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  padding: 11px 12px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,.74);
+  border: 1px solid rgba(30,20,60,.08);
+  box-shadow: 0 12px 28px rgba(50,30,90,.09);
+
+  font-weight: 800;
+  text-decoration:none;
+  color:inherit;
+}
+.pill span{ opacity:.9; }
+
+body.dark .pill{
+  background: rgba(255,255,255,.08);
   border-color: rgba(255,255,255,.12);
 }
 
+/* Support banner */
+.support-banner{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding: 12px 12px;
+  border-radius: 22px;
+
+  background: linear-gradient(90deg, rgba(206,188,255,.45), rgba(255,205,224,.28));
+  border: 1px solid rgba(30,20,60,.06);
+  box-shadow: 0 16px 40px rgba(50,30,90,.10);
+
+  text-decoration:none;
+  color:inherit;
+}
+body.dark .support-banner{
+  background: linear-gradient(90deg, rgba(206,188,255,.16), rgba(255,205,224,.10));
+  border-color: rgba(255,255,255,.12);
+}
+
+.sos{
+  width:42px;
+  height:30px;
+  border-radius: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(220,55,70,.14);
+  border: 1px solid rgba(220,55,70,.20);
+  font-weight: 900;
+}
+
+.support-text{
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* Tap feedback */
 a:active{ transform: translateY(1px); }
