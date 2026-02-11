@@ -4,94 +4,93 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Overwhelmed • Enigma Wellbeing</title>
-
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Page-only calming (no layout changes) -->
+  <style>
+    .page-title{ font-weight:600; }
+    .page-sub{ font-weight:500; opacity:.7; }
+    details.folder summary{ font-weight:600; }
+    .folder-sub{ font-weight:500; line-height:1.55; }
+    .btn{ font-weight:600; }
+  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
+  <!-- keep moon consistent everywhere -->
+  <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+
   <main class="wrap">
 
     <div class="topbar">
       <a class="back" href="index.html">← Back</a>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <div></div>
     </div>
 
-    <h1 class="page-title" style="font-weight:600;">Feeling overwhelmed</h1>
-    <p class="page-sub" style="font-weight:500;">
-      Let’s slow this down together.
-    </p>
+    <h1 class="page-title">Feeling overwhelmed</h1>
+    <p class="page-sub">Let’s make this smaller and softer, one step at a time.</p>
 
     <section class="card">
 
-      <!-- Tool 1 -->
       <details class="folder" open>
-        <summary class="folder-title">🌿 1. Slow your breathing</summary>
+        <summary class="folder-title">🌿 Slow your breathing</summary>
         <div class="folder-sub">
-          Try 4 seconds in, 6 seconds out. Longer exhales calm your nervous system.
+          Try a longer exhale: breathe in gently, breathe out a little slower.
         </div>
         <div style="margin-top:10px;">
-          <a class="btn primary" href="breathe.html">Start breathing</a>
+          <a class="btn primary" href="breathe.html" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Start breathing</a>
         </div>
       </details>
 
       <hr class="sep">
 
-      <!-- Tool 2 -->
       <details class="folder">
-        <summary class="folder-title">🖐 2. 5–4–3–2–1 grounding</summary>
+        <summary class="folder-title">🖐 5–4–3–2–1 grounding</summary>
         <div class="folder-sub">
-          Name:
-          <br>5 things you can see  
-          <br>4 things you can feel  
-          <br>3 things you can hear  
-          <br>2 things you can smell  
-          <br>1 thing you can taste  
+          Name 5 things you can see.<br>
+          4 things you can feel.<br>
+          3 things you can hear.<br>
+          2 things you can smell.<br>
+          1 thing you can taste.
         </div>
       </details>
 
       <hr class="sep">
 
-      <!-- Tool 3 -->
       <details class="folder">
-        <summary class="folder-title">🧠 3. Reduce the list</summary>
+        <summary class="folder-title">🧠 Reduce the list</summary>
         <div class="folder-sub">
-          Ask yourself:
-          <br>• What actually needs doing today?
-          <br>• What can wait?
-          <br>• What can be done imperfectly?
+          Ask: what’s one small thing I can do first?<br>
+          What can wait?<br>
+          What can be “good enough”?
         </div>
       </details>
 
       <hr class="sep">
 
-      <!-- Tool 4 -->
       <details class="folder">
-        <summary class="folder-title">💧 4. Reset your body</summary>
+        <summary class="folder-title">💧 Reset your body</summary>
         <div class="folder-sub">
-          Drink water.  
-          Drop your shoulders.  
-          Unclench your jaw.  
-          Take one slow breath.  
+          Sip water. Drop your shoulders. Unclench your jaw.<br>
+          Take one slow breath and let your exhale soften.
         </div>
       </details>
 
       <hr class="sep">
 
-      <!-- Tool 5 -->
       <details class="folder">
-        <summary class="folder-title">🫶 5. Ask for support</summary>
+        <summary class="folder-title">🫶 Reach out</summary>
         <div class="folder-sub">
-          You don’t have to manage everything alone.
+          If you can, message someone you trust or use your support options.
         </div>
         <div style="margin-top:10px;">
-          <a class="btn" href="support.html">View support options</a>
+          <a class="btn" href="support.html" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Support options</a>
         </div>
       </details>
 
     </section>
-
   </main>
 
   <script type="module">
@@ -99,6 +98,5 @@
     applySavedTheme();
     wireThemeButton();
   </script>
-
 </body>
 </html>
