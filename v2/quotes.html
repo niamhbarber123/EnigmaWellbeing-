@@ -5,7 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kind words • Enigma Wellbeing</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Full-width quote tiles (single column) */
+    .quotes-list{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .quote-tile .tile-ico{
+      align-self:flex-start;
+      margin-top: 2px;
+    }
+    .quote-text{
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.35;
+      margin: 0;
+    }
+    .quote-hint{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 13px;
+    }
+  </style>
 </head>
+
 <body>
   <main class="wrap">
     <div class="header">
@@ -15,16 +40,16 @@
     </div>
 
     <h1 class="page-title">Kind words</h1>
-    <p class="page-subtitle">Double tap a quote to save it. Double tap again to unsave.</p>
 
     <section class="section-panel">
       <div class="btn-row">
-        <button class="btn" id="allBtn">All</button>
-        <button class="btn" id="savedBtn">Saved</button>
+        <button class="btn" id="allBtn" type="button">All</button>
+        <button class="btn" id="savedBtn" type="button">Saved</button>
       </div>
 
       <div style="height:12px;"></div>
-      <div class="grid" id="quotesGrid"></div>
+
+      <div class="quotes-list" id="quotesList"></div>
 
       <p class="small-note" id="hint"></p>
     </section>
@@ -34,70 +59,126 @@
     import { applySavedTheme, wireThemeButton, wireBackButton, onDoubleTap } from "./app.js";
     applySavedTheme(); wireThemeButton(); wireBackButton();
 
+    const SAVE_KEY = "enigma_saved_quotes_v2";
+
+    // More quotes (feel free to edit/add)
     const QUOTES = [
-      "You are doing your best with what you have.",
-      "Small steps count.",
-      "Breathe. You are safe in this moment.",
-      "Let it be gentle.",
-      "You don’t have to do it all at once.",
-      "This feeling will pass.",
+      "This moment is hard — and you are still here.",
+      "Small steps still count.",
+      "You don’t have to do it all today.",
+      "Breathe. Shoulders down. Jaw soft.",
       "One thing at a time.",
-      "You’ve made it through hard days before."
+      "You are allowed to rest.",
+      "If all you did today was survive, that’s enough.",
+      "You can start again at any moment.",
+      "Slow is still moving.",
+      "You don’t need to earn kindness.",
+      "Be gentle with yourself — you’re learning.",
+      "You have handled hard days before.",
+      "Feelings are visitors — they come and go.",
+      "Right now, choose the next small step.",
+      "Your best looks different every day.",
+      "You are not behind — you are human.",
+      "You can take up space and still be loved.",
+      "It’s okay to pause.",
+      "It’s okay to not be okay.",
+      "You don’t need to have all the answers.",
+      "You are doing better than you think.",
+      "Let your breath bring you back.",
+      "Progress can be quiet.",
+      "You can be brave and tired at the same time.",
+      "You deserve peace, even on messy days.",
+      "You don’t have to carry this alone.",
+      "Not everything needs fixing right now.",
+      "Your feelings make sense.",
+      "You’re allowed to take it slow.",
+      "Try again, gently.",
+      "You are not a burden.",
+      "Softness is strength.",
+      "You don’t need permission to rest.",
+      "Even a tiny win is a win.",
+      "You can do hard things — slowly.",
+      "You are worthy of care.",
+      "Let today be lighter.",
+      "Inhale: you are safe enough. Exhale: let go.",
+      "You can choose calm, one breath at a time.",
+      "You are allowed to ask for help.",
+      "You are more than what you’re feeling.",
+      "Your pace is valid.",
+      "There is no rush.",
+      "You can take breaks without quitting.",
+      "You can make space for yourself.",
+      "Some days, “good enough” is perfect.",
+      "You are not failing — you are healing.",
+      "This is a chapter, not the whole story.",
+      "You are allowed to change your mind.",
+      "You don’t have to be productive to be valuable.",
+      "It’s okay to need comfort.",
+      "Choose softness where you can.",
+      "You can come back to yourself.",
+      "The next breath is waiting for you.",
+      "You are doing the best you can with what you have.",
+      "You can start small and still get somewhere.",
+      "You are allowed to feel proud.",
+      "You are allowed to feel tired."
     ];
 
-    const SAVE_KEY = "enigma_saved_quotes_v2";
-    const grid = document.getElementById("quotesGrid");
-    const hint = document.getElementById("hint");
+    function getSaved(){
+      try { return new Set(JSON.parse(localStorage.getItem(SAVE_KEY) || "[]")); }
+      catch { return new Set(); }
+    }
 
+    function setSaved(set){
+      localStorage.setItem(SAVE_KEY, JSON.stringify([...set]));
+    }
+
+    const listEl = document.getElementById("quotesList");
+    const hintEl = document.getElementById("hint");
     const allBtn = document.getElementById("allBtn");
     const savedBtn = document.getElementById("savedBtn");
 
     let filter = "all";
 
-    function getSaved(){
-      try{ return new Set(JSON.parse(localStorage.getItem(SAVE_KEY) || "[]")); }
-      catch{ return new Set(); }
-    }
-    function setSaved(set){
-      localStorage.setItem(SAVE_KEY, JSON.stringify([...set]));
-    }
-
     function render(){
       const saved = getSaved();
-      const list = (filter === "saved")
+      const items = (filter === "saved")
         ? QUOTES.filter(q => saved.has(q))
         : QUOTES.slice();
 
-      grid.innerHTML = list.map(q => `
+      if(filter === "saved" && items.length === 0){
+        listEl.innerHTML = "";
+        hintEl.textContent = "No saved quotes yet. Go to All and double tap one.";
+        return;
+      }
+
+      hintEl.textContent = "";
+
+      listEl.innerHTML = items.map(q => `
         <div class="tile quote-tile" data-quote="${encodeURIComponent(q)}" style="cursor:pointer;">
           <div class="tile-ico">💬</div>
-          <div>
-            <p class="tile-title" style="font-size:16px; font-weight:900; margin:0;">${q}</p>
-            <p class="tile-sub" style="margin-top:8px;">Double tap to save/unsave</p>
+          <div style="width:100%;">
+            <p class="quote-text">${q}</p>
+            <p class="quote-hint">Double tap to save / unsave</p>
           </div>
           <div class="save-indicator" aria-hidden="true">${saved.has(q) ? "❤️" : "🤍"}</div>
         </div>
       `).join("");
 
-      [...grid.querySelectorAll("[data-quote]")].forEach(tile=>{
+      [...listEl.querySelectorAll("[data-quote]")].forEach(tile=>{
         const q = decodeURIComponent(tile.dataset.quote);
         onDoubleTap(tile, ()=>{
           const s = getSaved();
-          if (s.has(q)) s.delete(q);
+          if(s.has(q)) s.delete(q);
           else s.add(q);
           setSaved(s);
-          hint.textContent = s.has(q) ? "Saved." : "Unsaved.";
+          hintEl.textContent = s.has(q) ? "Saved." : "Unsaved.";
           render();
         });
       });
-
-      if (filter === "saved" && list.length === 0){
-        hint.textContent = "No saved quotes yet. Go to All and double tap one.";
-      }
     }
 
-    allBtn.addEventListener("click", ()=>{ filter="all"; hint.textContent=""; render(); });
-    savedBtn.addEventListener("click", ()=>{ filter="saved"; hint.textContent=""; render(); });
+    allBtn.addEventListener("click", ()=>{ filter="all"; render(); });
+    savedBtn.addEventListener("click", ()=>{ filter="saved"; render(); });
 
     render();
   </script>
