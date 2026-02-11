@@ -1,52 +1,42 @@
-/* =========================
-   Enigma Wellbeing v2 app.js
-   - Night mode toggle (persists)
-   - Back button helper
-   - Double-tap helper
-   ========================= */
+// Enigma Wellbeing — shared helpers (root)
 
 const THEME_KEY = "enigma_theme_v2";
 
 export function applySavedTheme() {
-  const saved = localStorage.getItem(THEME_KEY);
-  if (saved === "dark") document.body.classList.add("dark");
-}
-
-export function toggleTheme() {
-  document.body.classList.toggle("dark");
-  localStorage.setItem(THEME_KEY, document.body.classList.contains("dark") ? "dark" : "light");
+  const t = localStorage.getItem(THEME_KEY);
+  document.body.classList.toggle("dark", t === "dark");
 }
 
 export function wireThemeButton() {
   const btn = document.querySelector("[data-theme-toggle]");
   if (!btn) return;
-  btn.addEventListener("click", toggleTheme);
+
+  btn.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark");
+    localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
+  });
 }
 
 export function wireBackButton() {
-  const back = document.querySelector("[data-back]");
-  if (!back) return;
-  back.addEventListener("click", (e) => {
-    e.preventDefault();
-    // If there is history, go back. Otherwise go home.
-    if (window.history.length > 1) window.history.back();
-    else window.location.href = "index.html";
+  const el = document.querySelector("[data-back]");
+  if (!el) return;
+
+  el.addEventListener("click", (e) => {
+    if (history.length > 1) {
+      e.preventDefault();
+      history.back();
+    }
   });
 }
 
-/* Double tap/click helper for mobile + desktop */
-export function onDoubleTap(el, fn, thresholdMs = 320) {
-  let last = 0;
-  el.addEventListener("click", () => {
-    const now = Date.now();
-    if (now - last < thresholdMs) fn();
-    last = now;
-  });
-}
+export function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
 
-/* Simple format mm:ss */
-export function fmt(seconds) {
-  const m = String(Math.floor(seconds / 60)).padStart(2, "0");
-  const s = String(seconds % 60).padStart(2, "0");
-  return `${m}:${s}`;
+  window.addEventListener("load", async () => {
+    try {
+      await navigator.serviceWorker.register("./service-worker.js", { scope: "./" });
+    } catch {
+      // silent
+    }
+  });
 }
