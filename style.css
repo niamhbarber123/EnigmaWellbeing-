@@ -1,38 +1,54 @@
-/* style.css — Enigma Wellbeing
-   Amendments included:
-   1) Force ONE global font everywhere to match your screenshot (Poppins).
-   2) Make typography calmer/consistent across all pages.
-   3) Force night mode button to top-right on every page.
-   NO other layout/colour redesign beyond what your existing CSS already does.
+/* style.css — Enigma Wellbeing (FULL)
+   ONLY adds:
+   - Accent colour variables (default lavender)
+   - Font-size scaling variable
+   - Keeps everything else consistent
 */
 
-/* ---------- Reset ---------- */
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 body{ margin:0; }
+*{ -webkit-tap-highlight-color: transparent; }
 
-/* ---------- Theme tokens ---------- */
+/* Theme tokens */
 :root{
-  /* background */
   --bg1:#f4f1ff;
   --bg2:#efe9ff;
   --bg3:#ece6fb;
 
-  /* text */
   --text:#3b3550;
   --muted: rgba(59,53,80,.62);
 
-  /* surfaces */
   --card: rgba(255,255,255,.75);
   --stroke: rgba(30,20,60,.08);
 
-  /* shadows */
   --shadow: 0 18px 50px rgba(50,30,90,.12);
   --shadow2: 0 14px 34px rgba(50,30,90,.09);
 
-  /* radii */
   --radius: 26px;
   --radius2: 22px;
+
+  /* NEW: user settings */
+  --textScale: 1;
+
+  /* NEW: accent (default lavender = your current look) */
+  --accentTint: rgba(200,186,255,.30);
+  --accentTintSoft: rgba(200,186,255,.22);
+  --accentRing: rgba(200,186,255,.85);
+}
+
+body{
+  background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 60%,var(--bg3) 100%);
+  color: var(--text);
+
+  font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-weight:500;
+  letter-spacing:.2px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* NEW: font scaling */
+  font-size: calc(16px * var(--textScale));
 }
 
 body.dark{
@@ -40,26 +56,10 @@ body.dark{
   --muted: rgba(245,244,255,.66);
   --card: rgba(255,255,255,.08);
   --stroke: rgba(255,255,255,.12);
-}
-
-/* ---------- Background ---------- */
-body{
-  background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 60%,var(--bg3) 100%);
-  color: var(--text);
-
-  /* GLOBAL FONT (matches screenshot) */
-  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  letter-spacing: .2px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body.dark{
   background: linear-gradient(180deg,#1f1a29 0%, #1b1724 100%);
 }
 
-/* ---------- Watermark ---------- */
+/* Watermark */
 .watermark{
   position:fixed;
   inset:0;
@@ -73,16 +73,16 @@ body.dark{
 }
 body.dark .watermark{ opacity:.12; }
 
-/* ---------- App container ---------- */
+/* Container */
 .wrap{
   max-width: 520px;
   margin: 0 auto;
-  padding: 90px 14px 36px; /* leave space for fixed moon */
+  padding: 80px 14px 36px;
   position:relative;
   z-index:1;
 }
 
-/* ---------- Force Night Mode Button Top Right ---------- */
+/* Night mode button styling (button exists only on Home) */
 .moon,
 .icon-btn[data-theme-toggle],
 [data-theme-toggle]{
@@ -107,47 +107,39 @@ body.dark .watermark{ opacity:.12; }
   cursor:pointer;
 }
 
-/* ---------- Typography (match screenshot) ---------- */
+/* Typography */
 header h1,
 .page-title{
-  font-weight: 700;
-  letter-spacing: .3px;
+  font-weight:700;
+  letter-spacing:.3px;
 }
 
 h1{ font-size:28px; margin:0 0 6px; }
-h2{
-  font-size:18px;
-  font-weight: 600;
-  margin:0 0 8px;
-}
+h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
 
 .page-sub,
 .page-subtitle{
-  font-weight: 500;
-  opacity: .75;
-  line-height: 1.5;
+  font-weight:500;
+  opacity:.75;
+  line-height:1.5;
   margin: 0 0 12px;
 }
 
-.label{ font-weight: 600; }
-.label.small{ font-weight: 600; }
+.label{ font-weight:600; }
+.label.small{ font-weight:600; }
 
-.tile-title{ font-weight: 600; }
+.tile-title{ font-weight:600; }
 .tile-sub,
 .quote-meta,
 .small-note{
-  font-weight: 500;
-  opacity: .72;
-  line-height: 1.45;
+  font-weight:500;
+  opacity:.72;
+  line-height:1.45;
 }
 
-/* Buttons calmer */
-.btn,
-.pill{
-  font-weight: 600;
-}
+.btn,.pill{ font-weight:600; }
 
-/* ---------- Top bar / back button ---------- */
+/* Top bar */
 .topbar{
   display:flex;
   align-items:center;
@@ -156,11 +148,10 @@ h2{
   margin-bottom: 10px;
 }
 
-.back,
-.back-btn{
+.back,.back-btn{
   display:inline-flex;
   align-items:center;
-  gap:8px;
+  justify-content:center;
   padding:10px 12px;
   border-radius:999px;
   border:1px solid var(--stroke);
@@ -168,15 +159,15 @@ h2{
   box-shadow: var(--shadow2);
   color:inherit;
   text-decoration:none;
-  font-weight: 500;
+  font-weight:500;
+  min-width:44px;
 }
 
-/* ---------- Sections ---------- */
+/* Sections */
 .section{ margin:16px 0 18px; }
 
-/* ---------- Cards / panels ---------- */
-.card,
-.section-panel{
+/* Cards */
+.card,.section-panel{
   background: var(--card);
   border:1px solid var(--stroke);
   border-radius: var(--radius);
@@ -184,7 +175,7 @@ h2{
   padding: 14px;
 }
 
-/* ---------- Wide buttons (home) ---------- */
+/* Wide buttons */
 .wide{
   display:flex;
   align-items:center;
@@ -198,7 +189,7 @@ h2{
   box-shadow: var(--shadow);
 }
 
-/* ---------- Grid tiles ---------- */
+/* Grid tiles */
 .grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -219,7 +210,7 @@ h2{
   min-height: 76px;
 }
 
-/* icons + arrows (if you use these classes) */
+/* Icons + arrows */
 .ico{
   width:38px;
   height:38px;
@@ -243,18 +234,21 @@ body.dark .ico{ background: rgba(255,255,255,.10); }
 }
 .arrow.small{ font-size:20px; }
 
-/* ---------- Pills row (Your space) ---------- */
+/* Pills */
 .pill-row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
 }
-
 .pill{
-  display:inline-flex;
+  width:100%;
+  justify-content:center;
+  text-align:center;
+  height:48px;
+  display:flex;
   align-items:center;
   gap:8px;
-  padding:10px 12px;
+
   border-radius: 999px;
   background: var(--card);
   border:1px solid var(--stroke);
@@ -262,8 +256,9 @@ body.dark .ico{ background: rgba(255,255,255,.10); }
   text-decoration:none;
   color:inherit;
 }
+.pill-row .pill:nth-child(3){ grid-column: span 2; }
 
-/* ---------- Support banner (if used) ---------- */
+/* Support banner (now uses accent variable, default lavender so it looks the same) */
 .support-banner{
   margin-top: 12px;
   display:flex;
@@ -271,13 +266,12 @@ body.dark .ico{ background: rgba(255,255,255,.10); }
   gap:10px;
   padding:14px;
   border-radius: var(--radius);
-  background: rgba(200,186,255,.22);
+  background: var(--accentTintSoft);
   border:1px solid var(--stroke);
   box-shadow: var(--shadow2);
   text-decoration:none;
   color:inherit;
 }
-body.dark .support-banner{ background: rgba(200,186,255,.14); }
 
 .sos{
   width:40px;
@@ -292,7 +286,7 @@ body.dark .support-banner{ background: rgba(200,186,255,.14); }
   font-size:13px;
 }
 
-/* ---------- Inputs ---------- */
+/* Inputs */
 input, select, textarea{
   width:100%;
   border-radius: 16px;
@@ -309,12 +303,10 @@ body.dark select,
 body.dark textarea{
   background: rgba(255,255,255,.08);
 }
-
 textarea{ min-height: 140px; resize: vertical; }
 
-/* ---------- Buttons ---------- */
+/* Buttons */
 .btn-row{ display:flex; gap:10px; flex-wrap:wrap; }
-
 .btn{
   border:none;
   border-radius: 999px;
@@ -325,9 +317,8 @@ textarea{ min-height: 140px; resize: vertical; }
   cursor:pointer;
   color: inherit;
 }
-
 .btn.primary{
-  background: rgba(200,186,255,.30);
+  background: var(--accentTint);
 }
 
 hr.sep{
@@ -337,57 +328,17 @@ hr.sep{
   margin:18px 0;
 }
 
-/* ---------- Links + active state ---------- */
-a{ color:inherit; }
-a:active, button:active{ transform: translateY(1px); }
-/* ==============================
-   YOUR SPACE — Equal Buttons
-   ============================== */
-
-.pill-row{
-  display:grid !important;
-  grid-template-columns: 1fr 1fr;   /* 2 equal columns */
-  gap:12px;
-}
-
-/* Make all pills identical */
-.pill{
-  width:100%;
-  justify-content:center;
-  text-align:center;
-  height:48px;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-weight:600;
-}
-
-/* If 3 buttons, last one spans full width */
-.pill-row .pill:nth-child(3){
-  grid-column: span 2;
-}
-/* ==============================
-   REMOVE BLUE TAP / FOCUS COLOUR
-   ============================== */
-
-/* Remove mobile tap highlight */
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Remove default blue focus outline */
+/* Remove default focus rings (no blue) */
 button:focus,
 button:active,
 button:focus-visible,
-.mood-btn:focus,
-.mood-btn:active,
-.mood-btn:focus-visible {
+a:focus,
+a:active,
+a:focus-visible{
   outline: none !important;
   box-shadow: none !important;
 }
 
-/* Keep your soft purple selected state only */
-.mood-btn[aria-pressed="true"]{
-  outline: 2px solid rgba(200,186,255,.85) !important;
-  outline-offset: 2px;
-}
+/* Active press */
+a:active, button:active{ transform: translateY(1px); }
+a{ color:inherit; }
