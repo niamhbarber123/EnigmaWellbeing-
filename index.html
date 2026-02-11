@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Enigma Wellbeing</title>
 
-  <!-- Font like screenshot -->
+  <!-- Calm rounded font (less shouty when sized down) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -28,6 +28,7 @@
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </header>
 
+    <!-- RIGHT NOW -->
     <section class="section">
       <h2>Right now</h2>
 
@@ -44,6 +45,7 @@
       </a>
     </section>
 
+    <!-- TODAY -->
     <section class="section">
       <h2>Today</h2>
 
@@ -74,6 +76,7 @@
       </div>
     </section>
 
+    <!-- EXPLORE -->
     <section class="section">
       <h2>Explore</h2>
 
@@ -104,26 +107,30 @@
       </div>
     </section>
 
+    <!-- YOUR SPACE (requested buttons) -->
+    <section class="section">
+      <h2>Your space</h2>
+
+      <div class="pill-row">
+        <a class="pill" href="progress.html">📊 <span>Progress</span></a>
+        <a class="pill" href="resources.html">🧠 <span>Resources</span></a>
+        <a class="pill" href="help.html">🆘 <span>Support</span></a>
+        <a class="pill" href="help.html">☎️ <span>Help</span></a>
+      </div>
+
+      <a class="support-banner" href="help.html">
+        <span class="sos">SOS</span>
+        <span class="support-text">Get support now</span>
+        <span class="arrow">›</span>
+      </a>
+    </section>
+
   </main>
 
-  <!-- If you already have app.js with theme toggle, keep this -->
   <script type="module">
     import { applySavedTheme, wireThemeButton } from "./app.js";
     applySavedTheme();
     wireThemeButton();
   </script>
-
-  <!-- If you DON'T have app.js, delete the module script above and use this instead:
-  <script>
-    const btn = document.querySelector("[data-theme-toggle]");
-    const key = "enigma_theme";
-    const apply = () => document.body.classList.toggle("dark", localStorage.getItem(key)==="dark");
-    apply();
-    btn?.addEventListener("click", ()=>{
-      localStorage.setItem(key, document.body.classList.contains("dark") ? "light" : "dark");
-      apply();
-    });
-  </script>
-  -->
 </body>
 </html>
