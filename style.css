@@ -1,5 +1,3 @@
-/* style.css — Enigma Wellbeing (FULL) */
-
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 body{ margin:0; }
@@ -35,13 +33,11 @@ body{ margin:0; }
 body{
   background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 60%,var(--bg3) 100%);
   color: var(--text);
-
   font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   font-weight:500;
   letter-spacing:.2px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   font-size: calc(16px * var(--textScale));
 }
 
@@ -53,7 +49,7 @@ body.dark{
   background: linear-gradient(180deg,#1f1a29 0%, #1b1724 100%);
 }
 
-/* Watermark */
+/* watermark */
 .watermark{
   position:fixed;
   inset:0;
@@ -67,7 +63,7 @@ body.dark{
 }
 body.dark .watermark{ opacity:.12; }
 
-/* Container */
+/* container */
 .wrap{
   max-width: 520px;
   margin: 0 auto;
@@ -76,12 +72,11 @@ body.dark .watermark{ opacity:.12; }
   z-index:1;
 }
 
-/* Night mode button styling (HOME ONLY button uses this class) */
+/* moon button (HOME ONLY because markup only exists on home) */
 .moon{
   position: fixed !important;
   top: 16px !important;
   right: 16px !important;
-  left: auto !important;
   z-index: 9999 !important;
 
   width:44px;
@@ -99,17 +94,11 @@ body.dark .watermark{ opacity:.12; }
   cursor:pointer;
 }
 
-/* Typography */
-.page-title{
-  font-weight:700;
-  letter-spacing:.3px;
-}
+/* typography */
+h1{ font-size:28px; margin:0 0 6px; font-weight:700; letter-spacing:.3px; }
+h2{ font-size:18px; margin:0 0 8px; font-weight:600; }
 
-h1{ font-size:28px; margin:0 0 6px; }
-h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
-
-.page-sub,
-.page-subtitle{
+.page-sub{
   font-weight:500;
   opacity:.75;
   line-height:1.5;
@@ -119,17 +108,7 @@ h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
 .label{ font-weight:600; }
 .label.small{ font-weight:600; }
 
-.tile-sub,
-.quote-meta,
-.small-note{
-  font-weight:500;
-  opacity:.72;
-  line-height:1.45;
-}
-
-.btn,.pill{ font-weight:600; }
-
-/* Top bar */
+/* topbar (non-home pages) */
 .topbar{
   display:flex;
   align-items:center;
@@ -153,11 +132,11 @@ h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
   min-width:44px;
 }
 
-/* Sections */
+/* sections */
 .section{ margin:16px 0 18px; }
 
-/* Cards */
-.card,.section-panel{
+/* cards */
+.card{
   background: var(--card);
   border:1px solid var(--stroke);
   border-radius: var(--radius);
@@ -165,7 +144,7 @@ h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
   padding: 14px;
 }
 
-/* Wide buttons */
+/* wide buttons */
 .wide{
   display:flex;
   align-items:center;
@@ -179,7 +158,7 @@ h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
   box-shadow: var(--shadow);
 }
 
-/* Grid tiles */
+/* grid tiles */
 .grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -200,7 +179,7 @@ h2{ font-size:18px; font-weight:600; margin:0 0 8px; }
   min-height: 76px;
 }
 
-/* Icons + arrows */
+/* icons + arrows */
 .ico{
   width:38px;
   height:38px;
@@ -224,7 +203,7 @@ body.dark .ico{ background: rgba(255,255,255,.10); }
 }
 .arrow.small{ font-size:20px; }
 
-/* Pills — ALL EQUAL SIZE (fix Settings being full width) */
+/* ✅ pills — FIXED: all equal size */
 .pill-row{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -239,44 +218,16 @@ body.dark .ico{ background: rgba(255,255,255,.10); }
   display:flex;
   align-items:center;
   gap:8px;
-
   border-radius: 999px;
   background: var(--card);
   border:1px solid var(--stroke);
   box-shadow: var(--shadow2);
   text-decoration:none;
   color:inherit;
+  font-weight:600;
 }
 
-/* Support banner */
-.support-banner{
-  margin-top: 12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:14px;
-  border-radius: var(--radius);
-  background: var(--accentTintSoft);
-  border:1px solid var(--stroke);
-  box-shadow: var(--shadow2);
-  text-decoration:none;
-  color:inherit;
-}
-
-.sos{
-  width:40px;
-  height:30px;
-  border-radius: 12px;
-  background: rgba(255,90,120,.18);
-  border:1px solid rgba(255,90,120,.22);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  font-size:13px;
-}
-
-/* Inputs */
+/* inputs */
 input, select, textarea{
   width:100%;
   border-radius: 16px;
@@ -295,8 +246,7 @@ body.dark textarea{
 }
 textarea{ min-height: 140px; resize: vertical; }
 
-/* Buttons */
-.btn-row{ display:flex; gap:10px; flex-wrap:wrap; }
+/* buttons */
 .btn{
   border:none;
   border-radius: 999px;
@@ -306,10 +256,9 @@ textarea{ min-height: 140px; resize: vertical; }
   box-shadow: var(--shadow2);
   cursor:pointer;
   color: inherit;
+  font-weight:600;
 }
-.btn.primary{
-  background: var(--accentTint);
-}
+.btn.primary{ background: var(--accentTint); }
 
 hr.sep{
   border:none;
@@ -318,7 +267,7 @@ hr.sep{
   margin:18px 0;
 }
 
-/* Remove default blue focus rings */
+/* ✅ remove blue focus highlight */
 button:focus,
 button:active,
 button:focus-visible,
@@ -329,13 +278,6 @@ a:focus-visible{
   box-shadow: none !important;
 }
 
-/* Selected state uses accent, not blue (for check-in mood tiles) */
-.tile[aria-pressed="true"]{
-  outline: 2px solid var(--accentRing) !important;
-  outline-offset: 2px;
-  background: var(--accentTint) !important;
-}
-
-/* Active press */
+/* pressed */
 a:active, button:active{ transform: translateY(1px); }
 a{ color:inherit; }
