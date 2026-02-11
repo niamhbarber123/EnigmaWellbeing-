@@ -1,50 +1,86 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Move gently • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Move gently • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="wrap">
-    <div class="header">
-      <a class="back-btn" href="index.html" data-back>← Back</a>
-      <div class="header-center"></div>
-      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
-    </div>
+<main class="wrap">
 
-    <h1 class="page-title">Move gently</h1>
-    <p class="page-subtitle">Short, gentle movement sessions. Tap a tile to open.</p>
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
 
-    <section class="section-panel">
-      <div class="grid">
-        <a class="tile" href="https://www.youtube.com/results?search_query=10+minute+gentle+yoga" target="_blank" rel="noopener">
-          <div class="tile-ico">🧘</div>
-          <div><p class="tile-title">10 min gentle yoga</p><p class="tile-sub">Easy flow</p></div>
-        </a>
+<h1 class="page-title">Move gently</h1>
+<p class="page-subtitle">Short, simple options.</p>
 
-        <a class="tile" href="https://www.youtube.com/results?search_query=neck+shoulder+stretch+routine" target="_blank" rel="noopener">
-          <div class="tile-ico">💆</div>
-          <div><p class="tile-title">Neck & shoulders</p><p class="tile-sub">Release tension</p></div>
-        </a>
+<section class="section-panel">
+<div class="grid">
 
-        <a class="tile" href="https://www.youtube.com/results?search_query=bedtime+stretch+routine" target="_blank" rel="noopener">
-          <div class="tile-ico">🛏️</div>
-          <div><p class="tile-title">Bedtime stretch</p><p class="tile-sub">Wind down</p></div>
-        </a>
+<a class="tile" href="https://www.youtube.com/results?search_query=10+minute+yoga+for+beginners" target="_blank">
+  <div class="tile-ico">🧘</div>
+  <div>
+    <p class="tile-title">10 Minute Beginner</p>
+    <p class="tile-sub">Gentle introduction</p>
+  </div>
+</a>
 
-        <a class="tile" href="https://www.youtube.com/results?search_query=beginner+yoga+breathing" target="_blank" rel="noopener">
-          <div class="tile-ico">🌬️</div>
-          <div><p class="tile-title">Breath + movement</p><p class="tile-sub">Slow & steady</p></div>
-        </a>
-      </div>
-    </section>
-  </main>
+<a class="tile" href="https://www.youtube.com/results?search_query=morning+yoga+stretch" target="_blank">
+  <div class="tile-ico">🌅</div>
+  <div>
+    <p class="tile-title">Morning Stretch</p>
+    <p class="tile-sub">Light start to day</p>
+  </div>
+</a>
 
-  <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton();
-  </script>
+<a class="tile" href="https://www.youtube.com/results?search_query=yoga+for+anxiety" target="_blank">
+  <div class="tile-ico">💛</div>
+  <div>
+    <p class="tile-title">Yoga for Anxiety</p>
+    <p class="tile-sub">Calm the nervous system</p>
+  </div>
+</a>
+
+<a class="tile" href="https://www.youtube.com/results?search_query=bedtime+yoga" target="_blank">
+  <div class="tile-ico">🌙</div>
+  <div>
+    <p class="tile-title">Bedtime Yoga</p>
+    <p class="tile-sub">Slow wind down</p>
+  </div>
+</a>
+
+<a class="tile" href="https://www.youtube.com/results?search_query=chair+yoga+beginner" target="_blank">
+  <div class="tile-ico">🪑</div>
+  <div>
+    <p class="tile-title">Chair Yoga</p>
+    <p class="tile-sub">Low energy option</p>
+  </div>
+</a>
+
+<a class="tile" href="https://www.youtube.com/results?search_query=5+minute+stretch+routine" target="_blank">
+  <div class="tile-ico">✨</div>
+  <div>
+    <p class="tile-title">5 Minute Reset</p>
+    <p class="tile-sub">Quick stretch break</p>
+  </div>
+</a>
+
+</div>
+</section>
+
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+</script>
+
 </body>
 </html>
