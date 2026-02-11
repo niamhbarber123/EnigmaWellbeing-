@@ -5,114 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Settings • Enigma Wellbeing</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-
-  <style>
-    /* calmer page-only typography */
-    .page-title{ font-weight:600; }
-    .page-sub{ font-weight:500; opacity:.72; line-height:1.5; }
-
-    .setting{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:12px 12px;
-      border-radius: 18px;
-      border:1px solid var(--stroke);
-      background: var(--card);
-      box-shadow: var(--shadow2);
-      margin-bottom: 10px;
-    }
-    .setting h3{
-      margin:0;
-      font-size:14px;
-      font-weight:600;
-    }
-    .setting p{
-      margin:2px 0 0;
-      font-size:12.5px;
-      font-weight:500;
-      opacity:.72;
-      line-height:1.35;
-      color: var(--muted);
-    }
-
-    .setting .left{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      flex:1;
-      min-width: 0;
-    }
-
-    .setting .s-ico{
-      width:36px;
-      height:36px;
-      border-radius:14px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.62);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:16px;
-      flex-shrink:0;
-    }
-    body.dark .setting .s-ico{ background: rgba(255,255,255,.10); }
-
-    .setting select,
-    .setting button{
-      width:auto;
-      min-width: 150px;
-    }
-
-    .toggle{
-      width:56px;
-      height:32px;
-      border-radius:999px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.55);
-      position:relative;
-      cursor:pointer;
-      flex-shrink:0;
-    }
-    body.dark .toggle{ background: rgba(255,255,255,.08); }
-
-    .toggle::after{
-      content:"";
-      width:26px;
-      height:26px;
-      border-radius:50%;
-      position:absolute;
-      top:2px;
-      left:2px;
-      background: rgba(200,186,255,.9);
-      transition: transform .18s ease;
-    }
-    .toggle[data-on="true"]::after{
-      transform: translateX(24px);
-    }
-
-    .stack{
-      display:grid;
-      gap:10px;
-    }
-
-    .small-note{
-      font-size:12.5px;
-      font-weight:500;
-      opacity:.72;
-      line-height:1.45;
-      color: var(--muted);
-      margin: 8px 0 0;
-    }
-
-    textarea{
-      min-height: 120px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 12px;
-    }
-  </style>
 </head>
 
 <body>
@@ -121,359 +15,59 @@
   <main class="wrap">
     <div class="topbar">
       <a class="back" href="index.html">←</a>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <div style="width:44px;"></div>
     </div>
 
     <h1 class="page-title">Settings</h1>
-    <p class="page-sub">Make Enigma feel right for you.</p>
+    <p class="page-sub">Choose your app colour and font size.</p>
 
     <section class="card">
 
-      <div class="stack">
+      <label class="small-note" style="display:block; font-weight:600; opacity:.75; margin-bottom:6px;">App colour</label>
+      <select id="accent">
+        <option value="lavender">Lavender</option>
+        <option value="blush">Blush</option>
+        <option value="mint">Mint</option>
+        <option value="sky">Sky blue</option>
+      </select>
 
-        <!-- Theme (uses your existing app.js toggle too) -->
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">🌙</div>
-            <div>
-              <h3>Night mode</h3>
-              <p>Toggle dark theme on and off.</p>
-            </div>
-          </div>
-          <button class="btn" type="button" id="themeBtn">Toggle</button>
-        </div>
+      <div style="height:14px;"></div>
 
-        <!-- Accent colour -->
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">🎨</div>
-            <div>
-              <h3>Accent colour</h3>
-              <p>Choose the highlight colour for the app.</p>
-            </div>
-          </div>
-          <select id="accentSelect">
-            <option value="lavender" selected>Lavender</option>
-            <option value="blush">Blush</option>
-            <option value="mint">Mint</option>
-            <option value="sky">Sky</option>
-          </select>
-        </div>
+      <label class="small-note" style="display:block; font-weight:600; opacity:.75; margin-bottom:6px;">Font size</label>
+      <select id="textSize">
+        <option value="small">Small</option>
+        <option value="default">Default</option>
+        <option value="large">Large</option>
+      </select>
 
-        <!-- Text size -->
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">🔤</div>
-            <div>
-              <h3>Text size</h3>
-              <p>Make text smaller or larger.</p>
-            </div>
-          </div>
-          <select id="textSizeSelect">
-            <option value="small">Small</option>
-            <option value="default" selected>Default</option>
-            <option value="large">Large</option>
-          </select>
-        </div>
-
-        <!-- Reduce motion -->
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">🫧</div>
-            <div>
-              <h3>Reduce motion</h3>
-              <p>Turns down animations (calmer feel).</p>
-            </div>
-          </div>
-          <div class="toggle" id="motionToggle" data-on="false" aria-label="Reduce motion"></div>
-        </div>
-
-        <!-- Sounds (for future) -->
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">🔔</div>
-            <div>
-              <h3>Sounds</h3>
-              <p>Optional sound effects (if added later).</p>
-            </div>
-          </div>
-          <div class="toggle" id="soundToggle" data-on="false" aria-label="Sounds"></div>
-        </div>
-
-        <!-- Vibration (for future mobile) -->
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">📳</div>
-            <div>
-              <h3>Vibration</h3>
-              <p>Gentle haptics (if supported).</p>
-            </div>
-          </div>
-          <div class="toggle" id="vibrateToggle" data-on="false" aria-label="Vibration"></div>
-        </div>
-
-        <hr class="sep" />
-
-        <!-- Data controls -->
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">🧹</div>
-            <div>
-              <h3>Clear saved items</h3>
-              <p>Remove saved quotes, books, check-ins and words.</p>
-            </div>
-          </div>
-          <button class="btn" type="button" id="clearBtn">Clear</button>
-        </div>
-
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">📤</div>
-            <div>
-              <h3>Export data</h3>
-              <p>Copy your saved data as text.</p>
-            </div>
-          </div>
-          <button class="btn" type="button" id="exportBtn">Export</button>
-        </div>
-
-        <div class="setting">
-          <div class="left">
-            <div class="s-ico">📥</div>
-            <div>
-              <h3>Import data</h3>
-              <p>Paste exported data to restore it.</p>
-            </div>
-          </div>
-          <button class="btn" type="button" id="importBtn">Import</button>
-        </div>
-
-        <div id="ioArea" style="display:none;">
-          <label style="font-weight:600; opacity:.7; font-size:12px; display:block; margin-bottom:6px;">
-            Data (copy/paste)
-          </label>
-          <textarea id="ioText" placeholder="Your exported JSON will appear here..."></textarea>
-          <div class="btn-row" style="margin-top:10px;">
-            <button class="btn primary" type="button" id="copyBtn">Copy</button>
-            <button class="btn" type="button" id="applyImportBtn">Apply import</button>
-          </div>
-          <p class="small-note" id="msg"></p>
-        </div>
-
-        <hr class="sep" />
-
-        <!-- About -->
-        <div class="setting" style="align-items:flex-start;">
-          <div class="left">
-            <div class="s-ico">ℹ️</div>
-            <div>
-              <h3>About</h3>
-              <p>
-                Enigma Wellbeing • personal calm tools.
-                <br>Data is stored locally on your device.
-              </p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
+      <p class="small-note" id="msg" style="margin-top:12px;"></p>
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton } from "./app.js";
+    import { applySavedTheme, applySavedPreferences, applyAccent, applyTextSize } from "./app.js";
     applySavedTheme();
-    wireThemeButton();
-  </script>
+    applySavedPreferences();
 
-  <script>
-    // Keys (align with what you've used elsewhere)
-    const KEYS = [
-      "enigma_saved_quotes_v2",
-      "enigma_saved_books_v2",
-      "enigma_word_history_v2",
-      "enigma_checkins_v2",
-      "enigma_journal_v2"
-    ];
-
-    const ACCENT_KEY = "enigma_accent_v2";
-    const TEXT_KEY   = "enigma_textsize_v2";
-    const MOTION_KEY = "enigma_reduce_motion_v2";
-    const SOUND_KEY  = "enigma_sounds_v2";
-    const VIB_KEY    = "enigma_vibrate_v2";
-
-    const themeBtn = document.getElementById("themeBtn");
-
-    const accentSelect = document.getElementById("accentSelect");
-    const textSizeSelect = document.getElementById("textSizeSelect");
-
-    const motionToggle = document.getElementById("motionToggle");
-    const soundToggle = document.getElementById("soundToggle");
-    const vibrateToggle = document.getElementById("vibrateToggle");
-
-    const clearBtn = document.getElementById("clearBtn");
-
-    const exportBtn = document.getElementById("exportBtn");
-    const importBtn = document.getElementById("importBtn");
-    const ioArea = document.getElementById("ioArea");
-    const ioText = document.getElementById("ioText");
-    const copyBtn = document.getElementById("copyBtn");
-    const applyImportBtn = document.getElementById("applyImportBtn");
+    const accent = document.getElementById("accent");
+    const textSize = document.getElementById("textSize");
     const msg = document.getElementById("msg");
 
-    // Use your existing theme toggle button behaviour
-    themeBtn.addEventListener("click", () => {
-      // Trigger the same toggle as the moon button
-      document.querySelector("[data-theme-toggle]")?.click();
+    // Load current saved selections
+    accent.value = localStorage.getItem("enigma_accent_v2") || "lavender";
+    textSize.value = localStorage.getItem("enigma_textsize_v2") || "default";
+
+    accent.addEventListener("change", ()=>{
+      applyAccent(accent.value);
+      msg.textContent = "Saved.";
+      setTimeout(()=>msg.textContent="", 900);
     });
 
-    function setToggle(el, on){
-      el.dataset.on = on ? "true" : "false";
-    }
-    function toggle(el){
-      setToggle(el, el.dataset.on !== "true");
-    }
-
-    function applyAccent(val){
-      // light-touch accent via CSS variables
-      const map = {
-        lavender: "rgba(200,186,255,.42)",
-        blush:    "rgba(255,205,224,.34)",
-        mint:     "rgba(190,240,220,.35)",
-        sky:      "rgba(180,220,255,.35)"
-      };
-      document.documentElement.style.setProperty("--accent", map[val] || map.lavender);
-    }
-
-    function applyTextSize(val){
-      const map = {
-        small:  "0.95",
-        default:"1",
-        large:  "1.08"
-      };
-      document.documentElement.style.setProperty("--textScale", map[val] || "1");
-      document.body.style.fontSize = `calc(16px * var(--textScale, 1))`;
-    }
-
-    function applyReduceMotion(on){
-      document.documentElement.style.setProperty("--reduceMotion", on ? "1" : "0");
-      if (on){
-        const style = document.getElementById("reduceMotionStyle") || document.createElement("style");
-        style.id = "reduceMotionStyle";
-        style.textContent = `
-          *{
-            animation-duration: 0.001ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.001ms !important;
-            scroll-behavior: auto !important;
-          }`;
-        document.head.appendChild(style);
-      } else {
-        document.getElementById("reduceMotionStyle")?.remove();
-      }
-    }
-
-    function load(){
-      const accent = localStorage.getItem(ACCENT_KEY) || "lavender";
-      accentSelect.value = accent;
-      applyAccent(accent);
-
-      const text = localStorage.getItem(TEXT_KEY) || "default";
-      textSizeSelect.value = text;
-      applyTextSize(text);
-
-      const motion = localStorage.getItem(MOTION_KEY) === "true";
-      setToggle(motionToggle, motion);
-      applyReduceMotion(motion);
-
-      const snd = localStorage.getItem(SOUND_KEY) === "true";
-      setToggle(soundToggle, snd);
-
-      const vib = localStorage.getItem(VIB_KEY) === "true";
-      setToggle(vibrateToggle, vib);
-    }
-
-    accentSelect.addEventListener("change", ()=>{
-      localStorage.setItem(ACCENT_KEY, accentSelect.value);
-      applyAccent(accentSelect.value);
+    textSize.addEventListener("change", ()=>{
+      applyTextSize(textSize.value);
+      msg.textContent = "Saved.";
+      setTimeout(()=>msg.textContent="", 900);
     });
-
-    textSizeSelect.addEventListener("change", ()=>{
-      localStorage.setItem(TEXT_KEY, textSizeSelect.value);
-      applyTextSize(textSizeSelect.value);
-    });
-
-    motionToggle.addEventListener("click", ()=>{
-      toggle(motionToggle);
-      const on = motionToggle.dataset.on === "true";
-      localStorage.setItem(MOTION_KEY, on);
-      applyReduceMotion(on);
-    });
-
-    soundToggle.addEventListener("click", ()=>{
-      toggle(soundToggle);
-      localStorage.setItem(SOUND_KEY, soundToggle.dataset.on === "true");
-    });
-
-    vibrateToggle.addEventListener("click", ()=>{
-      toggle(vibrateToggle);
-      localStorage.setItem(VIB_KEY, vibrateToggle.dataset.on === "true");
-    });
-
-    clearBtn.addEventListener("click", ()=>{
-      const ok = confirm("Clear saved items and history on this device?");
-      if (!ok) return;
-      KEYS.forEach(k => localStorage.removeItem(k));
-      msg.textContent = "Cleared saved items.";
-      ioArea.style.display = "block";
-      ioText.value = "";
-    });
-
-    exportBtn.addEventListener("click", ()=>{
-      const data = {};
-      KEYS.forEach(k => data[k] = localStorage.getItem(k));
-      data[ACCENT_KEY] = localStorage.getItem(ACCENT_KEY);
-      data[TEXT_KEY] = localStorage.getItem(TEXT_KEY);
-      data[MOTION_KEY] = localStorage.getItem(MOTION_KEY);
-      data[SOUND_KEY] = localStorage.getItem(SOUND_KEY);
-      data[VIB_KEY] = localStorage.getItem(VIB_KEY);
-
-      ioArea.style.display = "block";
-      ioText.value = JSON.stringify(data, null, 2);
-      msg.textContent = "Export ready. Tap Copy.";
-    });
-
-    importBtn.addEventListener("click", ()=>{
-      ioArea.style.display = "block";
-      ioText.value = "";
-      msg.textContent = "Paste your exported data and tap Apply import.";
-    });
-
-    copyBtn.addEventListener("click", async ()=>{
-      try{
-        await navigator.clipboard.writeText(ioText.value);
-        msg.textContent = "Copied.";
-      }catch{
-        msg.textContent = "Copy not available — select the text and copy manually.";
-      }
-    });
-
-    applyImportBtn.addEventListener("click", ()=>{
-      try{
-        const data = JSON.parse(ioText.value || "{}");
-        Object.keys(data).forEach(k=>{
-          if (data[k] === null || data[k] === undefined) return;
-          localStorage.setItem(k, data[k]);
-        });
-        msg.textContent = "Imported. Refresh if needed.";
-        load();
-      }catch{
-        msg.textContent = "That didn’t look like valid export data.";
-      }
-    });
-
-    load();
   </script>
 </body>
 </html>
