@@ -1,106 +1,128 @@
-/* service-worker.js — Enigma Wellbeing
-   Amendments included:
-   1) Cache-busting version you can bump to force updates.
-   2) Network-first for HTML so your pages update properly.
-   3) Stale-while-revalidate for CSS/JS/images for speed.
-*/
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Enigma Wellbeing</title>
 
-const CACHE_NAME = "enigma-wellbeing-cache-v9"; // 👈 bump this each time you want to force refresh
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-const CORE_ASSETS = [
-  "./",
-  "./index.html",
-  "./style.css",
-  "./app.js",
-  "./manifest.json",
-  "./icon.png",
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-  "./breathe.html",
-  "./overwhelmed.html",
-  "./checkin.html",
-  "./journal.html",
-  "./word.html",
-  "./quotes.html",
-  "./yoga.html",
-  "./music.html",
-  "./books.html",
-  "./distraction.html",
-  "./resources.html",
-  "./support.html",
-  "./help.html",
-  "./settings.html",
-  "./progress.html"
-];
+<body>
+  <div class="watermark" aria-hidden="true"></div>
 
-self.addEventListener("install", (event) => {
-  self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
-  );
-});
+  <!-- Night Mode -->
+  <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)));
-    await self.clients.claim();
-  })());
-});
+  <main class="wrap">
 
-self.addEventListener("fetch", (event) => {
-  const req = event.request;
-  const url = new URL(req.url);
+    <!-- Header -->
+    <header style="text-align:center; margin-bottom:20px;">
+      <h1 style="margin:0;">Enigma Wellbeing</h1>
+      <p class="page-sub" style="margin-top:6px;">Your calm space</p>
+    </header>
 
-  if (url.origin !== self.location.origin) return;
+    <!-- Right now -->
+    <section class="section">
+      <h2>Right now</h2>
 
-  const accept = req.headers.get("accept") || "";
-  const isHTML = req.mode === "navigate" || accept.includes("text/html") || url.pathname.endsWith(".html");
+      <a class="wide" href="breathe.html">
+        <div class="ico">🫧</div>
+        <div class="label">Breathe now</div>
+        <div class="arrow">›</div>
+      </a>
 
-  if (isHTML) {
-    event.respondWith(networkFirst(req));
-    return;
-  }
+      <a class="wide" href="overwhelmed.html" style="background:rgba(255,210,220,.35);">
+        <div class="ico">🤲</div>
+        <div class="label">I need calm</div>
+        <div class="arrow">›</div>
+      </a>
+    </section>
 
-  const isStatic =
-    url.pathname.endsWith(".css") ||
-    url.pathname.endsWith(".js")  ||
-    url.pathname.endsWith(".png") ||
-    url.pathname.endsWith(".jpg") ||
-    url.pathname.endsWith(".jpeg")||
-    url.pathname.endsWith(".svg") ||
-    url.pathname.endsWith(".webp")||
-    url.pathname.endsWith(".ico") ||
-    url.pathname.endsWith(".json");
+    <!-- Today -->
+    <section class="section">
+      <h2>Today</h2>
 
-  event.respondWith(isStatic ? staleWhileRevalidate(req) : staleWhileRevalidate(req));
-});
+      <div class="grid">
+        <a class="tile" href="checkin.html">
+          <div class="ico">📝</div>
+          <div class="label">Check in</div>
+          <div class="arrow">›</div>
+        </a>
 
-async function networkFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
+        <a class="tile" href="journal.html">
+          <div class="ico">📖</div>
+          <div class="label">Journal</div>
+          <div class="arrow">›</div>
+        </a>
 
-  try {
-    const fresh = await fetch(request);
-    cache.put(request, fresh.clone());
-    return fresh;
-  } catch (err) {
-    const cached = await cache.match(request);
-    if (cached) return cached;
+        <a class="tile" href="word.html">
+          <div class="ico">✨</div>
+          <div class="label">Daily word</div>
+          <div class="arrow">›</div>
+        </a>
 
-    const fallback = await cache.match("./index.html");
-    return fallback || new Response("Offline", { status: 503 });
-  }
-}
+        <a class="tile" href="quotes.html">
+          <div class="ico">💬</div>
+          <div class="label">Kind words</div>
+          <div class="arrow">›</div>
+        </a>
+      </div>
+    </section>
 
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
+    <!-- Explore -->
+    <section class="section">
+      <h2>Explore</h2>
 
-  const fetchPromise = fetch(request)
-    .then((fresh) => {
-      cache.put(request, fresh.clone());
-      return fresh;
-    })
-    .catch(() => null);
+      <div class="grid">
+        <a class="tile" href="yoga.html">
+          <div class="ico">🧘</div>
+          <div class="label">Move gently</div>
+          <div class="arrow">›</div>
+        </a>
 
-  return cached || (await fetchPromise) || new Response("Offline", { status: 503 });
-}
+        <a class="tile" href="music.html">
+          <div class="ico">🎵</div>
+          <div class="label">Listen</div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="tile" href="books.html">
+          <div class="ico">📚</div>
+          <div class="label">Read</div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="tile" href="distraction.html">
+          <div class="ico">🧩</div>
+          <div class="label">Take a break</div>
+          <div class="arrow">›</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Your Space -->
+    <section class="section">
+      <h2>Your space</h2>
+
+      <div class="pill-row">
+        <a class="pill" href="progress.html">📊 Progress</a>
+        <a class="pill" href="resources.html">🧠 Resources</a>
+        <a class="pill" href="settings.html">⚙️ Settings</a>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, applySavedPreferences } from "./app.js";
+    applySavedTheme();
+    applySavedPreferences();
+    wireThemeButton();
+  </script>
+
+</body>
+</html>
