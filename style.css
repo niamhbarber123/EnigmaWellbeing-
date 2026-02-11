@@ -229,3 +229,59 @@ hr.sep{
   background: var(--card);
   box-shadow: 0 10px 25px rgba(0,0,0,.08);
 }
+/* ==============================
+   CHECK-IN — calmer feel
+   (no layout/function changes)
+   ============================== */
+
+/* soften headings */
+.page-title{
+  font-weight: 600 !important;
+  letter-spacing: .1px;
+}
+.page-sub,
+.page-subtitle{
+  font-weight: 500 !important;
+  opacity: .72 !important;
+  line-height: 1.5;
+}
+
+/* mood tiles: less shouty text */
+.tile-title{
+  font-weight: 600 !important;
+  font-size: 15px !important;
+}
+.tile-sub{
+  font-weight: 500 !important;
+  opacity: .70 !important;
+  line-height: 1.35;
+}
+
+/* make the mood icon block feel softer */
+.tile-ico{
+  opacity: .85;
+}
+
+/* buttons less heavy */
+.btn{
+  font-weight: 600 !important;
+}
+
+/* textarea calmer */
+textarea{
+  font-weight: 500 !important;
+}
+details.folder summary,
+summary.folder-title{
+  font-weight: 600 !important;
+}
+
+.folder-sub{
+  font-weight: 500 !important;
+  opacity: .72 !important;
+  line-height: 1.55;
+}
+
+.mood-btn{
+  font-weight: 600 !important;
+}
