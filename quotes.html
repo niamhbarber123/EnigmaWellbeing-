@@ -1,126 +1,171 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kind words • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kind words • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    .quotes-list{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .quote-tile{
+      position:relative;
+      padding:18px 18px 44px; /* space for heart */
+      border-radius: 24px;
+      border:1px solid var(--stroke);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+    }
+
+    .quote-text{
+      margin:0 0 10px;
+      font-weight:500;
+      line-height:1.6;
+      opacity:.92;
+    }
+
+    .quote-author{
+      margin:0;
+      font-size:13px;
+      font-weight:500;
+      opacity:.65;
+    }
+
+    .save-btn{
+      position:absolute;
+      bottom:12px;
+      right:14px;
+      background:none;
+      border:none;
+      font-size:22px;
+      cursor:pointer;
+      opacity:.65;
+      transition:.18s ease;
+      line-height:1;
+    }
+
+    .save-btn.saved{
+      opacity:1;
+      transform:scale(1.12);
+      filter:saturate(1.2);
+    }
+  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
+  <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+
   <main class="wrap">
-    <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
-    </div>
-
     <h1 class="page-title">Kind words</h1>
-    <p class="page-sub">Double tap a quote to save or unsave.</p>
+    <p class="page-sub">Save the ones that feel right.</p>
 
-    <section class="card">
-      <h2 style="margin:0 0 10px;">Quotes</h2>
-      <div class="full" id="quotes"></div>
-
-      <hr class="sep">
-
-      <h2 style="margin:0 0 10px;">Saved</h2>
-      <div class="full" id="saved"></div>
-      <p id="msg" style="margin:10px 0 0;color:var(--muted);font-weight:650;"></p>
-    </section>
+    <div class="quotes-list" id="quotesList"></div>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+  </script>
 
-    const KEY="enigma_quotes_saved_v2";
+  <script>
+    const KEY = "enigma_saved_quotes_v2";
 
-    const QUOTES = [
-      "You are allowed to take things one breath at a time.",
-      "You don’t have to do everything today.",
-      "Even small steps count.",
-      "If all you did today was survive, that is enough.",
-      "Your feelings are valid — and they can change.",
-      "Rest is productive when you need it.",
-      "You are not behind. You are healing.",
-      "This moment will pass.",
-      "You can be gentle with yourself and still move forward.",
-      "It’s okay to ask for support.",
-      "You deserve calm, even on difficult days.",
-      "Breathe in safety. Breathe out pressure.",
-      "You are doing better than you think.",
-      "Slow is still progress.",
-      "You can start again, softly.",
-      "You don’t need permission to rest.",
-      "One small thing at a time is enough.",
-      "Your pace is valid.",
-      "Be on your own side.",
-      "You are not alone in this."
+    const quotes = [
+      { text:"You are allowed to take up space.", author:"Unknown" },
+      { text:"Rest is productive.", author:"Unknown" },
+      { text:"Small steps still count.", author:"Unknown" },
+      { text:"You do not have to do everything today.", author:"Unknown" },
+      { text:"You are doing better than you think.", author:"Unknown" },
+      { text:"It’s okay to start again.", author:"Unknown" },
+      { text:"Progress is not always loud.", author:"Unknown" },
+      { text:"You deserve kindness, especially from yourself.", author:"Unknown" },
+
+      { text:"You do not have to control your thoughts. You just have to stop letting them control you.", author:"Dan Millman" },
+      { text:"Almost everything will work again if you unplug it for a few minutes, including you.", author:"Anne Lamott" },
+      { text:"Feelings are just visitors. Let them come and go.", author:"Mooji" },
+      { text:"No feeling is final.", author:"Rainer Maria Rilke" },
+      { text:"There is hope, even when your brain tells you there isn’t.", author:"John Green" },
+      { text:"You are allowed to be both a masterpiece and a work in progress at the same time.", author:"Sophia Bush" },
+      { text:"Rest and self-care are so important. When you take time to replenish your spirit, it allows you to serve others from the overflow.", author:"Eleanor Brownn" },
+      { text:"Your present circumstances don’t determine where you can go; they merely determine where you start.", author:"Nido Qubein" },
+      { text:"Healing takes time, and asking for help is a courageous step.", author:"Mariska Hargitay" },
+      { text:"It’s okay to not be okay — but it’s not okay to stay that way alone.", author:"Unknown" },
+      { text:"Be patient with yourself. Nothing in nature blooms all year.", author:"Unknown" },
+      { text:"Slow down. You’re doing the best you can.", author:"Unknown" },
+      { text:"You have survived 100% of your hardest days.", author:"Unknown" },
+      { text:"Breathe. This moment will pass.", author:"Unknown" },
+      { text:"You don’t have to have it all figured out to move forward.", author:"Roy T. Bennett" },
+      { text:"Sometimes the bravest thing you can do is rest.", author:"Unknown" },
+      { text:"You are not behind in life. There is no timetable.", author:"Unknown" },
+      { text:"Let yourself be a beginner.", author:"Unknown" },
+      { text:"The way you speak to yourself matters.", author:"Unknown" },
+
+      { text:"You can be a good person with a kind heart and still say no.", author:"Unknown" },
+      { text:"Your mind deserves the same kindness you give others.", author:"Unknown" },
+      { text:"One gentle thing is enough for today.", author:"Unknown" },
+      { text:"You are not a burden.", author:"Unknown" },
+      { text:"Even the smallest reset counts.", author:"Unknown" },
+      { text:"It’s okay if all you did today was breathe.", author:"Unknown" },
+      { text:"This is hard — and you’re still here.", author:"Unknown" },
+      { text:"You don’t have to do it all at once.", author:"Unknown" },
+      { text:"Some days are for surviving, not thriving.", author:"Unknown" }
     ];
 
-    const quotesEl=document.getElementById("quotes");
-    const savedEl=document.getElementById("saved");
-    const msg=document.getElementById("msg");
+    const list = document.getElementById("quotesList");
 
-    function getSaved(){ return new Set(JSON.parse(localStorage.getItem(KEY)||"[]")); }
-    function setSaved(set){ localStorage.setItem(KEY, JSON.stringify([...set])); }
-
-    function tileHTML(text, id, isSaved, savedList=false){
-      const mark = isSaved ? "✅" : "🔖";
-      return `
-        <div class="quote-tile ${isSaved ? "saved" : ""}" data-id="${id}">
-          <div class="quote-text">${text}</div>
-          <button class="save-fab" type="button" aria-label="Save">${mark}</button>
-        </div>
-      `;
+    function getSaved(){
+      return JSON.parse(localStorage.getItem(KEY) || "[]");
     }
 
-    function wireTiles(){
-      document.querySelectorAll(".quote-tile").forEach(tile=>{
-        const id = Number(tile.dataset.id);
+    function makeId(q){
+      return `${q.text}__${q.author}`;
+    }
 
-        const toggle = ()=>{
-          const saved = getSaved();
-          if (saved.has(id)) saved.delete(id);
-          else saved.add(id);
-          setSaved(saved);
-          render();
-        };
+    function toggleSave(id){
+      let saved = getSaved();
+      if(saved.includes(id)){
+        saved = saved.filter(x => x !== id);
+      }else{
+        saved.push(id);
+      }
+      localStorage.setItem(KEY, JSON.stringify(saved));
+      render();
+    }
 
-        tile.querySelector(".save-fab").addEventListener("click", (e)=>{
-          e.preventDefault();
-          e.stopPropagation();
-          toggle();
-        });
-
-        let lastTap = 0;
-        tile.addEventListener("click", ()=>{
-          const now = Date.now();
-          if (now - lastTap < 350) toggle();
-          lastTap = now;
-        });
-      });
+    function esc(s){
+      return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
     }
 
     function render(){
       const saved = getSaved();
-      quotesEl.innerHTML = QUOTES.map((q,i)=>tileHTML(q,i,saved.has(i))).join("");
-      const savedArr = [...saved];
-      savedEl.innerHTML = savedArr.length
-        ? savedArr.map(i=>tileHTML(QUOTES[i], i, true, true)).join("")
-        : `<div class="quote-tile"><div class="quote-text">No saved quotes yet.</div></div>`;
-      msg.textContent = "";
-      wireTiles();
+
+      list.innerHTML = quotes.map(q=>{
+        const id = makeId(q);
+        const isSaved = saved.includes(id);
+        return `
+          <div class="quote-tile">
+            <p class="quote-text">“${esc(q.text)}”</p>
+            <p class="quote-author">— ${esc(q.author)}</p>
+            <button class="save-btn ${isSaved ? "saved" : ""}" type="button" aria-label="Save quote" data-id="${esc(id)}">💜</button>
+          </div>
+        `;
+      }).join("");
+
+      list.querySelectorAll(".save-btn").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          toggleSave(btn.getAttribute("data-id"));
+        });
+      });
     }
 
     render();
