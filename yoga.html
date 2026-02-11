@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Move gently • Enigma</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
+</head>
+
+<body>
+  <div class="watermark" aria-hidden="true"></div>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html" data-back>← Back</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
+
+    <h1 class="page-title">Move gently</h1>
+    <p class="page-sub">Small movement can calm the mind.</p>
+
+    <section class="card">
+      <div class="full">
+        <div class="quote-tile"><div class="quote-text">Neck release (30s)</div><div class="quote-meta">Slow circles, breathe out long.</div></div>
+        <div class="quote-tile"><div class="quote-text">Shoulder rolls (30s)</div><div class="quote-meta">Up, back, down — soften.</div></div>
+        <div class="quote-tile"><div class="quote-text">Forward fold (45s)</div><div class="quote-meta">Let your head be heavy.</div></div>
+        <div class="quote-tile"><div class="quote-text">Child’s pose (60s)</div><div class="quote-meta">Breathe into your back.</div></div>
+        <div class="quote-tile"><div class="quote-text">Legs up the wall (2–5m)</div><div class="quote-meta">Rest your nervous system.</div></div>
+        <div class="quote-tile"><div class="quote-text">Seated twist (45s each side)</div><div class="quote-meta">Gentle, no forcing.</div></div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+  </script>
+</body>
+</html>
