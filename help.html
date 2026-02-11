@@ -5,46 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Help • Enigma Wellbeing</title>
 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* Calm, less shouty (page-only) */
-    .page-title{ font-weight:600; }
-    .page-sub{ font-weight:500; opacity:.72; line-height:1.5; }
-
-    .tile-sub{
-      margin:2px 0 0;
-      font-size:13px;
-      font-weight:500;
-      opacity:.72;
-      line-height:1.35;
-    }
-
-    .tile{ align-items:flex-start; min-height: 96px; }
-    .tile .ico{ margin-top:2px; }
-
-    .soft-note{
-      margin:0;
-      font-size:13px;
-      font-weight:500;
-      opacity:.72;
-      line-height:1.5;
-      color: var(--muted);
-    }
+    .list{ display:flex; flex-direction:column; gap:12px; }
+    .tile{ width:100%; min-height:92px; align-items:flex-start; }
+    .tile-sub{ margin-top:2px; font-size:13px; }
 
     .callout{
-      border-radius: 20px;
+      border-radius: 22px;
       border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.55);
-      padding: 12px;
+      background: var(--card);
       box-shadow: var(--shadow2);
+      padding: 12px;
+      margin-bottom: 12px;
     }
-    body.dark .callout{ background: rgba(255,255,255,.07); }
-
     .callout h3{
       margin:0 0 6px;
       font-size:14px;
-      font-weight:600;
+      font-weight:700;
       opacity:.9;
     }
     .callout p{
@@ -63,26 +43,24 @@
   <main class="wrap">
     <div class="topbar">
       <a class="back" href="index.html">←</a>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <div style="width:44px;"></div>
     </div>
 
     <h1 class="page-title">Help</h1>
-    <p class="page-sub">If you need support, you deserve it. Pick what feels easiest.</p>
+    <p class="page-sub">Support options (UK). Choose what feels easiest.</p>
 
     <section class="card">
 
       <div class="callout">
-        <h3>Immediate danger</h3>
-        <p>If you or someone else is in immediate danger, call <strong style="font-weight:600;">999</strong> or go to A&amp;E.</p>
+        <h3>If you’re in immediate danger</h3>
+        <p>Call <strong style="font-weight:700;">999</strong> or go to A&amp;E.</p>
       </div>
 
-      <div style="height:12px;"></div>
-
-      <div class="grid">
+      <div class="list">
 
         <a class="tile" href="tel:999">
           <div class="ico">🚨</div>
-          <div>
+          <div style="flex:1;">
             <div class="label small">Call 999</div>
             <div class="tile-sub">Emergency services (UK).</div>
           </div>
@@ -91,64 +69,70 @@
 
         <a class="tile" href="tel:111">
           <div class="ico">🩺</div>
-          <div>
+          <div style="flex:1;">
             <div class="label small">Call 111</div>
-            <div class="tile-sub">Urgent medical help and advice (UK).</div>
+            <div class="tile-sub">Urgent medical advice (UK).</div>
+          </div>
+          <div class="arrow small">›</div>
+        </a>
+
+        <a class="tile" href="https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline" target="_blank" rel="noopener">
+          <div class="ico">☎️</div>
+          <div style="flex:1;">
+            <div class="label small">Urgent mental health helpline</div>
+            <div class="tile-sub">Find your local crisis line (UK).</div>
           </div>
           <div class="arrow small">›</div>
         </a>
 
         <a class="tile" href="https://www.samaritans.org/how-we-can-help/contact-samaritan/" target="_blank" rel="noopener">
-          <div class="ico">☎️</div>
-          <div>
+          <div class="ico">🫶</div>
+          <div style="flex:1;">
             <div class="label small">Samaritans</div>
             <div class="tile-sub">24/7 listening support.</div>
           </div>
           <div class="arrow small">›</div>
         </a>
 
-        <a class="tile" href="https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline" target="_blank" rel="noopener">
-          <div class="ico">🏥</div>
-          <div>
-            <div class="label small">NHS urgent mental health helpline</div>
-            <div class="tile-sub">Find your local crisis line (UK).</div>
-          </div>
-          <div class="arrow small">›</div>
-        </a>
-
         <a class="tile" href="https://www.nhs.uk/mental-health/get-urgent-help-for-mental-health/" target="_blank" rel="noopener">
-          <div class="ico">🫶</div>
-          <div>
+          <div class="ico">🏥</div>
+          <div style="flex:1;">
             <div class="label small">Get urgent help (NHS)</div>
             <div class="tile-sub">What to do if you need help now.</div>
           </div>
           <div class="arrow small">›</div>
         </a>
 
-        <a class="tile" href="https://www.nhs.uk/service-search/mental-health/find-an-nhs-talking-therapies-service/" target="_blank" rel="noopener">
+        <div class="tile">
           <div class="ico">💬</div>
-          <div>
-            <div class="label small">NHS Talking Therapies</div>
-            <div class="tile-sub">Find free therapy in your area (England).</div>
+          <div style="flex:1;">
+            <div class="label small">Text a trusted person</div>
+            <div class="tile-sub">Try: “Can you talk for a minute?”</div>
           </div>
-          <div class="arrow small">›</div>
-        </a>
+        </div>
+
+        <div class="tile">
+          <div class="ico">📝</div>
+          <div style="flex:1;">
+            <div class="label small">Say what you need</div>
+            <div class="tile-sub">“I’m struggling. Can you stay with me / check in later?”</div>
+          </div>
+        </div>
 
       </div>
 
       <hr class="sep" />
 
-      <p class="soft-note">
-        If speaking feels hard, try sending a message to someone you trust — even a simple “can you talk?” is enough.
+      <p class="small-note" style="margin:0;">
+        This page is for immediate support and contact options. For information about conditions, use <strong style="font-weight:700;">Resources</strong>.
       </p>
-
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton } from "./app.js";
+    import { applySavedTheme, applySavedPreferences } from "./app.js";
     applySavedTheme();
-    wireThemeButton();
+    applySavedPreferences();
   </script>
 </body>
 </html>
