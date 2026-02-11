@@ -1,68 +1,104 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>I need calm • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Overwhelmed • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
   <main class="wrap">
+
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
+      <a class="back" href="index.html">← Back</a>
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
-    <h1 class="page-title">I need calm</h1>
-    <p class="page-sub">Small steps to feel safer right now.</p>
+    <h1 class="page-title" style="font-weight:600;">Feeling overwhelmed</h1>
+    <p class="page-sub" style="font-weight:500;">
+      Let’s slow this down together.
+    </p>
 
     <section class="card">
-      <h2 style="margin:0 0 10px;">Try this now</h2>
 
-      <div class="full">
-        <div class="quote-tile">
-          <div class="quote-text">Name 5 things you can see.</div>
-          <div class="quote-meta">Grounding • 30 seconds</div>
+      <!-- Tool 1 -->
+      <details class="folder" open>
+        <summary class="folder-title">🌿 1. Slow your breathing</summary>
+        <div class="folder-sub">
+          Try 4 seconds in, 6 seconds out. Longer exhales calm your nervous system.
         </div>
-
-        <div class="quote-tile">
-          <div class="quote-text">Put one hand on your chest. Breathe out longer than you breathe in.</div>
-          <div class="quote-meta">Regulate • 60 seconds</div>
+        <div style="margin-top:10px;">
+          <a class="btn primary" href="breathe.html">Start breathing</a>
         </div>
-
-        <div class="quote-tile">
-          <div class="quote-text">Unclench your jaw. Drop your shoulders. Let your hands soften.</div>
-          <div class="quote-meta">Release tension</div>
-        </div>
-
-        <div class="quote-tile">
-          <div class="quote-text">If you can, sip water slowly or hold something cold for 20 seconds.</div>
-          <div class="quote-meta">Reset your nervous system</div>
-        </div>
-      </div>
+      </details>
 
       <hr class="sep">
 
-      <div class="btn-row">
-        <a class="btn primary" href="breathe.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Go to Breathe</a>
-        <a class="btn" href="help.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Get Help</a>
-      </div>
+      <!-- Tool 2 -->
+      <details class="folder">
+        <summary class="folder-title">🖐 2. 5–4–3–2–1 grounding</summary>
+        <div class="folder-sub">
+          Name:
+          <br>5 things you can see  
+          <br>4 things you can feel  
+          <br>3 things you can hear  
+          <br>2 things you can smell  
+          <br>1 thing you can taste  
+        </div>
+      </details>
+
+      <hr class="sep">
+
+      <!-- Tool 3 -->
+      <details class="folder">
+        <summary class="folder-title">🧠 3. Reduce the list</summary>
+        <div class="folder-sub">
+          Ask yourself:
+          <br>• What actually needs doing today?
+          <br>• What can wait?
+          <br>• What can be done imperfectly?
+        </div>
+      </details>
+
+      <hr class="sep">
+
+      <!-- Tool 4 -->
+      <details class="folder">
+        <summary class="folder-title">💧 4. Reset your body</summary>
+        <div class="folder-sub">
+          Drink water.  
+          Drop your shoulders.  
+          Unclench your jaw.  
+          Take one slow breath.  
+        </div>
+      </details>
+
+      <hr class="sep">
+
+      <!-- Tool 5 -->
+      <details class="folder">
+        <summary class="folder-title">🫶 5. Ask for support</summary>
+        <div class="folder-sub">
+          You don’t have to manage everything alone.
+        </div>
+        <div style="margin-top:10px;">
+          <a class="btn" href="support.html">View support options</a>
+        </div>
+      </details>
+
     </section>
+
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
   </script>
+
 </body>
 </html>
