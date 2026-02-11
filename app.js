@@ -1,42 +1,76 @@
-// Enigma Wellbeing — shared helpers (root)
+// app.js — Enigma Wellbeing (FULL)
+// Includes:
+// - Saved theme apply
+// - Accent colour apply (lavender/blush/mint/sky)
+// - Font size apply (small/default/large)
 
-const THEME_KEY = "enigma_theme_v2";
+const THEME_KEY  = "enigma_theme_v2";
+const ACCENT_KEY = "enigma_accent_v2";
+const TEXT_KEY   = "enigma_textsize_v2";
 
-export function applySavedTheme() {
-  const t = localStorage.getItem(THEME_KEY);
-  document.body.classList.toggle("dark", t === "dark");
+const ACCENTS = {
+  lavender: {
+    tint: "rgba(200,186,255,.30)",
+    tintSoft: "rgba(200,186,255,.22)",
+    ring: "rgba(200,186,255,.85)"
+  },
+  blush: {
+    tint: "rgba(255,205,224,.30)",
+    tintSoft: "rgba(255,205,224,.22)",
+    ring: "rgba(255,205,224,.85)"
+  },
+  mint: {
+    tint: "rgba(190,240,220,.30)",
+    tintSoft: "rgba(190,240,220,.22)",
+    ring: "rgba(190,240,220,.85)"
+  },
+  sky: {
+    tint: "rgba(180,220,255,.30)",
+    tintSoft: "rgba(180,220,255,.22)",
+    ring: "rgba(180,220,255,.85)"
+  }
+};
+
+const TEXT_SCALES = { small: 0.95, default: 1, large: 1.08 };
+
+export function applySavedTheme(){
+  const saved = localStorage.getItem(THEME_KEY);
+  if(saved === "dark"){
+    document.body.classList.add("dark");
+  }else{
+    document.body.classList.remove("dark");
+  }
 }
 
-export function wireThemeButton() {
+export function wireThemeButton(){
   const btn = document.querySelector("[data-theme-toggle]");
-  if (!btn) return;
+  if(!btn) return;
 
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", ()=>{
     const isDark = document.body.classList.toggle("dark");
     localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
   });
 }
 
-export function wireBackButton() {
-  const el = document.querySelector("[data-back]");
-  if (!el) return;
+export function applySavedPreferences(){
+  const accentKey = localStorage.getItem(ACCENT_KEY) || "lavender";
+  applyAccent(accentKey);
 
-  el.addEventListener("click", (e) => {
-    if (history.length > 1) {
-      e.preventDefault();
-      history.back();
-    }
-  });
+  const textKey = localStorage.getItem(TEXT_KEY) || "default";
+  applyTextSize(textKey);
 }
 
-export function registerServiceWorker() {
-  if (!("serviceWorker" in navigator)) return;
+export function applyAccent(key){
+  const a = ACCENTS[key] || ACCENTS.lavender;
+  const r = document.documentElement;
+  r.style.setProperty("--accentTint", a.tint);
+  r.style.setProperty("--accentTintSoft", a.tintSoft);
+  r.style.setProperty("--accentRing", a.ring);
+  localStorage.setItem(ACCENT_KEY, key);
+}
 
-  window.addEventListener("load", async () => {
-    try {
-      await navigator.serviceWorker.register("./service-worker.js", { scope: "./" });
-    } catch {
-      // silent
-    }
-  });
+export function applyTextSize(key){
+  const s = TEXT_SCALES[key] ?? 1;
+  document.documentElement.style.setProperty("--textScale", String(s));
+  localStorage.setItem(TEXT_KEY, key);
 }
