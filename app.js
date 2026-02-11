@@ -1,4 +1,3 @@
-// app.js — Enigma Wellbeing (FULL)
 const THEME_KEY  = "enigma_theme_v2";
 const ACCENT_KEY = "enigma_accent_v2";
 const TEXT_KEY   = "enigma_textsize_v2";
