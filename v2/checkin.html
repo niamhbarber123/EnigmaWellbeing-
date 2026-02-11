@@ -5,7 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Check in • Enigma Wellbeing</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Optional: make mood tiles feel a bit more “tap-friendly” */
+    .tile[aria-pressed="true"]{
+      outline: 2px solid rgba(200,186,255,.9);
+      outline-offset: 2px;
+      background: rgba(200,186,255,.18);
+    }
+  </style>
 </head>
+
 <body>
   <main class="wrap">
     <div class="header">
@@ -15,7 +24,7 @@
     </div>
 
     <h1 class="page-title">Check in</h1>
-    <p class="page-subtitle">How are you feeling right now? Save a quick note for yourself.</p>
+    <p class="page-subtitle">How are you feeling right now? Pick what fits best.</p>
 
     <section class="section-panel">
       <div class="grid" id="moods"></div>
@@ -23,10 +32,15 @@
       <hr class="sep" />
 
       <label style="font-weight:900; opacity:.75;">Optional note</label>
-      <textarea id="note" placeholder="One sentence is enough."></textarea>
+      <textarea id="note" placeholder="One sentence is enough. (optional)"></textarea>
 
       <div style="height:10px;"></div>
-      <button class="btn" id="saveBtn">Save check in</button>
+
+      <div class="btn-row">
+        <button class="btn" id="saveBtn" type="button">Save check in</button>
+        <button class="btn" id="clearBtn" type="button">Clear</button>
+      </div>
+
       <p class="small-note" id="savedMsg"></p>
     </section>
   </main>
@@ -36,23 +50,58 @@
     applySavedTheme(); wireThemeButton(); wireBackButton();
 
     const moods = [
-      { key:"Calm", ico:"🙂", sub:"Steady, settled" },
-      { key:"Okay", ico:"😌", sub:"Not perfect, but okay" },
-      { key:"Low", ico:"🌧️", sub:"Heavy, tired, flat" },
-      { key:"Anxious", ico:"🫧", sub:"Worried, tense" },
+      // Calm / positive
+      { key:"Calm",        ico:"🙂", sub:"Steady, settled" },
+      { key:"Content",     ico:"😊", sub:"Quietly okay" },
+      { key:"Happy",       ico:"😁", sub:"Light, good" },
+      { key:"Grateful",    ico:"🙏", sub:"Appreciative" },
+      { key:"Motivated",   ico:"⚡", sub:"Ready to do things" },
+      { key:"Hopeful",     ico:"🌤️", sub:"Looking forward" },
+
+      // Neutral / mixed
+      { key:"Okay",        ico:"😌", sub:"Managing" },
+      { key:"Meh",         ico:"😶", sub:"Flat, neutral" },
+      { key:"Unsure",      ico:"🤔", sub:"Not sure what I feel" },
+      { key:"Restless",    ico:"🫧", sub:"Can’t settle" },
+
+      // Low / heavy
+      { key:"Low",         ico:"🌧️", sub:"Heavy, tired, flat" },
+      { key:"Sad",         ico:"😔", sub:"A bit down" },
+      { key:"Lonely",      ico:"🫶", sub:"Wanting connection" },
+      { key:"Numb",        ico:"🧊", sub:"Shut down / disconnected" },
+      { key:"Overwhelmed", ico:"🧠", sub:"Too much at once" },
+
+      // Stress / anxiety
+      { key:"Anxious",     ico:"😟", sub:"Worried, tense" },
+      { key:"Stressed",    ico:"😣", sub:"Under pressure" },
+      { key:"On edge",     ico:"⚠️", sub:"Irritable / jumpy" },
+      { key:"Panicky",     ico:"💓", sub:"Racing, uneasy" },
+
+      // Anger / frustration
+      { key:"Frustrated",  ico:"😤", sub:"Annoyed, stuck" },
+      { key:"Angry",       ico:"😠", sub:"Hot, tense" },
+
+      // Body states
+      { key:"Tired",       ico:"😴", sub:"Low energy" },
+      { key:"Burnt out",   ico:"🕯️", sub:"Drained" },
+      { key:"Sore",        ico:"💢", sub:"Body feels heavy" }
     ];
 
     const KEY = "enigma_checkins_v2";
     const moodsEl = document.getElementById("moods");
     const noteEl = document.getElementById("note");
     const saveBtn = document.getElementById("saveBtn");
+    const clearBtn = document.getElementById("clearBtn");
     const msg = document.getElementById("savedMsg");
 
     let selected = null;
 
     function render(){
       moodsEl.innerHTML = moods.map(m => `
-        <button class="tile" type="button" data-mood="${m.key}" style="cursor:pointer;">
+        <button class="tile" type="button"
+          data-mood="${m.key}"
+          aria-pressed="${selected === m.key ? "true" : "false"}"
+          style="cursor:pointer;text-align:left;">
           <div class="tile-ico">${m.ico}</div>
           <div>
             <p class="tile-title">${m.key}</p>
@@ -64,11 +113,8 @@
       [...moodsEl.querySelectorAll("[data-mood]")].forEach(btn=>{
         btn.addEventListener("click", ()=>{
           selected = btn.dataset.mood;
-          [...moodsEl.querySelectorAll("[data-mood]")].forEach(b=>{
-            b.style.outline = (b.dataset.mood === selected) ? "2px solid rgba(200,186,255,.9)" : "none";
-            b.style.background = (b.dataset.mood === selected) ? "rgba(200,186,255,.18)" : "";
-          });
           msg.textContent = "";
+          render();
         });
       });
     }
@@ -78,8 +124,7 @@
         const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
         if (!arr.length) return;
         const last = arr[arr.length-1];
-        noteEl.value = last.note || "";
-        msg.textContent = `Last saved: ${new Date(last.savedAt).toLocaleString()}`;
+        msg.textContent = `Last saved: ${new Date(last.savedAt).toLocaleString()} • ${last.mood}`;
       }catch{}
     }
 
@@ -97,6 +142,16 @@
       arr.push(entry);
       localStorage.setItem(KEY, JSON.stringify(arr));
       msg.textContent = `Saved. (${new Date(entry.savedAt).toLocaleString()})`;
+      noteEl.value = "";
+      selected = null;
+      render();
+    });
+
+    clearBtn.addEventListener("click", ()=>{
+      noteEl.value = "";
+      selected = null;
+      msg.textContent = "";
+      render();
     });
 
     render();
