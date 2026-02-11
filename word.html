@@ -1,18 +1,12 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Daily word • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily word • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -20,34 +14,30 @@
 
   <main class="wrap">
     <div class="topbar">
-      <a class="back" href="index.html" data-back>←</a>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <a class="back" href="index.html">←</a>
+      <div style="width:44px;"></div>
     </div>
 
     <h1 class="page-title">Daily word</h1>
-    <p class="page-sub">A small focus for today.</p>
+    <p class="page-sub">A gentle word for today.</p>
 
-    <section class="card">
-      <div class="quote-tile">
-        <div class="quote-meta" id="todayDate"></div>
-        <div class="quote-text" style="font-size:22px;" id="todayWord"></div>
-        <div class="quote-meta" id="todayMeaning"></div>
-      </div>
+    <section class="card" style="text-align:center;">
+      <div id="word" style="font-size:22px; font-weight:700; margin-top:6px;"></div>
+      <p id="meaning" class="page-sub" style="margin:10px 0 0;"></p>
 
-      <hr class="sep">
+      <hr class="sep" />
 
-      <div class="quote-tile">
-        <div class="quote-meta" id="yDate"></div>
-        <div class="quote-text" style="font-size:18px;" id="yWord"></div>
-        <div class="quote-meta" id="yMeaning"></div>
-      </div>
+      <p class="small-note" style="margin:0;" id="yesterday"></p>
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, applySavedPreferences } from "./app.js";
+    applySavedTheme();
+    applySavedPreferences();
+  </script>
 
+  <script>
     const words = [
       { w:"Gentle", m:"Soft, kind, not forced." },
       { w:"Steady", m:"Stable and grounded." },
@@ -112,25 +102,47 @@
       { w:"Rooted", m:"Grounded and steady." }
     ];
 
-    function dayIndex(d){
-      const x = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) / 86400000;
-      return Math.abs(Math.floor(x)) % words.length;
+    const KEY = "enigma_word_history_v2";
+    const todayStr = new Date().toISOString().slice(0,10);
+
+    function getHistory(){
+      return JSON.parse(localStorage.getItem(KEY) || "{}");
+    }
+    function setHistory(h){
+      localStorage.setItem(KEY, JSON.stringify(h));
     }
 
-    const now = new Date();
-    const y = new Date(now);
-    y.setDate(now.getDate() - 1);
+    const history = getHistory();
 
-    const wToday = words[dayIndex(now)];
-    const wY = words[dayIndex(y)];
+    // deterministic pick per day
+    function hashDay(s){
+      let h=0;
+      for(let i=0;i<s.length;i++) h=(h*31 + s.charCodeAt(i))>>>0;
+      return h;
+    }
 
-    document.getElementById("todayDate").textContent = `Today • ${now.toLocaleDateString()}`;
-    document.getElementById("todayWord").textContent = wToday.w;
-    document.getElementById("todayMeaning").textContent = wToday.m;
+    if(!history[todayStr]){
+      const idx = hashDay(todayStr) % words.length;
+      history[todayStr] = idx;
+      setHistory(history);
+    }
 
-    document.getElementById("yDate").textContent = `Yesterday • ${y.toLocaleDateString()}`;
-    document.getElementById("yWord").textContent = wY.w;
-    document.getElementById("yMeaning").textContent = wY.m;
+    const idxToday = history[todayStr];
+    const wToday = words[idxToday];
+
+    document.getElementById("word").textContent = wToday.w;
+    document.getElementById("meaning").textContent = wToday.m;
+
+    // yesterday
+    const d = new Date();
+    d.setDate(d.getDate()-1);
+    const yStr = d.toISOString().slice(0,10);
+    const y = history[yStr];
+
+    document.getElementById("yesterday").textContent =
+      (y !== undefined)
+        ? `Yesterday: ${words[y].w}`
+        : `Yesterday: (not saved yet)`;
   </script>
 </body>
 </html>
