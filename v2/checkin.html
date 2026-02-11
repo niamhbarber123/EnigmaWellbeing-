@@ -1,58 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Check in • Enigma Wellbeing</title>
-
-  <link rel="icon" href="../icon.png" />
-  <link rel="apple-touch-icon" href="../icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210-v2-allfix" />
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<body class="page-wrap">
-  <a class="back-btn" href="index.html" aria-label="Back">←</a>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <h1 class="page-title">Check in</h1>
+    <p class="page-subtitle">How are you feeling right now? Save a quick note for yourself.</p>
 
-  <div class="page-shell">
-    <header class="page-header">
-      <h1>Check in</h1>
-      <p>How are you, really?</p>
-    </header>
+    <section class="section-panel">
+      <div class="grid" id="moods"></div>
 
-    <section class="section">
-      <div class="section-title">Right now</div>
+      <hr class="sep" />
 
-      <div class="card">
-        <div class="gentle">Pick a mood, then write a line or two if you want.</div>
+      <label style="font-weight:900; opacity:.75;">Optional note</label>
+      <textarea id="note" placeholder="One sentence is enough."></textarea>
 
-        <div class="chips" id="moodChips" style="margin-top:12px;"></div>
-
-        <textarea id="checkinText" rows="6" style="margin-top:12px;" placeholder="What’s going on for you right now?"></textarea>
-
-        <div class="row" style="margin-top:12px;">
-          <button id="saveCheckin" class="pill" type="button" style="flex:1;">Save</button>
-          <button id="clearCheckin" class="pill" type="button" style="flex:1;">Clear</button>
-        </div>
-
-        <div class="gentle" id="savedMsg" style="margin-top:10px;"></div>
-      </div>
+      <div style="height:10px;"></div>
+      <button class="btn" id="saveBtn">Save check in</button>
+      <p class="small-note" id="savedMsg"></p>
     </section>
+  </main>
 
-    <section class="section">
-      <div class="section-title">Recent check-ins</div>
-      <div class="card">
-        <div class="gentle">Saved on this device only.</div>
-        <div id="checkinList" style="margin-top:12px; display:grid; gap:12px;"></div>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
 
-        <div class="row" style="margin-top:12px;">
-          <button id="deleteAllCheckins" class="pill" type="button" style="flex:1;">Delete all</button>
-        </div>
-      </div>
-    </section>
-  </div>
+    const moods = [
+      { key:"Calm", ico:"🙂", sub:"Steady, settled" },
+      { key:"Okay", ico:"😌", sub:"Not perfect, but okay" },
+      { key:"Low", ico:"🌧️", sub:"Heavy, tired, flat" },
+      { key:"Anxious", ico:"🫧", sub:"Worried, tense" },
+    ];
 
-  <script src="app.js?v=20260210-v2-allfix" defer></script>
-  <script src="checkin.js?v=20260210-v2-allfix" defer></script>
+    const KEY = "enigma_checkins_v2";
+    const moodsEl = document.getElementById("moods");
+    const noteEl = document.getElementById("note");
+    const saveBtn = document.getElementById("saveBtn");
+    const msg = document.getElementById("savedMsg");
+
+    let selected = null;
+
+    function render(){
+      moodsEl.innerHTML = moods.map(m => `
+        <button class="tile" type="button" data-mood="${m.key}" style="cursor:pointer;">
+          <div class="tile-ico">${m.ico}</div>
+          <div>
+            <p class="tile-title">${m.key}</p>
+            <p class="tile-sub">${m.sub}</p>
+          </div>
+        </button>
+      `).join("");
+
+      [...moodsEl.querySelectorAll("[data-mood]")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          selected = btn.dataset.mood;
+          [...moodsEl.querySelectorAll("[data-mood]")].forEach(b=>{
+            b.style.outline = (b.dataset.mood === selected) ? "2px solid rgba(200,186,255,.9)" : "none";
+            b.style.background = (b.dataset.mood === selected) ? "rgba(200,186,255,.18)" : "";
+          });
+          msg.textContent = "";
+        });
+      });
+    }
+
+    function loadLatest(){
+      try{
+        const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
+        if (!arr.length) return;
+        const last = arr[arr.length-1];
+        noteEl.value = last.note || "";
+        msg.textContent = `Last saved: ${new Date(last.savedAt).toLocaleString()}`;
+      }catch{}
+    }
+
+    saveBtn.addEventListener("click", ()=>{
+      if (!selected){
+        msg.textContent = "Choose a mood first.";
+        return;
+      }
+      const entry = {
+        mood: selected,
+        note: noteEl.value.trim(),
+        savedAt: new Date().toISOString()
+      };
+      const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
+      arr.push(entry);
+      localStorage.setItem(KEY, JSON.stringify(arr));
+      msg.textContent = `Saved. (${new Date(entry.savedAt).toLocaleString()})`;
+    });
+
+    render();
+    loadLatest();
+  </script>
 </body>
 </html>
