@@ -1,15 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Music • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="./style.css?v=20260210fix3" />
-
-  <meta http-equiv="refresh" content="0; url=sounds.html" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Listen • Enigma Wellbeing</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="page-wrap"></body>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
+
+    <h1 class="page-title">Listen</h1>
+    <p class="page-subtitle">Tap a tile to open calming audio.</p>
+
+    <section class="section-panel">
+      <div class="grid">
+        <a class="tile" href="https://www.youtube.com/results?search_query=calming+rain+sounds" target="_blank" rel="noopener">
+          <div class="tile-ico">🌧️</div>
+          <div><p class="tile-title">Rain</p><p class="tile-sub">Soft rain ambience</p></div>
+        </a>
+
+        <a class="tile" href="https://www.youtube.com/results?search_query=white+noise+1+hour" target="_blank" rel="noopener">
+          <div class="tile-ico">📻</div>
+          <div><p class="tile-title">White noise</p><p class="tile-sub">Steady background sound</p></div>
+        </a>
+
+        <a class="tile" href="https://www.youtube.com/results?search_query=lofi+calm+playlist" target="_blank" rel="noopener">
+          <div class="tile-ico">🎶</div>
+          <div><p class="tile-title">Lo-fi</p><p class="tile-sub">Calm focus music</p></div>
+        </a>
+
+        <a class="tile" href="https://www.youtube.com/results?search_query=guided+sleep+meditation" target="_blank" rel="noopener">
+          <div class="tile-ico">🌙</div>
+          <div><p class="tile-title">Sleep</p><p class="tile-sub">Guided wind-down</p></div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
+  </script>
+</body>
 </html>
