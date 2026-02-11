@@ -1,5 +1,5 @@
 /* =========================================
-   ENIGMA WELLBEING — Calm Version
+   ENIGMA WELLBEING — CALMER TYPOGRAPHY
    ========================================= */
 
 *{ box-sizing:border-box; }
@@ -11,7 +11,7 @@ html,body{ height:100%; }
   --bg3:#ece6fb;
 
   --text:#3b3550;
-  --muted: rgba(59,53,80,.55);
+  --muted: rgba(59,53,80,.60);
 
   --card: rgba(255,255,255,.75);
   --stroke: rgba(30,20,60,.08);
@@ -26,7 +26,7 @@ html,body{ height:100%; }
 body{
   margin:0;
   font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  font-weight:500;              /* CALMER */
+  font-weight:500;               /* CALMER GLOBAL WEIGHT */
   color: var(--text);
   background: linear-gradient(
     180deg,
@@ -38,14 +38,96 @@ body{
 
 body.dark{
   --text: rgba(245,244,255,.92);
-  --muted: rgba(245,244,255,.60);
+  --muted: rgba(245,244,255,.65);
   --card: rgba(255,255,255,.08);
   --stroke: rgba(255,255,255,.12);
   background: linear-gradient(180deg,#1f1a29 0%, #1b1724 100%);
 }
 
 /* =========================================
-   Watermark
+   Night Mode Button — FORCE TOP RIGHT
+   ========================================= */
+
+.moon,
+.icon-btn[data-theme-toggle],
+[data-theme-toggle]{
+  position: fixed !important;
+  top: 16px !important;
+  right: 16px !important;
+  left: auto !important;
+  z-index: 9999 !important;
+
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  border:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background: var(--card);
+  box-shadow: var(--shadow2);
+  font-size:18px;
+  color:inherit;
+  cursor:pointer;
+}
+
+/* =========================================
+   GLOBAL TYPOGRAPHY SOFTENED
+   ========================================= */
+
+h1{
+  font-size:28px;
+  font-weight:600;   /* was heavier */
+  margin:0 0 6px;
+}
+
+h2{
+  font-size:18px;
+  font-weight:600;
+  margin:0 0 8px;
+}
+
+.page-title{
+  font-weight:600;
+}
+
+.page-sub,
+.page-subtitle{
+  font-weight:500;
+  opacity:.75;
+  line-height:1.5;
+}
+
+.label,
+.label.small{
+  font-weight:500;
+}
+
+.btn{
+  font-weight:500;
+}
+
+.pill,
+.support-text,
+.quote-text,
+.tile-title{
+  font-weight:500;
+}
+
+.quote-meta,
+.tile-sub,
+.small-note{
+  font-weight:500;
+  opacity:.75;
+}
+
+.back{
+  font-weight:500;
+}
+
+/* =========================================
+   Layout (UNCHANGED)
    ========================================= */
 
 .watermark{
@@ -64,89 +146,18 @@ body.dark .watermark{ opacity:.12; }
 .wrap{
   max-width: 520px;
   margin: 0 auto;
-  padding: 90px 14px 36px; /* extra top space for fixed moon */
+  padding: 90px 14px 36px; /* space for fixed moon */
   position:relative;
   z-index:1;
 }
 
-/* =========================================
-   Night Mode Button — Top Right
-   ========================================= */
-
-.moon,
-.icon-btn[data-theme-toggle],
-[data-theme-toggle]{
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  width:44px;
-  height:44px;
-  border-radius:999px;
-  border:none;
-  background: var(--card);
-  box-shadow: var(--shadow2);
-  cursor:pointer;
-  font-size:18px;
-  color:inherit;
-  z-index: 1000;
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom: 10px;
 }
-
-/* =========================================
-   Typography — Calmer
-   ========================================= */
-
-h1{
-  font-size:28px;
-  font-weight:650;
-  margin:0 0 6px;
-}
-
-h2{
-  font-size:18px;
-  font-weight:600;
-  margin:0 0 8px;
-}
-
-.page-title{
-  font-weight:650;
-}
-
-.page-sub,
-.page-subtitle{
-  font-weight:500;
-  opacity:.7;
-}
-
-.label{
-  font-weight:600;
-}
-
-.label.small{
-  font-weight:500;
-}
-
-.btn{
-  font-weight:600;
-}
-
-.pill,
-.support-text,
-.quote-text{
-  font-weight:600;
-}
-
-.quote-meta{
-  font-weight:500;
-}
-
-.back{
-  font-weight:600;
-}
-
-/* =========================================
-   Layout Components (UNCHANGED STRUCTURE)
-   ========================================= */
-
 
 .back{
   display:inline-flex;
@@ -161,9 +172,7 @@ h2{
   text-decoration:none;
 }
 
-.section{
-  margin: 16px 0 18px;
-}
+.section{ margin:16px 0 18px; }
 
 .wide{
   display:flex;
@@ -181,7 +190,7 @@ h2{
 .grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap:12px;
 }
 
 .tile{
@@ -195,7 +204,7 @@ h2{
   box-shadow: var(--shadow2);
   text-decoration:none;
   color:inherit;
-  min-height: 76px;
+  min-height:76px;
 }
 
 a{ color:inherit; }
@@ -206,313 +215,4 @@ hr.sep{
   height:1px;
   background:var(--stroke);
   margin:18px 0;
-}
-/* ===== Force Night Mode Button Top Right ===== */
-
-.moon,
-.icon-btn[data-theme-toggle],
-[data-theme-toggle]{
-  position: fixed !important;
-  top: 16px !important;
-  right: 16px !important;
-  left: auto !important;
-  z-index: 9999 !important;
-
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: var(--card);
-  box-shadow: 0 10px 25px rgba(0,0,0,.08);
-}
-/* ==============================
-   CHECK-IN — calmer feel
-   (no layout/function changes)
-   ============================== */
-
-/* soften headings */
-.page-title{
-  font-weight: 600 !important;
-  letter-spacing: .1px;
-}
-.page-sub,
-.page-subtitle{
-  font-weight: 500 !important;
-  opacity: .72 !important;
-  line-height: 1.5;
-}
-
-/* mood tiles: less shouty text */
-.tile-title{
-  font-weight: 600 !important;
-  font-size: 15px !important;
-}
-.tile-sub{
-  font-weight: 500 !important;
-  opacity: .70 !important;
-  line-height: 1.35;
-}
-
-/* make the mood icon block feel softer */
-.tile-ico{
-  opacity: .85;
-}
-
-/* buttons less heavy */
-.btn{
-  font-weight: 600 !important;
-}
-
-/* textarea calmer */
-textarea{
-  font-weight: 500 !important;
-}
-details.folder summary,
-summary.folder-title{
-  font-weight: 600 !important;
-}
-
-.folder-sub{
-  font-weight: 500 !important;
-  opacity: .72 !important;
-  line-height: 1.55;
-}
-
-.mood-btn{
-  font-weight: 600 !important;
-}
-/* ==============================
-   JOURNAL — calmer feel
-   (no layout/function changes)
-   ============================== */
-
-/* Title + subtitle less shouty */
-.page-title{
-  font-weight: 600 !important;
-  letter-spacing: .1px;
-}
-.page-sub,
-.page-subtitle{
-  font-weight: 500 !important;
-  opacity: .72 !important;
-  line-height: 1.5;
-}
-
-/* Card text calmer */
-.card, .section-panel{
-  color: var(--text);
-}
-
-/* Inputs: softer */
-input, textarea{
-  font-weight: 500 !important;
-  line-height: 1.6;
-}
-
-/* Journal textarea: more “gentle writing” */
-textarea{
-  min-height: 180px;               /* feels less cramped */
-  padding: 14px 14px !important;
-  border-radius: 18px !important;
-  opacity: .98;
-}
-
-/* Buttons less heavy */
-.btn{
-  font-weight: 600 !important;
-}
-
-/* Small helper text */
-.small-note{
-  font-weight: 500 !important;
-  opacity: .72 !important;
-  line-height: 1.5;
-}
-/* ==============================
-   DAILY WORD — calmer feel
-   (no layout/function changes)
-   ============================== */
-
-/* Title softer */
-.page-title{
-  font-weight: 600 !important;
-  letter-spacing: .2px;
-}
-
-/* Subtitle calmer */
-.page-sub,
-.page-subtitle{
-  font-weight: 500 !important;
-  opacity: .7 !important;
-  line-height: 1.5;
-}
-
-/* The main word */
-.word-title,
-.daily-word,
-.word-display{
-  font-weight: 600 !important;
-  font-size: 26px !important;
-  letter-spacing: .4px;
-}
-
-/* Meaning text softer */
-.word-meaning,
-.word-desc,
-.word-sub{
-  font-weight: 500 !important;
-  opacity: .72 !important;
-  line-height: 1.6;
-}
-
-/* Card calmer */
-.card,
-.section-panel{
-  backdrop-filter: blur(6px);
-}
-
-/* Buttons less heavy */
-.btn{
-  font-weight: 600 !important;
-}
-
-/* Navigation arrows / secondary text */
-.small-note{
-  font-weight: 500 !important;
-  opacity: .65 !important;
-}
-/* ==============================
-   DAILY WORD size reduction
-   ============================== */
-
-.word-title,
-.daily-word,
-.word-display{
-  font-size: 22px !important;   /* smaller */
-  font-weight: 600 !important;  /* calmer */
-  letter-spacing: .3px;
-}
-
-.word-meaning,
-.word-desc,
-.word-sub{
-  font-size: 15px !important;
-  font-weight: 500 !important;
-  opacity: .75;
-  line-height: 1.6;
-}
-/* ==============================
-   QUOTES PAGE — calmer feel
-   ============================== */
-
-/* Page heading */
-.page-title{
-  font-weight: 600 !important;
-  letter-spacing: .2px;
-}
-
-/* Quote text */
-.quote-text{
-  font-weight: 500 !important;     /* was bold */
-  font-size: 15.5px !important;
-  line-height: 1.6;
-  opacity: .88;
-}
-
-/* Author / meta text */
-.quote-meta{
-  font-weight: 500 !important;
-  opacity: .65 !important;
-}
-
-/* Save button calmer */
-.save-fab{
-  font-weight: 500 !important;
-}
-
-/* Remove any heavy bold inside tiles */
-.quote-tile strong,
-.quote-tile b{
-  font-weight: 600 !important;
-}
-/* ==============================
-   YOGA PAGE — calmer feel
-   ============================== */
-
-/* Page title softer */
-.page-title{
-  font-weight: 600 !important;
-  letter-spacing: .2px;
-}
-
-/* Subtitle softer */
-.page-sub,
-.page-subtitle{
-  font-weight: 500 !important;
-  opacity: .72 !important;
-  line-height: 1.5;
-}
-
-/* Tile titles calmer */
-.tile .label,
-.tile-title{
-  font-weight: 600 !important;
-}
-
-/* Secondary tile text */
-.tile-sub{
-  font-weight: 500 !important;
-  opacity: .7 !important;
-  line-height: 1.4;
-}
-
-/* Section headings */
-.section h2{
-  font-weight: 600 !important;
-  opacity: .85;
-}
-
-/* Buttons calmer */
-.btn{
-  font-weight: 600 !important;
-}
-/* ==============================
-   SUPPORT PAGE — calmer feel
-   ============================== */
-
-.page-title{
-  font-weight: 600 !important;
-  letter-spacing: .2px;
-}
-
-.page-sub,
-.page-subtitle{
-  font-weight: 500 !important;
-  opacity: .72 !important;
-  line-height: 1.5;
-}
-
-.tile .label,
-.tile-title{
-  font-weight: 600 !important;
-}
-
-.tile-sub{
-  font-weight: 500 !important;
-  opacity: .7 !important;
-  line-height: 1.45;
-}
-
-.btn,
-.pill{
-  font-weight: 600 !important;
-}
-
-.small-note{
-  font-weight: 500 !important;
-  opacity: .7 !important;
 }
