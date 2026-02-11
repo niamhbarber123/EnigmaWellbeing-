@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Breathe • Enigma Wellbeing</title>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -12,7 +11,6 @@
   <div class="watermark" aria-hidden="true"></div>
 
   <main class="wrap">
-
     <div class="topbar">
       <a class="back" href="index.html">← Back</a>
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
@@ -25,18 +23,47 @@
 
     <section class="card" style="text-align:center;">
 
-      <!-- Breathing type dropdown -->
-      <label style="font-weight:500; display:block; margin-bottom:6px;">
-        Breathing style
-      </label>
-
-      <select id="breathType" style="margin-bottom:14px;">
-        <option value="4-4">Box (4-4-4-4)</option>
-        <option value="4-6">Calm (4 in, 6 out)</option>
-        <option value="5-5">Balanced (5 in, 5 out)</option>
+      <!-- Breathing Style -->
+      <label style="font-weight:500;">Breathing style</label>
+      <select id="breathType" style="margin-bottom:12px;">
+        <option value="box">Box (4-4-4-4)</option>
+        <option value="calm" selected>Calm (4-2-6)</option>
+        <option value="balanced">Balanced (5-2-5)</option>
       </select>
 
-      <!-- Breathing circle -->
+      <!-- Speed -->
+      <label style="font-weight:500;">Speed</label>
+      <select id="speedSelect" style="margin-bottom:12px;">
+        <option value="slow">Slow</option>
+        <option value="medium" selected>Medium</option>
+        <option value="fast">Fast</option>
+      </select>
+
+      <!-- Mode -->
+      <label style="font-weight:500;">Mode</label>
+      <select id="modeSelect" style="margin-bottom:12px;">
+        <option value="timer" selected>Timer</option>
+        <option value="stopwatch">Stopwatch</option>
+      </select>
+
+      <!-- Timer Length -->
+      <div id="timeOptions">
+        <label style="font-weight:500;">Duration</label>
+        <select id="timeSelect" style="margin-bottom:14px;">
+          <option value="1">1 minute</option>
+          <option value="2">2 minutes</option>
+          <option value="3">3 minutes</option>
+          <option value="5">5 minutes</option>
+          <option value="10">10 minutes</option>
+        </select>
+      </div>
+
+      <!-- Timer Display -->
+      <div id="timeDisplay" style="font-size:20px; font-weight:600; margin-bottom:10px;">
+        00:00
+      </div>
+
+      <!-- Circle -->
       <div id="circle"
         style="
           width:180px;
@@ -52,11 +79,13 @@
           font-weight:600;
           transition:transform 4s ease-in-out;
         ">
-        Inhale
+        Ready
       </div>
 
-      <div style="margin-top:16px;">
+      <div style="margin-top:16px;" class="btn-row">
         <button class="btn primary" id="startBtn">Start</button>
+        <button class="btn" id="stopBtn">Stop</button>
+        <button class="btn" id="resetBtn">Reset</button>
       </div>
 
     </section>
@@ -71,54 +100,167 @@
   <script>
     const circle = document.getElementById("circle");
     const startBtn = document.getElementById("startBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
     const breathType = document.getElementById("breathType");
+    const speedSelect = document.getElementById("speedSelect");
+    const modeSelect = document.getElementById("modeSelect");
+    const timeSelect = document.getElementById("timeSelect");
+    const timeOptions = document.getElementById("timeOptions");
+    const timeDisplay = document.getElementById("timeDisplay");
 
-    let interval;
-    let inhaleTime = 4000;
-    let exhaleTime = 4000;
+    let breathInterval = null;
+    let phaseTimeout = null;
+    let timerInterval = null;
 
-    function setPattern(type){
-      if(type === "4-4"){
-        inhaleTime = 4000;
-        exhaleTime = 4000;
+    let inhaleMs = 4000;
+    let holdMs = 2000;
+    let exhaleMs = 6000;
+    let hold2Ms = 0;      // only used for box breathing
+    let running = false;
+
+    let seconds = 0;
+
+    function mult(){
+      return speedSelect.value === "slow" ? 1.3 :
+             speedSelect.value === "fast" ? 0.8 : 1;
+    }
+
+    function updatePattern(){
+      const k = mult();
+
+      if (breathType.value === "box"){
+        inhaleMs = 4000 * k;
+        holdMs   = 4000 * k;
+        exhaleMs = 4000 * k;
+        hold2Ms  = 4000 * k; // second hold after exhale
+      } else if (breathType.value === "balanced"){
+        inhaleMs = 5000 * k;
+        holdMs   = 2000 * k;
+        exhaleMs = 5000 * k;
+        hold2Ms  = 0;
+      } else { // calm
+        inhaleMs = 4000 * k;
+        holdMs   = 2000 * k;
+        exhaleMs = 6000 * k;
+        hold2Ms  = 0;
       }
-      if(type === "4-6"){
-        inhaleTime = 4000;
-        exhaleTime = 6000;
-      }
-      if(type === "5-5"){
-        inhaleTime = 5000;
-        exhaleTime = 5000;
-      }
+    }
+
+    function fmt(sec){
+      const m = String(Math.floor(sec/60)).padStart(2,"0");
+      const s = String(sec%60).padStart(2,"0");
+      return `${m}:${s}`;
+    }
+
+    function clearAllTimers(){
+      clearInterval(breathInterval);
+      clearInterval(timerInterval);
+      clearTimeout(phaseTimeout);
+      breathInterval = timerInterval = phaseTimeout = null;
+    }
+
+    function inhale(){
+      circle.textContent = "Inhale";
+      circle.style.transitionDuration = inhaleMs + "ms";
+      circle.style.transform = "scale(1.2)";
+    }
+
+    function hold(){
+      circle.textContent = "Hold";
+      // keep size steady during hold
+    }
+
+    function exhale(){
+      circle.textContent = "Exhale";
+      circle.style.transitionDuration = exhaleMs + "ms";
+      circle.style.transform = "scale(1)";
+    }
+
+    function hold2(){
+      circle.textContent = "Hold";
+    }
+
+    function runCycle(){
+      if (!running) return;
+
+      inhale();
+      phaseTimeout = setTimeout(()=>{
+        if (!running) return;
+
+        hold();
+        phaseTimeout = setTimeout(()=>{
+          if (!running) return;
+
+          exhale();
+          phaseTimeout = setTimeout(()=>{
+            if (!running) return;
+
+            if (hold2Ms > 0){
+              hold2();
+              phaseTimeout = setTimeout(()=>{
+                if (!running) return;
+                runCycle();
+              }, hold2Ms);
+            } else {
+              runCycle();
+            }
+
+          }, exhaleMs);
+
+        }, holdMs);
+
+      }, inhaleMs);
     }
 
     function startBreathing(){
-      clearInterval(interval);
+      if (running) return;
+      running = true;
+      updatePattern();
 
-      setPattern(breathType.value);
+      // timer/stopwatch
+      if (modeSelect.value === "timer"){
+        seconds = parseInt(timeSelect.value,10) * 60;
+        timeDisplay.textContent = fmt(seconds);
 
-      function inhale(){
-        circle.textContent = "Inhale";
-        circle.style.transform = "scale(1.2)";
-        circle.style.transitionDuration = inhaleTime + "ms";
+        timerInterval = setInterval(()=>{
+          seconds--;
+          timeDisplay.textContent = fmt(Math.max(0, seconds));
+          if (seconds <= 0) stopBreathing(true);
+        }, 1000);
+      } else {
+        seconds = 0;
+        timeDisplay.textContent = "00:00";
+        timerInterval = setInterval(()=>{
+          seconds++;
+          timeDisplay.textContent = fmt(seconds);
+        }, 1000);
       }
 
-      function exhale(){
-        circle.textContent = "Exhale";
-        circle.style.transform = "scale(1)";
-        circle.style.transitionDuration = exhaleTime + "ms";
-      }
-
-      inhale();
-      setTimeout(exhale, inhaleTime);
-
-      interval = setInterval(() => {
-        inhale();
-        setTimeout(exhale, inhaleTime);
-      }, inhaleTime + exhaleTime);
+      runCycle();
     }
 
+    function stopBreathing(finished=false){
+      running = false;
+      clearAllTimers();
+      if (finished) circle.textContent = "Done";
+    }
+
+    function resetBreathing(){
+      stopBreathing(false);
+      timeDisplay.textContent = "00:00";
+      circle.textContent = "Ready";
+      circle.style.transform = "scale(1)";
+    }
+
+    modeSelect.addEventListener("change", () => {
+      timeOptions.style.display = modeSelect.value === "timer" ? "block" : "none";
+    });
+
     startBtn.addEventListener("click", startBreathing);
+    stopBtn.addEventListener("click", ()=>stopBreathing(false));
+    resetBtn.addEventListener("click", resetBreathing);
   </script>
 </body>
 </html>
