@@ -1,39 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Books • Enigma Wellbeing</title>
-
-  <link rel="icon" href="icon.png" />
-  <link rel="apple-touch-icon" href="icon.png" />
-  <link rel="stylesheet" href="style.css?v=20260210fixB" />
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
+  <main class="wrap">
+    <div class="header">
+      <a class="back-btn" href="index.html" data-back>← Back</a>
+      <div class="header-center"></div>
+      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
 
-<body class="page-wrap">
-  <button class="back-btn" type="button" onclick="location.href='index.html'">←</button>
-  <button id="themeFab" class="theme-toggle-top" type="button" aria-label="Toggle night mode">🌙</button>
+    <h1 class="page-title">Books</h1>
+    <p class="page-subtitle">A few gentle reads. (Tap a tile to open.)</p>
 
-  <header class="page-header">
-    <h1>Books</h1>
-    <p>Recommendations by genre</p>
-  </header>
+    <section class="section-panel">
+      <div class="grid">
+        <a class="tile" href="https://www.nhs.uk/mental-health/" target="_blank" rel="noopener">
+          <div class="tile-ico">🧠</div>
+          <div><p class="tile-title">NHS Mental Health</p><p class="tile-sub">Trusted support & guides</p></div>
+        </a>
 
-  <main class="page">
-    <section class="card">
-      <div class="section-title">Genres</div>
-      <div class="gentle-text" style="margin-top:6px;">Tap to filter. ★ shows your favourites.</div>
-      <div class="chip-row" id="genreChips"></div>
-    </section>
+        <a class="tile" href="https://www.mind.org.uk/" target="_blank" rel="noopener">
+          <div class="tile-ico">🤝</div>
+          <div><p class="tile-title">Mind</p><p class="tile-sub">UK support & info</p></div>
+        </a>
 
-    <section class="card" style="margin-top:14px;">
-      <div class="section-title">Recommendations</div>
-      <div class="gentle-text" style="margin-top:6px;">Tap ★ to favourite. “Open” goes to Goodreads.</div>
-      <div id="booksList" class="book-list"></div>
+        <div class="tile">
+          <div class="tile-ico">📘</div>
+          <div><p class="tile-title">Add your own list</p><p class="tile-sub">Replace these tiles with your books</p></div>
+        </div>
+
+        <div class="tile">
+          <div class="tile-ico">📗</div>
+          <div><p class="tile-title">Reading habit</p><p class="tile-sub">One page is enough</p></div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <script src="app.js?v=20260210fixB" defer></script>
-  <script src="books.js?v=20260210fixB" defer></script>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton();
+  </script>
 </body>
 </html>
