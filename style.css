@@ -439,3 +439,44 @@ textarea{
 .quote-tile b{
   font-weight: 600 !important;
 }
+/* ==============================
+   YOGA PAGE — calmer feel
+   ============================== */
+
+/* Page title softer */
+.page-title{
+  font-weight: 600 !important;
+  letter-spacing: .2px;
+}
+
+/* Subtitle softer */
+.page-sub,
+.page-subtitle{
+  font-weight: 500 !important;
+  opacity: .72 !important;
+  line-height: 1.5;
+}
+
+/* Tile titles calmer */
+.tile .label,
+.tile-title{
+  font-weight: 600 !important;
+}
+
+/* Secondary tile text */
+.tile-sub{
+  font-weight: 500 !important;
+  opacity: .7 !important;
+  line-height: 1.4;
+}
+
+/* Section headings */
+.section h2{
+  font-weight: 600 !important;
+  opacity: .85;
+}
+
+/* Buttons calmer */
+.btn{
+  font-weight: 600 !important;
+}
