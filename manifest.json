@@ -1,14 +1,18 @@
 {
-  "name": "Enigma",
+  "name": "Enigma Wellbeing",
   "short_name": "Enigma",
-  "start_url": "/Enigma-/index.html",
-  "scope": "/Enigma-/",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#faf7ff",
-  "theme_color": "#b8a6d9",
+  "background_color": "#f4f1ff",
+  "theme_color": "#c8baff",
+  "description": "A calm wellbeing space: breathe, check-in, journal, gentle support.",
   "icons": [
-    { "src": "/Enigma-/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/Enigma-/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "/Enigma-/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
