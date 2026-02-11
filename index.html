@@ -1,84 +1,120 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
-  <!-- ✅ ONE moon button, always top-right -->
+  <!-- Night Mode -->
   <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
 
   <main class="wrap">
-    <header class="header">
-      <h1>Enigma Wellbeing</h1>
-      <p>Your calm space</p>
+
+    <!-- Header -->
+    <header style="text-align:center; margin-bottom:20px;">
+      <h1 style="margin:0;">Enigma Wellbeing</h1>
+      <p class="page-sub" style="margin-top:6px;">Your calm space</p>
     </header>
 
+    <!-- Right now -->
     <section class="section">
       <h2>Right now</h2>
 
-      <a class="wide cool" href="breathe.html">
+      <a class="wide" href="breathe.html">
         <div class="ico">🫧</div>
         <div class="label">Breathe now</div>
         <div class="arrow">›</div>
       </a>
 
-      <a class="wide warm" href="overwhelmed.html">
-        <div class="ico">🫶</div>
+      <a class="wide" href="overwhelmed.html" style="background:rgba(255,210,220,.35);">
+        <div class="ico">🤲</div>
         <div class="label">I need calm</div>
         <div class="arrow">›</div>
       </a>
     </section>
 
+    <!-- Today -->
     <section class="section">
       <h2>Today</h2>
+
       <div class="grid">
-        <a class="tile" href="checkin.html"><div class="ico">📝</div><div class="label small">Check in</div><div class="arrow small">›</div></a>
-        <a class="tile" href="journal.html"><div class="ico">📖</div><div class="label small">Journal</div><div class="arrow small">›</div></a>
-        <a class="tile" href="word.html"><div class="ico">✨</div><div class="label small">Daily word</div><div class="arrow small">›</div></a>
-        <a class="tile" href="quotes.html"><div class="ico">💬</div><div class="label small">Kind words</div><div class="arrow small">›</div></a>
+        <a class="tile" href="checkin.html">
+          <div class="ico">📝</div>
+          <div class="label">Check in</div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="tile" href="journal.html">
+          <div class="ico">📖</div>
+          <div class="label">Journal</div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="tile" href="word.html">
+          <div class="ico">✨</div>
+          <div class="label">Daily word</div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="tile" href="quotes.html">
+          <div class="ico">💬</div>
+          <div class="label">Kind words</div>
+          <div class="arrow">›</div>
+        </a>
       </div>
     </section>
 
+    <!-- Explore -->
     <section class="section">
       <h2>Explore</h2>
+
       <div class="grid">
-        <a class="tile" href="yoga.html"><div class="ico">🧘</div><div class="label small">Move gently</div><div class="arrow small">›</div></a>
-        <a class="tile" href="music.html"><div class="ico">🎵</div><div class="label small">Listen</div><div class="arrow small">›</div></a>
-        <a class="tile" href="books.html"><div class="ico">📚</div><div class="label small">Read</div><div class="arrow small">›</div></a>
-        <a class="tile" href="distraction.html"><div class="ico">🧩</div><div class="label small">Take a break</div><div class="arrow small">›</div></a>
+        <a class="tile" href="yoga.html">
+          <div class="ico">🧘</div>
+          <div class="label">Move gently</div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="tile" href="music.html">
+          <div class="ico">🎵</div>
+          <div class="label">Listen</div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="tile" href="books.html">
+          <div class="ico">📚</div>
+          <div class="label">Read</div>
+          <div class="arrow">›</div>
+        </a>
+
+        <a class="tile" href="distraction.html">
+          <div class="ico">🧩</div>
+          <div class="label">Take a break</div>
+          <div class="arrow">›</div>
+        </a>
       </div>
     </section>
 
+    <!-- Your Space -->
     <section class="section">
       <h2>Your space</h2>
 
       <div class="pill-row">
-        <a class="pill" href="progress.html">📊 <span>Progress</span></a>
-        <a class="pill" href="resources.html">🧠 <span>Resources</span></a>
-        <a class="pill" href="support.html">💛 <span>Support</span></a>
-        <a class="pill" href="settings.html">⚙️ <span>Settings</span></a>
+        <a class="pill" href="progress.html">📊 Progress</a>
+        <a class="pill" href="resources.html">🧠 Resources</a>
+        <a class="pill" href="settings.html">⚙️ Settings</a>
       </div>
-
-      <a class="support-banner" href="help.html">
-        <span class="sos">SOS</span>
-        <span class="support-text">Get support now</span>
-        <span class="arrow">›</span>
-      </a>
     </section>
+
   </main>
 
   <script type="module">
@@ -86,5 +122,6 @@
     applySavedTheme();
     wireThemeButton();
   </script>
+
 </body>
 </html>
