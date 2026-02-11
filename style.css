@@ -342,3 +342,26 @@ a:focus-visible{
 /* Active press */
 a:active, button:active{ transform: translateY(1px); }
 a{ color:inherit; }
+/* =================================
+   CHECK IN — Remove Blue Highlight
+   ================================= */
+
+/* Remove iOS tap flash */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove browser blue focus styles */
+button:focus,
+button:active,
+button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Use app accent instead when selected */
+.tile[aria-pressed="true"]{
+  outline: 2px solid var(--accentRing) !important;
+  outline-offset: 2px;
+  background: var(--accentTint) !important;
+}
