@@ -3,277 +3,122 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Breathe • Enigma</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>Breathe • Enigma Wellbeing</title>
 
   <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
-
-  <style>
-    .circle{
-      width: 240px; height: 240px; border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%,
-        rgba(255,255,255,.70) 0%,
-        rgba(200,186,255,.42) 42%,
-        rgba(200,186,255,.20) 100%
-      );
-      border: 1px solid rgba(30,20,60,.08);
-      box-shadow: 0 18px 50px rgba(50,30,90,.10);
-      display:flex; align-items:center; justify-content:center;
-      transform: scale(1);
-      transition-property: transform;
-      transition-timing-function: ease-in-out;
-      will-change: transform;
-      margin: 0 auto;
-    }
-    body.dark .circle{
-      background: radial-gradient(circle at 35% 30%,
-        rgba(255,255,255,.14) 0%,
-        rgba(200,186,255,.16) 42%,
-        rgba(200,186,255,.10) 100%
-      );
-      border-color: rgba(255,255,255,.12);
-      box-shadow: 0 18px 60px rgba(0,0,0,.35);
-    }
-    .time{ font-size:34px; font-weight:900; }
-    .phase{ font-size:18px; font-weight:850; opacity:.75; text-align:center; }
-    .controls{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
-    @media (max-width:380px){ .controls{ grid-template-columns:1fr; } .circle{ width:210px; height:210px; } }
-    .hint{ text-align:center; color:var(--muted); font-weight:650; font-size:13px; margin-top:6px; }
-  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
   <main class="wrap">
+
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
+      <a class="back" href="index.html">← Back</a>
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
-    <h1 class="page-title">Breathe</h1>
-    <p class="page-sub">Follow the rhythm. Slow in, slower out.</p>
+    <h1 class="page-title" style="font-weight:600;">Breathe</h1>
+    <p class="page-sub" style="font-weight:500;">
+      Slow down. Follow the rhythm.
+    </p>
 
-    <section class="card">
-      <div class="circle" id="circle"><div class="time" id="timeDisplay">00:00</div></div>
-      <div class="phase" id="phaseText" style="margin-top:12px;">Ready</div>
-      <div class="hint" id="hintText">Choose a pace and press Start.</div>
+    <section class="card" style="text-align:center;">
 
-      <div class="controls">
-        <div>
-          <div style="font-weight:900;opacity:.65;font-size:12px;margin-bottom:6px;">Pace</div>
-          <select id="paceSelect">
-            <option value="slow">Slow</option>
-            <option value="medium" selected>Medium</option>
-            <option value="fast">Fast</option>
-          </select>
-        </div>
+      <!-- Breathing type dropdown -->
+      <label style="font-weight:500; display:block; margin-bottom:6px;">
+        Breathing style
+      </label>
 
-        <div>
-          <div style="font-weight:900;opacity:.65;font-size:12px;margin-bottom:6px;">Mode</div>
-          <select id="modeSelect">
-            <option value="timer" selected>Timer</option>
-            <option value="stopwatch">Stopwatch</option>
-          </select>
-        </div>
+      <select id="breathType" style="margin-bottom:14px;">
+        <option value="4-4">Box (4-4-4-4)</option>
+        <option value="4-6">Calm (4 in, 6 out)</option>
+        <option value="5-5">Balanced (5 in, 5 out)</option>
+      </select>
 
-        <div id="timeControl">
-          <div style="font-weight:900;opacity:.65;font-size:12px;margin-bottom:6px;">Timer length</div>
-          <select id="timeSelect">
-            <option value="1">1 minute</option>
-            <option value="2">2 minutes</option>
-            <option value="3">3 minutes</option>
-            <option value="5">5 minutes</option>
-            <option value="10">10 minutes</option>
-          </select>
-        </div>
-
-        <div>
-          <div style="font-weight:900;opacity:.65;font-size:12px;margin-bottom:6px;">Pattern</div>
-          <div id="patternText" style="font-weight:850;opacity:.8;">Inhale 4 • Hold 4 • Exhale 6</div>
-        </div>
+      <!-- Breathing circle -->
+      <div id="circle"
+        style="
+          width:180px;
+          height:180px;
+          margin:20px auto;
+          border-radius:50%;
+          background:#c8baff;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          color:#fff;
+          font-size:18px;
+          font-weight:600;
+          transition:transform 4s ease-in-out;
+        ">
+        Inhale
       </div>
 
-      <hr class="sep">
-
-      <div class="btn-row">
-        <button class="btn primary" id="startBtn" type="button">Start</button>
-        <button class="btn" id="stopBtn" type="button">Stop</button>
-        <button class="btn" id="resetBtn" type="button">Reset</button>
+      <div style="margin-top:16px;">
+        <button class="btn primary" id="startBtn">Start</button>
       </div>
+
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+  </script>
 
+  <script>
     const circle = document.getElementById("circle");
-    const phaseText = document.getElementById("phaseText");
-    const timeDisplay = document.getElementById("timeDisplay");
-    const hintText = document.getElementById("hintText");
-    const patternText = document.getElementById("patternText");
-
-    const paceSelect = document.getElementById("paceSelect");
-    const modeSelect = document.getElementById("modeSelect");
-    const timeSelect = document.getElementById("timeSelect");
-    const timeControl = document.getElementById("timeControl");
-
     const startBtn = document.getElementById("startBtn");
-    const stopBtn  = document.getElementById("stopBtn");
-    const resetBtn = document.getElementById("resetBtn");
+    const breathType = document.getElementById("breathType");
 
-    const LOG_KEY = "enigma_breathe_logs_v2";
+    let interval;
+    let inhaleTime = 4000;
+    let exhaleTime = 4000;
 
-    let running=false, breathTimeout=null, tickInterval=null;
-    let elapsed=0, remaining=0;
-
-    function fmt(sec){
-      const m = String(Math.floor(sec/60)).padStart(2,"0");
-      const s = String(sec%60).padStart(2,"0");
-      return `${m}:${s}`;
-    }
-
-    function durations(){
-      if (paceSelect.value === "slow") return { inhale:6, hold:4, exhale:8 };
-      if (paceSelect.value === "fast") return { inhale:3, hold:2, exhale:4 };
-      return { inhale:4, hold:4, exhale:6 };
-    }
-
-    function updatePattern(){
-      const d = durations();
-      patternText.textContent = `Inhale ${d.inhale} • Hold ${d.hold} • Exhale ${d.exhale}`;
-    }
-
-    function clearTimers(){
-      if (breathTimeout){ clearTimeout(breathTimeout); breathTimeout=null; }
-      if (tickInterval){ clearInterval(tickInterval); tickInterval=null; }
-    }
-
-    function setModeUI(){
-      timeControl.style.display = (modeSelect.value === "timer") ? "block" : "none";
-      if (!running) timeDisplay.textContent = "00:00";
-    }
-
-    function startTick(){
-      clearInterval(tickInterval);
-
-      if (modeSelect.value === "timer"){
-        remaining = parseInt(timeSelect.value,10) * 60;
-        timeDisplay.textContent = fmt(remaining);
-
-        tickInterval = setInterval(()=>{
-          remaining--;
-          timeDisplay.textContent = fmt(Math.max(0, remaining));
-          if (remaining <= 0) stopAll(true);
-        }, 1000);
-      } else {
-        elapsed = 0;
-        timeDisplay.textContent = "00:00";
-        tickInterval = setInterval(()=>{
-          elapsed++;
-          timeDisplay.textContent = fmt(elapsed);
-        }, 1000);
+    function setPattern(type){
+      if(type === "4-4"){
+        inhaleTime = 4000;
+        exhaleTime = 4000;
+      }
+      if(type === "4-6"){
+        inhaleTime = 4000;
+        exhaleTime = 6000;
+      }
+      if(type === "5-5"){
+        inhaleTime = 5000;
+        exhaleTime = 5000;
       }
     }
 
-    function inhale(inh){
-      phaseText.textContent="Inhale";
-      hintText.textContent="Breathe in slowly.";
-      circle.style.transitionDuration = `${inh}s`;
-      circle.style.transform = "scale(1.35)";
-    }
-    function hold(){
-      phaseText.textContent="Hold";
-      hintText.textContent="Pause gently.";
-    }
-    function exhale(exh){
-      phaseText.textContent="Exhale";
-      hintText.textContent="Breathe out slowly.";
-      circle.style.transitionDuration = `${exh}s`;
-      circle.style.transform = "scale(1)";
-    }
+    function startBreathing(){
+      clearInterval(interval);
 
-    function loop(){
-      if (!running) return;
-      const { inhale:inh, hold:h, exhale:exh } = durations();
+      setPattern(breathType.value);
 
-      inhale(inh);
-      breathTimeout = setTimeout(()=>{
-        if (!running) return;
-        hold();
-        breathTimeout = setTimeout(()=>{
-          if (!running) return;
-          exhale(exh);
-          breathTimeout = setTimeout(loop, exh*1000);
-        }, h*1000);
-      }, inh*1000);
-    }
-
-    function logSession(){
-      const arr = JSON.parse(localStorage.getItem(LOG_KEY) || "[]");
-      arr.push({ savedAt: new Date().toISOString(), pace: paceSelect.value, mode: modeSelect.value });
-      localStorage.setItem(LOG_KEY, JSON.stringify(arr));
-    }
-
-    function startAll(){
-      if (running) return;
-      running=true;
-      updatePattern();
-      startTick();
-      loop();
-
-      startBtn.disabled=true;
-      paceSelect.disabled=true;
-      modeSelect.disabled=true;
-      timeSelect.disabled=true;
-    }
-
-    function stopAll(finished=false){
-      running=false;
-      clearTimers();
-
-      startBtn.disabled=false;
-      paceSelect.disabled=false;
-      modeSelect.disabled=false;
-      timeSelect.disabled=false;
-
-      circle.style.transitionDuration="0.25s";
-      circle.style.transform="scale(1)";
-
-      if (finished){
-        phaseText.textContent="Done";
-        hintText.textContent="Nice work.";
-        logSession();
-      } else {
-        phaseText.textContent="Paused";
-        hintText.textContent="Press Start to continue.";
+      function inhale(){
+        circle.textContent = "Inhale";
+        circle.style.transform = "scale(1.2)";
+        circle.style.transitionDuration = inhaleTime + "ms";
       }
+
+      function exhale(){
+        circle.textContent = "Exhale";
+        circle.style.transform = "scale(1)";
+        circle.style.transitionDuration = exhaleTime + "ms";
+      }
+
+      inhale();
+      setTimeout(exhale, inhaleTime);
+
+      interval = setInterval(() => {
+        inhale();
+        setTimeout(exhale, inhaleTime);
+      }, inhaleTime + exhaleTime);
     }
 
-    function resetAll(){
-      stopAll(false);
-      phaseText.textContent="Ready";
-      hintText.textContent="Choose a pace and press Start.";
-      timeDisplay.textContent="00:00";
-      elapsed=0; remaining=0;
-    }
-
-    paceSelect.addEventListener("change", updatePattern);
-    modeSelect.addEventListener("change", ()=>{ setModeUI(); updatePattern(); });
-
-    startBtn.addEventListener("click", startAll);
-    stopBtn.addEventListener("click", ()=>stopAll(false));
-    resetBtn.addEventListener("click", resetAll);
-
-    setModeUI();
-    updatePattern();
+    startBtn.addEventListener("click", startBreathing);
   </script>
 </body>
 </html>
