@@ -469,3 +469,32 @@ body.dark .mood-btn{ background: rgba(255,255,255,.08); }
   font-size: 14px;      /* was 16px */
   font-weight: 700;     /* was 750 */
 }
+/* --- HOME: smaller + less bold heading + button titles (override only) --- */
+
+/* Main heading */
+body.home h1{
+  font-size: 32px !important;
+  font-weight: 800 !important;
+}
+
+/* Section headings (Right now / Today / Explore / Your space) */
+body.home h2{
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+
+/* Button titles (covers links + buttons on the home screen) */
+body.home a,
+body.home button{
+  font-weight: 650 !important;
+}
+
+/* If you are using the v2 tile classes, these also get toned down */
+body.home .label{
+  font-size: 18px !important;
+  font-weight: 750 !important;
+}
+body.home .label.small{
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
