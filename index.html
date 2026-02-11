@@ -18,11 +18,10 @@
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
-  <!-- Night Mode Button (fixed top right) -->
+  <!-- ✅ ONE moon button, always top-right -->
   <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
 
   <main class="wrap">
-
     <header class="header">
       <h1>Enigma Wellbeing</h1>
       <p>Your calm space</p>
@@ -80,14 +79,12 @@
         <span class="arrow">›</span>
       </a>
     </section>
-
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, registerServiceWorker } from "./app.js";
+    import { applySavedTheme, wireThemeButton } from "./app.js";
     applySavedTheme();
     wireThemeButton();
-    registerServiceWorker();
   </script>
 </body>
 </html>
