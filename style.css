@@ -1,3 +1,8 @@
+/* =========================================
+   ENIGMA WELLBEING — Calm UI (Root)
+   Global calmer typography + fixed night mode
+   ========================================= */
+
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
 
@@ -9,143 +14,228 @@ html,body{ height:100%; }
   --text:#3b3550;
   --muted: rgba(59,53,80,.55);
 
-  --card: rgba(255,255,255,.75);
+  --card: rgba(255,255,255,.74);
+  --card2: rgba(255,255,255,.68);
   --stroke: rgba(30,20,60,.08);
 
-  --shadow: 0 16px 40px rgba(50,30,90,.10);
-  --shadow2: 0 10px 24px rgba(50,30,90,.08);
+  --shadow: 0 16px 42px rgba(50,30,90,.10);
+  --shadow2: 0 10px 26px rgba(50,30,90,.08);
 
-  --radius: 24px;
-  --radius2: 20px;
+  --radius: 26px;
+  --radius2: 22px;
 }
 
 body{
   margin:0;
-  font-family:"Poppins", system-ui;
-  font-weight:500;
-  color:var(--text);
-  background:linear-gradient(180deg,var(--bg1),var(--bg3));
+  font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  font-weight: 500;
+  color: var(--text);
+  background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 60%,var(--bg3) 100%);
 }
 
 body.dark{
-  --text:rgba(245,244,255,.92);
-  --muted:rgba(245,244,255,.6);
-  --card:rgba(255,255,255,.08);
-  --stroke:rgba(255,255,255,.12);
-  background:linear-gradient(180deg,#1f1a29,#1b1724);
+  --text: rgba(245,244,255,.92);
+  --muted: rgba(245,244,255,.60);
+
+  --card: rgba(255,255,255,.08);
+  --card2: rgba(255,255,255,.07);
+  --stroke: rgba(255,255,255,.12);
+
+  background: linear-gradient(180deg,#1f1a29 0%, #1b1724 100%);
 }
 
-/* Watermark */
+/* Icon watermark behind everything */
 .watermark{
   position:fixed;
   inset:0;
-  background:url("icon.png") no-repeat center 55%;
+  z-index:0;
+  pointer-events:none;
+
+  background-image:url("icon.png");
+  background-repeat:no-repeat;
+  background-position:center 55%;
   background-size:420px;
   opacity:.07;
-  pointer-events:none;
+  filter: blur(.3px);
 }
 body.dark .watermark{ opacity:.12; }
 
 .wrap{
-  max-width:520px;
-  margin:0 auto;
-  padding:80px 14px 36px;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 76px 14px 36px; /* top padding so fixed moon never overlaps */
   position:relative;
   z-index:1;
 }
 
-/* Moon button fixed top right */
+/* =========================================
+   Night Mode Button — fixed top-right (ALL pages)
+   ========================================= */
 .moon{
-  position:fixed;
-  top:14px;
-  right:14px;
-  width:42px;
-  height:42px;
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  width:44px;
+  height:44px;
   border-radius:999px;
   border:none;
-  background:var(--card);
-  box-shadow:var(--shadow2);
+  background: var(--card);
+  box-shadow: var(--shadow2);
   cursor:pointer;
   font-size:18px;
-  z-index:10;
+  color:inherit;
+  z-index: 20;
 }
 
-/* Header */
+/* =========================================
+   Topbar / back button
+   ========================================= */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom: 10px;
+}
+
+.back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background: var(--card);
+  box-shadow: var(--shadow2);
+  font-weight:600; /* calmer */
+  color:inherit;
+  text-decoration:none;
+}
+
+/* If some pages still use icon-btn */
+.icon-btn{
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  border:none;
+  background: var(--card);
+  box-shadow: var(--shadow2);
+  cursor:pointer;
+  font-size:18px;
+  color:inherit;
+}
+
+/* =========================================
+   Calmer typography (GLOBAL)
+   ========================================= */
+h1, h2, h3{
+  font-weight: 650;
+}
+.page-title{
+  margin: 6px 0 6px;
+  font-size: 26px;
+  font-weight: 650;
+  text-align:center;
+}
+
+.page-sub, .page-subtitle{
+  margin: 0 0 14px;
+  text-align:center;
+  color: var(--muted);
+  font-weight: 500;
+}
+
 .header{
   text-align:center;
-  margin-bottom:10px;
+  padding: 8px 0 6px;
 }
 
 .header h1{
-  font-size:28px;
-  font-weight:600;
-  margin:0;
+  font-size: 28px;
+  font-weight: 650;
+  margin: 10px 0 4px;
+  line-height:1.08;
 }
 
 .header p{
-  margin:6px 0 0;
-  font-size:14px;
-  font-weight:500;
-  color:var(--muted);
+  margin:0;
+  font-size: 14px;
+  font-weight: 500;
+  opacity:.65;
+  color: var(--muted);
 }
 
-/* Section */
-.section{ margin:18px 0; }
+/* Sections */
+.section{
+  margin: 16px 0 18px;
+}
 
 .section h2{
-  font-size:18px;
-  font-weight:600;
-  margin:10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 14px 0 10px;
+  opacity:.9;
 }
 
-/* Wide buttons */
+/* =========================================
+   Tiles / cards
+   ========================================= */
 .wide{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:14px;
-  border-radius:var(--radius);
-  margin-bottom:12px;
+  padding:14px 14px;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
   text-decoration:none;
   color:inherit;
   border:1px solid var(--stroke);
-  box-shadow:var(--shadow);
+  box-shadow: var(--shadow);
 }
 
-.cool{ background:rgba(200,186,255,.35); }
-.warm{ background:rgba(255,210,225,.35); }
+.cool{ background: linear-gradient(90deg,rgba(200,186,255,.34),rgba(255,255,255,.62)); }
+.warm{ background: linear-gradient(90deg,rgba(255,210,225,.30),rgba(255,255,255,.62)); }
+body.dark .cool{ background: linear-gradient(90deg,rgba(200,186,255,.14),rgba(255,255,255,.08)); }
+body.dark .warm{ background: linear-gradient(90deg,rgba(255,210,225,.12),rgba(255,255,255,.08)); }
 
 .ico{
-  width:40px;
-  height:40px;
-  border-radius:14px;
-  background:rgba(255,255,255,.7);
+  width:42px;
+  height:42px;
+  border-radius:16px;
+  background: rgba(255,255,255,.68);
+  border:1px solid var(--stroke);
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:18px;
 }
+body.dark .ico{ background: rgba(255,255,255,.10); }
 
 .label{
-  font-size:18px;
-  font-weight:600;
+  font-size: 18px;
+  font-weight: 600; /* calmer */
 }
-
 .label.small{
-  font-size:14px;
-  font-weight:500;
+  font-size: 14px;
+  font-weight: 500; /* calmer */
+  line-height:1.1;
 }
 
 .arrow{
   margin-left:auto;
-  opacity:.4;
-  font-size:22px;
+  font-size:24px;
+  opacity:.35;
+  font-weight:700;
 }
+.arrow.small{ font-size:22px; }
 
 .grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width:380px){
+  .grid{ grid-template-columns: 1fr; }
 }
 
 .tile{
@@ -153,56 +243,238 @@ body.dark .watermark{ opacity:.12; }
   align-items:center;
   gap:12px;
   padding:14px;
-  border-radius:var(--radius2);
-  background:var(--card);
+  border-radius: var(--radius2);
+  background: var(--card);
   border:1px solid var(--stroke);
-  box-shadow:var(--shadow2);
+  box-shadow: var(--shadow2);
   text-decoration:none;
   color:inherit;
-  min-height:70px;
+  min-height: 76px;
 }
 
-/* Pills */
+/* Cards / panels */
+.card, .section-panel{
+  background: var(--card2);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow2);
+  border-radius: var(--radius);
+  padding: 14px;
+  backdrop-filter: blur(6px);
+}
+
+/* =========================================
+   Buttons + inputs calmer
+   ========================================= */
+.btn-row{
+  display:flex;
+  gap:10px;
+}
+.btn{
+  flex:1;
+  padding: 12px 12px;
+  border-radius: 18px;
+  border:1px solid var(--stroke);
+  background: var(--card);
+  box-shadow: var(--shadow2);
+  font-weight:600; /* calmer */
+  cursor:pointer;
+  color:inherit;
+  font-family:inherit;
+}
+.btn.primary{
+  background: linear-gradient(90deg, rgba(200,186,255,.32), rgba(255,255,255,.70));
+}
+body.dark .btn.primary{
+  background: linear-gradient(90deg, rgba(200,186,255,.14), rgba(255,255,255,.08));
+}
+
+input, textarea, select{
+  width:100%;
+  border-radius: 16px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.85);
+  color:inherit;
+  padding: 12px 12px;
+  font-weight:500; /* calmer */
+  font-family:inherit;
+}
+body.dark input, body.dark textarea, body.dark select{
+  background: rgba(255,255,255,.08);
+}
+textarea{ min-height: 120px; resize: vertical; }
+
+hr.sep{
+  border:none;
+  height:1px;
+  background: var(--stroke);
+  margin: 14px 0;
+}
+
+/* Pills (Your space) */
 .pill-row{
   display:flex;
   gap:10px;
   flex-wrap:wrap;
+  margin: 6px 0 12px;
 }
-
 .pill{
   flex:1;
-  min-width:140px;
-  padding:10px;
-  border-radius:18px;
-  background:var(--card);
+  min-width:145px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding: 11px 12px;
+  border-radius: 18px;
+  background: var(--card);
   border:1px solid var(--stroke);
+  box-shadow: var(--shadow2);
+  font-weight:600; /* calmer */
   text-decoration:none;
   color:inherit;
-  text-align:center;
-  font-weight:500;
 }
+.pill span{ opacity:.9; }
 
 /* Support banner */
 .support-banner{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:12px;
-  border-radius:22px;
-  background:rgba(206,188,255,.35);
-  border:1px solid var(--stroke);
+  padding: 12px 12px;
+  border-radius: 22px;
+  background: linear-gradient(90deg, rgba(206,188,255,.38), rgba(255,205,224,.24));
+  border:1px solid rgba(30,20,60,.06);
+  box-shadow: var(--shadow2);
   text-decoration:none;
   color:inherit;
-  margin-top:12px;
 }
-
+body.dark .support-banner{
+  background: linear-gradient(90deg, rgba(206,188,255,.14), rgba(255,205,224,.10));
+  border-color: var(--stroke);
+}
 .sos{
-  padding:6px 10px;
+  width:42px;
+  height:30px;
   border-radius:12px;
-  background:rgba(220,55,70,.15);
-  font-weight:600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(220,55,70,.14);
+  border:1px solid rgba(220,55,70,.20);
+  font-weight:650; /* calmer */
+}
+.support-text{
+  font-size:16px;
+  font-weight:600; /* calmer */
 }
 
-.support-text{
-  font-weight:500;
+a{ color:inherit; }
+a:active, button:active{ transform: translateY(1px); }
+
+/* Full width list tiles */
+.full{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* Quote style tile */
+.quote-tile{
+  position:relative;
+  padding: 14px 46px 14px 14px;
+  border-radius: var(--radius2);
+  background: var(--card);
+  border:1px solid var(--stroke);
+  box-shadow: var(--shadow2);
+  text-decoration:none;
+  color:inherit;
+  display:block;
+}
+.quote-text{
+  font-weight:600; /* calmer */
+  font-size:16px;
+  line-height:1.35;
+}
+.quote-meta{
+  margin-top:8px;
+  color: var(--muted);
+  font-weight:500; /* calmer */
+  font-size:13px;
+}
+
+.save-fab{
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.75);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:16px;
+}
+body.dark .save-fab{ background: rgba(255,255,255,.10); }
+
+.saved{
+  outline: 2px solid rgba(200,186,255,.8);
+  outline-offset: 2px;
+  background: rgba(200,186,255,.12);
+}
+
+/* Accordion folders (check-in) */
+details.folder{
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow2);
+  border-radius: var(--radius2);
+  padding: 10px 12px;
+}
+details.folder + details.folder{ margin-top: 12px; }
+summary.folder-title{
+  list-style:none;
+  cursor:pointer;
+  font-weight:650; /* calmer */
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+summary.folder-title::-webkit-details-marker{ display:none; }
+.folder-sub{
+  margin-top: 8px;
+  color: var(--muted);
+  font-weight:500; /* calmer */
+  font-size:13px;
+}
+.folder-grid{
+  margin-top: 10px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width:380px){
+  .folder-grid{ grid-template-columns: 1fr; }
+}
+.mood-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px;
+  border-radius: 18px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.70);
+  font-weight:600; /* calmer */
+  cursor:pointer;
+  text-align:left;
+  font-family:inherit;
+  color:inherit;
+}
+body.dark .mood-btn{ background: rgba(255,255,255,.08); }
+.mood-btn[aria-pressed="true"]{
+  outline: 2px solid rgba(200,186,255,.8);
+  outline-offset: 2px;
+  background: rgba(200,186,255,.16);
 }
