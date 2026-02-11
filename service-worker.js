@@ -1,4 +1,8 @@
-const CACHE_NAME = "enigma-wellbeing-cache-v12";
+/* service-worker.js — Enigma Wellbeing (FULL)
+   Bump CACHE_NAME when you change files.
+*/
+
+const CACHE_NAME = "enigma-wellbeing-cache-v13";
 
 const CORE_ASSETS = [
   "./",
@@ -6,7 +10,8 @@ const CORE_ASSETS = [
   "./style.css",
   "./app.js",
   "./manifest.json",
-  "./icon.png",
+  "./icon-192.png",
+  "./icon-512.png",
   "./service-worker.js",
 
   "./breathe.html",
@@ -44,6 +49,7 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
+  // only same origin
   if (url.origin !== self.location.origin) return;
 
   const accept = req.headers.get("accept") || "";
