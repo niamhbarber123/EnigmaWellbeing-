@@ -1,18 +1,147 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Check in • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Check in • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    /* Page-only: folders that match your tile/card style */
+    details.folder{
+      border:1px solid var(--stroke);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      border-radius: 22px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+
+    details.folder summary{
+      list-style:none;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 8px 6px;
+      font-weight: 600;
+    }
+
+    details.folder summary::-webkit-details-marker{ display:none; }
+
+    .folder-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+
+    .folder-ico{
+      width:38px;
+      height:38px;
+      border-radius: 16px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.62);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      flex-shrink:0;
+    }
+    body.dark .folder-ico{ background: rgba(255,255,255,.10); }
+
+    .folder-title{
+      font-size:14px;
+      font-weight: 600;
+      margin:0;
+    }
+    .folder-sub{
+      font-size:12.5px;
+      font-weight:500;
+      opacity:.72;
+      margin:2px 0 0;
+      line-height:1.35;
+    }
+
+    .chev{
+      opacity:.55;
+      font-weight:700;
+      font-size:20px;
+    }
+
+    .mood-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin: 10px 0 4px;
+    }
+
+    .mood-btn{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.55);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: var(--shadow2);
+      cursor:pointer;
+      text-align:left;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-height:56px;
+      font-weight:600;
+    }
+    body.dark .mood-btn{ background: rgba(255,255,255,.08); }
+
+    .mood-btn[aria-pressed="true"]{
+      outline: 2px solid rgba(200,186,255,.85);
+      outline-offset: 2px;
+      background: rgba(200,186,255,.18);
+    }
+
+    .mood-emoji{
+      width:34px;
+      height:34px;
+      border-radius: 14px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.62);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
+      flex-shrink:0;
+    }
+    body.dark .mood-emoji{ background: rgba(255,255,255,.10); }
+
+    .mood-name{
+      font-size:13.5px;
+      margin:0;
+      font-weight:600;
+    }
+    .mood-hint{
+      font-size:12px;
+      margin:2px 0 0;
+      opacity:.70;
+      font-weight:500;
+    }
+
+    .note-label{
+      font-weight:600;
+      font-size:12px;
+      opacity:.75;
+      display:block;
+      margin: 10px 0 6px;
+    }
+
+    #savedMsg{
+      margin: 10px 0 0;
+      font-weight:500;
+      opacity:.72;
+      line-height:1.4;
+    }
+  </style>
 </head>
 
 <body>
@@ -20,41 +149,79 @@
 
   <main class="wrap">
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
+      <a class="back" href="index.html">←</a>
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
     <h1 class="page-title">Check in</h1>
-    <p class="page-sub">Pick what fits best. One is enough.</p>
+    <p class="page-sub">How are you feeling right now? Choose what fits best.</p>
 
     <section class="card">
+
+      <!-- FOLDERS -->
       <details class="folder" open>
-        <summary class="folder-title">🙂 Calm / Okay <span style="opacity:.5;">›</span></summary>
-        <div class="folder-sub">Steady, grounded, managing.</div>
-        <div class="folder-grid" id="grp-calm"></div>
+        <summary>
+          <div class="folder-left">
+            <div class="folder-ico">🌿</div>
+            <div>
+              <p class="folder-title">Calm / steady</p>
+              <p class="folder-sub">Settled, okay, or gently positive.</p>
+            </div>
+          </div>
+          <div class="chev">›</div>
+        </summary>
+
+        <div class="mood-grid" data-group="calm"></div>
       </details>
 
       <details class="folder">
-        <summary class="folder-title">😟 Stress / Anxiety <span style="opacity:.5;">›</span></summary>
-        <div class="folder-sub">Worried, tense, on edge.</div>
-        <div class="folder-grid" id="grp-stress"></div>
+        <summary>
+          <div class="folder-left">
+            <div class="folder-ico">🌧️</div>
+            <div>
+              <p class="folder-title">Low / heavy</p>
+              <p class="folder-sub">Tired, flat, or a bit down.</p>
+            </div>
+          </div>
+          <div class="chev">›</div>
+        </summary>
+
+        <div class="mood-grid" data-group="low"></div>
       </details>
 
       <details class="folder">
-        <summary class="folder-title">🌧️ Low / Heavy <span style="opacity:.5;">›</span></summary>
-        <div class="folder-sub">Tired, flat, overwhelmed.</div>
-        <div class="folder-grid" id="grp-low"></div>
+        <summary>
+          <div class="folder-left">
+            <div class="folder-ico">⚠️</div>
+            <div>
+              <p class="folder-title">Stressed / anxious</p>
+              <p class="folder-sub">Worried, tense, overwhelmed.</p>
+            </div>
+          </div>
+          <div class="chev">›</div>
+        </summary>
+
+        <div class="mood-grid" data-group="anx"></div>
       </details>
 
       <details class="folder">
-        <summary class="folder-title">😠 Frustration <span style="opacity:.5;">›</span></summary>
-        <div class="folder-sub">Irritable, stuck, annoyed.</div>
-        <div class="folder-grid" id="grp-angry"></div>
+        <summary>
+          <div class="folder-left">
+            <div class="folder-ico">🔥</div>
+            <div>
+              <p class="folder-title">Irritated / frustrated</p>
+              <p class="folder-sub">Annoyed, stuck, or on edge.</p>
+            </div>
+          </div>
+          <div class="chev">›</div>
+        </summary>
+
+        <div class="mood-grid" data-group="ang"></div>
       </details>
 
-      <hr class="sep">
+      <hr class="sep" />
 
-      <label style="font-weight:900;opacity:.7;font-size:12px;">Optional note</label>
+      <label class="note-label" for="note">Optional note</label>
       <textarea id="note" placeholder="One sentence is enough. (optional)"></textarea>
 
       <div style="height:10px;"></div>
@@ -64,74 +231,88 @@
         <button class="btn" id="clearBtn" type="button">Clear</button>
       </div>
 
-      <p style="margin:10px 0 0;color:var(--muted);font-weight:650;" id="msg"></p>
+      <p class="small-note" id="savedMsg"></p>
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+  </script>
 
+  <script>
     const KEY = "enigma_checkins_v2";
-    const msg = document.getElementById("msg");
-    const noteEl = document.getElementById("note");
 
-    const moods = {
+    const moodGroups = {
       calm: [
-        {k:"Calm", ico:"🙂"},
-        {k:"Okay", ico:"😌"},
-      ],
-      stress: [
-        {k:"Anxious", ico:"😟"},
-        {k:"Stressed", ico:"😣"},
+        { key:"Calm",    ico:"🙂", sub:"Steady and settled" },
+        { key:"Okay",    ico:"😌", sub:"Managing" }
       ],
       low: [
-        {k:"Low", ico:"🌧️"},
-        {k:"Overwhelmed", ico:"🧠"},
+        { key:"Low",     ico:"🌧️", sub:"Heavy or tired" },
+        { key:"Sad",     ico:"😔", sub:"A bit down" }
       ],
-      angry: [
-        {k:"Frustrated", ico:"😤"},
-        {k:"Angry", ico:"😠"},
+      anx: [
+        { key:"Anxious", ico:"😟", sub:"Worried, tense" },
+        { key:"Overwhelmed", ico:"🧠", sub:"Too much at once" }
+      ],
+      ang: [
+        { key:"Frustrated", ico:"😤", sub:"Stuck or annoyed" },
+        { key:"On edge",    ico:"⚠️", sub:"Irritable / jumpy" }
       ]
     };
 
+    const noteEl = document.getElementById("note");
+    const saveBtn = document.getElementById("saveBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const msg = document.getElementById("savedMsg");
+
     let selected = null;
 
-    function renderGroup(id, list){
-      const el = document.getElementById(id);
-      el.innerHTML = list.map(m => `
-        <button class="mood-btn" type="button" data-mood="${m.k}" aria-pressed="${selected===m.k}">
-          <span style="font-size:18px;">${m.ico}</span>
-          <span>${m.k}</span>
+    function renderGroup(groupKey){
+      const grid = document.querySelector(`.mood-grid[data-group="${groupKey}"]`);
+      const list = moodGroups[groupKey];
+
+      grid.innerHTML = list.map(m => `
+        <button class="mood-btn" type="button"
+          data-mood="${m.key}"
+          aria-pressed="${selected === m.key ? "true" : "false"}">
+          <div class="mood-emoji">${m.ico}</div>
+          <div style="min-width:0;">
+            <p class="mood-name">${m.key}</p>
+            <p class="mood-hint">${m.sub}</p>
+          </div>
         </button>
       `).join("");
 
-      [...el.querySelectorAll("[data-mood]")].forEach(btn=>{
+      grid.querySelectorAll("[data-mood]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           selected = btn.dataset.mood;
           msg.textContent = "";
-          refreshPressed();
+          renderAll();
         });
       });
     }
 
-    function refreshPressed(){
-      document.querySelectorAll("[data-mood]").forEach(b=>{
-        b.setAttribute("aria-pressed", String(b.dataset.mood === selected));
-      });
+    function renderAll(){
+      renderGroup("calm");
+      renderGroup("low");
+      renderGroup("anx");
+      renderGroup("ang");
     }
 
     function loadLatest(){
       try{
         const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
-        if (!arr.length) return;
+        if(!arr.length) return;
         const last = arr[arr.length-1];
         msg.textContent = `Last saved: ${new Date(last.savedAt).toLocaleString()} • ${last.mood}`;
       }catch{}
     }
 
-    function save(){
-      if (!selected){
+    saveBtn.addEventListener("click", ()=>{
+      if(!selected){
         msg.textContent = "Choose a mood first.";
         return;
       }
@@ -143,28 +324,22 @@
       const arr = JSON.parse(localStorage.getItem(KEY) || "[]");
       arr.push(entry);
       localStorage.setItem(KEY, JSON.stringify(arr));
-      msg.textContent = `Saved. (${new Date(entry.savedAt).toLocaleString()})`;
 
+      msg.textContent = `Saved. (${new Date(entry.savedAt).toLocaleString()})`;
       noteEl.value = "";
       selected = null;
-      refreshPressed();
-    }
+      renderAll();
+    });
 
-    function clear(){
+    clearBtn.addEventListener("click", ()=>{
       noteEl.value = "";
       selected = null;
       msg.textContent = "";
-      refreshPressed();
-    }
+      renderAll();
+    });
 
-    renderGroup("grp-calm", moods.calm);
-    renderGroup("grp-stress", moods.stress);
-    renderGroup("grp-low", moods.low);
-    renderGroup("grp-angry", moods.angry);
+    renderAll();
     loadLatest();
-
-    document.getElementById("saveBtn").addEventListener("click", save);
-    document.getElementById("clearBtn").addEventListener("click", clear);
   </script>
 </body>
 </html>
