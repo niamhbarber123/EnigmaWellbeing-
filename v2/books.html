@@ -1,50 +1,153 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Books • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.genre-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.genre-btn{
+  padding:8px 14px;
+  border-radius:20px;
+  border:1px solid var(--stroke);
+  background:var(--panel);
+  font-weight:800;
+  cursor:pointer;
+}
+
+.genre-btn.active{
+  background:rgba(200,186,255,.25);
+}
+
+.books-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+</style>
 </head>
+
 <body>
-  <main class="wrap">
-    <div class="header">
-      <a class="back-btn" href="index.html" data-back>← Back</a>
-      <div class="header-center"></div>
-      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
-    </div>
+<main class="wrap">
 
-    <h1 class="page-title">Books</h1>
-    <p class="page-subtitle">A few gentle reads. (Tap a tile to open.)</p>
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
 
-    <section class="section-panel">
-      <div class="grid">
-        <a class="tile" href="https://www.nhs.uk/mental-health/" target="_blank" rel="noopener">
-          <div class="tile-ico">🧠</div>
-          <div><p class="tile-title">NHS Mental Health</p><p class="tile-sub">Trusted support & guides</p></div>
-        </a>
+<h1 class="page-title">Read</h1>
+<p class="page-subtitle">Choose a genre.</p>
 
-        <a class="tile" href="https://www.mind.org.uk/" target="_blank" rel="noopener">
-          <div class="tile-ico">🤝</div>
-          <div><p class="tile-title">Mind</p><p class="tile-sub">UK support & info</p></div>
-        </a>
+<section class="section-panel">
 
-        <div class="tile">
-          <div class="tile-ico">📘</div>
-          <div><p class="tile-title">Add your own list</p><p class="tile-sub">Replace these tiles with your books</p></div>
-        </div>
+<div class="genre-buttons" id="genreButtons"></div>
 
-        <div class="tile">
-          <div class="tile-ico">📗</div>
-          <div><p class="tile-title">Reading habit</p><p class="tile-sub">One page is enough</p></div>
-        </div>
+<div class="books-grid" id="booksGrid"></div>
+
+</section>
+
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+const books = [
+  // Self Development
+  { title:"Atomic Habits – James Clear", genre:"Self Development" },
+  { title:"The Comfort Book – Matt Haig", genre:"Self Development" },
+  { title:"The Power of Now – Eckhart Tolle", genre:"Self Development" },
+  { title:"Feel the Fear and Do It Anyway – Susan Jeffers", genre:"Self Development" },
+  { title:"Mindset – Carol Dweck", genre:"Self Development" },
+
+  // Mental Health
+  { title:"Reasons to Stay Alive – Matt Haig", genre:"Mental Health" },
+  { title:"The Body Keeps the Score – Bessel van der Kolk", genre:"Mental Health" },
+  { title:"Lost Connections – Johann Hari", genre:"Mental Health" },
+  { title:"Self-Compassion – Kristin Neff", genre:"Mental Health" },
+
+  // Fiction
+  { title:"The Midnight Library – Matt Haig", genre:"Fiction" },
+  { title:"Eleanor Oliphant Is Completely Fine – Gail Honeyman", genre:"Fiction" },
+  { title:"The Book Thief – Markus Zusak", genre:"Fiction" },
+  { title:"The Night Circus – Erin Morgenstern", genre:"Fiction" },
+  { title:"Where the Crawdads Sing – Delia Owens", genre:"Fiction" },
+
+  // Romance
+  { title:"It Ends With Us – Colleen Hoover", genre:"Romance" },
+  { title:"Pride and Prejudice – Jane Austen", genre:"Romance" },
+  { title:"The Love Hypothesis – Ali Hazelwood", genre:"Romance" },
+
+  // Fantasy
+  { title:"Harry Potter – J.K. Rowling", genre:"Fantasy" },
+  { title:"A Court of Thorns and Roses – Sarah J. Maas", genre:"Fantasy" },
+  { title:"The Hobbit – J.R.R. Tolkien", genre:"Fantasy" },
+
+  // Thriller
+  { title:"Gone Girl – Gillian Flynn", genre:"Thriller" },
+  { title:"The Girl on the Train – Paula Hawkins", genre:"Thriller" },
+  { title:"The Silent Patient – Alex Michaelides", genre:"Thriller" },
+
+  // Classics
+  { title:"1984 – George Orwell", genre:"Classics" },
+  { title:"To Kill a Mockingbird – Harper Lee", genre:"Classics" },
+  { title:"Jane Eyre – Charlotte Brontë", genre:"Classics" }
+];
+
+const genres = ["All", ...new Set(books.map(b => b.genre))];
+
+const genreButtons = document.getElementById("genreButtons");
+const booksGrid = document.getElementById("booksGrid");
+
+let currentGenre = "All";
+
+function renderGenres(){
+  genreButtons.innerHTML = genres.map(g => `
+    <button class="genre-btn ${g===currentGenre ? 'active':''}" data-genre="${g}">
+      ${g}
+    </button>
+  `).join("");
+
+  document.querySelectorAll(".genre-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      currentGenre = btn.dataset.genre;
+      renderGenres();
+      renderBooks();
+    });
+  });
+}
+
+function renderBooks(){
+  const filtered = currentGenre === "All"
+    ? books
+    : books.filter(b => b.genre === currentGenre);
+
+  booksGrid.innerHTML = filtered.map(b => `
+    <a class="tile" href="https://www.google.com/search?q=${encodeURIComponent(b.title)}" target="_blank">
+      <div class="tile-ico">📚</div>
+      <div>
+        <p class="tile-title">${b.title}</p>
+        <p class="tile-sub">${b.genre}</p>
       </div>
-    </section>
-  </main>
+    </a>
+  `).join("");
+}
 
-  <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton();
-  </script>
+renderGenres();
+renderBooks();
+
+</script>
+
 </body>
 </html>
