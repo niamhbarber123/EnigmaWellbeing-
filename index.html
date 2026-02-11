@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Enigma Wellbeing</title>
 
-  <!-- Rounded bold font like screenshot -->
+  <!-- Font like screenshot -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,105 +14,116 @@
 </head>
 
 <body>
+  <!-- Icon watermark behind everything -->
+  <div class="watermark" aria-hidden="true"></div>
 
-<div class="watermark"></div>
+  <main class="wrap">
 
-<main class="wrap">
+    <header class="header">
+      <div class="header-center">
+        <h1>Enigma Wellbeing</h1>
+        <p>Your calm space</p>
+      </div>
 
-  <header class="header">
-    <div class="header-center">
-      <h1>Enigma Wellbeing</h1>
-      <p>Your calm space</p>
-    </div>
-    <button class="moon" data-theme-toggle>🌙</button>
-  </header>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+    </header>
 
-  <!-- RIGHT NOW -->
-  <section>
-    <h2>Right now</h2>
+    <section class="section">
+      <h2>Right now</h2>
 
-    <a class="wide cool" href="breathe.html">
-      <div class="icon">🫧</div>
-      <div class="label">Breathe now</div>
-      <div class="arrow">›</div>
-    </a>
-
-    <a class="wide warm" href="overwhelmed.html">
-      <div class="icon">🫶</div>
-      <div class="label">I need calm</div>
-      <div class="arrow">›</div>
-    </a>
-  </section>
-
-  <!-- TODAY -->
-  <section>
-    <h2>Today</h2>
-
-    <div class="grid">
-      <a class="tile" href="checkin.html">
-        <div class="icon">📝</div>
-        <div class="label">Check in</div>
-        <div class="arrow small">›</div>
+      <a class="wide cool" href="breathe.html">
+        <div class="ico">🫧</div>
+        <div class="label">Breathe now</div>
+        <div class="arrow">›</div>
       </a>
 
-      <a class="tile" href="journal.html">
-        <div class="icon">📖</div>
-        <div class="label">Journal</div>
-        <div class="arrow small">›</div>
+      <a class="wide warm" href="overwhelmed.html">
+        <div class="ico">🫶</div>
+        <div class="label">I need calm</div>
+        <div class="arrow">›</div>
       </a>
+    </section>
 
-      <a class="tile" href="word.html">
-        <div class="icon">✨</div>
-        <div class="label">Daily word</div>
-        <div class="arrow small">›</div>
-      </a>
+    <section class="section">
+      <h2>Today</h2>
 
-      <a class="tile" href="quotes.html">
-        <div class="icon">💬</div>
-        <div class="label">Kind words</div>
-        <div class="arrow small">›</div>
-      </a>
-    </div>
-  </section>
+      <div class="grid">
+        <a class="tile" href="checkin.html">
+          <div class="ico">📝</div>
+          <div class="label small">Check in</div>
+          <div class="arrow small">›</div>
+        </a>
 
-  <!-- EXPLORE -->
-  <section>
-    <h2>Explore</h2>
+        <a class="tile" href="journal.html">
+          <div class="ico">📖</div>
+          <div class="label small">Journal</div>
+          <div class="arrow small">›</div>
+        </a>
 
-    <div class="grid">
-      <a class="tile" href="yoga.html">
-        <div class="icon">🧘</div>
-        <div class="label">Move gently</div>
-        <div class="arrow small">›</div>
-      </a>
+        <a class="tile" href="word.html">
+          <div class="ico">✨</div>
+          <div class="label small">Daily word</div>
+          <div class="arrow small">›</div>
+        </a>
 
-      <a class="tile" href="music.html">
-        <div class="icon">🎵</div>
-        <div class="label">Listen</div>
-        <div class="arrow small">›</div>
-      </a>
+        <a class="tile" href="quotes.html">
+          <div class="ico">💬</div>
+          <div class="label small">Kind words</div>
+          <div class="arrow small">›</div>
+        </a>
+      </div>
+    </section>
 
-      <a class="tile" href="books.html">
-        <div class="icon">📚</div>
-        <div class="label">Read</div>
-        <div class="arrow small">›</div>
-      </a>
+    <section class="section">
+      <h2>Explore</h2>
 
-      <a class="tile" href="distraction.html">
-        <div class="icon">🧩</div>
-        <div class="label">Take a break</div>
-        <div class="arrow small">›</div>
-      </a>
-    </div>
-  </section>
+      <div class="grid">
+        <a class="tile" href="yoga.html">
+          <div class="ico">🧘</div>
+          <div class="label small">Move gently</div>
+          <div class="arrow small">›</div>
+        </a>
 
-</main>
+        <a class="tile" href="music.html">
+          <div class="ico">🎵</div>
+          <div class="label small">Listen</div>
+          <div class="arrow small">›</div>
+        </a>
 
-<script type="module">
-  import { applySavedTheme, wireThemeButton } from "./app.js";
-  applySavedTheme();
-  wireThemeButton();
-</script>
+        <a class="tile" href="books.html">
+          <div class="ico">📚</div>
+          <div class="label small">Read</div>
+          <div class="arrow small">›</div>
+        </a>
 
+        <a class="tile" href="distraction.html">
+          <div class="ico">🧩</div>
+          <div class="label small">Take a break</div>
+          <div class="arrow small">›</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- If you already have app.js with theme toggle, keep this -->
+  <script type="module">
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+  </script>
+
+  <!-- If you DON'T have app.js, delete the module script above and use this instead:
+  <script>
+    const btn = document.querySelector("[data-theme-toggle]");
+    const key = "enigma_theme";
+    const apply = () => document.body.classList.toggle("dark", localStorage.getItem(key)==="dark");
+    apply();
+    btn?.addEventListener("click", ()=>{
+      localStorage.setItem(key, document.body.classList.contains("dark") ? "light" : "dark");
+      apply();
+    });
+  </script>
+  -->
 </body>
 </html>
