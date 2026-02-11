@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Not found • Enigma</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
+</head>
+
+<body>
+  <div class="watermark" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html">← Home</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
+
+    <h1 class="page-title">Page not found</h1>
+    <p class="page-sub">Let’s get you back to calm.</p>
+
+    <section class="card">
+      <a class="wide cool" href="index.html">
+        <div class="ico">🏠</div>
+        <div class="label">Go home</div>
+        <div class="arrow">›</div>
+      </a>
+
+      <div class="grid">
+        <a class="tile" href="breathe.html"><div class="ico">🫧</div><div class="label small">Breathe</div><div class="arrow small">›</div></a>
+        <a class="tile" href="checkin.html"><div class="ico">📝</div><div class="label small">Check in</div><div class="arrow small">›</div></a>
+        <a class="tile" href="help.html"><div class="ico">🆘</div><div class="label small">Help</div><div class="arrow small">›</div></a>
+        <a class="tile" href="resources.html"><div class="ico">🧠</div><div class="label small">Resources</div><div class="arrow small">›</div></a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); registerServiceWorker();
+  </script>
+</body>
+</html>
