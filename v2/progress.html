@@ -1,90 +1,118 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Progress • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="wrap">
-    <div class="header">
-      <a class="back-btn" href="index.html" data-back>← Back</a>
-      <div class="header-center"></div>
-      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
-    </div>
+<main class="wrap">
 
-    <h1 class="page-title">Progress</h1>
-    <p class="page-subtitle">A gentle record of what you’ve been doing.</p>
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
 
-    <section class="section-panel">
-      <div class="grid">
-        <div class="tile">
-          <div class="tile-ico">🗒️</div>
-          <div>
-            <p class="tile-title" id="checkinCount">0 check-ins</p>
-            <p class="tile-sub">Saved in this device</p>
-          </div>
-        </div>
+<h1 class="page-title">Progress</h1>
+<p class="page-subtitle">Your small steps add up.</p>
 
-        <div class="tile">
-          <div class="tile-ico">❤️</div>
-          <div>
-            <p class="tile-title" id="quoteCount">0 saved quotes</p>
-            <p class="tile-sub">Double tap to save</p>
-          </div>
-        </div>
-      </div>
+<section class="section-panel">
 
-      <hr class="sep" />
-      <p style="font-weight:900; opacity:.75; margin:0 0 10px;">Latest check-ins</p>
-      <div id="latest" class="grid"></div>
-      <p class="small-note" id="empty"></p>
-    </section>
-  </main>
+<div class="grid">
 
-  <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton();
+<div class="tile">
+  <div class="tile-ico">📊</div>
+  <div>
+    <p class="tile-title" id="checkinCount">0</p>
+    <p class="tile-sub">Check-ins completed</p>
+  </div>
+</div>
 
-    const CHECKIN_KEY = "enigma_checkins_v2";
-    const QUOTE_KEY = "enigma_saved_quotes_v2";
+<div class="tile">
+  <div class="tile-ico">📖</div>
+  <div>
+    <p class="tile-title" id="journalWords">0</p>
+    <p class="tile-sub">Journal words written</p>
+  </div>
+</div>
 
-    const checkinCount = document.getElementById("checkinCount");
-    const quoteCount = document.getElementById("quoteCount");
-    const latest = document.getElementById("latest");
-    const empty = document.getElementById("empty");
+<div class="tile">
+  <div class="tile-ico">❤️</div>
+  <div>
+    <p class="tile-title" id="savedQuotes">0</p>
+    <p class="tile-sub">Saved quotes</p>
+  </div>
+</div>
 
-    function load(){
-      const checkins = JSON.parse(localStorage.getItem(CHECKIN_KEY) || "[]");
-      const quotes = JSON.parse(localStorage.getItem(QUOTE_KEY) || "[]");
+<div class="tile">
+  <div class="tile-ico">✨</div>
+  <div>
+    <p class="tile-title" id="savedWords">0</p>
+    <p class="tile-sub">Saved daily words</p>
+  </div>
+</div>
 
-      checkinCount.textContent = `${checkins.length} check-in${checkins.length===1?"":"s"}`;
-      quoteCount.textContent = `${quotes.length} saved quote${quotes.length===1?"":"s"}`;
+</div>
 
-      if (!checkins.length){
-        empty.textContent = "No check-ins yet. Try the Check in page.";
-        latest.innerHTML = "";
-        return;
-      }
+<hr class="sep">
 
-      const last = checkins.slice(-4).reverse();
-      latest.innerHTML = last.map(c => `
-        <div class="tile">
-          <div class="tile-ico">🗒️</div>
-          <div>
-            <p class="tile-title">${c.mood}</p>
-            <p class="tile-sub">${(c.note && c.note.length) ? c.note : "No note"}</p>
-            <p class="tile-sub" style="margin-top:8px; opacity:.8;">
-              ${new Date(c.savedAt).toLocaleString()}
-            </p>
-          </div>
-        </div>
-      `).join("");
-      empty.textContent = "";
-    }
+<h2>Mood Summary</h2>
+<div id="moodSummary"></div>
 
-    load();
-  </script>
+<hr class="sep">
+
+<button class="btn" id="clearDataBtn">Clear All Data</button>
+
+</section>
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+
+function updateStats(){
+
+  const checkins = JSON.parse(localStorage.getItem("enigma_checkins_v2") || "[]");
+  document.getElementById("checkinCount").textContent = checkins.length;
+
+  const journal = localStorage.getItem("enigma_journal_v2") || "";
+  const wordCount = journal.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById("journalWords").textContent = wordCount;
+
+  const quotes = JSON.parse(localStorage.getItem("enigma_saved_quotes_v2") || "[]");
+  document.getElementById("savedQuotes").textContent = quotes.length;
+
+  const words = JSON.parse(localStorage.getItem("enigma_saved_words_v2") || "[]");
+  document.getElementById("savedWords").textContent = words.length;
+
+  const moodSummary = document.getElementById("moodSummary");
+
+  if(checkins.length){
+    const counts = {};
+    checkins.forEach(c=>{
+      counts[c.mood] = (counts[c.mood]||0)+1;
+    });
+    moodSummary.innerHTML = Object.entries(counts)
+      .map(([m,c])=>`<p>${m}: ${c}</p>`)
+      .join("");
+  } else {
+    moodSummary.innerHTML = "<p>No mood data yet.</p>";
+  }
+}
+
+document.getElementById("clearDataBtn").addEventListener("click", ()=>{
+  if(confirm("Clear ALL saved data?")){
+    localStorage.clear();
+    updateStats();
+  }
+});
+
+updateStats();
+</script>
 </body>
 </html>
