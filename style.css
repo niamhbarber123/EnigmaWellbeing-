@@ -444,3 +444,28 @@ body.dark .mood-btn{ background: rgba(255,255,255,.08); }
   outline-offset: 2px;
   background: rgba(200,186,255,.18);
 }
+/* --- TONE DOWN HOME HEADING + BUTTON TITLES (override only) --- */
+
+/* Main app heading */
+.header h1{
+  font-size: 32px;      /* was 40px */
+  font-weight: 800;     /* was 900 */
+}
+
+/* Section titles (optional: slightly calmer) */
+.section h2{
+  font-size: 18px;      /* was 20px */
+  font-weight: 800;     /* was 850 */
+}
+
+/* Big button title text */
+.label{
+  font-size: 18px;      /* was 22px */
+  font-weight: 750;     /* was 850 */
+}
+
+/* Small tile title text */
+.label.small{
+  font-size: 14px;      /* was 16px */
+  font-weight: 700;     /* was 750 */
+}
