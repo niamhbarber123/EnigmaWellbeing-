@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support • Enigma</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
+</head>
+
+<body>
+  <div class="watermark" aria-hidden="true"></div>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html" data-back>← Back</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+    </div>
+
+    <h1 class="page-title">Support</h1>
+    <p class="page-sub">Gentle support options (not emergency).</p>
+
+    <section class="card">
+      <div class="full">
+        <a class="quote-tile" href="checkin.html"><div class="quote-text">🧠 Check in</div><div class="quote-meta">Quick mood log.</div></a>
+        <a class="quote-tile" href="journal.html"><div class="quote-text">📖 Write it out</div><div class="quote-meta">A private note.</div></a>
+        <a class="quote-tile" href="breathe.html"><div class="quote-text">🫧 Breathe</div><div class="quote-meta">Reset your body.</div></a>
+        <a class="quote-tile" href="resources.html"><div class="quote-text">🧠 NHS resources</div><div class="quote-meta">Trusted guidance.</div></a>
+      </div>
+
+      <hr class="sep">
+
+      <a class="support-banner" href="help.html">
+        <span class="sos">SOS</span>
+        <span class="support-text">Get support now</span>
+        <span class="arrow">›</span>
+      </a>
+    </section>
+  </main>
+
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+  </script>
+</body>
+</html>
