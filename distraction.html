@@ -1,44 +1,196 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Take a break • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Distraction • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    /* Calmer, less shouty (page-only) */
+    .page-title{ font-weight:600; }
+    .page-sub{ font-weight:500; opacity:.72; line-height:1.5; }
+
+    .tile-sub{
+      margin:2px 0 0;
+      font-size:13px;
+      font-weight:500;
+      opacity:.72;
+      line-height:1.35;
+    }
+
+    .tile{
+      align-items:flex-start;
+      min-height: 96px;
+    }
+    .tile .ico{ margin-top:2px; }
+
+    .filter-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      margin-bottom:12px;
+    }
+    .filter-row label{
+      font-size:12px;
+      font-weight:600;
+      opacity:.7;
+      white-space:nowrap;
+    }
+    .filter-row select{ flex:1; }
+
+    .note{
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: .72;
+      line-height: 1.5;
+    }
+
+    /* Tiny pill for “Quick” indicator */
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.55);
+      font-size: 11px;
+      font-weight: 600;
+      opacity: .75;
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+    body.dark .tag{ background: rgba(255,255,255,.08); }
+  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
+
   <main class="wrap">
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
+      <a class="back" href="index.html">←</a>
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
-    <h1 class="page-title">Take a break</h1>
-    <p class="page-sub">Short distractions that help your brain reset.</p>
+    <h1 class="page-title">Distraction</h1>
+    <p class="page-sub">Pick something small. It doesn’t have to be perfect.</p>
 
     <section class="card">
-      <div class="full">
-        <div class="quote-tile"><div class="quote-text">Count backwards from 50 by 3s</div><div class="quote-meta">Focus reset</div></div>
-        <div class="quote-tile"><div class="quote-text">Name 10 animals (any order)</div><div class="quote-meta">Gentle attention</div></div>
-        <div class="quote-tile"><div class="quote-text">5-4-3-2-1 grounding</div><div class="quote-meta">Senses</div></div>
-        <div class="quote-tile"><div class="quote-text">Write 3 things you can do today</div><div class="quote-meta">Tiny plan</div></div>
+      <div class="filter-row">
+        <label for="filter">Filter</label>
+        <select id="filter">
+          <option value="all" selected>All</option>
+          <option value="quick">Quick (under 2 min)</option>
+          <option value="body">Body</option>
+          <option value="mind">Mind</option>
+          <option value="creative">Creative</option>
+          <option value="comfort">Comfort</option>
+          <option value="social">Connection</option>
+          <option value="outdoors">Outdoors</option>
+        </select>
       </div>
+
+      <div class="grid" id="grid"></div>
+
+      <hr class="sep" />
+
+      <p class="note">
+        Tip: if you feel stuck, choose a <strong style="font-weight:600;">Quick</strong> one first — then decide what you need next.
+      </p>
     </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, wireThemeButton } from "./app.js";
+    applySavedTheme();
+    wireThemeButton();
+  </script>
+
+  <script>
+    const methods = [
+      // QUICK
+      { t:"5–4–3–2–1 grounding", sub:"Name 5 things you see… down to 1 thing you taste.", ico:"🖐", cat:["quick","mind"] },
+      { t:"Cold water reset", sub:"Rinse hands or splash face with cool water.", ico:"💧", cat:["quick","body"] },
+      { t:"Box breath (1 cycle)", sub:"In 4 • hold 4 • out 4 • hold 4.", ico:"🫧", cat:["quick","body"] },
+      { t:"Name 3 kind facts", sub:"3 true kind things about you, even small ones.", ico:"✨", cat:["quick","mind"] },
+      { t:"Change your room", sub:"Stand up and move to a different spot.", ico:"🚶", cat:["quick","body"] },
+      { t:"Sip + exhale", sub:"Take a sip of water and do one long exhale.", ico:"🥤", cat:["quick","body"] },
+
+      // BODY
+      { t:"Stretch your neck & shoulders", sub:"Slow circles, no forcing.", ico:"🧘", cat:["body"] },
+      { t:"Shake it out", sub:"Shake arms/legs for 30 seconds.", ico:"🫨", cat:["body","quick"] },
+      { t:"Wall push", sub:"Press hands into a wall for 10 seconds.", ico:"🧱", cat:["body","quick"] },
+      { t:"Tidy one tiny thing", sub:"Just one surface, one item, one minute.", ico:"🧺", cat:["body","comfort"] },
+      { t:"Make a warm drink", sub:"Tea, hot chocolate, warm water with lemon.", ico:"☕", cat:["comfort","body"] },
+
+      // MIND
+      { t:"Brain dump", sub:"Write everything down for 2 minutes. No order needed.", ico:"📝", cat:["mind","quick"] },
+      { t:"One thing only", sub:"Pick ONE next step and ignore the rest for now.", ico:"🎯", cat:["mind"] },
+      { t:"Count backwards", sub:"From 50 in steps of 3 (or 7).", ico:"🔢", cat:["mind"] },
+      { t:"Alphabet categories", sub:"A–Z: foods, animals, places, etc.", ico:"🔤", cat:["mind"] },
+      { t:"Name objects by colour", sub:"Find 5 purple things, then 5 white, etc.", ico:"🎨", cat:["mind","quick"] },
+
+      // CREATIVE
+      { t:"Doodle for 3 minutes", sub:"Lines, shapes, patterns — nothing fancy.", ico:"✏️", cat:["creative"] },
+      { t:"Colouring", sub:"A page, an app, or patterns in a notebook.", ico:"🖍️", cat:["creative","comfort"] },
+      { t:"Make a tiny playlist", sub:"5 songs for the mood you want.", ico:"🎵", cat:["creative","comfort"] },
+      { t:"Photo walk challenge", sub:"Take 5 photos: texture, sky, plant, shadow, colour.", ico:"📷", cat:["creative","outdoors"] },
+
+      // COMFORT
+      { t:"Comfort re-watch", sub:"One familiar episode or clip.", ico:"📺", cat:["comfort"] },
+      { t:"Cosy blanket + breathe", sub:"Wrap up and do 5 slow breaths.", ico:"🧣", cat:["comfort","body"] },
+      { t:"Scent reset", sub:"Hand cream, perfume, tea smell — focus on it.", ico:"🌸", cat:["comfort","quick"] },
+      { t:"Read 2 pages", sub:"Just 2 pages of something light.", ico:"📚", cat:["comfort"] },
+
+      // CONNECTION
+      { t:"Message someone safe", sub:"A simple “Thinking of you” is enough.", ico:"💬", cat:["social"] },
+      { t:"Send a voice note", sub:"30 seconds. No pressure.", ico:"🎙️", cat:["social"] },
+      { t:"Sit near people", sub:"Be around others without talking if you want.", ico:"🫶", cat:["social","comfort"] },
+
+      // OUTDOORS
+      { t:"Step outside for 2 minutes", sub:"Feel air on your face. Look at the sky.", ico:"🌤️", cat:["outdoors","quick"] },
+      { t:"Short walk", sub:"Just to the end of the street and back.", ico:"🚶‍♀️", cat:["outdoors","body"] },
+      { t:"Nature focus", sub:"Find 3 things that are alive (plant, bird, tree).", ico:"🌿", cat:["outdoors","mind"] },
+      { t:"Listen to rain/ocean", sub:"Even a 1-minute sound clip helps.", ico:"🌊", cat:["outdoors","comfort"] }
+    ];
+
+    const grid = document.getElementById("grid");
+    const filter = document.getElementById("filter");
+
+    function render(){
+      const v = filter.value;
+      const list = (v === "all") ? methods : methods.filter(m => m.cat.includes(v));
+
+      grid.innerHTML = list.map(m => {
+        const quickTag = m.cat.includes("quick") ? `<span class="tag">Quick</span>` : "";
+        return `
+          <button class="tile" type="button" style="text-align:left; cursor:pointer;">
+            <div class="ico">${m.ico}</div>
+            <div style="flex:1;">
+              <div class="label small">${m.t}${quickTag}</div>
+              <div class="tile-sub">${m.sub}</div>
+            </div>
+            <div class="arrow small">›</div>
+          </button>
+        `;
+      }).join("");
+
+      // Tap a tile → show a gentle “done” message (no new page)
+      [...grid.querySelectorAll(".tile")].forEach((btn, i)=>{
+        btn.addEventListener("click", ()=>{
+          const title = methods.filter(m => v==="all" ? true : m.cat.includes(v))[i].t;
+          btn.classList.add("saved");
+          setTimeout(()=>btn.classList.remove("saved"), 600);
+        });
+      });
+    }
+
+    filter.addEventListener("change", render);
+    render();
   </script>
 </body>
 </html>
