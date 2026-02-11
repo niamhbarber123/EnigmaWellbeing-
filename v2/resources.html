@@ -1,52 +1,70 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Support & resources • Enigma Wellbeing</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support & Resources • Enigma Wellbeing</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="wrap">
-    <div class="header">
-      <a class="back-btn" href="index.html" data-back>← Back</a>
-      <div class="header-center"></div>
-      <button class="icon-btn" data-theme-toggle aria-label="Night mode">🌙</button>
-    </div>
+<main class="wrap">
 
-    <h1 class="page-title">Support & resources</h1>
-    <p class="page-subtitle">If you need help, these are good starting points.</p>
+<div class="header">
+  <a class="back-btn" href="index.html" data-back>← Back</a>
+  <div class="header-center"></div>
+  <button class="icon-btn" data-theme-toggle>🌙</button>
+</div>
 
-    <section class="section-panel">
-      <div class="grid">
-        <a class="tile" href="https://www.nhs.uk/mental-health/" target="_blank" rel="noopener">
-          <div class="tile-ico">🏥</div>
-          <div><p class="tile-title">NHS mental health</p><p class="tile-sub">Guides and support</p></div>
-        </a>
+<h1 class="page-title">Support & Resources</h1>
+<p class="page-subtitle">Trusted guidance.</p>
 
-        <a class="tile" href="https://www.mind.org.uk/" target="_blank" rel="noopener">
-          <div class="tile-ico">🤝</div>
-          <div><p class="tile-title">Mind</p><p class="tile-sub">Support and information</p></div>
-        </a>
+<section class="section-panel">
+<div class="grid">
 
-        <a class="tile" href="https://www.samaritans.org/" target="_blank" rel="noopener">
-          <div class="tile-ico">☎️</div>
-          <div><p class="tile-title">Samaritans</p><p class="tile-sub">24/7 listening support</p></div>
-        </a>
+<a class="tile" href="https://www.nhs.uk/mental-health/" target="_blank">
+  <div class="tile-ico">🏥</div>
+  <div>
+    <p class="tile-title">NHS Mental Health</p>
+    <p class="tile-sub">Conditions & advice</p>
+  </div>
+</a>
 
-        <div class="tile">
-          <div class="tile-ico">📝</div>
-          <div><p class="tile-title">Add your local numbers</p><p class="tile-sub">Edit this page anytime</p></div>
-        </div>
-      </div>
+<a class="tile" href="https://www.nhs.uk/every-mind-matters/" target="_blank">
+  <div class="tile-ico">🧠</div>
+  <div>
+    <p class="tile-title">Every Mind Matters</p>
+    <p class="tile-sub">Self-help plans</p>
+  </div>
+</a>
 
-      <p class="small-note">If you’re in immediate danger, contact emergency services.</p>
-    </section>
-  </main>
+<a class="tile" href="https://www.nhs.uk/live-well/" target="_blank">
+  <div class="tile-ico">🌿</div>
+  <div>
+    <p class="tile-title">NHS Live Well</p>
+    <p class="tile-sub">Lifestyle & wellbeing</p>
+  </div>
+</a>
 
-  <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton();
-  </script>
+<a class="tile" href="https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/" target="_blank">
+  <div class="tile-ico">📘</div>
+  <div>
+    <p class="tile-title">Self Help Guides</p>
+    <p class="tile-sub">Practical exercises</p>
+  </div>
+</a>
+
+</div>
+</section>
+
+</main>
+
+<script type="module">
+import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
+applySavedTheme();
+wireThemeButton();
+wireBackButton();
+</script>
+
 </body>
 </html>
