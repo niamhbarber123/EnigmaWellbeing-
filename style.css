@@ -480,3 +480,39 @@ textarea{
 .btn{
   font-weight: 600 !important;
 }
+/* ==============================
+   SUPPORT PAGE — calmer feel
+   ============================== */
+
+.page-title{
+  font-weight: 600 !important;
+  letter-spacing: .2px;
+}
+
+.page-sub,
+.page-subtitle{
+  font-weight: 500 !important;
+  opacity: .72 !important;
+  line-height: 1.5;
+}
+
+.tile .label,
+.tile-title{
+  font-weight: 600 !important;
+}
+
+.tile-sub{
+  font-weight: 500 !important;
+  opacity: .7 !important;
+  line-height: 1.45;
+}
+
+.btn,
+.pill{
+  font-weight: 600 !important;
+}
+
+.small-note{
+  font-weight: 500 !important;
+  opacity: .7 !important;
+}
