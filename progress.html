@@ -1,80 +1,114 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Progress • Enigma</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Progress • Enigma Wellbeing</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#c8baff">
-  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    .list{ display:flex; flex-direction:column; gap:12px; }
+    .tile{ width:100%; min-height:92px; align-items:flex-start; }
+    .tile-sub{ margin-top:2px; font-size:13px; }
+    .stat{
+      margin-left:auto;
+      font-weight:700;
+      opacity:.8;
+      white-space:nowrap;
+      font-size:14px;
+    }
+  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
+
   <main class="wrap">
     <div class="topbar">
-      <a class="back" href="index.html" data-back>← Back</a>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <a class="back" href="index.html">←</a>
+      <div style="width:44px;"></div>
     </div>
 
     <h1 class="page-title">Progress</h1>
-    <p class="page-sub">Your small steps add up.</p>
+    <p class="page-sub">A simple overview across your pages.</p>
 
-    <section class="card" id="stats"></section>
+    <section class="card">
+      <div class="list" id="list"></div>
+      <hr class="sep" />
+      <p class="small-note" id="note" style="margin:0;"></p>
+    </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
+    import { applySavedTheme, applySavedPreferences } from "./app.js";
+    applySavedTheme(); applySavedPreferences();
+  </script>
 
-    const checkins = JSON.parse(localStorage.getItem("enigma_checkins_v2") || "[]");
-    const journal  = JSON.parse(localStorage.getItem("enigma_journal_v2") || "[]");
-    const breathe  = JSON.parse(localStorage.getItem("enigma_breathe_logs_v2") || "[]");
-    const savedQuotes = JSON.parse(localStorage.getItem("enigma_quotes_saved_v2") || "[]");
+  <script>
+    const KEYS = {
+      checkins: "enigma_checkins_v2",
+      journal: "enigma_journal_v2",
+      wordHist: "enigma_word_history_v2",
+      quotes: "enigma_saved_quotes_v2",
+      books: "enigma_saved_books_v2"
+    };
 
-    function streakFrom(arr){
-      const days = new Set(arr.map(x => (new Date(x.savedAt)).toDateString()));
-      const today = new Date();
-      let streak=0;
-      for(;;){
-        const d = new Date(today);
-        d.setDate(today.getDate()-streak);
-        if(days.has(d.toDateString())) streak++;
-        else break;
+    function safeJSON(key, fallback){
+      try{ return JSON.parse(localStorage.getItem(key) || fallback); }
+      catch{ return JSON.parse(fallback); }
+    }
+
+    const checkins = safeJSON(KEYS.checkins, "[]");
+    const journal = safeJSON(KEYS.journal, "[]"); // if yours is string or object, this still won’t crash
+    const wordHist = safeJSON(KEYS.wordHist, "{}");
+    const savedQuotes = safeJSON(KEYS.quotes, "[]");
+    const savedBooks = safeJSON(KEYS.books, "[]");
+
+    const wordDays = Object.keys(wordHist || {}).length;
+
+    // simple streak for check-ins (by date)
+    function dateOnly(iso){ return (iso || "").slice(0,10); }
+    function calcStreak(entries){
+      const set = new Set(entries.map(e => dateOnly(e.savedAt)).filter(Boolean));
+      if(!set.size) return 0;
+      let streak = 0;
+      const d = new Date();
+      while(true){
+        const ds = d.toISOString().slice(0,10);
+        if(set.has(ds)){
+          streak++;
+          d.setDate(d.getDate()-1);
+        } else break;
       }
       return streak;
     }
+    const checkinStreak = calcStreak(checkins);
 
-    document.getElementById("stats").innerHTML = `
-      <h2 style="margin:0 0 10px;">This app activity</h2>
+    const items = [
+      { ico:"📝", title:"Check-ins", sub:"Total saved check-ins", val: String(checkins.length) },
+      { ico:"🔥", title:"Check-in streak", sub:"Days in a row (based on saves)", val: String(checkinStreak) },
+      { ico:"📖", title:"Journal entries", sub:"Saved entries (if enabled)", val: Array.isArray(journal) ? String(journal.length) : "—" },
+      { ico:"✨", title:"Daily words", sub:"Days with a word saved", val: String(wordDays) },
+      { ico:"💜", title:"Saved quotes", sub:"Quotes you’ve saved", val: String(savedQuotes.length) },
+      { ico:"📚", title:"Saved books", sub:"Books you’ve saved", val: String(savedBooks.length) }
+    ];
 
-      <div class="grid">
-        <div class="tile"><div class="ico">📝</div><div class="label small">Check-ins<br><span style="opacity:.6;font-weight:800;">${checkins.length}</span></div></div>
-        <div class="tile"><div class="ico">📖</div><div class="label small">Journal entries<br><span style="opacity:.6;font-weight:800;">${journal.length}</span></div></div>
-        <div class="tile"><div class="ico">🫧</div><div class="label small">Breathing sessions<br><span style="opacity:.6;font-weight:800;">${breathe.length}</span></div></div>
-        <div class="tile"><div class="ico">💬</div><div class="label small">Saved quotes<br><span style="opacity:.6;font-weight:800;">${savedQuotes.length}</span></div></div>
+    const list = document.getElementById("list");
+    list.innerHTML = items.map(i => `
+      <div class="tile">
+        <div class="ico">${i.ico}</div>
+        <div style="flex:1;">
+          <div class="label small">${i.title}</div>
+          <div class="tile-sub">${i.sub}</div>
+        </div>
+        <div class="stat">${i.val}</div>
       </div>
+    `).join("");
 
-      <hr class="sep">
-
-      <div class="quote-tile">
-        <div class="quote-text">Current check-in streak: ${streakFrom(checkins)} day(s)</div>
-        <div class="quote-meta">A streak is just a reminder — missing a day is okay.</div>
-      </div>
-
-      <div style="height:10px;"></div>
-
-      <div class="btn-row">
-        <a class="btn primary" href="checkin.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Check in</a>
-        <a class="btn" href="journal.html" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Journal</a>
-      </div>
-    `;
+    document.getElementById("note").textContent =
+      "Progress here is based on what you’ve saved on this device.";
   </script>
 </body>
 </html>
