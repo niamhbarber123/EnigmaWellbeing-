@@ -5,6 +5,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Breathe • Enigma Wellbeing</title>
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Breathe-specific styling that matches Home (soft card + clean center) */
+    .breathe-card{ text-align:center; }
+
+    .breathe-circle{
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      margin: 14px auto 10px;
+      background: radial-gradient(circle at 35% 30%,
+        rgba(255,255,255,.75) 0%,
+        rgba(200,186,255,.42) 42%,
+        rgba(200,186,255,.22) 100%
+      );
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transform: scale(1);
+      transition: transform 4000ms ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+    body.dark .breathe-circle{
+      background: radial-gradient(circle at 35% 30%,
+        rgba(255,255,255,.14) 0%,
+        rgba(200,186,255,.16) 42%,
+        rgba(200,186,255,.10) 100%
+      );
+    }
+
+    .breathe-phase{
+      font-size: 16px;
+      font-weight: 600;
+      opacity: .8;
+      margin-top: 6px;
+    }
+    .breathe-time{
+      font-size: 26px;
+      font-weight: 650;
+      letter-spacing: .5px;
+    }
+    .breathe-hint{
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      margin: 4px 0 0;
+    }
+
+    /* Home-like control layout */
+    .control-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+      text-align:left;
+    }
+    @media (max-width:380px){
+      .control-grid{ grid-template-columns: 1fr; }
+      .breathe-circle{ width: 200px; height: 200px; }
+    }
+    .control label{
+      display:block;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: .7;
+      margin: 0 0 6px;
+    }
+
+    /* Small pattern line */
+    .pattern{
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: .75;
+      text-align:center;
+    }
+  </style>
 </head>
 
 <body>
@@ -16,78 +96,69 @@
       <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
-    <h1 class="page-title" style="font-weight:600;">Breathe</h1>
-    <p class="page-sub" style="font-weight:500;">
-      Slow down. Follow the rhythm.
-    </p>
+    <h1 class="page-title">Breathe</h1>
+    <p class="page-sub">Follow the rhythm. Slow in, slower out.</p>
 
-    <section class="card" style="text-align:center;">
-
-      <!-- Breathing Style -->
-      <label style="font-weight:500;">Breathing style</label>
-      <select id="breathType" style="margin-bottom:12px;">
-        <option value="box">Box (4-4-4-4)</option>
-        <option value="calm" selected>Calm (4-2-6)</option>
-        <option value="balanced">Balanced (5-2-5)</option>
-      </select>
-
-      <!-- Speed -->
-      <label style="font-weight:500;">Speed</label>
-      <select id="speedSelect" style="margin-bottom:12px;">
-        <option value="slow">Slow</option>
-        <option value="medium" selected>Medium</option>
-        <option value="fast">Fast</option>
-      </select>
-
-      <!-- Mode -->
-      <label style="font-weight:500;">Mode</label>
-      <select id="modeSelect" style="margin-bottom:12px;">
-        <option value="timer" selected>Timer</option>
-        <option value="stopwatch">Stopwatch</option>
-      </select>
-
-      <!-- Timer Length -->
-      <div id="timeOptions">
-        <label style="font-weight:500;">Duration</label>
-        <select id="timeSelect" style="margin-bottom:14px;">
-          <option value="1">1 minute</option>
-          <option value="2">2 minutes</option>
-          <option value="3">3 minutes</option>
-          <option value="5">5 minutes</option>
-          <option value="10">10 minutes</option>
-        </select>
-      </div>
-
-      <!-- Timer Display -->
-      <div id="timeDisplay" style="font-size:20px; font-weight:600; margin-bottom:10px;">
-        00:00
-      </div>
-
+    <section class="card breathe-card">
       <!-- Circle -->
-      <div id="circle"
-        style="
-          width:180px;
-          height:180px;
-          margin:20px auto;
-          border-radius:50%;
-          background:#c8baff;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          color:#fff;
-          font-size:18px;
-          font-weight:600;
-          transition:transform 4s ease-in-out;
-        ">
-        Ready
+      <div class="breathe-circle" id="circle">
+        <div>
+          <div class="breathe-time" id="timeDisplay">00:00</div>
+        </div>
       </div>
 
-      <div style="margin-top:16px;" class="btn-row">
-        <button class="btn primary" id="startBtn">Start</button>
-        <button class="btn" id="stopBtn">Stop</button>
-        <button class="btn" id="resetBtn">Reset</button>
+      <div class="breathe-phase" id="phaseText">Ready</div>
+      <p class="breathe-hint" id="hintText">Choose options and press Start.</p>
+
+      <!-- Controls (Home-style) -->
+      <div class="control-grid">
+        <div class="control">
+          <label for="breathType">Breathing option</label>
+          <select id="breathType">
+            <option value="box">Box (4–4–4–4)</option>
+            <option value="calm" selected>Calm (4–2–6)</option>
+            <option value="balanced">Balanced (5–2–5)</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="speedSelect">Speed</label>
+          <select id="speedSelect">
+            <option value="slow">Slow</option>
+            <option value="medium" selected>Medium</option>
+            <option value="fast">Fast</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="modeSelect">Mode</label>
+          <select id="modeSelect">
+            <option value="timer" selected>Timer</option>
+            <option value="stopwatch">Stopwatch</option>
+          </select>
+        </div>
+
+        <div class="control" id="timeOptions">
+          <label for="timeSelect">Duration</label>
+          <select id="timeSelect">
+            <option value="1">1 minute</option>
+            <option value="2">2 minutes</option>
+            <option value="3">3 minutes</option>
+            <option value="5">5 minutes</option>
+            <option value="10">10 minutes</option>
+          </select>
+        </div>
       </div>
 
+      <div class="pattern" id="patternText">Inhale 4 • Hold 2 • Exhale 6</div>
+
+      <hr class="sep">
+
+      <div class="btn-row">
+        <button class="btn primary" id="startBtn" type="button">Start</button>
+        <button class="btn" id="stopBtn" type="button">Stop</button>
+        <button class="btn" id="resetBtn" type="button">Reset</button>
+      </div>
     </section>
   </main>
 
@@ -99,6 +170,11 @@
 
   <script>
     const circle = document.getElementById("circle");
+    const phaseText = document.getElementById("phaseText");
+    const hintText = document.getElementById("hintText");
+    const timeDisplay = document.getElementById("timeDisplay");
+    const patternText = document.getElementById("patternText");
+
     const startBtn = document.getElementById("startBtn");
     const stopBtn = document.getElementById("stopBtn");
     const resetBtn = document.getElementById("resetBtn");
@@ -108,17 +184,15 @@
     const modeSelect = document.getElementById("modeSelect");
     const timeSelect = document.getElementById("timeSelect");
     const timeOptions = document.getElementById("timeOptions");
-    const timeDisplay = document.getElementById("timeDisplay");
 
-    let breathInterval = null;
+    let running = false;
     let phaseTimeout = null;
     let timerInterval = null;
 
     let inhaleMs = 4000;
     let holdMs = 2000;
     let exhaleMs = 6000;
-    let hold2Ms = 0;      // only used for box breathing
-    let running = false;
+    let hold2Ms = 0;
 
     let seconds = 0;
 
@@ -134,7 +208,7 @@
         inhaleMs = 4000 * k;
         holdMs   = 4000 * k;
         exhaleMs = 4000 * k;
-        hold2Ms  = 4000 * k; // second hold after exhale
+        hold2Ms  = 4000 * k;
       } else if (breathType.value === "balanced"){
         inhaleMs = 5000 * k;
         holdMs   = 2000 * k;
@@ -146,6 +220,16 @@
         exhaleMs = 6000 * k;
         hold2Ms  = 0;
       }
+
+      const inh = Math.round(inhaleMs/1000);
+      const hol = Math.round(holdMs/1000);
+      const exh = Math.round(exhaleMs/1000);
+      const hol2 = Math.round(hold2Ms/1000);
+
+      patternText.textContent =
+        (hold2Ms > 0)
+          ? `Inhale ${inh} • Hold ${hol} • Exhale ${exh} • Hold ${hol2}`
+          : `Inhale ${inh} • Hold ${hol} • Exhale ${exh}`;
     }
 
     function fmt(sec){
@@ -154,35 +238,33 @@
       return `${m}:${s}`;
     }
 
-    function clearAllTimers(){
-      clearInterval(breathInterval);
-      clearInterval(timerInterval);
-      clearTimeout(phaseTimeout);
-      breathInterval = timerInterval = phaseTimeout = null;
+    function clearAll(){
+      if (phaseTimeout) { clearTimeout(phaseTimeout); phaseTimeout = null; }
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    }
+
+    function setCircleScale(scale, durationMs){
+      circle.style.transitionDuration = durationMs + "ms";
+      circle.style.transform = `scale(${scale})`;
     }
 
     function inhale(){
-      circle.textContent = "Inhale";
-      circle.style.transitionDuration = inhaleMs + "ms";
-      circle.style.transform = "scale(1.2)";
+      phaseText.textContent = "Inhale";
+      hintText.textContent = "Breathe in slowly.";
+      setCircleScale(1.18, inhaleMs);
     }
-
     function hold(){
-      circle.textContent = "Hold";
-      // keep size steady during hold
+      phaseText.textContent = "Hold";
+      hintText.textContent = "Pause gently.";
+      setCircleScale(1.18, 200);
     }
-
     function exhale(){
-      circle.textContent = "Exhale";
-      circle.style.transitionDuration = exhaleMs + "ms";
-      circle.style.transform = "scale(1)";
+      phaseText.textContent = "Exhale";
+      hintText.textContent = "Breathe out slowly.";
+      setCircleScale(1.0, exhaleMs);
     }
 
-    function hold2(){
-      circle.textContent = "Hold";
-    }
-
-    function runCycle(){
+    function loop(){
       if (!running) return;
 
       inhale();
@@ -198,15 +280,11 @@
             if (!running) return;
 
             if (hold2Ms > 0){
-              hold2();
-              phaseTimeout = setTimeout(()=>{
-                if (!running) return;
-                runCycle();
-              }, hold2Ms);
+              hold();
+              phaseTimeout = setTimeout(loop, hold2Ms);
             } else {
-              runCycle();
+              loop();
             }
-
           }, exhaleMs);
 
         }, holdMs);
@@ -214,12 +292,12 @@
       }, inhaleMs);
     }
 
-    function startBreathing(){
+    function start(){
       if (running) return;
       running = true;
       updatePattern();
 
-      // timer/stopwatch
+      // Timer / Stopwatch
       if (modeSelect.value === "timer"){
         seconds = parseInt(timeSelect.value,10) * 60;
         timeDisplay.textContent = fmt(seconds);
@@ -227,7 +305,7 @@
         timerInterval = setInterval(()=>{
           seconds--;
           timeDisplay.textContent = fmt(Math.max(0, seconds));
-          if (seconds <= 0) stopBreathing(true);
+          if (seconds <= 0) stop(true);
         }, 1000);
       } else {
         seconds = 0;
@@ -238,29 +316,46 @@
         }, 1000);
       }
 
-      runCycle();
+      loop();
     }
 
-    function stopBreathing(finished=false){
+    function stop(finished=false){
       running = false;
-      clearAllTimers();
-      if (finished) circle.textContent = "Done";
+      clearAll();
+
+      if (finished){
+        phaseText.textContent = "Done";
+        hintText.textContent = "Nice work.";
+      } else {
+        phaseText.textContent = "Paused";
+        hintText.textContent = "Press Start when you’re ready.";
+      }
     }
 
-    function resetBreathing(){
-      stopBreathing(false);
+    function reset(){
+      stop(false);
       timeDisplay.textContent = "00:00";
-      circle.textContent = "Ready";
-      circle.style.transform = "scale(1)";
+      phaseText.textContent = "Ready";
+      hintText.textContent = "Choose options and press Start.";
+      setCircleScale(1.0, 200);
+      updatePattern();
     }
 
-    modeSelect.addEventListener("change", () => {
-      timeOptions.style.display = modeSelect.value === "timer" ? "block" : "none";
+    modeSelect.addEventListener("change", ()=>{
+      timeOptions.style.display = (modeSelect.value === "timer") ? "block" : "none";
+      if (!running) timeDisplay.textContent = "00:00";
     });
 
-    startBtn.addEventListener("click", startBreathing);
-    stopBtn.addEventListener("click", ()=>stopBreathing(false));
-    resetBtn.addEventListener("click", resetBreathing);
+    breathType.addEventListener("change", updatePattern);
+    speedSelect.addEventListener("change", updatePattern);
+
+    startBtn.addEventListener("click", start);
+    stopBtn.addEventListener("click", ()=>stop(false));
+    resetBtn.addEventListener("click", reset);
+
+    // init
+    updatePattern();
+    timeOptions.style.display = (modeSelect.value === "timer") ? "block" : "none";
   </script>
 </body>
 </html>
