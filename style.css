@@ -1,5 +1,5 @@
 /* =========================================
-   ENIGMA WELLBEING — Calm UI (Root)
+   ENIGMA WELLBEING — Calm Version
    ========================================= */
 
 *{ box-sizing:border-box; }
@@ -13,8 +13,7 @@ html,body{ height:100%; }
   --text:#3b3550;
   --muted: rgba(59,53,80,.55);
 
-  --card: rgba(255,255,255,.74);
-  --card2: rgba(255,255,255,.68);
+  --card: rgba(255,255,255,.75);
   --stroke: rgba(30,20,60,.08);
 
   --shadow: 0 18px 50px rgba(50,30,90,.12);
@@ -27,23 +26,28 @@ html,body{ height:100%; }
 body{
   margin:0;
   font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  font-weight:500; /* calmer */
+  font-weight:500;              /* CALMER */
   color: var(--text);
-  background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 60%,var(--bg3) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--bg1) 0%,
+    var(--bg2) 60%,
+    var(--bg3) 100%
+  );
 }
 
 body.dark{
   --text: rgba(245,244,255,.92);
   --muted: rgba(245,244,255,.60);
-
   --card: rgba(255,255,255,.08);
-  --card2: rgba(255,255,255,.07);
   --stroke: rgba(255,255,255,.12);
-
   background: linear-gradient(180deg,#1f1a29 0%, #1b1724 100%);
 }
 
-/* Icon watermark */
+/* =========================================
+   Watermark
+   ========================================= */
+
 .watermark{
   position:fixed;
   inset:0;
@@ -54,27 +58,27 @@ body.dark{
   background-position:center 55%;
   background-size:420px;
   opacity:.07;
-  filter: blur(.3px);
 }
 body.dark .watermark{ opacity:.12; }
 
 .wrap{
   max-width: 520px;
   margin: 0 auto;
-  padding: 76px 14px 36px; /* added top space for fixed moon */
+  padding: 90px 14px 36px; /* extra top space for fixed moon */
   position:relative;
   z-index:1;
 }
 
 /* =========================================
-   Night Mode Button — FIXED top-right
+   Night Mode Button — Top Right
    ========================================= */
+
 .moon,
 .icon-btn[data-theme-toggle],
 [data-theme-toggle]{
   position: fixed;
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   width:44px;
   height:44px;
   border-radius:999px;
@@ -84,14 +88,23 @@ body.dark .watermark{ opacity:.12; }
   cursor:pointer;
   font-size:18px;
   color:inherit;
-  z-index: 20;
+  z-index: 1000;
 }
 
 /* =========================================
-   Calmer Typography (ONLY weight adjusted)
+   Typography — Calmer
    ========================================= */
-h1, h2, h3{
-  font-weight:650; /* was heavier */
+
+h1{
+  font-size:28px;
+  font-weight:650;
+  margin:0 0 6px;
+}
+
+h2{
+  font-size:18px;
+  font-weight:600;
+  margin:0 0 8px;
 }
 
 .page-title{
@@ -101,18 +114,7 @@ h1, h2, h3{
 .page-sub,
 .page-subtitle{
   font-weight:500;
-}
-
-.header h1{
-  font-weight:650;
-}
-
-.header p{
-  font-weight:500;
-}
-
-.section h2{
-  font-weight:600;
+  opacity:.7;
 }
 
 .label{
@@ -127,14 +129,8 @@ h1, h2, h3{
   font-weight:600;
 }
 
-.pill{
-  font-weight:600;
-}
-
-.support-text{
-  font-weight:600;
-}
-
+.pill,
+.support-text,
 .quote-text{
   font-weight:600;
 }
@@ -147,12 +143,8 @@ h1, h2, h3{
   font-weight:600;
 }
 
-.mood-btn{
-  font-weight:600;
-}
-
 /* =========================================
-   EVERYTHING ELSE UNCHANGED
+   Layout Components (UNCHANGED STRUCTURE)
    ========================================= */
 
 .topbar{
@@ -184,34 +176,13 @@ h1, h2, h3{
   display:flex;
   align-items:center;
   gap:12px;
-  padding:14px 14px;
+  padding:14px;
   border-radius: var(--radius);
   margin-bottom: 12px;
   text-decoration:none;
   color:inherit;
   border:1px solid var(--stroke);
   box-shadow: var(--shadow);
-}
-
-.cool{ background: linear-gradient(90deg,rgba(200,186,255,.38),rgba(255,255,255,.62)); }
-.warm{ background: linear-gradient(90deg,rgba(255,210,225,.34),rgba(255,255,255,.62)); }
-
-.ico{
-  width:42px;
-  height:42px;
-  border-radius:16px;
-  background: rgba(255,255,255,.68);
-  border:1px solid var(--stroke);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-}
-
-.arrow{
-  margin-left:auto;
-  font-size:26px;
-  opacity:.35;
 }
 
 .grid{
@@ -236,3 +207,10 @@ h1, h2, h3{
 
 a{ color:inherit; }
 a:active, button:active{ transform: translateY(1px); }
+
+hr.sep{
+  border:none;
+  height:1px;
+  background:var(--stroke);
+  margin:18px 0;
+}
