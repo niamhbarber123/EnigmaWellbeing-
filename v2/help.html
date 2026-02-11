@@ -16,123 +16,61 @@
   <button class="icon-btn" data-theme-toggle>🌙</button>
 </div>
 
-<h1 class="page-title">Get support now</h1>
-<p class="page-subtitle">If you need immediate help in the UK.</p>
+<h1 class="page-title">Get Support Now</h1>
+<p class="page-subtitle">Immediate help and your personal support contacts.</p>
 
 <section class="section-panel">
+
+<h2>Emergency & Crisis</h2>
 <div class="grid">
 
-<!-- Emergency -->
 <a class="tile" href="tel:999">
   <div class="tile-ico">🚨</div>
   <div>
     <p class="tile-title">Emergency</p>
-    <p class="tile-sub">Call 999 immediately</p>
+    <p class="tile-sub">Call 999</p>
   </div>
 </a>
 
-<!-- NHS 111 -->
 <a class="tile" href="tel:111">
   <div class="tile-ico">📞</div>
   <div>
     <p class="tile-title">NHS 111</p>
-    <p class="tile-sub">Press 2 for mental health support</p>
+    <p class="tile-sub">Press 2 for mental health</p>
   </div>
 </a>
 
-<!-- NHS urgent helplines -->
-<a class="tile" href="https://www.nhs.uk/service-search/mental-health/find-an-urgent-mental-health-helpline" target="_blank">
-  <div class="tile-ico">🧠</div>
-  <div>
-    <p class="tile-title">Find Local NHS Crisis Line</p>
-    <p class="tile-sub">Search by postcode</p>
-  </div>
-</a>
-
-<!-- Samaritans -->
 <a class="tile" href="https://www.samaritans.org/" target="_blank">
   <div class="tile-ico">💛</div>
   <div>
     <p class="tile-title">Samaritans</p>
-    <p class="tile-sub">Call 116 123 (24/7)</p>
+    <p class="tile-sub">Call 116 123</p>
   </div>
 </a>
 
-<!-- Shout -->
 <a class="tile" href="https://www.shout247.com/" target="_blank">
   <div class="tile-ico">💬</div>
   <div>
     <p class="tile-title">Shout</p>
-    <p class="tile-sub">Text 85258 (24/7)</p>
-  </div>
-</a>
-
-<!-- CALM -->
-<a class="tile" href="https://www.thecalmzone.net/" target="_blank">
-  <div class="tile-ico">👨</div>
-  <div>
-    <p class="tile-title">CALM</p>
-    <p class="tile-sub">Men’s support (5pm–midnight)</p>
-  </div>
-</a>
-
-<!-- YoungMinds -->
-<a class="tile" href="https://www.youngminds.org.uk/" target="_blank">
-  <div class="tile-ico">👶</div>
-  <div>
-    <p class="tile-title">YoungMinds</p>
-    <p class="tile-sub">Support for young people</p>
-  </div>
-</a>
-
-<!-- Childline -->
-<a class="tile" href="https://www.childline.org.uk/" target="_blank">
-  <div class="tile-ico">🧒</div>
-  <div>
-    <p class="tile-title">Childline</p>
-    <p class="tile-sub">Call 0800 1111 (under 19s)</p>
-  </div>
-</a>
-
-<!-- Switchboard LGBT -->
-<a class="tile" href="https://switchboard.lgbt/" target="_blank">
-  <div class="tile-ico">🏳️‍🌈</div>
-  <div>
-    <p class="tile-title">Switchboard LGBT+</p>
-    <p class="tile-sub">Call 0300 330 0630</p>
-  </div>
-</a>
-
-<!-- Women's Aid -->
-<a class="tile" href="https://www.womensaid.org.uk/" target="_blank">
-  <div class="tile-ico">👩</div>
-  <div>
-    <p class="tile-title">Women’s Aid</p>
-    <p class="tile-sub">Domestic abuse support</p>
-  </div>
-</a>
-
-<!-- Refuge -->
-<a class="tile" href="https://www.nationaldahelpline.org.uk/" target="_blank">
-  <div class="tile-ico">🏠</div>
-  <div>
-    <p class="tile-title">Refuge</p>
-    <p class="tile-sub">0808 2000 247</p>
-  </div>
-</a>
-
-<!-- GP -->
-<a class="tile" href="https://www.nhs.uk/service-search/find-a-gp" target="_blank">
-  <div class="tile-ico">👩‍⚕️</div>
-  <div>
-    <p class="tile-title">Contact Your GP</p>
-    <p class="tile-sub">Book an appointment</p>
+    <p class="tile-sub">Text 85258</p>
   </div>
 </a>
 
 </div>
-</section>
 
+<hr class="sep">
+
+<h2>Your Support Contacts</h2>
+
+<div class="grid" id="contactsGrid"></div>
+
+<div style="height:10px;"></div>
+
+<input id="contactName" placeholder="Name" style="width:100%;margin-bottom:8px;">
+<input id="contactNumber" placeholder="Phone number" style="width:100%;margin-bottom:8px;">
+<button class="btn" id="addContactBtn">Add Contact</button>
+
+</section>
 </main>
 
 <script type="module">
@@ -140,7 +78,54 @@ import { applySavedTheme, wireThemeButton, wireBackButton } from "./app.js";
 applySavedTheme();
 wireThemeButton();
 wireBackButton();
-</script>
 
+const KEY = "enigma_support_contacts_v2";
+
+const grid = document.getElementById("contactsGrid");
+const nameInput = document.getElementById("contactName");
+const numberInput = document.getElementById("contactNumber");
+const addBtn = document.getElementById("addContactBtn");
+
+function getContacts(){
+  return JSON.parse(localStorage.getItem(KEY) || "[]");
+}
+
+function saveContacts(arr){
+  localStorage.setItem(KEY, JSON.stringify(arr));
+}
+
+function render(){
+  const contacts = getContacts();
+  grid.innerHTML = contacts.map((c,i)=>`
+    <div class="tile">
+      <div class="tile-ico">👤</div>
+      <div>
+        <p class="tile-title">${c.name}</p>
+        <p class="tile-sub">${c.number}</p>
+      </div>
+      <button onclick="removeContact(${i})" style="margin-left:auto;">✖</button>
+    </div>
+  `).join("");
+}
+
+window.removeContact = function(index){
+  const contacts = getContacts();
+  contacts.splice(index,1);
+  saveContacts(contacts);
+  render();
+};
+
+addBtn.addEventListener("click", ()=>{
+  if(!nameInput.value || !numberInput.value) return;
+  const contacts = getContacts();
+  contacts.push({ name:nameInput.value, number:numberInput.value });
+  saveContacts(contacts);
+  nameInput.value="";
+  numberInput.value="";
+  render();
+});
+
+render();
+</script>
 </body>
 </html>
