@@ -9,6 +9,27 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
+    .tabs{
+      display:flex;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .tab{
+      flex:1;
+      height:44px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      cursor:pointer;
+      font-weight:600;
+    }
+    .tab[aria-pressed="true"]{
+      background: var(--accentTint);
+      outline: 2px solid var(--accentRing);
+      outline-offset: 2px;
+    }
+
     .quotes-list{
       display:flex;
       flex-direction:column;
@@ -17,7 +38,7 @@
 
     .quote-tile{
       position:relative;
-      padding:18px 18px 44px; /* space for heart */
+      padding:18px 18px 44px;
       border-radius: 24px;
       border:1px solid var(--stroke);
       background: var(--card);
@@ -54,7 +75,6 @@
     .save-btn.saved{
       opacity:1;
       transform:scale(1.12);
-      filter:saturate(1.2);
     }
   </style>
 </head>
@@ -62,19 +82,30 @@
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
-  <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
-
   <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html">←</a>
+      <div style="width:44px;"></div>
+    </div>
+
     <h1 class="page-title">Kind words</h1>
     <p class="page-sub">Save the ones that feel right.</p>
 
-    <div class="quotes-list" id="quotesList"></div>
+    <div class="tabs">
+      <button class="tab" id="tabAll" aria-pressed="true" type="button">All</button>
+      <button class="tab" id="tabSaved" aria-pressed="false" type="button">Saved</button>
+    </div>
+
+    <section class="card">
+      <div class="quotes-list" id="quotesList"></div>
+      <p class="small-note" id="emptyMsg" style="margin:0; display:none;">No saved quotes yet.</p>
+    </section>
   </main>
 
   <script type="module">
-    import { applySavedTheme, wireThemeButton } from "./app.js";
+    import { applySavedTheme, applySavedPreferences } from "./app.js";
     applySavedTheme();
-    wireThemeButton();
+    applySavedPreferences();
   </script>
 
   <script>
@@ -96,10 +127,9 @@
       { text:"No feeling is final.", author:"Rainer Maria Rilke" },
       { text:"There is hope, even when your brain tells you there isn’t.", author:"John Green" },
       { text:"You are allowed to be both a masterpiece and a work in progress at the same time.", author:"Sophia Bush" },
-      { text:"Rest and self-care are so important. When you take time to replenish your spirit, it allows you to serve others from the overflow.", author:"Eleanor Brownn" },
       { text:"Your present circumstances don’t determine where you can go; they merely determine where you start.", author:"Nido Qubein" },
       { text:"Healing takes time, and asking for help is a courageous step.", author:"Mariska Hargitay" },
-      { text:"It’s okay to not be okay — but it’s not okay to stay that way alone.", author:"Unknown" },
+
       { text:"Be patient with yourself. Nothing in nature blooms all year.", author:"Unknown" },
       { text:"Slow down. You’re doing the best you can.", author:"Unknown" },
       { text:"You have survived 100% of your hardest days.", author:"Unknown" },
@@ -108,55 +138,52 @@
       { text:"Sometimes the bravest thing you can do is rest.", author:"Unknown" },
       { text:"You are not behind in life. There is no timetable.", author:"Unknown" },
       { text:"Let yourself be a beginner.", author:"Unknown" },
-      { text:"The way you speak to yourself matters.", author:"Unknown" },
-
-      { text:"You can be a good person with a kind heart and still say no.", author:"Unknown" },
-      { text:"Your mind deserves the same kindness you give others.", author:"Unknown" },
-      { text:"One gentle thing is enough for today.", author:"Unknown" },
-      { text:"You are not a burden.", author:"Unknown" },
-      { text:"Even the smallest reset counts.", author:"Unknown" },
-      { text:"It’s okay if all you did today was breathe.", author:"Unknown" },
-      { text:"This is hard — and you’re still here.", author:"Unknown" },
-      { text:"You don’t have to do it all at once.", author:"Unknown" },
-      { text:"Some days are for surviving, not thriving.", author:"Unknown" }
+      { text:"The way you speak to yourself matters.", author:"Unknown" }
     ];
 
     const list = document.getElementById("quotesList");
+    const emptyMsg = document.getElementById("emptyMsg");
+    const tabAll = document.getElementById("tabAll");
+    const tabSaved = document.getElementById("tabSaved");
 
-    function getSaved(){
-      return JSON.parse(localStorage.getItem(KEY) || "[]");
-    }
+    let view = "all"; // all | saved
 
     function makeId(q){
       return `${q.text}__${q.author}`;
     }
-
+    function getSaved(){
+      return JSON.parse(localStorage.getItem(KEY) || "[]");
+    }
+    function setSaved(arr){
+      localStorage.setItem(KEY, JSON.stringify(arr));
+    }
     function toggleSave(id){
       let saved = getSaved();
-      if(saved.includes(id)){
-        saved = saved.filter(x => x !== id);
-      }else{
-        saved.push(id);
-      }
-      localStorage.setItem(KEY, JSON.stringify(saved));
+      if(saved.includes(id)) saved = saved.filter(x => x !== id);
+      else saved.push(id);
+      setSaved(saved);
       render();
     }
-
     function esc(s){
       return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
     }
 
     function render(){
       const saved = getSaved();
+      const data = (view === "saved")
+        ? quotes.filter(q => saved.includes(makeId(q)))
+        : quotes;
 
-      list.innerHTML = quotes.map(q=>{
+      emptyMsg.style.display = (view === "saved" && data.length === 0) ? "block" : "none";
+
+      list.innerHTML = data.map(q=>{
         const id = makeId(q);
         const isSaved = saved.includes(id);
         return `
           <div class="quote-tile">
             <p class="quote-text">“${esc(q.text)}”</p>
             <p class="quote-author">— ${esc(q.author)}</p>
-            <button class="save-btn ${isSaved ? "saved" : ""}" type="button" aria-label="Save quote" data-id="${esc(id)}">💜</button>
+            <button class="save-btn ${isSaved ? "saved" : ""}" type="button" data-id="${esc(id)}">💜</button>
           </div>
         `;
       }).join("");
@@ -167,6 +194,20 @@
         });
       });
     }
+
+    tabAll.addEventListener("click", ()=>{
+      view = "all";
+      tabAll.setAttribute("aria-pressed","true");
+      tabSaved.setAttribute("aria-pressed","false");
+      render();
+    });
+
+    tabSaved.addEventListener("click", ()=>{
+      view = "saved";
+      tabAll.setAttribute("aria-pressed","false");
+      tabSaved.setAttribute("aria-pressed","true");
+      render();
+    });
 
     render();
   </script>
