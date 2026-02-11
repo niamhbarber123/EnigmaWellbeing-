@@ -1,53 +1,88 @@
-/* =========================================
-   ENIGMA WELLBEING — CALMER TYPOGRAPHY
-   ========================================= */
+/* style.css — Enigma Wellbeing
+   Amendments included:
+   1) Force ONE global font everywhere to match your screenshot (Poppins).
+   2) Make typography calmer/consistent across all pages.
+   3) Force night mode button to top-right on every page.
+   NO other layout/colour redesign beyond what your existing CSS already does.
+*/
 
+/* ---------- Reset ---------- */
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
+body{ margin:0; }
 
+/* ---------- Theme tokens ---------- */
 :root{
+  /* background */
   --bg1:#f4f1ff;
   --bg2:#efe9ff;
   --bg3:#ece6fb;
 
+  /* text */
   --text:#3b3550;
-  --muted: rgba(59,53,80,.60);
+  --muted: rgba(59,53,80,.62);
 
+  /* surfaces */
   --card: rgba(255,255,255,.75);
   --stroke: rgba(30,20,60,.08);
 
+  /* shadows */
   --shadow: 0 18px 50px rgba(50,30,90,.12);
   --shadow2: 0 14px 34px rgba(50,30,90,.09);
 
+  /* radii */
   --radius: 26px;
   --radius2: 22px;
 }
 
+body.dark{
+  --text: rgba(245,244,255,.92);
+  --muted: rgba(245,244,255,.66);
+  --card: rgba(255,255,255,.08);
+  --stroke: rgba(255,255,255,.12);
+}
+
+/* ---------- Background ---------- */
 body{
-  margin:0;
-  font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  font-weight:500;               /* CALMER GLOBAL WEIGHT */
+  background: linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 60%,var(--bg3) 100%);
   color: var(--text);
-  background: linear-gradient(
-    180deg,
-    var(--bg1) 0%,
-    var(--bg2) 60%,
-    var(--bg3) 100%
-  );
+
+  /* GLOBAL FONT (matches screenshot) */
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  letter-spacing: .2px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body.dark{
-  --text: rgba(245,244,255,.92);
-  --muted: rgba(245,244,255,.65);
-  --card: rgba(255,255,255,.08);
-  --stroke: rgba(255,255,255,.12);
   background: linear-gradient(180deg,#1f1a29 0%, #1b1724 100%);
 }
 
-/* =========================================
-   Night Mode Button — FORCE TOP RIGHT
-   ========================================= */
+/* ---------- Watermark ---------- */
+.watermark{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:url("icon.png");
+  background-repeat:no-repeat;
+  background-position:center 55%;
+  background-size:420px;
+  opacity:.07;
+}
+body.dark .watermark{ opacity:.12; }
 
+/* ---------- App container ---------- */
+.wrap{
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 90px 14px 36px; /* leave space for fixed moon */
+  position:relative;
+  z-index:1;
+}
+
+/* ---------- Force Night Mode Button Top Right ---------- */
 .moon,
 .icon-btn[data-theme-toggle],
 [data-theme-toggle]{
@@ -72,85 +107,47 @@ body.dark{
   cursor:pointer;
 }
 
-/* =========================================
-   GLOBAL TYPOGRAPHY SOFTENED
-   ========================================= */
-
-h1{
-  font-size:28px;
-  font-weight:600;   /* was heavier */
-  margin:0 0 6px;
+/* ---------- Typography (match screenshot) ---------- */
+header h1,
+.page-title{
+  font-weight: 700;
+  letter-spacing: .3px;
 }
 
+h1{ font-size:28px; margin:0 0 6px; }
 h2{
   font-size:18px;
-  font-weight:600;
+  font-weight: 600;
   margin:0 0 8px;
-}
-
-.page-title{
-  font-weight:600;
 }
 
 .page-sub,
 .page-subtitle{
-  font-weight:500;
-  opacity:.75;
-  line-height:1.5;
+  font-weight: 500;
+  opacity: .75;
+  line-height: 1.5;
+  margin: 0 0 12px;
 }
 
-.label,
-.label.small{
-  font-weight:500;
-}
+.label{ font-weight: 600; }
+.label.small{ font-weight: 600; }
 
-.btn{
-  font-weight:500;
-}
-
-.pill,
-.support-text,
-.quote-text,
-.tile-title{
-  font-weight:500;
-}
-
-.quote-meta,
+.tile-title{ font-weight: 600; }
 .tile-sub,
+.quote-meta,
 .small-note{
-  font-weight:500;
-  opacity:.75;
+  font-weight: 500;
+  opacity: .72;
+  line-height: 1.45;
 }
 
-.back{
-  font-weight:500;
+/* Buttons calmer */
+.btn,
+.pill{
+  font-weight: 600;
 }
 
-/* =========================================
-   Layout (UNCHANGED)
-   ========================================= */
-
-.watermark{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  background-image:url("icon.png");
-  background-repeat:no-repeat;
-  background-position:center 55%;
-  background-size:420px;
-  opacity:.07;
-}
-body.dark .watermark{ opacity:.12; }
-
-.wrap{
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 90px 14px 36px; /* space for fixed moon */
-  position:relative;
-  z-index:1;
-}
-
+/* ---------- Top bar / back button ---------- */
 .topbar{
   display:flex;
   align-items:center;
@@ -159,7 +156,8 @@ body.dark .watermark{ opacity:.12; }
   margin-bottom: 10px;
 }
 
-.back{
+.back,
+.back-btn{
   display:inline-flex;
   align-items:center;
   gap:8px;
@@ -170,10 +168,23 @@ body.dark .watermark{ opacity:.12; }
   box-shadow: var(--shadow2);
   color:inherit;
   text-decoration:none;
+  font-weight: 500;
 }
 
+/* ---------- Sections ---------- */
 .section{ margin:16px 0 18px; }
 
+/* ---------- Cards / panels ---------- */
+.card,
+.section-panel{
+  background: var(--card);
+  border:1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow2);
+  padding: 14px;
+}
+
+/* ---------- Wide buttons (home) ---------- */
 .wide{
   display:flex;
   align-items:center;
@@ -187,10 +198,11 @@ body.dark .watermark{ opacity:.12; }
   box-shadow: var(--shadow);
 }
 
+/* ---------- Grid tiles ---------- */
 .grid{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap:12px;
+  gap: 12px;
 }
 
 .tile{
@@ -204,15 +216,127 @@ body.dark .watermark{ opacity:.12; }
   box-shadow: var(--shadow2);
   text-decoration:none;
   color:inherit;
-  min-height:76px;
+  min-height: 76px;
 }
 
-a{ color:inherit; }
-a:active, button:active{ transform: translateY(1px); }
+/* icons + arrows (if you use these classes) */
+.ico{
+  width:38px;
+  height:38px;
+  border-radius: 16px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.62);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+body.dark .ico{ background: rgba(255,255,255,.10); }
+
+.arrow{
+  margin-left:auto;
+  opacity:.55;
+  font-weight:700;
+  font-size:22px;
+  line-height:1;
+}
+.arrow.small{ font-size:20px; }
+
+/* ---------- Pills row (Your space) ---------- */
+.pill-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-radius: 999px;
+  background: var(--card);
+  border:1px solid var(--stroke);
+  box-shadow: var(--shadow2);
+  text-decoration:none;
+  color:inherit;
+}
+
+/* ---------- Support banner (if used) ---------- */
+.support-banner{
+  margin-top: 12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px;
+  border-radius: var(--radius);
+  background: rgba(200,186,255,.22);
+  border:1px solid var(--stroke);
+  box-shadow: var(--shadow2);
+  text-decoration:none;
+  color:inherit;
+}
+body.dark .support-banner{ background: rgba(200,186,255,.14); }
+
+.sos{
+  width:40px;
+  height:30px;
+  border-radius: 12px;
+  background: rgba(255,90,120,.18);
+  border:1px solid rgba(255,90,120,.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:13px;
+}
+
+/* ---------- Inputs ---------- */
+input, select, textarea{
+  width:100%;
+  border-radius: 16px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.62);
+  color: var(--text);
+  padding: 12px 12px;
+  font-family: inherit;
+  font-weight: 500;
+  outline: none;
+}
+body.dark input,
+body.dark select,
+body.dark textarea{
+  background: rgba(255,255,255,.08);
+}
+
+textarea{ min-height: 140px; resize: vertical; }
+
+/* ---------- Buttons ---------- */
+.btn-row{ display:flex; gap:10px; flex-wrap:wrap; }
+
+.btn{
+  border:none;
+  border-radius: 999px;
+  padding: 12px 14px;
+  background: var(--card);
+  border:1px solid var(--stroke);
+  box-shadow: var(--shadow2);
+  cursor:pointer;
+  color: inherit;
+}
+
+.btn.primary{
+  background: rgba(200,186,255,.30);
+}
 
 hr.sep{
   border:none;
   height:1px;
-  background:var(--stroke);
+  background: var(--stroke);
   margin:18px 0;
 }
+
+/* ---------- Links + active state ---------- */
+a{ color:inherit; }
+a:active, button:active{ transform: translateY(1px); }
