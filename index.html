@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
@@ -18,13 +18,14 @@
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
+  <!-- Night Mode Button (fixed top right) -->
+  <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+
   <main class="wrap">
+
     <header class="header">
-      <div class="header-text">
-        <h1>Enigma Wellbeing</h1>
-        <p>Your calm space</p>
-      </div>
-      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
+      <h1>Enigma Wellbeing</h1>
+      <p>Your calm space</p>
     </header>
 
     <section class="section">
@@ -79,11 +80,14 @@
         <span class="arrow">›</span>
       </a>
     </section>
+
   </main>
 
   <script type="module">
     import { applySavedTheme, wireThemeButton, registerServiceWorker } from "./app.js";
-    applySavedTheme(); wireThemeButton(); registerServiceWorker();
+    applySavedTheme();
+    wireThemeButton();
+    registerServiceWorker();
   </script>
 </body>
 </html>
