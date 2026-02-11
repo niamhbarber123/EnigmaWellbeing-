@@ -340,3 +340,29 @@ hr.sep{
 /* ---------- Links + active state ---------- */
 a{ color:inherit; }
 a:active, button:active{ transform: translateY(1px); }
+/* ==============================
+   YOUR SPACE — Equal Buttons
+   ============================== */
+
+.pill-row{
+  display:grid !important;
+  grid-template-columns: 1fr 1fr;   /* 2 equal columns */
+  gap:12px;
+}
+
+/* Make all pills identical */
+.pill{
+  width:100%;
+  justify-content:center;
+  text-align:center;
+  height:48px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:600;
+}
+
+/* If 3 buttons, last one spans full width */
+.pill-row .pill:nth-child(3){
+  grid-column: span 2;
+}
