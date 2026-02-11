@@ -1,157 +1,129 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kind words • Enigma Wellbeing</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kind words • Enigma</title>
 
-<style>
-  .quotes-list{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:14px;
-  }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-  .quote-tile{
-    position:relative;
-    padding:20px;
-  }
-
-  .quote-text{
-    font-size:16px;
-    font-weight:900;
-    line-height:1.4;
-    margin:0;
-  }
-
-  .save-indicator{
-    position:absolute;
-    bottom:14px;
-    right:16px;
-    font-size:18px;
-    opacity:.85;
-  }
-</style>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#c8baff">
+  <link rel="apple-touch-icon" href="icon.png">
 </head>
 
 <body>
-<main class="wrap">
+  <div class="watermark" aria-hidden="true"></div>
 
-  <div class="header">
-    <a class="back-btn" href="index.html" data-back>← Back</a>
-    <div class="header-center"></div>
-    <button class="icon-btn" data-theme-toggle>🌙</button>
-  </div>
-
-  <h1 class="page-title">Kind words</h1>
-
-  <section class="section-panel">
-
-    <div class="btn-row">
-      <button class="btn" id="allBtn" type="button">All</button>
-      <button class="btn" id="savedBtn" type="button">Saved</button>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html" data-back>← Back</a>
+      <button class="moon" data-theme-toggle aria-label="Night mode">🌙</button>
     </div>
 
-    <div style="height:12px;"></div>
+    <h1 class="page-title">Kind words</h1>
+    <p class="page-sub">Double tap a quote to save or unsave.</p>
 
-    <div class="quotes-list" id="quotesList"></div>
+    <section class="card">
+      <h2 style="margin:0 0 10px;">Quotes</h2>
+      <div class="full" id="quotes"></div>
 
-    <p class="small-note" id="hint"></p>
+      <hr class="sep">
 
-  </section>
+      <h2 style="margin:0 0 10px;">Saved</h2>
+      <div class="full" id="saved"></div>
+      <p id="msg" style="margin:10px 0 0;color:var(--muted);font-weight:650;"></p>
+    </section>
+  </main>
 
-</main>
+  <script type="module">
+    import { applySavedTheme, wireThemeButton, wireBackButton, registerServiceWorker } from "./app.js";
+    applySavedTheme(); wireThemeButton(); wireBackButton(); registerServiceWorker();
 
-<script type="module">
-import { applySavedTheme, wireThemeButton, wireBackButton, onDoubleTap } from "./app.js";
-applySavedTheme();
-wireThemeButton();
-wireBackButton();
+    const KEY="enigma_quotes_saved_v2";
 
-const SAVE_KEY = "enigma_saved_quotes_v2";
+    const QUOTES = [
+      "You are allowed to take things one breath at a time.",
+      "You don’t have to do everything today.",
+      "Even small steps count.",
+      "If all you did today was survive, that is enough.",
+      "Your feelings are valid — and they can change.",
+      "Rest is productive when you need it.",
+      "You are not behind. You are healing.",
+      "This moment will pass.",
+      "You can be gentle with yourself and still move forward.",
+      "It’s okay to ask for support.",
+      "You deserve calm, even on difficult days.",
+      "Breathe in safety. Breathe out pressure.",
+      "You are doing better than you think.",
+      "Slow is still progress.",
+      "You can start again, softly.",
+      "You don’t need permission to rest.",
+      "One small thing at a time is enough.",
+      "Your pace is valid.",
+      "Be on your own side.",
+      "You are not alone in this."
+    ];
 
-const QUOTES = [
-  "This moment is hard — and you are still here.",
-  "Small steps still count.",
-  "You don’t have to do it all today.",
-  "Breathe. Shoulders down. Jaw soft.",
-  "One thing at a time.",
-  "You are allowed to rest.",
-  "If all you did today was survive, that’s enough.",
-  "You can start again at any moment.",
-  "Slow is still moving.",
-  "You don’t need to earn kindness.",
-  "Be gentle with yourself — you’re learning.",
-  "You have handled hard days before.",
-  "Feelings are visitors — they come and go.",
-  "Right now, choose the next small step.",
-  "Your best looks different every day.",
-  "You are not behind — you are human.",
-  "It’s okay to pause.",
-  "You are doing better than you think.",
-  "Progress can be quiet.",
-  "You can be brave and tired at the same time.",
-  "Choose softness where you can.",
-  "Some days, 'good enough' is perfect.",
-  "This is a chapter, not the whole story.",
-  "You don’t have to be productive to be valuable.",
-  "You are allowed to feel proud."
-];
+    const quotesEl=document.getElementById("quotes");
+    const savedEl=document.getElementById("saved");
+    const msg=document.getElementById("msg");
 
-function getSaved(){
-  try { return new Set(JSON.parse(localStorage.getItem(SAVE_KEY) || "[]")); }
-  catch { return new Set(); }
-}
+    function getSaved(){ return new Set(JSON.parse(localStorage.getItem(KEY)||"[]")); }
+    function setSaved(set){ localStorage.setItem(KEY, JSON.stringify([...set])); }
 
-function setSaved(set){
-  localStorage.setItem(SAVE_KEY, JSON.stringify([...set]));
-}
+    function tileHTML(text, id, isSaved, savedList=false){
+      const mark = isSaved ? "✅" : "🔖";
+      return `
+        <div class="quote-tile ${isSaved ? "saved" : ""}" data-id="${id}">
+          <div class="quote-text">${text}</div>
+          <button class="save-fab" type="button" aria-label="Save">${mark}</button>
+        </div>
+      `;
+    }
 
-const listEl = document.getElementById("quotesList");
-const hintEl = document.getElementById("hint");
-const allBtn = document.getElementById("allBtn");
-const savedBtn = document.getElementById("savedBtn");
+    function wireTiles(){
+      document.querySelectorAll(".quote-tile").forEach(tile=>{
+        const id = Number(tile.dataset.id);
 
-let filter = "all";
+        const toggle = ()=>{
+          const saved = getSaved();
+          if (saved.has(id)) saved.delete(id);
+          else saved.add(id);
+          setSaved(saved);
+          render();
+        };
 
-function render(){
-  const saved = getSaved();
-  const items = (filter === "saved")
-    ? QUOTES.filter(q => saved.has(q))
-    : QUOTES.slice();
+        tile.querySelector(".save-fab").addEventListener("click", (e)=>{
+          e.preventDefault();
+          e.stopPropagation();
+          toggle();
+        });
 
-  if(filter === "saved" && items.length === 0){
-    listEl.innerHTML = "";
-    hintEl.textContent = "No saved quotes yet.";
-    return;
-  }
+        let lastTap = 0;
+        tile.addEventListener("click", ()=>{
+          const now = Date.now();
+          if (now - lastTap < 350) toggle();
+          lastTap = now;
+        });
+      });
+    }
 
-  hintEl.textContent = "";
+    function render(){
+      const saved = getSaved();
+      quotesEl.innerHTML = QUOTES.map((q,i)=>tileHTML(q,i,saved.has(i))).join("");
+      const savedArr = [...saved];
+      savedEl.innerHTML = savedArr.length
+        ? savedArr.map(i=>tileHTML(QUOTES[i], i, true, true)).join("")
+        : `<div class="quote-tile"><div class="quote-text">No saved quotes yet.</div></div>`;
+      msg.textContent = "";
+      wireTiles();
+    }
 
-  listEl.innerHTML = items.map(q => `
-    <div class="tile quote-tile" data-quote="${encodeURIComponent(q)}" style="cursor:pointer;">
-      <p class="quote-text">${q}</p>
-      <div class="save-indicator">${saved.has(q) ? "❤️" : "🤍"}</div>
-    </div>
-  `).join("");
-
-  [...listEl.querySelectorAll("[data-quote]")].forEach(tile=>{
-    const q = decodeURIComponent(tile.dataset.quote);
-    onDoubleTap(tile, ()=>{
-      const s = getSaved();
-      if(s.has(q)) s.delete(q);
-      else s.add(q);
-      setSaved(s);
-      render();
-    });
-  });
-}
-
-allBtn.addEventListener("click", ()=>{ filter="all"; render(); });
-savedBtn.addEventListener("click", ()=>{ filter="saved"; render(); });
-
-render();
-</script>
+    render();
+  </script>
 </body>
 </html>
