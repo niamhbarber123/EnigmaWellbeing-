@@ -7,28 +7,130 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .word-card{
+      position: relative;
+      text-align: center;
+      padding-bottom: 56px; /* room for 💜 */
+    }
+    .word-title{
+      font-size: 26px;
+      margin: 6px 0 8px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .word-meaning{
+      font-size: 15px;
+      opacity: .75;
+      margin: 0 0 10px;
+      line-height: 1.5;
+    }
+    .divider{
+      height:1px;
+      background: rgba(0,0,0,.08);
+      margin: 14px 0;
+    }
+    body.dark .divider{ background: rgba(255,255,255,.12); }
+
+    .yesterday{
+      font-size: 14px;
+      opacity: .75;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .save-heart{
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      user-select: none;
+    }
+    .save-heart[aria-pressed="true"]{
+      background: var(--accentTint);
+      outline: 2px solid var(--accentRing);
+      outline-offset: 2px;
+    }
+
+    .saved-panel{
+      margin-top: 14px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .saved-item{
+      width: 100%;
+      text-align:left;
+      display:flex;
+      align-items:flex-start;
+      gap: 12px;
+    }
+    .saved-item .ico{ font-size: 20px; width: 34px; text-align:center; }
+    .saved-item .t{ font-weight:600; margin:0; }
+    .saved-item .m{ margin:2px 0 0; opacity:.72; font-size: 13px; line-height: 1.45; }
+    .small-btn{
+      border:none;
+      background: transparent;
+      text-decoration: underline;
+      cursor:pointer;
+      font: inherit;
+      opacity:.75;
+      padding: 6px 8px;
+      border-radius: 10px;
+      align-self: flex-end;
+    }
+  </style>
 </head>
 
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
   <main class="wrap">
+
     <div class="topbar">
       <a class="back" href="index.html">←</a>
       <div style="width:44px;"></div>
     </div>
 
-    <h1 class="page-title">Daily word</h1>
+    <h1 style="margin-bottom:6px;">Daily word</h1>
     <p class="page-sub">A gentle word for today.</p>
 
-    <section class="card" style="text-align:center;">
-      <div id="word" style="font-size:22px; font-weight:700; margin-top:6px;"></div>
-      <p id="meaning" class="page-sub" style="margin:10px 0 0;"></p>
+    <section class="card word-card" id="wordCard">
+      <div class="word-title" id="word">—</div>
+      <div class="word-meaning" id="meaning">—</div>
 
-      <hr class="sep" />
+      <div class="divider"></div>
 
-      <p class="small-note" style="margin:0;" id="yesterday"></p>
+      <p class="yesterday" id="yesterday">Yesterday: —</p>
+
+      <button class="save-heart" id="saveBtn" type="button" aria-pressed="false" aria-label="Save this word">
+        💜
+      </button>
     </section>
+
+    <section class="card" style="margin-top:14px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+        <div>
+          <div class="label" style="font-weight:700;">Saved words</div>
+          <div class="page-sub" style="margin:4px 0 0;">Your favourites in one place.</div>
+        </div>
+        <button class="small-btn" id="clearSaved" type="button">Clear</button>
+      </div>
+
+      <div class="saved-panel" id="savedList"></div>
+    </section>
+
   </main>
 
   <script type="module">
@@ -38,7 +140,8 @@
   </script>
 
   <script>
-    const words = [
+    // ✅ Keep your same words list
+    const WORDS = [
       { w:"Gentle", m:"Soft, kind, not forced." },
       { w:"Steady", m:"Stable and grounded." },
       { w:"Release", m:"Let tension soften." },
@@ -102,47 +205,112 @@
       { w:"Rooted", m:"Grounded and steady." }
     ];
 
-    const KEY = "enigma_word_history_v2";
-    const todayStr = new Date().toISOString().slice(0,10);
+    const TODAY_KEY = "enigma_daily_word_today_v2";
+    const SAVED_KEY = "enigma_saved_words_v2";
 
-    function getHistory(){
-      return JSON.parse(localStorage.getItem(KEY) || "{}");
-    }
-    function setHistory(h){
-      localStorage.setItem(KEY, JSON.stringify(h));
-    }
+    const wordEl = document.getElementById("word");
+    const meaningEl = document.getElementById("meaning");
+    const yesterdayEl = document.getElementById("yesterday");
+    const saveBtn = document.getElementById("saveBtn");
+    const savedList = document.getElementById("savedList");
+    const clearSaved = document.getElementById("clearSaved");
 
-    const history = getHistory();
-
-    // deterministic pick per day
-    function hashDay(s){
-      let h=0;
-      for(let i=0;i<s.length;i++) h=(h*31 + s.charCodeAt(i))>>>0;
-      return h;
+    function dayId(d=new Date()){
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth()+1).padStart(2,"0");
+      const dd = String(d.getDate()).padStart(2,"0");
+      return `${yyyy}-${mm}-${dd}`;
     }
 
-    if(!history[todayStr]){
-      const idx = hashDay(todayStr) % words.length;
-      history[todayStr] = idx;
-      setHistory(history);
+    function hashToIndex(str, mod){
+      let h = 0;
+      for (let i=0;i<str.length;i++){
+        h = (h * 31 + str.charCodeAt(i)) >>> 0;
+      }
+      return h % mod;
     }
 
-    const idxToday = history[todayStr];
-    const wToday = words[idxToday];
+    function getWordForDate(date){
+      const id = dayId(date);
+      const idx = hashToIndex(id, WORDS.length);
+      return WORDS[idx];
+    }
 
-    document.getElementById("word").textContent = wToday.w;
-    document.getElementById("meaning").textContent = wToday.m;
+    function loadSaved(){
+      try { return JSON.parse(localStorage.getItem(SAVED_KEY) || "[]"); }
+      catch { return []; }
+    }
 
-    // yesterday
-    const d = new Date();
-    d.setDate(d.getDate()-1);
-    const yStr = d.toISOString().slice(0,10);
-    const y = history[yStr];
+    function saveSaved(arr){
+      localStorage.setItem(SAVED_KEY, JSON.stringify(arr));
+    }
 
-    document.getElementById("yesterday").textContent =
-      (y !== undefined)
-        ? `Yesterday: ${words[y].w}`
-        : `Yesterday: (not saved yet)`;
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const todaysWord = getWordForDate(today);
+    const yesterdaysWord = getWordForDate(yesterday);
+
+    // store today selection (optional, but handy for other pages)
+    localStorage.setItem(TODAY_KEY, JSON.stringify({ date: dayId(today), ...todaysWord }));
+
+    // render today + yesterday
+    wordEl.textContent = todaysWord.w;
+    meaningEl.textContent = todaysWord.m;
+    yesterdayEl.textContent = `Yesterday: ${yesterdaysWord.w} — ${yesterdaysWord.m}`;
+
+    let saved = loadSaved();
+
+    function isSavedToday(){
+      return saved.some(x => x.w === todaysWord.w);
+    }
+
+    function renderSaved(){
+      if (!saved.length){
+        savedList.innerHTML = `<div style="opacity:.75; line-height:1.5;">No saved words yet. Tap 💜 on today’s word to save it here.</div>`;
+        return;
+      }
+
+      savedList.innerHTML = saved
+        .slice()
+        .reverse()
+        .map(item => `
+          <div class="tile saved-item" style="width:100%;">
+            <div class="ico">💜</div>
+            <div style="flex:1;">
+              <p class="t">${item.w}</p>
+              <p class="m">${item.m}</p>
+              <p class="m" style="opacity:.55; margin-top:6px;">Saved: ${new Date(item.savedAt).toLocaleDateString()}</p>
+            </div>
+          </div>
+        `).join("");
+    }
+
+    function syncHeart(){
+      saveBtn.setAttribute("aria-pressed", isSavedToday() ? "true" : "false");
+    }
+
+    saveBtn.addEventListener("click", ()=>{
+      if (isSavedToday()){
+        saved = saved.filter(x => x.w !== todaysWord.w);
+      } else {
+        saved.push({ ...todaysWord, savedAt: new Date().toISOString() });
+      }
+      saveSaved(saved);
+      syncHeart();
+      renderSaved();
+    });
+
+    clearSaved.addEventListener("click", ()=>{
+      saved = [];
+      saveSaved(saved);
+      syncHeart();
+      renderSaved();
+    });
+
+    syncHeart();
+    renderSaved();
   </script>
 </body>
 </html>
