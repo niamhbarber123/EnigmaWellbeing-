@@ -9,9 +9,111 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    .list{ display:flex; flex-direction:column; gap:12px; }
-    .tile{ width:100%; min-height:92px; align-items:flex-start; }
-    .tile-sub{ margin-top:2px; font-size:13px; }
+    .controls{ display:flex; gap:10px; flex-wrap:wrap; margin: 10px 0 12px; }
+    .control{ flex:1; min-width: 160px; }
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin: 10px 0 0; }
+    .chip{
+      border:1px solid var(--stroke);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor:pointer;
+      font: inherit;
+      color: inherit;
+      opacity: .88;
+    }
+    .chip[aria-pressed="true"]{
+      background: var(--accentTint);
+      outline: 2px solid var(--accentRing);
+      outline-offset: 2px;
+      opacity: 1;
+    }
+
+    .list{ display:flex; flex-direction:column; gap:12px; margin-top: 12px; }
+    .book{
+      width:100%;
+      min-height:96px;
+      align-items:flex-start;
+      position:relative;
+    }
+    .book .meta{ margin-top:2px; font-size:13px; opacity:.72; line-height:1.45; }
+    .tagrow{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.40);
+      opacity:.9;
+    }
+    body.dark .tag{ background: rgba(255,255,255,.07); }
+
+    .save{
+      position:absolute;
+      right:10px;
+      bottom:10px;
+      width:40px;
+      height:40px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .save[aria-pressed="true"]{
+      background: var(--accentTint);
+      outline: 2px solid var(--accentRing);
+      outline-offset: 2px;
+    }
+
+    .section-title{
+      margin: 18px 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+      opacity: .85;
+      letter-spacing: .2px;
+    }
+
+    .empty{
+      padding:14px;
+      border-radius: var(--radius2);
+      border:1px dashed var(--stroke);
+      opacity:.75;
+      line-height:1.5;
+      background: rgba(255,255,255,.18);
+    }
+    body.dark .empty{ background: rgba(255,255,255,.05); }
+
+    .row-slim{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .mini{
+      font-size: 13px;
+      opacity:.72;
+      line-height:1.45;
+      margin:0;
+    }
+    .btn-link{
+      border:none;
+      background: transparent;
+      color: inherit;
+      text-decoration: underline;
+      cursor:pointer;
+      font: inherit;
+      opacity:.75;
+      padding:6px 8px;
+      border-radius: 10px;
+    }
+    .btn-link:active{ transform: translateY(1px); }
   </style>
 </head>
 
@@ -19,72 +121,238 @@
   <div class="watermark" aria-hidden="true"></div>
 
   <main class="wrap">
+
     <div class="topbar">
       <a class="back" href="index.html">←</a>
       <div style="width:44px;"></div>
     </div>
 
-    <h1 class="page-title">Books</h1>
-    <p class="page-sub">A few gentle picks across different moods.</p>
+    <h1 style="margin-bottom:6px;">Books</h1>
+    <p class="page-sub">Pick a genre, search, and save favourites for later.</p>
 
     <section class="card">
-      <div class="list">
+      <div class="controls">
+        <div class="control">
+          <input id="search" type="search" placeholder="Search title or author…" />
+        </div>
 
-        <a class="tile" href="https://www.google.com/search?q=The+Comfort+Book+Matt+Haig" target="_blank" rel="noopener">
-          <div class="ico">🫶</div><div style="flex:1;">
-            <div class="label small">The Comfort Book</div><div class="tile-sub">Matt Haig • soothing reflections</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="https://www.google.com/search?q=Reasons+to+Stay+Alive+Matt+Haig" target="_blank" rel="noopener">
-          <div class="ico">🌤️</div><div style="flex:1;">
-            <div class="label small">Reasons to Stay Alive</div><div class="tile-sub">Matt Haig • hope and honesty</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="https://www.google.com/search?q=The+Happiness+Trap+Russ+Harris" target="_blank" rel="noopener">
-          <div class="ico">🧠</div><div style="flex:1;">
-            <div class="label small">The Happiness Trap</div><div class="tile-sub">Russ Harris • ACT skills</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="https://www.google.com/search?q=Atomic+Habits+James+Clear" target="_blank" rel="noopener">
-          <div class="ico">⚡</div><div style="flex:1;">
-            <div class="label small">Atomic Habits</div><div class="tile-sub">James Clear • small changes</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="https://www.google.com/search?q=The+Body+Keeps+the+Score+Bessel+van+der+Kolk" target="_blank" rel="noopener">
-          <div class="ico">🧩</div><div style="flex:1;">
-            <div class="label small">The Body Keeps the Score</div><div class="tile-sub">Bessel van der Kolk • trauma & healing</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="https://www.google.com/search?q=The+House+in+the+Cerulean+Sea+TJ+Klune" target="_blank" rel="noopener">
-          <div class="ico">🏡</div><div style="flex:1;">
-            <div class="label small">The House in the Cerulean Sea</div><div class="tile-sub">TJ Klune • cosy comfort fiction</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="https://www.google.com/search?q=Eleanor+Oliphant+Is+Completely+Fine" target="_blank" rel="noopener">
-          <div class="ico">🌼</div><div style="flex:1;">
-            <div class="label small">Eleanor Oliphant Is Completely Fine</div><div class="tile-sub">Gail Honeyman • warm & uplifting</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="https://www.google.com/search?q=The+Midnight+Library+Matt+Haig" target="_blank" rel="noopener">
-          <div class="ico">📚</div><div style="flex:1;">
-            <div class="label small">The Midnight Library</div><div class="tile-sub">Matt Haig • second chances</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
+        <div class="control">
+          <select id="genre">
+            <option value="All">All genres</option>
+            <option value="Wellbeing">Wellbeing</option>
+            <option value="Anxiety">Anxiety</option>
+            <option value="Trauma">Trauma</option>
+            <option value="Growth">Personal growth</option>
+            <option value="Fiction">Comfort fiction</option>
+            <option value="Gentle">Gentle reads</option>
+            <option value="Habits">Habits & routines</option>
+          </select>
+        </div>
       </div>
+
+      <div class="chips" aria-label="Quick filters">
+        <button class="chip" data-chip="All" aria-pressed="true" type="button">All</button>
+        <button class="chip" data-chip="Short" aria-pressed="false" type="button">Short reads</button>
+        <button class="chip" data-chip="Comfort" aria-pressed="false" type="button">Comfort</button>
+        <button class="chip" data-chip="Skills" aria-pressed="false" type="button">Practical tools</button>
+        <button class="chip" data-chip="Deep" aria-pressed="false" type="button">Deep dive</button>
+      </div>
+
+      <div class="row-slim">
+        <p class="mini" id="count"></p>
+        <button class="btn-link" id="clearSaved" type="button" aria-label="Clear saved books">Clear saved</button>
+      </div>
+
+      <div class="section-title">Saved</div>
+      <div class="list" id="savedList"></div>
+
+      <div class="section-title">All suggestions</div>
+      <div class="list" id="allList"></div>
     </section>
+
   </main>
 
   <script type="module">
     import { applySavedTheme, applySavedPreferences } from "./app.js";
-    applySavedTheme(); applySavedPreferences();
+    applySavedTheme();
+    applySavedPreferences();
+  </script>
+
+  <script>
+    const BOOKS = [
+      // Wellbeing / gentle
+      { id:"comfortbook", title:"The Comfort Book", author:"Matt Haig", genre:"Gentle", tags:["Comfort","Short"] },
+      { id:"reasonstostayalive", title:"Reasons to Stay Alive", author:"Matt Haig", genre:"Wellbeing", tags:["Comfort"] },
+      { id:"maybe-youshould", title:"Maybe You Should Talk to Someone", author:"Lori Gottlieb", genre:"Wellbeing", tags:["Comfort","Deep"] },
+      { id:"radical-acceptance", title:"Radical Acceptance", author:"Tara Brach", genre:"Wellbeing", tags:["Skills","Deep"] },
+      { id:"self-compassion", title:"Self-Compassion", author:"Kristin Neff", genre:"Wellbeing", tags:["Skills"] },
+      { id:"giftsofimperfection", title:"The Gifts of Imperfection", author:"Brené Brown", genre:"Growth", tags:["Comfort"] },
+
+      // Anxiety / tools
+      { id:"happiness-trap", title:"The Happiness Trap", author:"Russ Harris", genre:"Anxiety", tags:["Skills"] },
+      { id:"rewire-anxious-brain", title:"Rewire Your Anxious Brain", author:"Catherine Pittman & Elizabeth Karle", genre:"Anxiety", tags:["Deep","Skills"] },
+      { id:"anxiety-toolkit", title:"The Anxiety Toolkit", author:"Alice Boyes", genre:"Anxiety", tags:["Skills"] },
+      { id:"feel-the-fear", title:"Feel the Fear and Do It Anyway", author:"Susan Jeffers", genre:"Anxiety", tags:["Skills"] },
+
+      // Trauma
+      { id:"body-keeps-score", title:"The Body Keeps the Score", author:"Bessel van der Kolk", genre:"Trauma", tags:["Deep"] },
+      { id:"what-happened-to-you", title:"What Happened to You?", author:"Oprah Winfrey & Bruce Perry", genre:"Trauma", tags:["Comfort","Deep"] },
+      { id:"cptsd", title:"Complex PTSD: From Surviving to Thriving", author:"Pete Walker", genre:"Trauma", tags:["Deep","Skills"] },
+      { id:"healing-fragmented", title:"Healing the Fragmented Selves of Trauma Survivors", author:"Janina Fisher", genre:"Trauma", tags:["Deep"] },
+
+      // Habits / growth
+      { id:"atomic-habits", title:"Atomic Habits", author:"James Clear", genre:"Habits", tags:["Skills"] },
+      { id:"big-magic", title:"Big Magic", author:"Elizabeth Gilbert", genre:"Growth", tags:["Comfort"] },
+      { id:"mountain-is-you", title:"The Mountain Is You", author:"Brianna Wiest", genre:"Growth", tags:["Deep"] },
+      { id:"four-agreements", title:"The Four Agreements", author:"Don Miguel Ruiz", genre:"Growth", tags:["Short"] },
+
+      // Comfort fiction
+      { id:"midnight-library", title:"The Midnight Library", author:"Matt Haig", genre:"Fiction", tags:["Comfort"] },
+      { id:"eleanor-oliphant", title:"Eleanor Oliphant Is Completely Fine", author:"Gail Honeyman", genre:"Fiction", tags:["Comfort"] },
+      { id:"house-cerulean", title:"The House in the Cerulean Sea", author:"T.J. Klune", genre:"Fiction", tags:["Comfort"] },
+      { id:"man-called-ove", title:"A Man Called Ove", author:"Fredrik Backman", genre:"Fiction", tags:["Comfort"] },
+      { id:"alchemist", title:"The Alchemist", author:"Paulo Coelho", genre:"Fiction", tags:["Short","Comfort"] },
+
+      // Gentle reads
+      { id:"quiet", title:"Quiet", author:"Susan Cain", genre:"Gentle", tags:["Deep"] },
+      { id:"stillness-key", title:"Stillness Is the Key", author:"Ryan Holiday", genre:"Gentle", tags:["Short"] },
+      { id:"hygge", title:"The Little Book of Hygge", author:"Meik Wiking", genre:"Gentle", tags:["Short","Comfort"] }
+    ];
+
+    const SAVED_KEY = "enigma_saved_books_v2";
+    const searchEl = document.getElementById("search");
+    const genreEl = document.getElementById("genre");
+    const allList = document.getElementById("allList");
+    const savedList = document.getElementById("savedList");
+    const countEl = document.getElementById("count");
+    const clearSavedBtn = document.getElementById("clearSaved");
+
+    let chip = "All";
+    let saved = loadSaved();
+
+    function loadSaved(){
+      try { return JSON.parse(localStorage.getItem(SAVED_KEY) || "[]"); }
+      catch { return []; }
+    }
+    function persistSaved(){
+      localStorage.setItem(SAVED_KEY, JSON.stringify(saved));
+    }
+    function isSaved(id){ return saved.includes(id); }
+
+    function bookToTile(b, isSavedSection=false){
+      const q = encodeURIComponent(`${b.title} ${b.author}`);
+      const href = `https://www.google.com/search?q=${q}`;
+
+      return `
+        <a class="tile book" href="${href}" target="_blank" rel="noopener" aria-label="Search ${b.title} by ${b.author}">
+          <div class="ico">📘</div>
+
+          <div style="flex:1; padding-right:52px;">
+            <div class="label small">${b.title}</div>
+            <div class="meta">${b.author} • ${niceGenre(b.genre)}</div>
+            <div class="tagrow">
+              ${b.tags.map(t=>`<span class="tag">${t}</span>`).join("")}
+            </div>
+          </div>
+
+          <button class="save" type="button"
+            data-save="${b.id}"
+            aria-pressed="${isSaved(b.id) ? "true":"false"}"
+            aria-label="${isSaved(b.id) ? "Unsave" : "Save"} ${b.title}">
+            💜
+          </button>
+
+          <div class="arrow small">›</div>
+        </a>
+      `;
+    }
+
+    function niceGenre(g){
+      const map = {
+        Wellbeing:"Wellbeing",
+        Anxiety:"Anxiety",
+        Trauma:"Trauma & healing",
+        Growth:"Personal growth",
+        Fiction:"Comfort fiction",
+        Gentle:"Gentle reads",
+        Habits:"Habits & routines"
+      };
+      return map[g] || g;
+    }
+
+    function matchesFilters(b){
+      const q = searchEl.value.trim().toLowerCase();
+      const g = genreEl.value;
+
+      if (g !== "All" && b.genre !== g) return false;
+
+      if (chip !== "All"){
+        if (!b.tags.includes(chip)) return false;
+      }
+
+      if (q){
+        const hay = (b.title + " " + b.author).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+
+      return true;
+    }
+
+    function render(){
+      // Saved section
+      const savedBooks = BOOKS.filter(b => isSaved(b.id));
+      if (!savedBooks.length){
+        savedList.innerHTML = `<div class="empty">No saved books yet. Tap 💜 on any book to save it here.</div>`;
+      } else {
+        savedList.innerHTML = savedBooks.map(b => bookToTile(b, true)).join("");
+      }
+
+      // All section
+      const filtered = BOOKS.filter(matchesFilters);
+      countEl.textContent = `${filtered.length} suggestion${filtered.length===1?"":"s"} shown`;
+
+      if (!filtered.length){
+        allList.innerHTML = `<div class="empty">No matches. Try a different genre or search term.</div>`;
+      } else {
+        allList.innerHTML = filtered.map(b => bookToTile(b)).join("");
+      }
+
+      // save buttons (prevent link click)
+      document.querySelectorAll("[data-save]").forEach(btn=>{
+        btn.addEventListener("click", (e)=>{
+          e.preventDefault();
+          e.stopPropagation();
+          const id = btn.dataset.save;
+
+          if (isSaved(id)) saved = saved.filter(x=>x!==id);
+          else saved.push(id);
+
+          persistSaved();
+          render();
+        });
+      });
+    }
+
+    // chips
+    document.querySelectorAll(".chip").forEach(c=>{
+      c.addEventListener("click", ()=>{
+        chip = c.dataset.chip;
+        document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));
+        c.setAttribute("aria-pressed","true");
+        render();
+      });
+    });
+
+    searchEl.addEventListener("input", render);
+    genreEl.addEventListener("change", render);
+
+    clearSavedBtn.addEventListener("click", ()=>{
+      saved = [];
+      persistSaved();
+      render();
+    });
+
+    render();
   </script>
 </body>
 </html>
