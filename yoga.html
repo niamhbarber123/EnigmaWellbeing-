@@ -9,55 +9,359 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    .list{ display:flex; flex-direction:column; gap:12px; }
-    .tile{ width:100%; min-height:92px; align-items:flex-start; }
-    .tile-sub{ margin-top:2px; font-size:13px; }
+    .controls{ display:flex; gap:10px; flex-wrap:wrap; margin: 10px 0 12px; }
+    .control{ flex:1; min-width: 160px; }
+
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin: 10px 0 0; }
+    .chip{
+      border:1px solid var(--stroke);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor:pointer;
+      font: inherit;
+      color: inherit;
+      opacity: .88;
+    }
+    .chip[aria-pressed="true"]{
+      background: var(--accentTint);
+      outline: 2px solid var(--accentRing);
+      outline-offset: 2px;
+      opacity: 1;
+    }
+
+    .list{ display:flex; flex-direction:column; gap:12px; margin-top: 12px; }
+    .flow{
+      width:100%;
+      min-height:96px;
+      align-items:flex-start;
+      position:relative;
+    }
+    .meta{ margin-top:2px; font-size:13px; opacity:.72; line-height:1.45; }
+
+    .pilltag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.40);
+      opacity:.9;
+    }
+    body.dark .pilltag{ background: rgba(255,255,255,.07); }
+
+    .tagrow{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+
+    .save{
+      position:absolute;
+      right:10px;
+      bottom:10px;
+      width:40px;
+      height:40px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .save[aria-pressed="true"]{
+      background: var(--accentTint);
+      outline: 2px solid var(--accentRing);
+      outline-offset: 2px;
+    }
+
+    .section-title{
+      margin: 18px 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+      opacity: .85;
+      letter-spacing: .2px;
+    }
+
+    .empty{
+      padding:14px;
+      border-radius: var(--radius2);
+      border:1px dashed var(--stroke);
+      opacity:.75;
+      line-height:1.5;
+      background: rgba(255,255,255,.18);
+    }
+    body.dark .empty{ background: rgba(255,255,255,.05); }
+
+    .row-slim{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .mini{
+      font-size: 13px;
+      opacity:.72;
+      line-height:1.45;
+      margin:0;
+    }
+    .btn-link{
+      border:none;
+      background: transparent;
+      color: inherit;
+      text-decoration: underline;
+      cursor:pointer;
+      font: inherit;
+      opacity:.75;
+      padding:6px 8px;
+      border-radius: 10px;
+    }
+    .btn-link:active{ transform: translateY(1px); }
   </style>
 </head>
+
 <body>
   <div class="watermark" aria-hidden="true"></div>
 
   <main class="wrap">
+
     <div class="topbar">
       <a class="back" href="index.html">←</a>
       <div style="width:44px;"></div>
     </div>
 
-    <h1 class="page-title">Yoga</h1>
-    <p class="page-sub">Gentle movement. No pressure.</p>
+    <h1 style="margin-bottom:6px;">Yoga</h1>
+    <p class="page-sub">Choose a vibe, a time, and save your go-tos.</p>
 
     <section class="card">
-      <div class="list">
-        <a class="tile" href="https://www.youtube.com/results?search_query=10+minute+gentle+yoga" target="_blank" rel="noopener">
-          <div class="ico">🧘</div><div style="flex:1;">
-            <div class="label small">10-minute gentle yoga</div><div class="tile-sub">A soft full-body reset.</div>
-          </div><div class="arrow small">›</div>
-        </a>
+      <div class="controls">
+        <div class="control">
+          <input id="search" type="search" placeholder="Search (e.g., hips, sleep, anxiety)..." />
+        </div>
 
-        <a class="tile" href="https://www.youtube.com/results?search_query=bedtime+yoga+stretch" target="_blank" rel="noopener">
-          <div class="ico">🌙</div><div style="flex:1;">
-            <div class="label small">Bedtime yoga</div><div class="tile-sub">Slow stretches for sleep.</div>
-          </div><div class="arrow small">›</div>
-        </a>
+        <div class="control">
+          <select id="category">
+            <option value="All">All types</option>
+            <option value="Gentle">Gentle</option>
+            <option value="Nervous">Nervous system</option>
+            <option value="Sleep">Sleep</option>
+            <option value="Low">Low energy</option>
+            <option value="Energise">Energising</option>
+            <option value="Overwhelmed">Overwhelmed</option>
+            <option value="Stretch">Stretch & mobility</option>
+          </select>
+        </div>
 
-        <a class="tile" href="https://www.youtube.com/results?search_query=yoga+for+stress+relief" target="_blank" rel="noopener">
-          <div class="ico">🌿</div><div style="flex:1;">
-            <div class="label small">Yoga for stress</div><div class="tile-sub">Gentle calming flow.</div>
-          </div><div class="arrow small">›</div>
-        </a>
-
-        <a class="tile" href="https://www.youtube.com/results?search_query=neck+and+shoulders+stretch+yoga" target="_blank" rel="noopener">
-          <div class="ico">💆</div><div style="flex:1;">
-            <div class="label small">Neck & shoulders</div><div class="tile-sub">Release tension carefully.</div>
-          </div><div class="arrow small">›</div>
-        </a>
+        <div class="control">
+          <select id="time">
+            <option value="Any">Any length</option>
+            <option value="10">~10 min</option>
+            <option value="15">~15 min</option>
+            <option value="20">~20 min</option>
+            <option value="30">~30 min</option>
+          </select>
+        </div>
       </div>
+
+      <div class="chips" aria-label="Quick filters">
+        <button class="chip" data-chip="All" aria-pressed="true" type="button">All</button>
+        <button class="chip" data-chip="Beginner" aria-pressed="false" type="button">Beginner</button>
+        <button class="chip" data-chip="Floor" aria-pressed="false" type="button">Floor-based</button>
+        <button class="chip" data-chip="Breath" aria-pressed="false" type="button">Breath-led</button>
+        <button class="chip" data-chip="Hips" aria-pressed="false" type="button">Hips</button>
+      </div>
+
+      <div class="row-slim">
+        <p class="mini" id="count"></p>
+        <button class="btn-link" id="clearSaved" type="button" aria-label="Clear saved yoga">Clear saved</button>
+      </div>
+
+      <div class="section-title">Saved</div>
+      <div class="list" id="savedList"></div>
+
+      <div class="section-title">All suggestions</div>
+      <div class="list" id="allList"></div>
     </section>
+
   </main>
 
   <script type="module">
     import { applySavedTheme, applySavedPreferences } from "./app.js";
-    applySavedTheme(); applySavedPreferences();
+    applySavedTheme();
+    applySavedPreferences();
+  </script>
+
+  <script>
+    const FLOWS = [
+      // Gentle / beginner
+      { id:"gentle-10", title:"Gentle 10-minute reset", cat:"Gentle", mins:10, tags:["Beginner","Floor"], cue:"A soft reset to un-clench your day." },
+      { id:"seated-calm", title:"Seated calm flow", cat:"Gentle", mins:15, tags:["Beginner","Floor"], cue:"Simple movements you can do anywhere." },
+      { id:"neck-shoulders", title:"Neck & shoulder release", cat:"Stretch", mins:10, tags:["Beginner"], cue:"Let the tension drop from your upper body." },
+
+      // Nervous system / anxiety
+      { id:"nervous-15", title:"Nervous system downshift", cat:"Nervous", mins:15, tags:["Breath","Floor"], cue:"Slow breathing + long exhales." },
+      { id:"yin-anxiety", title:"Yin for anxiety", cat:"Nervous", mins:20, tags:["Floor","Breath"], cue:"Long holds to settle your body." },
+      { id:"grounding-10", title:"Grounding when you feel wobbly", cat:"Overwhelmed", mins:10, tags:["Floor","Breath"], cue:"Steady poses + a calmer pace." },
+
+      // Sleep
+      { id:"sleep-15", title:"Wind-down for sleep", cat:"Sleep", mins:15, tags:["Floor"], cue:"Quiet stretches to switch off." },
+      { id:"legs-wall", title:"Legs up the wall (guided)", cat:"Sleep", mins:10, tags:["Floor","Breath"], cue:"A classic nervous system reset." },
+
+      // Low energy / burnout
+      { id:"low-20", title:"Low-energy floor flow", cat:"Low", mins:20, tags:["Floor"], cue:"Move gently without pushing." },
+      { id:"restorative-30", title:"Restorative reset (slow + supported)", cat:"Low", mins:30, tags:["Floor"], cue:"Deep rest for heavy days." },
+
+      // Energise
+      { id:"energise-15", title:"Gentle energising flow", cat:"Energise", mins:15, tags:["Beginner"], cue:"A lift without intensity." },
+      { id:"morning-20", title:"Morning flow (steady + simple)", cat:"Energise", mins:20, tags:["Beginner"], cue:"Warm up your body and mind." },
+
+      // Stretch & mobility
+      { id:"hips-15", title:"Hip opening (slow & kind)", cat:"Stretch", mins:15, tags:["Hips","Floor"], cue:"Release tension held in the hips." },
+      { id:"back-10", title:"Lower back ease", cat:"Stretch", mins:10, tags:["Floor"], cue:"Gentle movements to soften your back." },
+
+      // Overwhelmed-specific
+      { id:"too-much-15", title:"When everything feels too much", cat:"Overwhelmed", mins:15, tags:["Breath","Floor"], cue:"A calm practice to reduce overwhelm." },
+      { id:"reset-10", title:"10-minute full reset", cat:"Overwhelmed", mins:10, tags:["Beginner","Floor"], cue:"Do one small thing to shift the moment." }
+    ];
+
+    const SAVED_KEY = "enigma_saved_yoga_v2";
+    const searchEl = document.getElementById("search");
+    const catEl = document.getElementById("category");
+    const timeEl = document.getElementById("time");
+    const allList = document.getElementById("allList");
+    const savedList = document.getElementById("savedList");
+    const countEl = document.getElementById("count");
+    const clearSavedBtn = document.getElementById("clearSaved");
+
+    let chip = "All";
+    let saved = loadSaved();
+
+    function loadSaved(){
+      try { return JSON.parse(localStorage.getItem(SAVED_KEY) || "[]"); }
+      catch { return []; }
+    }
+    function persistSaved(){
+      localStorage.setItem(SAVED_KEY, JSON.stringify(saved));
+    }
+    function isSaved(id){ return saved.includes(id); }
+
+    function flowToTile(f){
+      const q = encodeURIComponent(`${f.title} yoga ${f.mins} minutes ${f.cat}`);
+      const href = `https://www.youtube.com/results?search_query=${q}`;
+
+      return `
+        <a class="tile flow" href="${href}" target="_blank" rel="noopener" aria-label="Search YouTube for ${f.title}">
+          <div class="ico">🧘</div>
+
+          <div style="flex:1; padding-right:52px;">
+            <div class="label small">${f.title}</div>
+            <div class="meta">${niceCat(f.cat)} • ~${f.mins} min</div>
+            <div class="meta">${f.cue}</div>
+            <div class="tagrow">
+              ${f.tags.map(t=>`<span class="pilltag">${t}</span>`).join("")}
+            </div>
+          </div>
+
+          <button class="save" type="button"
+            data-save="${f.id}"
+            aria-pressed="${isSaved(f.id) ? "true":"false"}"
+            aria-label="${isSaved(f.id) ? "Unsave" : "Save"} ${f.title}">
+            💜
+          </button>
+
+          <div class="arrow small">›</div>
+        </a>
+      `;
+    }
+
+    function niceCat(c){
+      const map = {
+        Gentle:"Gentle",
+        Nervous:"Nervous system",
+        Sleep:"Sleep",
+        Low:"Low energy",
+        Energise:"Energising",
+        Overwhelmed:"Overwhelmed",
+        Stretch:"Stretch & mobility"
+      };
+      return map[c] || c;
+    }
+
+    function matchesFilters(f){
+      const q = searchEl.value.trim().toLowerCase();
+      const c = catEl.value;
+      const t = timeEl.value;
+
+      if (c !== "All" && f.cat !== c) return false;
+      if (chip !== "All" && !f.tags.includes(chip)) return false;
+
+      if (t !== "Any"){
+        const target = parseInt(t, 10);
+        // allow +-3 mins
+        if (Math.abs(f.mins - target) > 3) return false;
+      }
+
+      if (q){
+        const hay = (f.title + " " + f.cat + " " + f.tags.join(" ") + " " + f.cue).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+
+      return true;
+    }
+
+    function render(){
+      const savedFlows = FLOWS.filter(f => isSaved(f.id));
+      if (!savedFlows.length){
+        savedList.innerHTML = `<div class="empty">No saved yoga yet. Tap 💜 on any suggestion to keep it here.</div>`;
+      } else {
+        savedList.innerHTML = savedFlows.map(flowToTile).join("");
+      }
+
+      const filtered = FLOWS.filter(matchesFilters);
+      countEl.textContent = `${filtered.length} suggestion${filtered.length===1?"":"s"} shown`;
+
+      if (!filtered.length){
+        allList.innerHTML = `<div class="empty">No matches. Try changing the category, time, or search.</div>`;
+      } else {
+        allList.innerHTML = filtered.map(flowToTile).join("");
+      }
+
+      document.querySelectorAll("[data-save]").forEach(btn=>{
+        btn.addEventListener("click", (e)=>{
+          e.preventDefault();
+          e.stopPropagation();
+          const id = btn.dataset.save;
+
+          if (isSaved(id)) saved = saved.filter(x=>x!==id);
+          else saved.push(id);
+
+          persistSaved();
+          render();
+        });
+      });
+    }
+
+    // chips
+    document.querySelectorAll(".chip").forEach(c=>{
+      c.addEventListener("click", ()=>{
+        chip = c.dataset.chip;
+        document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));
+        c.setAttribute("aria-pressed","true");
+        render();
+      });
+    });
+
+    searchEl.addEventListener("input", render);
+    catEl.addEventListener("change", render);
+    timeEl.addEventListener("change", render);
+
+    clearSavedBtn.addEventListener("click", ()=>{
+      saved = [];
+      persistSaved();
+      render();
+    });
+
+    render();
   </script>
 </body>
 </html>
