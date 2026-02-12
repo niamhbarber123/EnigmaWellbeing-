@@ -251,16 +251,26 @@
     function inhale(){
       phaseText.textContent = "Inhale";
       hintText.textContent = "Breathe in slowly.";
+      // animate to large
       setCircleScale(1.18, inhaleMs);
     }
+
+    /* ✅ HOLD FIX:
+       - Do NOT change transform at all
+       - Do NOT animate
+       - Circle stays exactly where inhale/exhale left it
+    */
     function hold(){
       phaseText.textContent = "Hold";
       hintText.textContent = "Pause gently.";
-      setCircleScale(1.18, 200);
+      circle.style.transitionDuration = "0ms";
+      // no transform change — keeps current size
     }
+
     function exhale(){
       phaseText.textContent = "Exhale";
       hintText.textContent = "Breathe out slowly.";
+      // animate to small
       setCircleScale(1.0, exhaleMs);
     }
 
@@ -297,7 +307,6 @@
       running = true;
       updatePattern();
 
-      // Timer / Stopwatch
       if (modeSelect.value === "timer"){
         seconds = parseInt(timeSelect.value,10) * 60;
         timeDisplay.textContent = fmt(seconds);
